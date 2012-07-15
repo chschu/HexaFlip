@@ -7,18 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "cocos2d.h"
 
-@interface AppController : NSObject <UIApplicationDelegate, CCDirectorDelegate>
-{
-	UIWindow *window_;
-	UINavigationController *navController_;
+@interface AppDelegate : NSObject <UIApplicationDelegate, CCDirectorDelegate>
 
-	CCDirectorIOS	*director_;							// weak ref
-}
-
-@property (nonatomic, retain) UIWindow *window;
-@property (readonly) UINavigationController *navController;
-@property (readonly) CCDirectorIOS *director;
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, readonly) UINavigationController *navController;
+@property (strong, readonly) CCDirector *director;
 
 @end

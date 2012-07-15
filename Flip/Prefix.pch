@@ -1,11 +1,11 @@
 //
-// Prefix header for all source files of the 'Test' target in the 'Test' project
+// Prefix header for all source files of the 'Flip' target in the 'Flip' project
 //
 
 #import <Availability.h>
 
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iPhone SDK 5.0 and later."
 #endif
 
 #ifdef __OBJC__
