@@ -33,25 +33,16 @@
     
 	_director.wantsFullScreenLayout = YES;
     
-	// Display FSP and SPF
-	[_director setDisplayStats:YES];
-    
-	// set FPS at 60
-	[_director setAnimationInterval:1.0/60];
-    
-	// attach the openglView to the director
-	[_director setView:glView];
-    
-	// for rotation and other messages
-	[_director setDelegate:self];
+	_director.view = glView;
+	_director.delegate = self;
     
 	// 2D projection
-	[_director setProjection:kCCDirectorProjection2D];
-    //	[director setProjection:kCCDirectorProjection3D];
+	_director.projection = kCCDirectorProjection2D;
     
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	if( ! [_director enableRetinaDisplay:YES] )
+	if (![_director enableRetinaDisplay:YES]) {
 		CCLOG(@"Retina Display Not supported");
+    }
     
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
@@ -63,24 +54,23 @@
 	// On iPad     : "-ipad", "-hd"
 	// On iPhone HD: "-hd"
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
-	[sharedFileUtils setEnableFallbackSuffixes:NO];				// Default: NO. No fallback suffixes are going to be used
-	[sharedFileUtils setiPhoneRetinaDisplaySuffix:@"-hd"];		// Default on iPhone RetinaDisplay is "-hd"
-	[sharedFileUtils setiPadSuffix:@"-ipad"];					// Default on iPad is "ipad"
-	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
+	sharedFileUtils.enableFallbackSuffixes = NO;            // Default: NO. No fallback suffixes are going to be used
+	sharedFileUtils.iPhoneRetinaDisplaySuffix = @"-hd";		// Default on iPhone RetinaDisplay is "-hd"
+	sharedFileUtils.iPadSuffix = @"-ipad";					// Default on iPad is "ipad"
+	sharedFileUtils.iPadRetinaDisplaySuffix = @"-ipadhd";	// Default on iPad RetinaDisplay is "-ipadhd"
     
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
     
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[_director pushScene: [HelloWorldLayer scene]]; 
+	[_director pushScene:[HelloWorldLayer scene]]; 
     
 	// Create a Navigation Controller with the Director
 	_navController = [[UINavigationController alloc] initWithRootViewController:_director];
 	_navController.navigationBarHidden = YES;
 	
 	// set the Navigation Controller as the root view controller
-    //	[window_ addSubview:navController_.view];	// Generates flicker.
-	[_window setRootViewController:_navController];
+	_window.rootViewController = _navController;
 	
 	// make main window visible
 	[_window makeKeyAndVisible];
@@ -96,26 +86,26 @@
 
 // getting a call, pause the game
 - (void)applicationWillResignActive:(UIApplication *)application {
-	if( [_navController visibleViewController] == _director ) {
+	if (_navController.visibleViewController == _director) {
 		[_director pause];
     }
 }
 
 // call got rejected
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-	if( [_navController visibleViewController] == _director ) {
+	if (_navController.visibleViewController == _director) {
 		[_director resume];
     }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-	if( [_navController visibleViewController] == _director )
+	if (_navController.visibleViewController == _director) {
 		[_director stopAnimation];
+    }
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-	if( [_navController visibleViewController] == _director ) {
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+	if (_navController.visibleViewController == _director) {
 		[_director startAnimation];
     }
 }
@@ -132,7 +122,7 @@
 
 // next delta time will be zero
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
-	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+	[CCDirector sharedDirector].nextDeltaTimeZero = YES;
 }
 
 @end

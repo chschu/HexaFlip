@@ -45,7 +45,7 @@
     // Default font size will be 28 points.
     [CCMenuItemFont setFontSize:28];
 
-    AppDelegate *app = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
     // Achievement Menu Item using blocks
     void(^blockAchievement)(id sender) = ^(id sender) {
@@ -59,14 +59,14 @@
     void(^blockLeaderboard)(id sender) = ^(id sender) {
         GKLeaderboardViewController *leaderboardViewController = [[GKLeaderboardViewController alloc] init];
         leaderboardViewController.leaderboardDelegate = self;
-        [[app navController] presentModalViewController:leaderboardViewController animated:YES];
+        [app.navController presentModalViewController:leaderboardViewController animated:YES];
     };
     CCMenuItem *itemLeaderboard = [CCMenuItemFont itemWithString:@"Leaderboard" block:blockLeaderboard];
     
     CCMenu *menu = [CCMenu menuWithItems:itemAchievement, itemLeaderboard, nil];
     
     [menu alignItemsHorizontallyWithPadding:20];
-    [menu setPosition:ccp(size.width/2, size.height/2 - 50)];
+    menu.position = ccp(size.width/2, size.height/2 - 50);
     
     // Add the menu to the layer
     [self addChild:menu];
@@ -75,12 +75,12 @@
 #pragma mark GameKit delegate methods
 
 - (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController {
-	AppDelegate *app = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
+	AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+	[app.navController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
-	AppDelegate *app = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	[[app navController] dismissModalViewControllerAnimated:YES];
+	AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+	[app.navController dismissModalViewControllerAnimated:YES];
 }
 @end
