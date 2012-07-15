@@ -254,6 +254,7 @@
 		F300586115B0B04800BAD89C /* vec2.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577C15B0B04800BAD89C /* vec2.c */; };
 		F300586215B0B04800BAD89C /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577D15B0B04800BAD89C /* vec3.c */; };
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
+		F3B9DCBC15B372AA0078507F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F3B9DCBB15B372AA0078507F /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -513,6 +514,7 @@
 		F300577F15B0B04800BAD89C /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		F300578015B0B04800BAD89C /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F300578115B0B04800BAD89C /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
+		F3B9DCBB15B372AA0078507F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +590,7 @@
 				F300551715B0AC2900BAD89C /* HelloWorldLayer.m */,
 				F300539C15B0AC2700BAD89C /* Resources */,
 				F300550F15B0AC2900BAD89C /* Supporting Files */,
+				F3B9DCBB15B372AA0078507F /* .gitignore */,
 			);
 			path = Flip;
 			sourceTree = "<group>";
@@ -1163,6 +1166,7 @@
 				F30053B015B0AC2700BAD89C /* Icon.png in Resources */,
 				F30053B215B0AC2700BAD89C /* Icon@2x.png in Resources */,
 				F30053B515B0AC2700BAD89C /* iTunesArtwork in Resources */,
+				F3B9DCBC15B372AA0078507F /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
