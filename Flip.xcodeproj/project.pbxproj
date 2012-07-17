@@ -254,6 +254,16 @@
 		F300586115B0B04800BAD89C /* vec2.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577C15B0B04800BAD89C /* vec2.c */; };
 		F300586215B0B04800BAD89C /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577D15B0B04800BAD89C /* vec3.c */; };
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
+		F3B9DE6A15B4996A0078507F /* JCSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DE6915B4996A0078507F /* JCSCell.m */; };
+		F3B9DEAB15B4AEAA0078507F /* JCSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */; };
+		F3B9DED615B4BE900078507F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
+		F3B9DED715B4BE900078507F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
+		F3B9DED815B4BE900078507F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
+		F3B9DEDE15B4BE900078507F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3B9DEDC15B4BE900078507F /* InfoPlist.strings */; };
+		F3B9DEEA15B4BEAE0078507F /* JCSCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */; };
+		F3B9DEEB15B4BEAE0078507F /* JCSPlayerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */; };
+		F3EAE6F815B53EDF004827DB /* JCSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */; };
+		F3EAE6F915B53EDF004827DB /* JCSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DE6915B4996A0078507F /* JCSCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -513,6 +523,19 @@
 		F300577F15B0B04800BAD89C /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		F300578015B0B04800BAD89C /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F300578115B0B04800BAD89C /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
+		F3B9DE6815B4996A0078507F /* JCSCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSCell.h; sourceTree = "<group>"; };
+		F3B9DE6915B4996A0078507F /* JCSCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSCell.m; sourceTree = "<group>"; };
+		F3B9DEA915B4AEAA0078507F /* JCSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayer.h; sourceTree = "<group>"; };
+		F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSPlayer.m; sourceTree = "<group>"; };
+		F3B9DED415B4BE900078507F /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
+		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F3B9DEE215B4BE900078507F /* FlipTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlipTests-Prefix.pch"; sourceTree = "<group>"; };
+		F3B9DEE615B4BEAE0078507F /* JCSCellTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSCellTest.h; sourceTree = "<group>"; };
+		F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSCellTest.m; sourceTree = "<group>"; };
+		F3B9DEE815B4BEAE0078507F /* JCSPlayerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayerTest.h; sourceTree = "<group>"; };
+		F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSPlayerTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -541,6 +564,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3B9DED015B4BE900078507F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3B9DED615B4BE900078507F /* SenTestingKit.framework in Frameworks */,
+				F3B9DED715B4BE900078507F /* UIKit.framework in Frameworks */,
+				F3B9DED815B4BE900078507F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -548,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				F300539B15B0AC2700BAD89C /* Flip */,
+				F3B9DED915B4BE900078507F /* FlipTests */,
 				F300568E15B0B04800BAD89C /* libs */,
 				F300538815B0AC2700BAD89C /* Frameworks */,
 				F300538615B0AC2700BAD89C /* Products */,
@@ -559,6 +593,7 @@
 			children = (
 				F300538515B0AC2700BAD89C /* Flip.app */,
 				F300552515B0AF2400BAD89C /* libcocos2d-library.a */,
+				F3B9DED415B4BE900078507F /* FlipTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -575,6 +610,7 @@
 				F300539515B0AC2700BAD89C /* Foundation.framework */,
 				F300539715B0AC2700BAD89C /* CoreGraphics.framework */,
 				F300539915B0AC2700BAD89C /* GameKit.framework */,
+				F3B9DED515B4BE900078507F /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -586,6 +622,10 @@
 				F300551415B0AC2900BAD89C /* AppDelegate.m */,
 				F300551615B0AC2900BAD89C /* HelloWorldLayer.h */,
 				F300551715B0AC2900BAD89C /* HelloWorldLayer.m */,
+				F3B9DEA915B4AEAA0078507F /* JCSPlayer.h */,
+				F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */,
+				F3B9DE6815B4996A0078507F /* JCSCell.h */,
+				F3B9DE6915B4996A0078507F /* JCSCell.m */,
 				F300539C15B0AC2700BAD89C /* Resources */,
 				F300550F15B0AC2900BAD89C /* Supporting Files */,
 			);
@@ -951,6 +991,28 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		F3B9DED915B4BE900078507F /* FlipTests */ = {
+			isa = PBXGroup;
+			children = (
+				F3B9DEE815B4BEAE0078507F /* JCSPlayerTest.h */,
+				F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */,
+				F3B9DEE615B4BEAE0078507F /* JCSCellTest.h */,
+				F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */,
+				F3B9DEDA15B4BE900078507F /* Supporting Files */,
+			);
+			path = FlipTests;
+			sourceTree = "<group>";
+		};
+		F3B9DEDA15B4BE900078507F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */,
+				F3B9DEDC15B4BE900078507F /* InfoPlist.strings */,
+				F3B9DEE215B4BE900078507F /* FlipTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1124,6 +1186,24 @@
 			productReference = F300552515B0AF2400BAD89C /* libcocos2d-library.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		F3B9DED315B4BE900078507F /* FlipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3B9DEE315B4BE900078507F /* Build configuration list for PBXNativeTarget "FlipTests" */;
+			buildPhases = (
+				F3B9DECF15B4BE900078507F /* Sources */,
+				F3B9DED015B4BE900078507F /* Frameworks */,
+				F3B9DED115B4BE900078507F /* Resources */,
+				F3B9DED215B4BE900078507F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlipTests;
+			productName = FlipTests;
+			productReference = F3B9DED415B4BE900078507F /* FlipTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1146,6 +1226,7 @@
 			projectRoot = "";
 			targets = (
 				F300538415B0AC2700BAD89C /* Flip */,
+				F3B9DED315B4BE900078507F /* FlipTests */,
 				F300552415B0AF2400BAD89C /* cocos2d-library */,
 			);
 		};
@@ -1166,7 +1247,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3B9DED115B4BE900078507F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3B9DEDE15B4BE900078507F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F3B9DED215B4BE900078507F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F300538115B0AC2700BAD89C /* Sources */ = {
@@ -1176,6 +1281,8 @@
 				F300551215B0AC2900BAD89C /* main.m in Sources */,
 				F300551515B0AC2900BAD89C /* AppDelegate.m in Sources */,
 				F300551815B0AC2900BAD89C /* HelloWorldLayer.m in Sources */,
+				F3B9DE6A15B4996A0078507F /* JCSCell.m in Sources */,
+				F3B9DEAB15B4AEAA0078507F /* JCSPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1286,7 +1393,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3B9DECF15B4BE900078507F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3EAE6F815B53EDF004827DB /* JCSPlayer.m in Sources */,
+				F3B9DEEB15B4BEAE0078507F /* JCSPlayerTest.m in Sources */,
+				F3EAE6F915B53EDF004827DB /* JCSCell.m in Sources */,
+				F3B9DEEA15B4BEAE0078507F /* JCSCellTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F3B9DEDC15B4BE900078507F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F3B9DEDD15B4BE900078507F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F300551C15B0AC2900BAD89C /* Debug */ = {
@@ -1409,6 +1538,54 @@
 			};
 			name = Release;
 		};
+		F3B9DEE415B4BE900078507F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FlipTests/FlipTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FlipTests/FlipTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F3B9DEE515B4BE900078507F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FlipTests/FlipTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "FlipTests/FlipTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1435,6 +1612,15 @@
 			buildConfigurations = (
 				F300552E15B0AF2400BAD89C /* Debug */,
 				F300552F15B0AF2400BAD89C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3B9DEE315B4BE900078507F /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B9DEE415B4BE900078507F /* Debug */,
+				F3B9DEE515B4BE900078507F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
