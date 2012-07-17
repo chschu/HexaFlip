@@ -256,15 +256,22 @@
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
 		F3B9DE6A15B4996A0078507F /* JCSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DE6915B4996A0078507F /* JCSCell.m */; };
 		F3B9DEAB15B4AEAA0078507F /* JCSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */; };
-		F3B9DED615B4BE900078507F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
-		F3B9DED715B4BE900078507F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
-		F3B9DED815B4BE900078507F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
-		F3B9DEDE15B4BE900078507F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3B9DEDC15B4BE900078507F /* InfoPlist.strings */; };
-		F3B9DEEA15B4BEAE0078507F /* JCSCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */; };
-		F3B9DEEB15B4BEAE0078507F /* JCSPlayerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */; };
-		F3EAE6F815B53EDF004827DB /* JCSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */; };
-		F3EAE6F915B53EDF004827DB /* JCSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DE6915B4996A0078507F /* JCSCell.m */; };
+		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
+		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
+		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
+		F3EAE71815B5EC39004827DB /* JCSPlayerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */; };
+		F3EAE71915B5EC39004827DB /* JCSCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3EAE71A15B5ED01004827DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F300537C15B0AC2600BAD89C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F300538415B0AC2700BAD89C;
+			remoteInfo = Flip;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F300538515B0AC2700BAD89C /* Flip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,7 +534,6 @@
 		F3B9DE6915B4996A0078507F /* JCSCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSCell.m; sourceTree = "<group>"; };
 		F3B9DEA915B4AEAA0078507F /* JCSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayer.h; sourceTree = "<group>"; };
 		F3B9DEAA15B4AEAA0078507F /* JCSPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSPlayer.m; sourceTree = "<group>"; };
-		F3B9DED415B4BE900078507F /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
 		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -536,6 +542,7 @@
 		F3B9DEE715B4BEAE0078507F /* JCSCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSCellTest.m; sourceTree = "<group>"; };
 		F3B9DEE815B4BEAE0078507F /* JCSPlayerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayerTest.h; sourceTree = "<group>"; };
 		F3B9DEE915B4BEAE0078507F /* JCSPlayerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSPlayerTest.m; sourceTree = "<group>"; };
+		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -564,13 +571,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3B9DED015B4BE900078507F /* Frameworks */ = {
+		F3EAE70315B5EBC9004827DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3B9DED615B4BE900078507F /* SenTestingKit.framework in Frameworks */,
-				F3B9DED715B4BE900078507F /* UIKit.framework in Frameworks */,
-				F3B9DED815B4BE900078507F /* Foundation.framework in Frameworks */,
+				F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */,
+				F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */,
+				F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +600,7 @@
 			children = (
 				F300538515B0AC2700BAD89C /* Flip.app */,
 				F300552515B0AF2400BAD89C /* libcocos2d-library.a */,
-				F3B9DED415B4BE900078507F /* FlipTests.octest */,
+				F3EAE70715B5EBC9004827DB /* FlipTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1186,22 +1193,23 @@
 			productReference = F300552515B0AF2400BAD89C /* libcocos2d-library.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		F3B9DED315B4BE900078507F /* FlipTests */ = {
+		F3EAE70615B5EBC9004827DB /* FlipTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F3B9DEE315B4BE900078507F /* Build configuration list for PBXNativeTarget "FlipTests" */;
+			buildConfigurationList = F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */;
 			buildPhases = (
-				F3B9DECF15B4BE900078507F /* Sources */,
-				F3B9DED015B4BE900078507F /* Frameworks */,
-				F3B9DED115B4BE900078507F /* Resources */,
-				F3B9DED215B4BE900078507F /* ShellScript */,
+				F3EAE70215B5EBC9004827DB /* Sources */,
+				F3EAE70315B5EBC9004827DB /* Frameworks */,
+				F3EAE70415B5EBC9004827DB /* Resources */,
+				F3EAE70515B5EBC9004827DB /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F3EAE71B15B5ED01004827DB /* PBXTargetDependency */,
 			);
 			name = FlipTests;
-			productName = FlipTests;
-			productReference = F3B9DED415B4BE900078507F /* FlipTests.octest */;
+			productName = FlipTests2;
+			productReference = F3EAE70715B5EBC9004827DB /* FlipTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1226,7 +1234,7 @@
 			projectRoot = "";
 			targets = (
 				F300538415B0AC2700BAD89C /* Flip */,
-				F3B9DED315B4BE900078507F /* FlipTests */,
+				F3EAE70615B5EBC9004827DB /* FlipTests */,
 				F300552415B0AF2400BAD89C /* cocos2d-library */,
 			);
 		};
@@ -1247,18 +1255,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3B9DED115B4BE900078507F /* Resources */ = {
+		F3EAE70415B5EBC9004827DB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3B9DEDE15B4BE900078507F /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F3B9DED215B4BE900078507F /* ShellScript */ = {
+		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1393,18 +1400,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3B9DECF15B4BE900078507F /* Sources */ = {
+		F3EAE70215B5EBC9004827DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3EAE6F815B53EDF004827DB /* JCSPlayer.m in Sources */,
-				F3B9DEEB15B4BEAE0078507F /* JCSPlayerTest.m in Sources */,
-				F3EAE6F915B53EDF004827DB /* JCSCell.m in Sources */,
-				F3B9DEEA15B4BEAE0078507F /* JCSCellTest.m in Sources */,
+				F3EAE71815B5EC39004827DB /* JCSPlayerTest.m in Sources */,
+				F3EAE71915B5EC39004827DB /* JCSCellTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3EAE71B15B5ED01004827DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F300538415B0AC2700BAD89C /* Flip */;
+			targetProxy = F3EAE71A15B5ED01004827DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F3B9DEDC15B4BE900078507F /* InfoPlist.strings */ = {
@@ -1538,10 +1551,11 @@
 			};
 			name = Release;
 		};
-		F3B9DEE415B4BE900078507F /* Debug */ = {
+		F3EAE71615B5EBC9004827DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip.app/Flip";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1559,15 +1573,16 @@
 				INFOPLIST_FILE = "FlipTests/FlipTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
-		F3B9DEE515B4BE900078507F /* Release */ = {
+		F3EAE71715B5EBC9004827DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip.app/Flip";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1580,7 +1595,7 @@
 				INFOPLIST_FILE = "FlipTests/FlipTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1616,14 +1631,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F3B9DEE315B4BE900078507F /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
+		F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F3B9DEE415B4BE900078507F /* Debug */,
-				F3B9DEE515B4BE900078507F /* Release */,
+				F3EAE71615B5EBC9004827DB /* Debug */,
+				F3EAE71715B5EBC9004827DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
