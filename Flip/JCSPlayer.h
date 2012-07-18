@@ -10,3 +10,5 @@ typedef enum {
     JCSPlayerA,
     JCSPlayerB,
 } JCSPlayer;
+
+#define JCSPlayerOther(player) (JCSPlayerA + JCSPlayerB - (player))
