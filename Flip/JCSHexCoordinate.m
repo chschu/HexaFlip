@@ -49,14 +49,10 @@ NSCache *_cache;
     return [self initWithRow:coordinate.row + JCS_ROW_DELTA(direction) column:coordinate.column + JCS_COL_DELTA(direction)];
 }
 
-- (NSInteger) z {
-    return 0 - self.row - self.column;
-}
-
 - (NSInteger)distanceTo:(JCSHexCoordinate *)other {
     NSInteger dr = abs(self.row - other.row);
     NSInteger dc = abs(self.column - other.column);
-    NSInteger dz = abs(self.z - other.z);
+    NSInteger dz = abs((-self.row-self.column) - (-other.row-other.column));
     return MAX(MAX(dr, dc), dz);
 }
 
