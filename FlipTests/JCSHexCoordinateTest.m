@@ -13,17 +13,20 @@
 
 @implementation JCSHexCoordinateTest
 
-- (void)testInitRow {
-    STAssertEquals([[JCSHexCoordinate alloc] initWithRow:123 column:-281].row, 123, nil);
-    STAssertEquals([[JCSHexCoordinate alloc] initWithRow:-701 column:312].row, -701, nil);
+- (void)testInitWithRowAndColumn {
+    JCSHexCoordinate *underTest;
+
+    underTest = [[JCSHexCoordinate alloc] initWithRow:123 column:-281];
+    STAssertEquals(underTest.row, 123, nil);
+    STAssertEquals(underTest.column, -281, nil);
+    
+    underTest = [[JCSHexCoordinate alloc] initWithRow:-701 column:312];
+    STAssertEquals(underTest.row, -701, nil);
+    STAssertEquals(underTest.column, 312, nil);
+    
 }
 
-- (void)testInitColumn {
-    STAssertEquals([[JCSHexCoordinate alloc] initWithRow:123 column:-281].column, -281, nil);
-    STAssertEquals([[JCSHexCoordinate alloc] initWithRow:-701 column:312].column, 312, nil);
-}
-
-- (void)testInitWithDirection {
+- (void)testInitWithHexCoordinateAndDirection {
     JCSHexCoordinate *original = [[JCSHexCoordinate alloc] initWithRow:-701 column:312];
 
     JCSHexCoordinate *underTest;
