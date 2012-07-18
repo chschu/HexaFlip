@@ -8,10 +8,12 @@
 
 #include "JCSHexDirection.h"
 
-@interface JCSHexCoordinate : NSObject
+// coordinate pair (row,column) on a hexagonal grid
+// (0,1) is "east" of (0,0), and (1,0) is "northeast" of (0,0)
+@interface JCSHexCoordinate : NSObject <NSCopying>
 
-@property (assign, readonly) NSInteger row; 
-@property (assign, readonly) NSInteger column; 
+@property (readonly) NSInteger row; 
+@property (readonly) NSInteger column; 
 
 // recycle cached instances
 + (id)hexCoordinateWithRow:(NSInteger)row column:(NSInteger)column;

@@ -114,4 +114,11 @@
     STAssertEquals([original distanceTo:[JCSHexCoordinate hexCoordinateWithRow:r0-423 column:c0+513]], 513, nil);
 }
 
+- (void)testCopyIsSelf {
+    JCSHexCoordinate *original = [[JCSHexCoordinate alloc] initWithRow:391 column:-582];
+    JCSHexCoordinate *copy = [original copy];
+
+    STAssertEquals(original, copy, nil);
+}
+
 @end

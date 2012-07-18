@@ -13,10 +13,17 @@
 
 @implementation JCSHexCoordinate
 
+#pragma static variables
+
+// instance cache
 NSCache *_cache;
+
+#pragma mark properties
 
 @synthesize row = _row;
 @synthesize column = _column;
+
+#pragma mark class methods
 
 + (void)initialize {
     [super initialize];
@@ -37,6 +44,8 @@ NSCache *_cache;
     return [self hexCoordinateWithRow:coordinate.row + JCS_ROW_DELTA(direction) column:coordinate.column + JCS_COL_DELTA(direction)];
 }
 
+#pragma mark instance methods
+
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column {
     if (self = [super init]) {
         _row = row;
@@ -54,6 +63,13 @@ NSCache *_cache;
     NSInteger dc = abs(self.column - other.column);
     NSInteger dz = abs((-self.row-self.column) - (-other.row-other.column));
     return MAX(MAX(dr, dc), dz);
+}
+
+#pragma mark NSCopying methods
+
+- (id)copyWithZone:(NSZone *)zone {
+    // because instances of this class are immutable, we may use the same instance as copy
+    return self;
 }
 
 @end
