@@ -18,7 +18,6 @@ NSCache *_cache;
 @synthesize row = _row;
 @synthesize column = _column;
 
-
 + (void)initialize {
     [super initialize];
     _cache = [[NSCache alloc] init];
