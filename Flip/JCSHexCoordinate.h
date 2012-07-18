@@ -1,0 +1,27 @@
+//
+//  JCSHexCoordinate.h
+//  Flip
+//
+//  Created by Christian Schuster on 18.07.12.
+//  Copyright (c) 2012 Christian Schuster. All rights reserved.
+//
+
+#include "JCSHexDirection.h"
+
+@interface JCSHexCoordinate : NSObject
+
+@property (assign, readonly) NSInteger row; 
+@property (assign, readonly) NSInteger column; 
+
+// recycle cached instances
++ (id)hexCoordinateWithRow:(NSInteger)row column:(NSInteger)column;
++ (id)hexCoordinateWithHexCoordinate:(JCSHexCoordinate *)coordinate direction:(JCSHexDirection)direction;
+
+// initialize new instances
+- (id)initWithRow:(NSInteger)row column:(NSInteger)column;
+- (id)initWithHexCoordinate:(JCSHexCoordinate *)coordinate direction:(JCSHexDirection)direction;
+
+// hexagonal distance between the receiver and another coordinate
+- (NSInteger) distanceTo:(JCSHexCoordinate *)other;
+
+@end
