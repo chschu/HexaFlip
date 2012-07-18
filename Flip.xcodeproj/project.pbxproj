@@ -256,6 +256,8 @@
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
 		F3D482CC15B72E0300C090C5 /* JCSHexCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */; };
 		F3D482CF15B72E7C00C090C5 /* JCSHexCoordinateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */; };
+		F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */; };
+		F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -536,6 +538,9 @@
 		F3D482CA15B72E0300C090C5 /* JCSHexCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSHexCoordinate.h; sourceTree = "<group>"; };
 		F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSHexCoordinate.m; sourceTree = "<group>"; };
 		F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSHexCoordinateTest.m; sourceTree = "<group>"; };
+		F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMove.h; sourceTree = "<group>"; };
+		F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMove.m; sourceTree = "<group>"; };
+		F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EAE72515B5F902004827DB /* JCSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -628,6 +633,8 @@
 				F3D482BF15B6047400C090C5 /* JCSHexDirection.h */,
 				F3D482CA15B72E0300C090C5 /* JCSHexCoordinate.h */,
 				F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */,
+				F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */,
+				F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */,
 				F300539C15B0AC2700BAD89C /* Resources */,
 				F300550F15B0AC2900BAD89C /* Supporting Files */,
 			);
@@ -997,6 +1004,7 @@
 			isa = PBXGroup;
 			children = (
 				F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */,
+				F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */,
 				F3B9DEDA15B4BE900078507F /* Supporting Files */,
 			);
 			path = FlipTests;
@@ -1281,6 +1289,7 @@
 				F300551515B0AC2900BAD89C /* AppDelegate.m in Sources */,
 				F300551815B0AC2900BAD89C /* HelloWorldLayer.m in Sources */,
 				F3D482CC15B72E0300C090C5 /* JCSHexCoordinate.m in Sources */,
+				F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,6 +1405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3D482CF15B72E7C00C090C5 /* JCSHexCoordinateTest.m in Sources */,
+				F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
