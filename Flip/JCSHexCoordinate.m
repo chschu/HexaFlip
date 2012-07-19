@@ -30,6 +30,10 @@ NSCache *_cache;
     _cache = [[NSCache alloc] init];
 }
 
++ (id)hexCoordinateForOrigin {
+    return [self hexCoordinateWithRow:0 column:0];
+}
+
 + (id)hexCoordinateWithRow:(NSInteger)row column:(NSInteger)column {
     NSString *key = [NSString stringWithFormat:@"%d:%d", row, column];
     JCSHexCoordinate *cached = [_cache objectForKey:key];
@@ -59,9 +63,9 @@ NSCache *_cache;
 }
 
 - (NSInteger)distanceTo:(JCSHexCoordinate *)other {
-    NSInteger dr = abs(self.row - other.row);
-    NSInteger dc = abs(self.column - other.column);
-    NSInteger dz = abs((-self.row-self.column) - (-other.row-other.column));
+    NSInteger dr = abs(_row - other.row);
+    NSInteger dc = abs(_column - other.column);
+    NSInteger dz = abs((-_row-_column) - (-other.row-other.column));
     return MAX(MAX(dr, dc), dz);
 }
 
@@ -70,6 +74,23 @@ NSCache *_cache;
 - (id)copyWithZone:(NSZone *)zone {
     // because instances of this class are immutable, we may use the same instance as copy
     return self;
+}
+
+#pragma mark Collection support
+
+- (BOOL)isEqual:(id)object {
+    if (object == self) {
+        return YES;
+    }
+    if ([object class] != [self class]) {
+        return NO;
+    }
+    JCSHexCoordinate *other = (JCSHexCoordinate *)object;
+    return other.row == _row && other.column == _column; 
+}
+
+- (NSUInteger)hash {
+    return 31 * _row + _column;
 }
 
 @end

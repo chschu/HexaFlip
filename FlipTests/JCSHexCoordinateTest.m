@@ -74,6 +74,13 @@
     STAssertEquals(mod1.column, 311, nil);
 }
 
+- (void)testOrigin {
+    JCSHexCoordinate *origin = [JCSHexCoordinate hexCoordinateForOrigin];
+    
+    STAssertEquals(origin.row, 0, nil);
+    STAssertEquals(origin.column, 0, nil);
+}
+
 - (void)testDistance {
     NSInteger r0 = 392;
     NSInteger c0 = -293;

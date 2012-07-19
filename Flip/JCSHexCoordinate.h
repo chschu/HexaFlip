@@ -16,6 +16,7 @@
 @property (readonly) NSInteger column; 
 
 // recycle cached instances
++ (id)hexCoordinateForOrigin;
 + (id)hexCoordinateWithRow:(NSInteger)row column:(NSInteger)column;
 + (id)hexCoordinateWithHexCoordinate:(JCSHexCoordinate *)coordinate direction:(JCSHexDirection)direction;
 
