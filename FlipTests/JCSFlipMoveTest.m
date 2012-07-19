@@ -37,14 +37,4 @@
     STAssertEquals(move1.direction, move1.direction, nil);
 }
 
-- (void)testCopyIsSelf {
-    // TODO: use OCMock to mock the coordinate
-    JCSHexCoordinate *start = [JCSHexCoordinate hexCoordinateWithRow:0 column:0];
-
-    JCSFlipMove *original = [[JCSFlipMove alloc] initWithStart:start direction:JCSHexDirectionW];
-    JCSFlipMove *copy = [original copy];
-    
-    STAssertEquals(original, copy, nil);
-}
-
 @end

@@ -48,11 +48,4 @@ NSCache *_cache;
     return self;
 }
 
-#pragma mark NSCopying methods
-
-- (id)copyWithZone:(NSZone *)zone {
-    // because instances of this class are immutable, we may use the same instance as copy
-    return self;
-}
-
 @end

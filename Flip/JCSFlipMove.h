@@ -9,7 +9,7 @@
 #import "JCSHexCoordinate.h"
 #import "JCSHexDirection.h"
 
-@interface JCSFlipMove : NSObject <NSCopying>
+@interface JCSFlipMove : NSObject
 
 @property (strong, readonly) JCSHexCoordinate *start; 
 @property (readonly) JCSHexDirection direction; 
