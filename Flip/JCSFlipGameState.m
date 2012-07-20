@@ -65,8 +65,58 @@
     return [cellStateAsNumber intValue];
 }
 
-// - (BOOL)applyMove:(JCSFlipMove *)move {
-// }
+// private accessor to set a cell state
+- (void)setCellState:(JCSFlipCellState)cellState at:(JCSHexCoordinate *)coordinate {
+    NSNumber *cellStateAsNumber = [NSNumber numberWithInt:cellState];
+    [_cellStates setObject:cellStateAsNumber forKey:coordinate];
+}
+
+- (BOOL)applyMove:(JCSFlipMove *)move {
+    JCSHexCoordinate *cur = move.start;
+    
+    // fail if the starting cell is not present
+    if (![self hasCellAt:cur]) {
+        return NO;
+    }
+    
+    JCSFlipCellState startCellState = [self cellStateAt:cur];
+    
+    if (!((_playerToMove == JCSFlipPlayerA && startCellState == JCSFlipCellStateOwnedByPlayerA)
+          || (_playerToMove == JCSFlipPlayerB && startCellState == JCSFlipCellStateOwnedByPlayerB))) {
+        return NO;
+    }
+    
+    JCSHexDirection direction = move.direction;
+    
+    // set to collect the cells to be flipped
+    NSMutableArray *cellsToFlip = [NSMutableArray array];
+    
+    // scan in move direction until an empty cell or a "hole" is reached
+    cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
+    while ([self hasCellAt:cur] && [self cellStateAt:cur] != JCSFlipCellStateEmpty) {
+        [cellsToFlip addObject:cur];
+        cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
+    }
+    
+    // fail if a "hole" is reached
+    if (![self hasCellAt:cur]) {
+        return NO;
+    }
+    
+    // occupy target cell
+    [self setCellState:startCellState at:cur];
+    
+    // flip intermediate cells
+    for (JCSHexCoordinate *coordinate in cellsToFlip) {
+        [self setCellState:JCSFlipCellStateOther([self cellStateAt:coordinate]) at:coordinate];
+    }
+    
+    // switch players
+    _playerToMove = JCSFlipPlayerOther(_playerToMove);
+    
+    // move successful
+    return YES;
+}
 
 #pragma mark AI methods
 

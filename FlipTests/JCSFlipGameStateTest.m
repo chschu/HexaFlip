@@ -281,7 +281,196 @@
         }
     };
     [underTest forAllCellsInvokeBlock:visitorBlock];
+}
 
+- (void)testMoveOk {
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return YES;
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        // A-B-A chain starting at (-1,0) and pointing northeast
+        if ((coordinate.row == -1 && coordinate.column == 0)
+            || (coordinate.row == 1 && coordinate.column == 2)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (coordinate.row == 0 && coordinate.column == 1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty; 
+        }
+	};
+    
+    NSInteger size = 4;
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+
+    // verify that move is valid
+    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNE]], nil);
+    
+    // check that the player has been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
+
+    // check that cells states are modified correctly
+    for (int row = -size+1; row < size; row++) {
+        for (int column = -size+1; column < size; column++) {
+            JCSHexCoordinate *coord = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
+
+            // A-A-B-A chain starting at (-1,0) and pointing northeast
+            if ((row == -1 && column == 0) || (row == 0 && column == 1) || (row == 2 && column == 3)) {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerA, nil);
+            } else if (row == 1 && column == 2) {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerB, nil);
+            } else {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateEmpty, nil);
+            }
+        }
+    }
+
+    // verify that move is valid
+    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:1 column:2] direction:JCSHexDirectionW]], nil);
+
+    // check that the player has been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
+
+    // check that cells states are modified correctly
+    for (int row = -size+1; row < size; row++) {
+        for (int column = -size+1; column < size; column++) {
+            JCSHexCoordinate *coord = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
+            
+            // A-A-B-A chain starting at (-1,0) and pointing northeast, and B at (1,1)
+            if ((row == -1 && column == 0) || (row == 0 && column == 1) || (row == 2 && column == 3)) {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerA, nil);
+            } else if ((row == 1 && column == 1) || (row == 1 && column == 2)) {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerB, nil);
+            } else {
+                STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateEmpty, nil);
+            }
+        }
+    }
+}
+
+- (void)testMoveStartCellNotPresent {
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return !(coordinate.row == -1 && coordinate.column == 0);
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        // B-A chain starting at (0,1) and pointing northeast
+        if (coordinate.row == 1 && coordinate.column == 2) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (coordinate.row == 0 && coordinate.column == 1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty; 
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNE]], nil);
+    
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
+
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
+}
+
+- (void)testMoveStartCellOwnerMismatch {
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return YES;
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        // A-B-A chain starting at (-1,0) and pointing northeast
+        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == 2)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (coordinate.row == 0 && coordinate.column == 1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty; 
+        }
+	};
+    
+    JCSFlipGameState *underTest;
+    
+    // case 1: cell owned by B, player A to move
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:0 column:1] direction:JCSHexDirectionNE]], nil);
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
+
+    // case 2: cell empty, player A to move
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:1 column:0] direction:JCSHexDirectionNE]], nil);
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
+
+    // case 3: cell owned by A, player B to move
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerB cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNE]], nil);
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
+
+    // case 4: cell empty, player B to move
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerB cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-2 column:0] direction:JCSHexDirectionNE]], nil);
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
+}
+
+- (void)testMoveNoEmptyCellInDirection {
+    // create a "hole"
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return !(coordinate.row == 2 && coordinate.column == 3);
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        // A-B-A chain starting at (-1,0) and pointing northeast
+        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == 2)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (coordinate.row == 0 && coordinate.column == 1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty; 
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerB cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    
+    // verify that move is invalid
+    STAssertFalse([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNE]], nil);
+
+    // check that the player has not been switched
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
+    
+    // check that cell states are unmodified
+    [underTest forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(coordinate), nil);
+    }];
 }
 
 @end
