@@ -255,10 +255,12 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
-    __block NSInteger visitorBlockCalledCount = 0;
+    void(^visitorBlock)(JCSHexCoordinate *, JCSFlipCellState, BOOL *);
+    __block NSInteger visitorBlockCalledCount;
     
-    void(^visitorBlock)(JCSHexCoordinate *, JCSFlipCellState, BOOL *) = ^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
-        ++visitorBlockCalledCount;
+    visitorBlockCalledCount = 0;
+    visitorBlock = ^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        visitorBlockCalledCount++;
         // fail if called more than 14 times
         STAssertTrue(visitorBlockCalledCount <= 14, nil);
         // set *stop if called exactly 14 times 
@@ -266,8 +268,20 @@
             *stop = YES;
         }
     };
-    
     [underTest forAllCellsInvokeBlock:visitorBlock];
+
+    visitorBlockCalledCount = 0;
+    visitorBlock = ^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        visitorBlockCalledCount++;
+        // fail if called more than 9 times
+        STAssertTrue(visitorBlockCalledCount <= 9, nil);
+        // set *stop if called exactly 9 times 
+        if (visitorBlockCalledCount == 9) {
+            *stop = YES;
+        }
+    };
+    [underTest forAllCellsInvokeBlock:visitorBlock];
+
 }
 
 @end
