@@ -21,7 +21,7 @@
 #pragma mark instance methods
 
 // private designated initializer
-- (id)initWithPlayerToMove:(JCSPlayer)playerToMove cellStates:(NSMutableDictionary *)cellStates {
+- (id)initWithPlayerToMove:(JCSFlipPlayer)playerToMove cellStates:(NSMutableDictionary *)cellStates {
 	if (self = [super init]) {
         _playerToMove = playerToMove;
 		_cellStates = cellStates;
@@ -29,7 +29,7 @@
 	return self;
 }
 
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSPlayer)playerToMove cellAtBlock:(BOOL (^)(JCSHexCoordinate *))cellAtBlock cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *))cellStateAtBlock {
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL (^)(JCSHexCoordinate *))cellAtBlock cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellAtBlock != nil, @"cellAt block must not be nil");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");

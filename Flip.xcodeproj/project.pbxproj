@@ -548,7 +548,7 @@
 		F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipCellState.h; sourceTree = "<group>"; };
 		F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3EAE72515B5F902004827DB /* JCSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSPlayer.h; sourceTree = "<group>"; };
+		F3EAE72515B5F902004827DB /* JCSFlipPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -635,10 +635,10 @@
 				F300551415B0AC2900BAD89C /* AppDelegate.m */,
 				F300551615B0AC2900BAD89C /* HelloWorldLayer.h */,
 				F300551715B0AC2900BAD89C /* HelloWorldLayer.m */,
-				F3EAE72515B5F902004827DB /* JCSPlayer.h */,
 				F3D482BF15B6047400C090C5 /* JCSHexDirection.h */,
 				F3D482CA15B72E0300C090C5 /* JCSHexCoordinate.h */,
 				F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */,
+				F3EAE72515B5F902004827DB /* JCSFlipPlayer.h */,
 				F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */,
 				F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */,
 				F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */,

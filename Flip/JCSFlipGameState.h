@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSPlayer.h"
+#import "JCSFlipPlayer.h"
 #import "JCSHexCoordinate.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipCellState.h"
@@ -15,7 +15,7 @@
 @interface JCSFlipGameState : NSObject <NSCopying>
 
 // the player to move
-@property (readonly) JCSPlayer playerToMove;
+@property (readonly) JCSFlipPlayer playerToMove;
 
 // scoring of the game state (for AI algorithms)
 // the higher the score, the better for "playerToMove"
@@ -26,7 +26,7 @@
 // a cell is present in the board iff the cellsAtBlock returns YES
 // the state of a cell is determined by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSPlayer)playerToMove cellAtBlock:(BOOL(^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL(^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
 
 // invoke the block for all cells
 // iteration stops when the block sets *stop to YES

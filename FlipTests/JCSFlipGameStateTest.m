@@ -7,7 +7,7 @@
 //
 
 #import "JCSFlipGameState.h"
-#import "JCSPlayer.h"
+#import "JCSFlipPlayer.h"
 #import "JCSFlipCellState.h"
 #import "JCSHexCoordinate.h"
 
@@ -26,7 +26,7 @@
 	};
 
     JCSFlipGameState *underTest;
-    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:-1 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock], nil);
+    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:-1 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock], nil);
 }
 
 - (void)testInitCellAtBlockNil {
@@ -35,7 +35,7 @@
 	};
     
 	JCSFlipGameState *underTest;
-    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSPlayerA cellAtBlock:nil cellStateAtBlock:cellStateAtBlock], nil);
+    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerA cellAtBlock:nil cellStateAtBlock:cellStateAtBlock], nil);
 }
 
 - (void)testInitCellStateAtBlockNil {
@@ -44,7 +44,7 @@
 	};
 
 	JCSFlipGameState *underTest;
-    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:nil], nil);
+    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:nil], nil);
 }
 
 - (void)testInitSetsPlayerToMove {
@@ -58,11 +58,11 @@
 
 	JCSFlipGameState *underTest;
 
-    underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
-    STAssertEquals(underTest.playerToMove, JCSPlayerA, nil);
+    underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
 
-    underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSPlayerB cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
-    STAssertEquals(underTest.playerToMove, JCSPlayerB, nil);
+    underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSFlipPlayerB cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
 }
     
 - (void)testInitInvokesCellAtBlock {
@@ -83,7 +83,7 @@
     
 	NSInteger size = 15;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 #pragma unused(underTest)
     
 	// check number of invocations with unique coordinates
@@ -114,7 +114,7 @@
     
 	NSInteger size = 14;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 #pragma unused(underTest)
     
 	// check that cellStateAtBlock is called for every coordinate for which cellAtBlock returned true 
@@ -139,7 +139,7 @@
     
 	NSInteger size = 10;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     for (int row = -size+1; row < size; row++) {
         for (int column = -size+1; column < size; column++) {
@@ -175,7 +175,7 @@
 		return JCSFlipCellStateEmpty; 
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:1 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
     STAssertThrows([underTest cellStateAt:[JCSHexCoordinate hexCoordinateWithRow:0 column:0]], nil);
 }
 
@@ -194,14 +194,14 @@
         }
     };
     
-	JCSFlipGameState *original = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *original = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     // create a copy, and apply a move to it
     JCSFlipGameState *copy = [original copy];
     [copy applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateForOrigin] direction:JCSHexDirectionNE]];
 
     // check that the original is unchanged
-    STAssertEquals(original.playerToMove, JCSPlayerA, nil);
+    STAssertEquals(original.playerToMove, JCSFlipPlayerA, nil);
     STAssertEquals([original cellStateAt:[JCSHexCoordinate hexCoordinateWithRow:1 column:0]], JCSFlipCellStateEmpty, nil);
 }
 
@@ -221,7 +221,7 @@
     
     NSInteger size = 3;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     NSMutableSet *visitorBlockCalledFor = [NSMutableSet set];
     
@@ -253,7 +253,7 @@
 		return JCSFlipCellStateEmpty; 
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     void(^visitorBlock)(JCSHexCoordinate *, JCSFlipCellState, BOOL *);
     __block NSInteger visitorBlockCalledCount;
