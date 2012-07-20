@@ -12,4 +12,6 @@ typedef enum {
     JCSFlipCellStateOwnedByPlayerB,
 } JCSFlipCellState;
 
+#define JCSFlipCellStateForPlayer(player) ((player) == JCSFlipPlayerA ? JCSFlipCellStateOwnedByPlayerA : JCSFlipCellStateOwnedByPlayerB)
+
 #define JCSFlipCellStateOther(cellState) (JCSFlipCellStateOwnedByPlayerA + JCSFlipCellStateOwnedByPlayerB - (cellState))

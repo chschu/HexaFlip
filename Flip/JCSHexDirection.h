@@ -15,3 +15,5 @@ typedef enum {
     JCSHexDirectionSE,
 } JCSHexDirection;
 
+#define JCSHexDirectionMin JCSHexDirectionE
+#define JCSHexDirectionMax JCSHexDirectionSE

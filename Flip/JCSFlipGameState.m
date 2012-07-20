@@ -29,7 +29,7 @@
 	return self;
 }
 
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL (^)(JCSHexCoordinate *))cellAtBlock cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *))cellStateAtBlock {
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL (^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *coordinate))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellAtBlock != nil, @"cellAt block must not be nil");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
@@ -120,11 +120,31 @@
 
 #pragma mark AI methods
 
-// - (void)forAllNextStatesInvoke:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
-// }
+- (void)forAllNextStatesInvoke:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
+    NSAssert(block != nil, @"block must not be nil");
+    
+    JCSFlipCellState playerCellState = JCSFlipCellStateForPlayer(_playerToMove);
+    
+    [self forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+        // try cells with the correct owner as starting cells 
+        if (cellState == playerCellState) {
+            // try all directions, but stop if the block says to do so
+            for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
+                JCSFlipMove *move = [JCSFlipMove moveWithStart:coordinate direction:direction];
+                JCSFlipGameState *stateCopy = [self copy];
+                if ([stateCopy applyMove:move]) {
+                    // move is valid - invoke block
+                    block(move, stateCopy, stop);
+                }
+            }
+        }
+    }];
+}
 
-// - (NSInteger)score {
-// }
+- (NSInteger)score {
+    NSAssert(NO, @"not yet implemented");
+    return 0;
+}
 
 #pragma mark NSCopying methods
 

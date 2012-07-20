@@ -473,4 +473,76 @@
     }];
 }
 
+- (void)testForAllNextStatesInvokeOk {
+    // create a "hole" at (1,2)
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return !(coordinate.row == 1 && coordinate.column == 2);
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        // A-B chain starting at (-1,0) and pointing northeast, and A-B chain starting at (1,3) and pointing southwest
+        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == 3)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if ((coordinate.row == 0 && coordinate.column == 1) || (coordinate.row == 0 && coordinate.column == 2)) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty; 
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+
+    // the possible moves for A are:
+    // start at (-1,0) and move in any direction except NE
+    // start at (1,3) and move NW, SW, or SE
+    
+    NSMutableSet *expectedMoveStrings = [NSMutableSet set];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionE]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionNW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSE]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionNW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionSE]];
+    
+    // check the expected moves
+    [underTest forAllNextStatesInvoke:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
+        NSString *moveString = [NSString stringWithFormat:@"%d,%d %d", move.start.row, move.start.column, move.direction];
+        STAssertTrue([expectedMoveStrings containsObject:moveString], [NSString stringWithFormat:@"unexpected move string %@", moveString]);
+        [expectedMoveStrings removeObject:moveString];
+    }];
+
+    // check the next state for the moves from (1,3) southwest
+    [underTest forAllNextStatesInvoke:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
+        if (move.start.row == 1 && move.start.column == 3 && move.direction == JCSHexDirectionSW) {
+            [nextState forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+                NSInteger row = coordinate.row;
+                NSInteger column = coordinate.column;
+                if ((row == -1 && column == 0) || (row == -1 && column == 1) || (row == 0 && column == 2) || (row == 1 && column == 3)) {
+                    STAssertEquals(cellState, JCSFlipCellStateOwnedByPlayerA, nil);
+                } else if (row == 0 && column == 1) {
+                    STAssertEquals(cellState, JCSFlipCellStateOwnedByPlayerB, nil);
+                } else {
+                    STAssertEquals(cellState, JCSFlipCellStateEmpty, nil);
+                }
+            }];
+        }
+    }];
+}
+
+- (void)testForAllNextStatesInvokeNilBlock {
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return YES;
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+        return JCSFlipCellStateEmpty; 
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    
+    STAssertThrows([underTest forAllNextStatesInvoke:nil], nil);
+}
+
 @end
