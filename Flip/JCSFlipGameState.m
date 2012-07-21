@@ -16,7 +16,6 @@
 }
 
 @synthesize playerToMove = _playerToMove;
-@synthesize score = _score;
 
 #pragma mark instance methods
 
@@ -49,10 +48,9 @@
 }
 
 - (void)forAllCellsInvokeBlock:(void(^)(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop))block {
-	[_cellStates enumerateKeysAndObjectsUsingBlock:^(JCSHexCoordinate *key, NSNumber *obj, BOOL *stop) {
-		block(key, [obj intValue], stop);
-	}];
-    
+    [_cellStates enumerateKeysAndObjectsUsingBlock:^(JCSHexCoordinate *key, NSNumber *obj, BOOL *stop) {
+        block(key, [obj intValue], stop);
+    }];
 }
 
 - (BOOL)hasCellAt:(JCSHexCoordinate *)coordinate {
@@ -139,11 +137,6 @@
             }
         }
     }];
-}
-
-- (NSInteger)score {
-    NSAssert(NO, @"not yet implemented");
-    return 0;
 }
 
 #pragma mark NSCopying methods

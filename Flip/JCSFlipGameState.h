@@ -17,10 +17,6 @@
 // the player to move
 @property (readonly) JCSFlipPlayer playerToMove;
 
-// scoring of the game state (for AI algorithms)
-// the higher the score, the better for player A
-@property (readonly) NSInteger score;
-
 // initialize with given size
 // the block for all pairs of rows and columns in [-size,size]
 // a cell is present in the board iff the cellsAtBlock returns YES
