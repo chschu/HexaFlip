@@ -9,7 +9,7 @@
 #include "JCSHexDirection.h"
 
 // coordinate pair (row,column) on a hexagonal grid
-// (0,1) is "east" of (0,0), and (1,0) is "northwest" of (0,0)
+// (0,1) is E of (0,0), and (1,0) is NE of (0,0)
 @interface JCSHexCoordinate : NSObject <NSCopying>
 
 @property (readonly) NSInteger row; 

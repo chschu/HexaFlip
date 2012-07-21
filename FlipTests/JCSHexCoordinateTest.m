@@ -37,11 +37,11 @@
 
     underTest = [[JCSHexCoordinate alloc] initWithHexCoordinate:original direction:JCSHexDirectionNE];
     STAssertEquals(underTest.row, -700, nil);
-    STAssertEquals(underTest.column, 313, nil);
+    STAssertEquals(underTest.column, 312, nil);
 
     underTest = [[JCSHexCoordinate alloc] initWithHexCoordinate:original direction:JCSHexDirectionNW];
     STAssertEquals(underTest.row, -700, nil);
-    STAssertEquals(underTest.column, 312, nil);
+    STAssertEquals(underTest.column, 311, nil);
 
     underTest = [[JCSHexCoordinate alloc] initWithHexCoordinate:original direction:JCSHexDirectionW];
     STAssertEquals(underTest.row, -701, nil);
@@ -49,21 +49,21 @@
 
     underTest = [[JCSHexCoordinate alloc] initWithHexCoordinate:original direction:JCSHexDirectionSW];
     STAssertEquals(underTest.row, -702, nil);
-    STAssertEquals(underTest.column, 311, nil);
+    STAssertEquals(underTest.column, 312, nil);
 
     underTest = [[JCSHexCoordinate alloc] initWithHexCoordinate:original direction:JCSHexDirectionSE];
     STAssertEquals(underTest.row, -702, nil);
-    STAssertEquals(underTest.column, 312, nil);
+    STAssertEquals(underTest.column, 313, nil);
 }
 
 - (void)testReuse {
     JCSHexCoordinate *original1 = [[JCSHexCoordinate alloc] initWithRow:-701 column:312];
-    JCSHexCoordinate *original2 = [[JCSHexCoordinate alloc] initWithRow:-699 column:313];
+    JCSHexCoordinate *original2 = [[JCSHexCoordinate alloc] initWithRow:-699 column:311];
     
     JCSHexCoordinate *mod1 = [JCSHexCoordinate hexCoordinateWithHexCoordinate:original1 direction:JCSHexDirectionNE];
-    JCSHexCoordinate *mod2 = [JCSHexCoordinate hexCoordinateWithRow:-700 column:313];
+    JCSHexCoordinate *mod2 = [JCSHexCoordinate hexCoordinateWithRow:-700 column:312];
     JCSHexCoordinate *mod3 = [JCSHexCoordinate hexCoordinateWithHexCoordinate:original2 direction:JCSHexDirectionSE];
-    JCSHexCoordinate *mod4 = [JCSHexCoordinate hexCoordinateWithRow:-700 column:313];
+    JCSHexCoordinate *mod4 = [JCSHexCoordinate hexCoordinateWithRow:-700 column:312];
     
     STAssertNotNil(mod1, nil);
     STAssertEquals(mod1, mod2, nil);
@@ -71,7 +71,7 @@
     STAssertEquals(mod1, mod4, nil);
     
     STAssertEquals(mod1.row, -700, nil);
-    STAssertEquals(mod1.column, 313, nil);
+    STAssertEquals(mod1.column, 312, nil);
 }
 
 - (void)testOrigin {

@@ -289,11 +289,10 @@
 	};
     
 	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
-        // A-B-A chain starting at (-1,0) and pointing northeast
-        if ((coordinate.row == -1 && coordinate.column == 0)
-            || (coordinate.row == 1 && coordinate.column == 2)) {
+        // A-B-A chain starting at (-1,0) and pointing NW
+        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == -2)) {
             return JCSFlipCellStateOwnedByPlayerA;
-        } else if (coordinate.row == 0 && coordinate.column == 1) {
+        } else if (coordinate.row == 0 && coordinate.column == -1) {
             return JCSFlipCellStateOwnedByPlayerB;
         } else {
             return JCSFlipCellStateEmpty; 
@@ -305,7 +304,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     // verify that move is valid
-    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNE]], nil);
+    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:-1 column:0] direction:JCSHexDirectionNW]], nil);
     
     // check that the player has been switched
     STAssertEquals(underTest.playerToMove, JCSFlipPlayerB, nil);
@@ -315,10 +314,10 @@
         for (int column = -size+1; column < size; column++) {
             JCSHexCoordinate *coord = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
 
-            // A-A-B-A chain starting at (-1,0) and pointing northeast
-            if ((row == -1 && column == 0) || (row == 0 && column == 1) || (row == 2 && column == 3)) {
+            // A-A-B-A chain starting at (-1,0) and pointing NW
+            if ((row == -1 && column == 0) || (row == 0 && column == -1) || (row == 2 && column == -3)) {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerA, nil);
-            } else if (row == 1 && column == 2) {
+            } else if (row == 1 && column == -2) {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerB, nil);
             } else {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateEmpty, nil);
@@ -327,7 +326,7 @@
     }
 
     // verify that move is valid
-    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:1 column:2] direction:JCSHexDirectionW]], nil);
+    STAssertTrue([underTest applyMove:[JCSFlipMove moveWithStart:[JCSHexCoordinate hexCoordinateWithRow:1 column:-2] direction:JCSHexDirectionE]], nil);
 
     // check that the player has been switched
     STAssertEquals(underTest.playerToMove, JCSFlipPlayerA, nil);
@@ -337,10 +336,10 @@
         for (int column = -size+1; column < size; column++) {
             JCSHexCoordinate *coord = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
             
-            // A-A-B-A chain starting at (-1,0) and pointing northeast, and B at (1,1)
-            if ((row == -1 && column == 0) || (row == 0 && column == 1) || (row == 2 && column == 3)) {
+            // A-A-B-A chain starting at (-1,0) and pointing NW, and B at (1,-1)
+            if ((row == -1 && column == 0) || (row == 0 && column == -1) || (row == 2 && column == -3)) {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerA, nil);
-            } else if ((row == 1 && column == 1) || (row == 1 && column == 2)) {
+            } else if ((row == 1 && column == -1) || (row == 1 && column == -2)) {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateOwnedByPlayerB, nil);
             } else {
                 STAssertEquals([underTest cellStateAt:coord], JCSFlipCellStateEmpty, nil);
@@ -474,16 +473,16 @@
 }
 
 - (void)testForAllNextStatesInvokeOk {
-    // create a "hole" at (1,2)
+    // create a "hole" at (1,-2)
 	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
-		return !(coordinate.row == 1 && coordinate.column == 2);
+		return !(coordinate.row == 1 && coordinate.column == -2);
 	};
     
 	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
-        // A-B chain starting at (-1,0) and pointing northeast, and A-B chain starting at (1,3) and pointing southwest
-        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == 3)) {
+        // A-B chain starting at (-1,0) and pointing NW, and A-B chain starting at (1,-3) and pointing SE
+        if ((coordinate.row == -1 && coordinate.column == 0) || (coordinate.row == 1 && coordinate.column == -3)) {
             return JCSFlipCellStateOwnedByPlayerA;
-        } else if ((coordinate.row == 0 && coordinate.column == 1) || (coordinate.row == 0 && coordinate.column == 2)) {
+        } else if ((coordinate.row == 0 && coordinate.column == -1) || (coordinate.row == 0 && coordinate.column == -2)) {
             return JCSFlipCellStateOwnedByPlayerB;
         } else {
             return JCSFlipCellStateEmpty; 
@@ -493,18 +492,18 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
 
     // the possible moves for A are:
-    // start at (-1,0) and move in any direction except NE
-    // start at (1,3) and move NW, SW, or SE
+    // start at (-1,0) and move in any direction except NW
+    // start at (1,-3) and move NE, SW, or SE
     
     NSMutableSet *expectedMoveStrings = [NSMutableSet set];
     [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionNW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionNE]];
     [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionW]];
     [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSW]];
     [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionNW]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionSW]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, 3, JCSHexDirectionSE]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionNE]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionSE]];
     
     // check the expected moves
     [underTest forAllNextStatesInvoke:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {

@@ -9,7 +9,7 @@
 #import "JCSHexCoordinate.h"
 
 #define JCS_ROW_DELTA(direction) ((direction) == JCSHexDirectionNE || (direction) == JCSHexDirectionNW) - ((direction) == JCSHexDirectionSW || (direction) == JCSHexDirectionSE)
-#define JCS_COL_DELTA(direction) ((direction) == JCSHexDirectionE || (direction) == JCSHexDirectionNE) - ((direction) == JCSHexDirectionW || (direction) == JCSHexDirectionSW)
+#define JCS_COL_DELTA(direction) ((direction) == JCSHexDirectionE || (direction) == JCSHexDirectionSE) - ((direction) == JCSHexDirectionW || (direction) == JCSHexDirectionNW)
 
 @implementation JCSHexCoordinate
 
