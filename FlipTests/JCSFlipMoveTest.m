@@ -24,17 +24,16 @@
 
 - (void)testReuse {
     // TODO: use OCMock to mock the coordinate
-    JCSHexCoordinate *start1 = [[JCSHexCoordinate alloc] initWithRow:3 column:-4];
-    JCSHexCoordinate *start2 = [[JCSHexCoordinate alloc] initWithRow:3 column:-4];
+    JCSHexCoordinate *start = [JCSHexCoordinate hexCoordinateWithRow:3 column:-4];
 
-    JCSFlipMove *move1 = [JCSFlipMove moveWithStart:start1 direction:JCSHexDirectionSE];
-    JCSFlipMove *move2 = [JCSFlipMove moveWithStart:start2 direction:JCSHexDirectionSE];
+    JCSFlipMove *move1 = [JCSFlipMove moveWithStart:start direction:JCSHexDirectionSE];
+    JCSFlipMove *move2 = [JCSFlipMove moveWithStart:start direction:JCSHexDirectionSE];
     
     STAssertNotNil(move1, nil);
     STAssertEquals(move1, move2, nil);
     
-    STAssertEquals(move1.start, start1, nil);
-    STAssertEquals(move1.direction, move1.direction, nil);
+    STAssertEquals(move1.start, start, nil);
+    STAssertEquals(move1.direction, JCSHexDirectionSE, nil);
 }
 
 @end
