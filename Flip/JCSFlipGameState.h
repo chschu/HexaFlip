@@ -18,8 +18,8 @@
 @property (readonly) JCSFlipPlayer playerToMove;
 
 // initialize with given size
-// the block for all pairs of rows and columns in [-size,size]
-// a cell is present in the board iff the cellsAtBlock returns YES
+// the cellAtBlock for all pairs of rows and columns in [-size,size]
+// a cell is present in the board iff the cellAtBlock returns YES
 // the state of a cell is determined by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
 - (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL(^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
