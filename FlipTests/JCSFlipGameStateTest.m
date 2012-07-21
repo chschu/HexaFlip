@@ -164,6 +164,22 @@
     }
 }
 
+- (void)testHasCellOutsideRange {
+	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
+		return YES;
+	};
+    
+	JCSFlipCellState(^cellStateAtBlock)(JCSHexCoordinate *) = ^JCSFlipCellState(JCSHexCoordinate *coordinate) {
+		return JCSFlipCellStateEmpty; 
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:3 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
+    STAssertFalse([underTest hasCellAt:[JCSHexCoordinate hexCoordinateWithRow:-3 column:0]], nil);
+    STAssertFalse([underTest hasCellAt:[JCSHexCoordinate hexCoordinateWithRow:3 column:0]], nil);
+    STAssertFalse([underTest hasCellAt:[JCSHexCoordinate hexCoordinateWithRow:0 column:-3]], nil);
+    STAssertFalse([underTest hasCellAt:[JCSHexCoordinate hexCoordinateWithRow:0 column:3]], nil);
+}
+
 - (void)testCellStateFailsForNonExistingCell {
 	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
 		return NO;
