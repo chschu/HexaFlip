@@ -28,19 +28,16 @@
 	return self;
 }
 
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL (^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *coordinate))cellStateAtBlock {
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *coordinate))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
-	NSAssert(cellAtBlock != nil, @"cellAt block must not be nil");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
     
 	NSMutableDictionary *cellStates = [NSMutableDictionary dictionary];
 	for (int row = -size+1; row < size; row++) {
 		for (int column = -size+1; column < size; column++) {
 			JCSHexCoordinate *coordinate = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
-			if (cellAtBlock(coordinate)) {
-				JCSFlipCellState cellState = cellStateAtBlock(coordinate);
-				[cellStates setObject:[NSNumber numberWithInt:cellState] forKey:coordinate];
-			}
+			JCSFlipCellState cellState = cellStateAtBlock(coordinate);
+			[cellStates setObject:[NSNumber numberWithInt:cellState] forKey:coordinate];
 		}
 	}
 	
@@ -49,17 +46,18 @@
 
 - (void)forAllCellsInvokeBlock:(void(^)(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop))block {
     [_cellStates enumerateKeysAndObjectsUsingBlock:^(JCSHexCoordinate *key, NSNumber *obj, BOOL *stop) {
-        block(key, [obj intValue], stop);
+        JCSFlipCellState cellState = [obj intValue];
+        if (cellState != JCSFlipCellStateHole) {
+            block(key, cellState, stop);
+        }
     }];
-}
-
-- (BOOL)hasCellAt:(JCSHexCoordinate *)coordinate {
-    return [_cellStates objectForKey:coordinate] != nil;
 }
 
 - (JCSFlipCellState)cellStateAt:(JCSHexCoordinate *)coordinate {
     NSNumber *cellStateAsNumber = [_cellStates objectForKey:coordinate];
-    NSAssert(cellStateAsNumber != nil, @"cellStateAt may only be invoked for existing cells");
+    if (cellStateAsNumber == nil) {
+        return JCSFlipCellStateHole;
+    }
     return [cellStateAsNumber intValue];
 }
 
@@ -71,11 +69,6 @@
 
 - (BOOL)applyMove:(JCSFlipMove *)move {
     JCSHexCoordinate *cur = move.start;
-    
-    // fail if the starting cell is not present
-    if (![self hasCellAt:cur]) {
-        return NO;
-    }
     
     JCSFlipCellState startCellState = [self cellStateAt:cur];
     
@@ -91,17 +84,18 @@
     
     // scan in move direction until an empty cell or a "hole" is reached
     cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
-    while ([self hasCellAt:cur] && [self cellStateAt:cur] != JCSFlipCellStateEmpty) {
+    JCSFlipCellState curState;
+    while ((curState = [self cellStateAt:cur]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
         [cellsToFlip addObject:cur];
         cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
     }
     
-    // fail if a "hole" is reached
-    if (![self hasCellAt:cur]) {
+    // fail if no empty cell is reached
+    if (curState != JCSFlipCellStateEmpty) {
         return NO;
     }
     
-    // occupy target cell
+    // occupy empty target cell
     [self setCellState:startCellState at:cur];
     
     // flip intermediate cells

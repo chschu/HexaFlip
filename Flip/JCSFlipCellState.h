@@ -7,6 +7,7 @@
 //
 
 typedef enum {
+    JCSFlipCellStateHole,
     JCSFlipCellStateEmpty,
     JCSFlipCellStateOwnedByPlayerA,
     JCSFlipCellStateOwnedByPlayerB,

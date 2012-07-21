@@ -18,21 +18,16 @@
 @property (readonly) JCSFlipPlayer playerToMove;
 
 // initialize with given size
-// the cellAtBlock for all pairs of rows and columns in [-size,size]
-// a cell is present in the board iff the cellAtBlock returns YES
-// the state of a cell is determined by the cellStateAtBlock
+// the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
+// the state of a cell is returned by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellAtBlock:(BOOL(^)(JCSHexCoordinate *coordinate))cellAtBlock cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
 
-// invoke the block for all cells
+// invoke the block for all non-hole cells
 // iteration stops when the block sets *stop to YES
 - (void)forAllCellsInvokeBlock:(void(^)(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop))block;
 
-// determines if there is a cell at the given coordinate
-- (BOOL)hasCellAt:(JCSHexCoordinate *)coordinate;
-
 // determines the state of the cell at the given coordinate
-// throws an exception if there is no such cell
 - (JCSFlipCellState)cellStateAt:(JCSHexCoordinate *)coordinate;
 
 // applies move, switches players, and returns YES if the move is legal 
