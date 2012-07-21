@@ -18,7 +18,7 @@
 @property (readonly) JCSFlipPlayer playerToMove;
 
 // scoring of the game state (for AI algorithms)
-// the higher the score, the better for "playerToMove"
+// the higher the score, the better for player A
 @property (readonly) NSInteger score;
 
 // initialize with given size
