@@ -42,6 +42,6 @@
 // iterate over all possible moves leading away from the game state (for AI algorithms)
 // the move and the successor state is passed to the given block
 // iteration stops when the block sets *stop to YES
-- (void)forAllNextStatesInvoke:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block;
+- (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block;
 
 @end

@@ -488,7 +488,7 @@
     }];
 }
 
-- (void)testForAllNextStatesInvokeOk {
+- (void)testForAllNextStatesInvokeBlockOk {
     // create a "hole" at (1,-2)
 	BOOL(^cellAtBlock)(JCSHexCoordinate *) = ^BOOL(JCSHexCoordinate *coordinate) {
 		return !(coordinate.row == 1 && coordinate.column == -2);
@@ -522,14 +522,14 @@
     [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionSE]];
     
     // check the expected moves
-    [underTest forAllNextStatesInvoke:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
+    [underTest forAllNextStatesInvokeBlock:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
         NSString *moveString = [NSString stringWithFormat:@"%d,%d %d", move.start.row, move.start.column, move.direction];
         STAssertTrue([expectedMoveStrings containsObject:moveString], [NSString stringWithFormat:@"unexpected move string %@", moveString]);
         [expectedMoveStrings removeObject:moveString];
     }];
 
     // check the next state for the moves from (1,3) southwest
-    [underTest forAllNextStatesInvoke:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
+    [underTest forAllNextStatesInvokeBlock:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
         if (move.start.row == 1 && move.start.column == 3 && move.direction == JCSHexDirectionSW) {
             [nextState forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
                 NSInteger row = coordinate.row;
@@ -557,7 +557,7 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerA cellAtBlock:cellAtBlock cellStateAtBlock:cellStateAtBlock];
     
-    STAssertThrows([underTest forAllNextStatesInvoke:nil], nil);
+    STAssertThrows([underTest forAllNextStatesInvokeBlock:nil], nil);
 }
 
 @end

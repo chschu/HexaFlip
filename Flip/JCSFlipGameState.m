@@ -118,7 +118,7 @@
 
 #pragma mark AI methods
 
-- (void)forAllNextStatesInvoke:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
+- (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
     NSAssert(block != nil, @"block must not be nil");
     
     JCSFlipCellState playerCellState = JCSFlipCellStateForPlayer(_playerToMove);
