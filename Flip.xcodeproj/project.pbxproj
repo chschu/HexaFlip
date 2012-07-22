@@ -254,8 +254,6 @@
 		F300586115B0B04800BAD89C /* vec2.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577C15B0B04800BAD89C /* vec2.c */; };
 		F300586215B0B04800BAD89C /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577D15B0B04800BAD89C /* vec3.c */; };
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
-		F3D482CC15B72E0300C090C5 /* JCSHexCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */; };
-		F3D482CF15B72E7C00C090C5 /* JCSHexCoordinateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */; };
 		F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */; };
 		F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */; };
 		F3D482DB15B7649200C090C5 /* JCSFlipGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */; };
@@ -537,9 +535,6 @@
 		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F3B9DEE215B4BE900078507F /* FlipTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlipTests-Prefix.pch"; sourceTree = "<group>"; };
 		F3D482BF15B6047400C090C5 /* JCSHexDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSHexDirection.h; sourceTree = "<group>"; };
-		F3D482CA15B72E0300C090C5 /* JCSHexCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSHexCoordinate.h; sourceTree = "<group>"; };
-		F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSHexCoordinate.m; sourceTree = "<group>"; };
-		F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSHexCoordinateTest.m; sourceTree = "<group>"; };
 		F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMove.h; sourceTree = "<group>"; };
 		F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMove.m; sourceTree = "<group>"; };
 		F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
@@ -636,8 +631,6 @@
 				F300551615B0AC2900BAD89C /* HelloWorldLayer.h */,
 				F300551715B0AC2900BAD89C /* HelloWorldLayer.m */,
 				F3D482BF15B6047400C090C5 /* JCSHexDirection.h */,
-				F3D482CA15B72E0300C090C5 /* JCSHexCoordinate.h */,
-				F3D482CB15B72E0300C090C5 /* JCSHexCoordinate.m */,
 				F3EAE72515B5F902004827DB /* JCSFlipPlayer.h */,
 				F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */,
 				F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */,
@@ -1012,7 +1005,6 @@
 		F3B9DED915B4BE900078507F /* FlipTests */ = {
 			isa = PBXGroup;
 			children = (
-				F3D482CE15B72E7C00C090C5 /* JCSHexCoordinateTest.m */,
 				F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */,
 				F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */,
 				F3B9DEDA15B4BE900078507F /* Supporting Files */,
@@ -1298,7 +1290,6 @@
 				F300551215B0AC2900BAD89C /* main.m in Sources */,
 				F300551515B0AC2900BAD89C /* AppDelegate.m in Sources */,
 				F300551815B0AC2900BAD89C /* HelloWorldLayer.m in Sources */,
-				F3D482CC15B72E0300C090C5 /* JCSHexCoordinate.m in Sources */,
 				F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */,
 				F3D482DB15B7649200C090C5 /* JCSFlipGameState.m in Sources */,
 			);
@@ -1415,7 +1406,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D482CF15B72E7C00C090C5 /* JCSHexCoordinateTest.m in Sources */,
 				F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */,
 				F3D482DF15B87E6F00C090C5 /* JCSFlipGameStateTest.m in Sources */,
 			);

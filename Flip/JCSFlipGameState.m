@@ -23,7 +23,6 @@
 
 #pragma mark instance methods
 
-
 // index into the cell states array
 // parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
 #define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
@@ -82,8 +81,8 @@
 }
 
 - (BOOL)applyMove:(JCSFlipMove *)move {
-    NSInteger startRow = move.start.row;
-    NSInteger startColumn = move.start.column;
+    NSInteger startRow = move.startRow;
+    NSInteger startColumn = move.startColumn;
     
     JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
     
@@ -143,8 +142,7 @@
         if (cellState == playerCellState) {
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
-                JCSHexCoordinate *coordinate = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
-                JCSFlipMove *move = [JCSFlipMove moveWithStart:coordinate direction:direction];
+                JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
                 JCSFlipGameState *stateCopy = [self copy];
                 if ([stateCopy applyMove:move]) {
                     // move is valid - invoke block

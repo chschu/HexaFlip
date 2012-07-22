@@ -7,7 +7,6 @@
 //
 
 #import "JCSFlipPlayer.h"
-#import "JCSHexCoordinate.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipCellState.h"
 

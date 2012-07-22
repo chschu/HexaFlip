@@ -17,7 +17,8 @@ NSCache *_cache;
 
 #pragma mark properties
 
-@synthesize start = _start;
+@synthesize startRow = _startRow;
+@synthesize startColumn = _startColumn;
 @synthesize direction = _direction;
 
 
@@ -28,11 +29,11 @@ NSCache *_cache;
     _cache = [[NSCache alloc] init];
 }
 
-+ (id)moveWithStart:(JCSHexCoordinate *)start direction:(JCSHexDirection)direction {
-    NSString *key = [NSString stringWithFormat:@"%d:%d-%d", start.row, start.column, direction];
++ (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
+    NSString *key = [NSString stringWithFormat:@"%d:%d-%d", startRow, startColumn, direction];
     JCSFlipMove *cached = [_cache objectForKey:key];
     if (cached == nil) {
-        cached = [[self alloc] initWithStart:start direction:direction];
+        cached = [[self alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
         [_cache setObject:cached forKey:key];
     }
     return cached;
@@ -40,9 +41,10 @@ NSCache *_cache;
 
 #pragma mark instance methods
 
-- (id)initWithStart:(JCSHexCoordinate *)start direction:(JCSHexDirection)direction {
+- (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
     if (self = [super init]) {
-        _start = start;
+        _startRow = startRow;
+        _startColumn = startColumn;
         _direction = direction;
     }
     return self;

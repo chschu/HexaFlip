@@ -14,25 +14,22 @@
 @implementation JCSFlipMoveTest
 
 - (void)testInit {
-    // TODO: use OCMock to mock the coordinate
-    JCSHexCoordinate *start = [JCSHexCoordinate hexCoordinateWithRow:0 column:0];
-    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStart:start direction:JCSHexDirectionNE];
+    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:1 startColumn:4 direction:JCSHexDirectionNE];
     
-    STAssertEquals(move.start, start, nil);
+    STAssertEquals(move.startRow, 1, nil);
+    STAssertEquals(move.startColumn, 4, nil);
     STAssertEquals(move.direction, JCSHexDirectionNE, nil);
 }
 
 - (void)testReuse {
-    // TODO: use OCMock to mock the coordinate
-    JCSHexCoordinate *start = [JCSHexCoordinate hexCoordinateWithRow:3 column:-4];
-
-    JCSFlipMove *move1 = [JCSFlipMove moveWithStart:start direction:JCSHexDirectionSE];
-    JCSFlipMove *move2 = [JCSFlipMove moveWithStart:start direction:JCSHexDirectionSE];
+    JCSFlipMove *move1 = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
+    JCSFlipMove *move2 = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
     
     STAssertNotNil(move1, nil);
     STAssertEquals(move1, move2, nil);
     
-    STAssertEquals(move1.start, start, nil);
+    STAssertEquals(move1.startRow, 3, nil);
+    STAssertEquals(move1.startColumn, 4, nil);
     STAssertEquals(move1.direction, JCSHexDirectionSE, nil);
 }
 

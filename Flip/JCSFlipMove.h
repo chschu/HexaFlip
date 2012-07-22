@@ -6,18 +6,18 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSHexCoordinate.h"
 #import "JCSHexDirection.h"
 
 @interface JCSFlipMove : NSObject
 
-@property (strong, readonly) JCSHexCoordinate *start; 
+@property (readonly) NSInteger startRow;
+@property (readonly) NSInteger startColumn;
 @property (readonly) JCSHexDirection direction; 
 
 // recycle cached instances
-+ (id)moveWithStart:(JCSHexCoordinate *)start direction:(JCSHexDirection)direction;
++ (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
 
 // initialize new instances
-- (id)initWithStart:(JCSHexCoordinate *)start direction:(JCSHexDirection)direction;
+- (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
 
 @end
