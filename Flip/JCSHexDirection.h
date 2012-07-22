@@ -17,3 +17,6 @@ typedef enum {
 
 #define JCSHexDirectionMin JCSHexDirectionE
 #define JCSHexDirectionMax JCSHexDirectionSE
+
+#define JCSHexDirectionRowDelta(direction) ((direction) == JCSHexDirectionNE || (direction) == JCSHexDirectionNW) - ((direction) == JCSHexDirectionSW || (direction) == JCSHexDirectionSE)
+#define JCSHexDirectionColumnDelta(direction) ((direction) == JCSHexDirectionE || (direction) == JCSHexDirectionSE) - ((direction) == JCSHexDirectionW || (direction) == JCSHexDirectionNW)

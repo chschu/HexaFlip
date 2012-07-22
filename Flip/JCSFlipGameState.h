@@ -21,14 +21,14 @@
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
 // the state of a cell is returned by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(JCSHexCoordinate *coordinate))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
 
 // invoke the block for all non-hole cells
 // iteration stops when the block sets *stop to YES
-- (void)forAllCellsInvokeBlock:(void(^)(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop))block;
+- (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block;
 
 // determines the state of the cell at the given coordinate
-- (JCSFlipCellState)cellStateAt:(JCSHexCoordinate *)coordinate;
+- (JCSFlipCellState)cellStateAtRow:(NSInteger)row column:(NSInteger)column;
 
 // applies move, switches players, and returns YES if the move is legal 
 // returns NO if the move is illegal 

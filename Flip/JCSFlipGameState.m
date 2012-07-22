@@ -7,70 +7,85 @@
 //
 
 #import "JCSFlipGameState.h"
+#import "JCSFlipCellState.h"
 
 @implementation JCSFlipGameState {
-    // cell states for all cells in the grid 
-    // keys: (JCSHexCoordinate *)
-    // values: (NSNumber *) wrapper around JCSFlipCellState
-    NSMutableDictionary *_cellStates;
+    // size of the grid
+    // coordinates are between -(size-1) and (size-1), both inclusive
+    NSInteger _size;
+    
+    // cell states for all cells in the grid, in row-major order
+    // the state of the cell at (r,c) is stored at index size*(r+(size-1)) + c+(size-1)
+    JCSFlipCellState *_cellStates;
 }
 
 @synthesize playerToMove = _playerToMove;
 
 #pragma mark instance methods
 
-// private designated initializer
-- (id)initWithPlayerToMove:(JCSFlipPlayer)playerToMove cellStates:(NSMutableDictionary *)cellStates {
-	if (self = [super init]) {
-        _playerToMove = playerToMove;
-		_cellStates = cellStates;
-	}
-	return self;
-}
 
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState (^)(JCSHexCoordinate *coordinate))cellStateAtBlock {
+// index into the cell states array
+// parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
+#define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
+
+// designated initializer
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState (^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
     
-	NSMutableDictionary *cellStates = [NSMutableDictionary dictionary];
-	for (int row = -size+1; row < size; row++) {
-		for (int column = -size+1; column < size; column++) {
-			JCSHexCoordinate *coordinate = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
-			JCSFlipCellState cellState = cellStateAtBlock(coordinate);
-			[cellStates setObject:[NSNumber numberWithInt:cellState] forKey:coordinate];
-		}
-	}
-	
-	return [self initWithPlayerToMove:playerToMove cellStates:cellStates];
-}
-
-- (void)forAllCellsInvokeBlock:(void(^)(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop))block {
-    [_cellStates enumerateKeysAndObjectsUsingBlock:^(JCSHexCoordinate *key, NSNumber *obj, BOOL *stop) {
-        JCSFlipCellState cellState = [obj intValue];
-        if (cellState != JCSFlipCellStateHole) {
-            block(key, cellState, stop);
+    if (self = [super init]) {
+        _size = size;
+        _playerToMove = playerToMove;
+        _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
+        NSInteger index = 0;
+        for (NSInteger row = -size+1; row < size; row++) {
+            for (NSInteger column = -size+1; column < size; column++) {
+                _cellStates[index] = cellStateAtBlock(row, column);
+                index++;
+            }
         }
-    }];
+    }
+	
+	return self;
 }
 
-- (JCSFlipCellState)cellStateAt:(JCSHexCoordinate *)coordinate {
-    NSNumber *cellStateAsNumber = [_cellStates objectForKey:coordinate];
-    if (cellStateAsNumber == nil) {
+- (void)dealloc {
+    free(_cellStates);
+}
+
+- (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block {
+    BOOL stop = NO;
+    NSInteger index = 0;
+    for (NSInteger row = -_size+1; row < _size && !stop; row++) {
+        for (NSInteger column = -_size+1; column < _size && !stop; column++) {
+            JCSFlipCellState cellState = _cellStates[index];
+            if (cellState != JCSFlipCellStateHole) {
+                block(row, column, cellState, &stop);
+            }
+            index++;
+        }
+    }
+}
+
+- (JCSFlipCellState)cellStateAtRow:(NSInteger)row column:(NSInteger)column {
+    if (row <= -_size || row >= _size || column <= -_size || column >= _size) {
         return JCSFlipCellStateHole;
     }
-    return [cellStateAsNumber intValue];
+    NSInteger index = JCS_CELL_STATE_INDEX(row, column);
+    return _cellStates[index];
 }
 
-// private accessor to set a cell state
-- (void)setCellState:(JCSFlipCellState)cellState at:(JCSHexCoordinate *)coordinate {
-    NSNumber *cellStateAsNumber = [NSNumber numberWithInt:cellState];
-    [_cellStates setObject:cellStateAsNumber forKey:coordinate];
+// private accessor to set a cell state (without range check)
+- (void)setCellState:(JCSFlipCellState)cellState atRow:(NSInteger)row column:(NSInteger)column {
+    NSInteger index = JCS_CELL_STATE_INDEX(row, column);
+    _cellStates[index] = cellState;
 }
 
 - (BOOL)applyMove:(JCSFlipMove *)move {
-    JCSHexCoordinate *cur = move.start;
+    NSInteger startRow = move.start.row;
+    NSInteger startColumn = move.start.column;
     
-    JCSFlipCellState startCellState = [self cellStateAt:cur];
+    JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
     
     if (!((_playerToMove == JCSFlipPlayerA && startCellState == JCSFlipCellStateOwnedByPlayerA)
           || (_playerToMove == JCSFlipPlayerB && startCellState == JCSFlipCellStateOwnedByPlayerB))) {
@@ -79,29 +94,35 @@
     
     JCSHexDirection direction = move.direction;
     
-    // set to collect the cells to be flipped
-    NSMutableArray *cellsToFlip = [NSMutableArray array];
+    // determine row and column deltas
+    NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
+    NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
     
     // scan in move direction until an empty cell or a "hole" is reached
-    cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
+    NSInteger curRow = startRow + rowDelta;
+    NSInteger curColumn = startColumn + columnDelta;
     JCSFlipCellState curState;
-    while ((curState = [self cellStateAt:cur]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
-        [cellsToFlip addObject:cur];
-        cur = [JCSHexCoordinate hexCoordinateWithHexCoordinate:cur direction:direction];
+    while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
+        curRow += rowDelta;
+        curColumn += columnDelta;
     }
     
     // fail if no empty cell is reached
     if (curState != JCSFlipCellStateEmpty) {
         return NO;
     }
-    
-    // occupy empty target cell
-    [self setCellState:startCellState at:cur];
-    
-    // flip intermediate cells
-    for (JCSHexCoordinate *coordinate in cellsToFlip) {
-        [self setCellState:JCSFlipCellStateOther([self cellStateAt:coordinate]) at:coordinate];
+
+    // iterate again to flip cells
+    curRow = startRow + rowDelta;
+    curColumn = startColumn + columnDelta;
+    while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
+        [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
+        curRow += rowDelta;
+        curColumn += columnDelta;
     }
+
+    // occupy empty target cell
+    [self setCellState:startCellState atRow:curRow column:curColumn];
     
     // switch players
     _playerToMove = JCSFlipPlayerOther(_playerToMove);
@@ -117,11 +138,12 @@
     
     JCSFlipCellState playerCellState = JCSFlipCellStateForPlayer(_playerToMove);
     
-    [self forAllCellsInvokeBlock:^(JCSHexCoordinate *coordinate, JCSFlipCellState cellState, BOOL *stop) {
+    [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells 
         if (cellState == playerCellState) {
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
+                JCSHexCoordinate *coordinate = [JCSHexCoordinate hexCoordinateWithRow:row column:column];
                 JCSFlipMove *move = [JCSFlipMove moveWithStart:coordinate direction:direction];
                 JCSFlipGameState *stateCopy = [self copy];
                 if ([stateCopy applyMove:move]) {
@@ -136,8 +158,10 @@
 #pragma mark NSCopying methods
 
 - (id)copyWithZone:(NSZone *)zone {
-	// create a new instance, using a mutable copy of the cell state dictionary 
-	return [[[self class] allocWithZone:zone] initWithPlayerToMove:_playerToMove cellStates:[_cellStates mutableCopyWithZone:zone]];
+	// create a new instance, using the current values
+	return [[[self class] allocWithZone:zone] initWithSize:_size playerToMove:_playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+        return [self cellStateAtRow:row column:column];
+    }];
 }
 
 @end
