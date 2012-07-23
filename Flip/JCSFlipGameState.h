@@ -33,7 +33,7 @@
 // returns NO if the move is illegal 
 - (BOOL)applyMove:(JCSFlipMove *)move;
 
-// iterate over all possible moves leading away from the game state (for AI algorithms)
+// iterate over all possible moves leading away from the game state
 // the move and the successor state is passed to the given block
 // iteration stops when the block sets *stop to YES
 - (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block;

@@ -130,8 +130,6 @@
     return YES;
 }
 
-#pragma mark AI methods
-
 - (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
     NSAssert(block != nil, @"block must not be nil");
     
