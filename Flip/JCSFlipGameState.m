@@ -160,4 +160,33 @@
     }];
 }
 
+// return the string representation of the board
+- (NSString *)description {
+    NSMutableString *temp = [NSMutableString string];
+    for (int row = _size-1; row > -_size; row--) {
+        for (NSInteger i = 0; i < _size-1+row; i++) {
+            [temp appendString:@" "];
+        }
+        for (NSInteger col = -_size+1; col < _size; col++) {
+            NSString *cellString;
+            JCSFlipCellState cellState = [self cellStateAtRow:row column:col];
+            if (cellState == JCSFlipCellStateOwnedByPlayerA) {
+                cellString = @"A";
+            } else if (cellState == JCSFlipCellStateOwnedByPlayerB) {
+                cellString = @"B";
+            } else if (cellState == JCSFlipCellStateEmpty) {
+                cellString = @".";
+            } else {
+                cellString = @" ";
+            }
+            [temp appendString:cellString];
+            if (col < _size-1) {
+                [temp appendString:@" "];
+            }
+        }
+        [temp appendString:@"\n"];
+    }
+    return [NSString stringWithString:temp];
+}
+
 @end
