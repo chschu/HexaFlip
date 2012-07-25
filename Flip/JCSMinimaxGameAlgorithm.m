@@ -45,7 +45,7 @@
                 id move = [entry objectAtIndex:1];
                 id<JCSGameNode> child = [entry objectAtIndex:2];
                 float score = [self minimizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
-                if (score > bestScore) {
+                if (score >= bestScore) {
                     bestMove = move;
                     bestScore = score;
                     if (score > alpha) {
@@ -85,7 +85,7 @@
                 id move = [entry objectAtIndex:1];
                 id<JCSGameNode> child = [entry objectAtIndex:2];
                 float score = [self maximizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
-                if (score < bestScore) {
+                if (score <= bestScore) {
                     bestMove = move;
                     bestScore = score;
                     if (score < beta) {

@@ -23,15 +23,15 @@
 
 - (void)testMinimax2VsMinimax3 {
     id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2];
-    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3];
-    int size = 4;
+    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1];
+    int size = 5;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
 - (void)testMinimax2VsRandom {
     id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1];
     id<JCSGameAlgorithm> algoB = [[JCSRandomGameAlgorithm alloc] initWithSeed:time(NULL)];
-    int size = 5;
+    int size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
@@ -67,15 +67,7 @@
     }
     NSLog(@"done");
 
-    __block NSInteger scoreA = 0;
-    __block NSInteger scoreB = 0;
-    [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-        if (cellState == JCSFlipCellStateOwnedByPlayerA) {
-            scoreA++;
-        } else if (cellState == JCSFlipCellStateOwnedByPlayerB) {
-            scoreB++;
-        }
-    }];
+    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw, nil);
 }
 
 @end
