@@ -530,6 +530,7 @@
 		F300577F15B0B04800BAD89C /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		F300578015B0B04800BAD89C /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F300578115B0B04800BAD89C /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
+		F35B94CD15C07BAC00C7A593 /* JCSFlipGameStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatus.h; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
 		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -543,7 +544,6 @@
 		F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipCellState.h; sourceTree = "<group>"; };
 		F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3EAE72515B5F902004827DB /* JCSFlipPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,17 +626,11 @@
 		F300539B15B0AC2700BAD89C /* Flip */ = {
 			isa = PBXGroup;
 			children = (
+				F3AAEAFF15BDD3BC00FE425B /* Core */,
 				F300551315B0AC2900BAD89C /* AppDelegate.h */,
 				F300551415B0AC2900BAD89C /* AppDelegate.m */,
 				F300551615B0AC2900BAD89C /* HelloWorldLayer.h */,
 				F300551715B0AC2900BAD89C /* HelloWorldLayer.m */,
-				F3D482BF15B6047400C090C5 /* JCSHexDirection.h */,
-				F3EAE72515B5F902004827DB /* JCSFlipPlayer.h */,
-				F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */,
-				F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */,
-				F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */,
-				F3D482D915B7649200C090C5 /* JCSFlipGameState.h */,
-				F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */,
 				F300539C15B0AC2700BAD89C /* Resources */,
 				F300550F15B0AC2900BAD89C /* Supporting Files */,
 			);
@@ -1002,11 +996,33 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
-		F3B9DED915B4BE900078507F /* FlipTests */ = {
+		F3AAEAFF15BDD3BC00FE425B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F3D482BF15B6047400C090C5 /* JCSHexDirection.h */,
+				F35B94CD15C07BAC00C7A593 /* JCSFlipGameStatus.h */,
+				F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */,
+				F3D482D315B75B9C00C090C5 /* JCSFlipMove.h */,
+				F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */,
+				F3D482D915B7649200C090C5 /* JCSFlipGameState.h */,
+				F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		F3AAEB0015BDD3E700FE425B /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */,
 				F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		F3B9DED915B4BE900078507F /* FlipTests */ = {
+			isa = PBXGroup;
+			children = (
+				F3AAEB0015BDD3E700FE425B /* Core */,
 				F3B9DEDA15B4BE900078507F /* Supporting Files */,
 			);
 			path = FlipTests;

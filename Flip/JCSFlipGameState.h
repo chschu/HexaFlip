@@ -6,21 +6,22 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipPlayer.h"
+#import "JCSFlipGameStatus.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipCellState.h"
 
 // state information for a running game
 @interface JCSFlipGameState : NSObject <NSCopying>
 
-// the player to move
-@property (readonly) JCSFlipPlayer playerToMove;
+// the current game status
+@property (readonly) JCSFlipGameStatus status;
 
 // initialize with given size
+// status defines which player moves first
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
 // the state of a cell is returned by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayer)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size status:(JCSFlipGameStatus)status cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
 
 // invoke the block for all non-hole cells
 // iteration stops when the block sets *stop to YES
