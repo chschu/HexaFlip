@@ -17,6 +17,10 @@
     // cell states for all cells in the grid, in row-major order
     // the state of the cell at (r,c) is stored at index size*(r+(size-1)) + c+(size-1)
     JCSFlipCellState *_cellStates;
+    
+    // container holding YES if skipping is allowed, and NO if not
+    // if this is nil, it is unknown if skipping is allowed
+    NSNumber *_skipAllowed;
 }
 
 @synthesize playerToMove = _playerToMove;
@@ -36,6 +40,7 @@
         _size = size;
         _playerToMove = playerToMove;
         _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
+        _skipAllowed = nil;
         NSInteger index = 0;
         for (NSInteger row = -size+1; row < size; row++) {
             for (NSInteger column = -size+1; column < size; column++) {
@@ -80,51 +85,95 @@
     _cellStates[index] = cellState;
 }
 
+// determine if skipping is allowed
+- (BOOL)skipAllowed {
+    if (_skipAllowed == nil) {
+        JCSFlipCellState playerCellState = JCSFlipCellStateForPlayer(_playerToMove);
+        
+        __block BOOL hasValidMove = NO;
+        __block BOOL hasOwnedCells = NO;
+        __block BOOL hasEmptyCells = NO;
+        
+        // we only need one copy here
+        JCSFlipGameState *stateCopy = [self copy];
+
+        [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            // try cells with the correct owner as starting cells 
+            if (cellState == playerCellState) {
+                hasOwnedCells = YES;
+                // try all directions, but stop if we found a valid move
+                for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
+                    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
+                    if ([stateCopy applyMove:move]) {
+                        // move is valid - stop here
+                        hasValidMove = YES;
+                        *stop = YES;
+                    }
+                }
+            } else if (cellState == JCSFlipCellStateEmpty) {
+                hasEmptyCells = YES;
+            }
+        }];
+        
+        // if there is no valid move, but some owned and some empty cells - skipping is allowed
+        _skipAllowed = [NSNumber numberWithBool:(!hasValidMove && hasOwnedCells && hasEmptyCells)];
+    }
+    return [_skipAllowed boolValue];
+}
+
 - (BOOL)applyMove:(JCSFlipMove *)move {
-    NSInteger startRow = move.startRow;
-    NSInteger startColumn = move.startColumn;
-    
-    JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
-    
-    if (!((_playerToMove == JCSFlipPlayerA && startCellState == JCSFlipCellStateOwnedByPlayerA)
-          || (_playerToMove == JCSFlipPlayerB && startCellState == JCSFlipCellStateOwnedByPlayerB))) {
+    if (!move.skip) {
+        NSInteger startRow = move.startRow;
+        NSInteger startColumn = move.startColumn;
+        
+        JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
+        
+        if (!((_playerToMove == JCSFlipPlayerA && startCellState == JCSFlipCellStateOwnedByPlayerA)
+              || (_playerToMove == JCSFlipPlayerB && startCellState == JCSFlipCellStateOwnedByPlayerB))) {
+            return NO;
+        }
+        
+        JCSHexDirection direction = move.direction;
+        
+        // determine row and column deltas
+        NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
+        NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
+        
+        // scan in move direction until an empty cell or a "hole" is reached
+        NSInteger curRow = startRow + rowDelta;
+        NSInteger curColumn = startColumn + columnDelta;
+        JCSFlipCellState curState;
+        while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
+            curRow += rowDelta;
+            curColumn += columnDelta;
+        }
+        
+        // fail if no empty cell is reached
+        if (curState != JCSFlipCellStateEmpty) {
+            return NO;
+        }
+        
+        // iterate again to flip cells
+        curRow = startRow + rowDelta;
+        curColumn = startColumn + columnDelta;
+        while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
+            [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
+            curRow += rowDelta;
+            curColumn += columnDelta;
+        }
+        
+        // occupy empty target cell
+        [self setCellState:startCellState atRow:curRow column:curColumn];
+    } else if (![self skipAllowed]) {
+        // skip is not allowed
         return NO;
     }
-    
-    JCSHexDirection direction = move.direction;
-    
-    // determine row and column deltas
-    NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
-    NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
-    
-    // scan in move direction until an empty cell or a "hole" is reached
-    NSInteger curRow = startRow + rowDelta;
-    NSInteger curColumn = startColumn + columnDelta;
-    JCSFlipCellState curState;
-    while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
-        curRow += rowDelta;
-        curColumn += columnDelta;
-    }
-    
-    // fail if no empty cell is reached
-    if (curState != JCSFlipCellStateEmpty) {
-        return NO;
-    }
-
-    // iterate again to flip cells
-    curRow = startRow + rowDelta;
-    curColumn = startColumn + columnDelta;
-    while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
-        [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
-        curRow += rowDelta;
-        curColumn += columnDelta;
-    }
-
-    // occupy empty target cell
-    [self setCellState:startCellState atRow:curRow column:curColumn];
     
     // switch players
     _playerToMove = JCSFlipPlayerOther(_playerToMove);
+    
+    // reset "skip allowed" flag
+    _skipAllowed = nil;
     
     // move successful
     return YES;
@@ -135,9 +184,14 @@
     
     JCSFlipCellState playerCellState = JCSFlipCellStateForPlayer(_playerToMove);
     
+    __block BOOL hasValidMove = NO;
+    __block BOOL hasOwnedCells = NO;
+    __block BOOL hasEmptyCells = NO;
+    
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells 
         if (cellState == playerCellState) {
+            hasOwnedCells = YES;
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
                 JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
@@ -145,10 +199,26 @@
                 if ([stateCopy applyMove:move]) {
                     // move is valid - invoke block
                     block(move, stateCopy, stop);
+                    hasValidMove = YES;
                 }
             }
+        } else if (cellState == JCSFlipCellStateEmpty) {
+            hasEmptyCells = YES;
         }
     }];
+
+    // if there is no valid move, but some owned and some empty cells - skipping is allowed
+    _skipAllowed = [NSNumber numberWithBool:(!hasValidMove && hasOwnedCells && hasEmptyCells)];
+    
+    if ([_skipAllowed boolValue]) {
+        // apply skip move
+        JCSFlipGameState *stateCopy = [self copy];
+        JCSFlipMove *skip = [JCSFlipMove moveSkip];
+        [stateCopy applyMove:skip];
+        // invoke block with dummy stop flag - this is the only invocation
+        BOOL stop = NO;
+        block(skip, stateCopy, &stop);
+    }
 }
 
 #pragma mark NSCopying methods
