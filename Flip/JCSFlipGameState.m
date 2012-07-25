@@ -76,6 +76,10 @@
 	return self;
 }
 
+- (void)dealloc {
+    free(_cellStates);
+}
+
 // check if game is over and set state accordingly
 - (void)updateStateIfGameOver {
 	if (_cellCountPlayerA == 0 || _cellCountPlayerB == 0 || _cellCountEmpty == 0) {
@@ -87,10 +91,6 @@
 			_status = JCSFlipGameStatusDraw;
 		}
 	}
-}
-
-- (void)dealloc {
-    free(_cellStates);
 }
 
 - (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block {
@@ -248,6 +248,18 @@
     
     // move successful
     return YES;
+}
+
+- (BOOL)resign {
+	if (_status == JCSFlipGameStatusPlayerAToMove) {
+		_status = JCSFlipGameStatusPlayerBWon;
+		return YES;
+	} else if (_status == JCSFlipGameStatusPlayerBToMove) {
+		_status = JCSFlipGameStatusPlayerAWon;
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 - (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {

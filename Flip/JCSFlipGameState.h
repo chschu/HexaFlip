@@ -25,7 +25,6 @@
 // number of empty cells
 @property (readonly) NSInteger cellCountEmpty;
 
-
 // initialize with given size
 // status defines which player moves first
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
@@ -43,6 +42,11 @@
 // applies move, switches players, and returns YES if the move is legal 
 // returns NO if the move is illegal 
 - (BOOL)applyMove:(JCSFlipMove *)move;
+
+// let the other player win
+// returns YES if successful
+// returns NO if the game has already been over
+- (BOOL)resign;
 
 // iterate over all possible moves leading away from the game state
 // the move and the successor state is passed to the given block

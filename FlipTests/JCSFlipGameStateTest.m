@@ -511,6 +511,85 @@
     }];
 }
 
+- (void)testResignOk {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        if (row == 0) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (column == 0) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest;
+    
+    // case 1: player A resigns
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    // verify that resign is valid
+    STAssertTrue([underTest resign], nil);
+    // check that the state has been changed
+    STAssertEquals(underTest.status, JCSFlipGameStatusPlayerBWon, nil);
+
+    // case 2: player B resigns
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerBToMove cellStateAtBlock:cellStateAtBlock];
+    // verify that resign is valid
+    STAssertTrue([underTest resign], nil);
+    // check that the state has been changed
+    STAssertEquals(underTest.status, JCSFlipGameStatusPlayerAWon, nil);
+}
+
+- (void)testResignFailGameOver {
+	JCSFlipCellState(^cellStateAtBlockA)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        if (row == 0) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+    JCSFlipCellState(^cellStateAtBlockB)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        if (row == 0) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+    JCSFlipCellState(^cellStateAtBlockDraw)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        if (row == 0 && column != 0) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row != 0 && column == 0) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateHole;
+        }
+	};
+
+	JCSFlipGameState *underTest;
+    
+    // case 1: player A won
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlockA];
+    // verify that resign is invalid
+    STAssertFalse([underTest resign], nil);
+    // check that the state has not been changed
+    STAssertEquals(underTest.status, JCSFlipGameStatusPlayerAWon, nil);
+    
+    // case 2: player B won
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlockB];
+    // verify that resign is invalid
+    STAssertFalse([underTest resign], nil);
+    // check that the state has been changed
+    STAssertEquals(underTest.status, JCSFlipGameStatusPlayerBWon, nil);
+
+    // case 3: draw
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlockDraw];
+    // verify that resign is invalid
+    STAssertFalse([underTest resign], nil);
+    // check that the state has been changed
+    STAssertEquals(underTest.status, JCSFlipGameStatusDraw, nil);
+}
+
 - (void)testForAllNextStatesInvokeBlockOk {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // hole at (1,-2), A-B chain starting at (-1,0) and pointing NW, and A-B chain starting at (1,-3) and pointing SE
