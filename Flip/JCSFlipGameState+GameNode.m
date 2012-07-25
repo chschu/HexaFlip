@@ -11,32 +11,16 @@
 @implementation JCSFlipGameState (GameNode)
 
 - (float)heuristicValue {
-    __block float score = 0;
-    __block BOOL hasEmptyCells = NO;
-    [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-        if (cellState != JCSFlipCellStateEmpty) {
-            if (cellState == JCSFlipCellStateOwnedByPlayerA) {
-                score++;
-            } else if (cellState == JCSFlipCellStateOwnedByPlayerB) {
-                score--;
-            }
-        } else {
-            hasEmptyCells = YES;
-        }
-    }];
-    
-    // if there are no empty cells, we have a clear winner
-    if (!hasEmptyCells) {
-        if (score > 0) {
-            // A wins
-            score = INFINITY;
-        } else if (score < 0) {
-            // B wins
-            score = -INFINITY;
-        }
+	switch (self.status) {
+		case JCSFlipGameStatusPlayerAWon:
+			return INFINITY;
+		case JCSFlipGameStatusPlayerBWon:
+			return -INFINITY;
+		case JCSFlipGameStatusDraw:
+			return 0;
+		default:
+            return self.cellCountPlayerA - self.cellCountPlayerB;
     }
-    
-    return score;
 }
 
 - (BOOL)maximizing {

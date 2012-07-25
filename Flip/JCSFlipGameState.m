@@ -21,18 +21,12 @@
     // container holding YES if skipping is allowed, NO if it is not
     // if this is nil, it is unknown if skipping is allowed
     NSNumber *_skipAllowed;
-    
-    // number of cells owned by player A
-	NSInteger _cellCountPlayerA;
-    
-	// number of cells owned by player B
-	NSInteger _cellCountPlayerB;
-    
-	// number of empty cells
-	NSInteger _cellCountEmpty;
 }
 
 @synthesize status = _status;
+@synthesize cellCountPlayerA = _cellCountPlayerA;
+@synthesize cellCountPlayerB = _cellCountPlayerB;
+@synthesize cellCountEmpty = _cellCountEmpty;
 
 #pragma mark instance methods
 
