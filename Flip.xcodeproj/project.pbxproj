@@ -254,10 +254,14 @@
 		F300586115B0B04800BAD89C /* vec2.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577C15B0B04800BAD89C /* vec2.c */; };
 		F300586215B0B04800BAD89C /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577D15B0B04800BAD89C /* vec3.c */; };
 		F300586315B0B04800BAD89C /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F300577E15B0B04800BAD89C /* vec4.c */; };
+		F35B94E315C0946E00C7A593 /* JCSFlipGameState+GameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94DC15C0946E00C7A593 /* JCSFlipGameState+GameNode.m */; };
+		F35B94E415C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */; };
+		F35B94E515C0946E00C7A593 /* JCSRandomGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */; };
 		F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */; };
 		F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */; };
 		F3D482DB15B7649200C090C5 /* JCSFlipGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */; };
 		F3D482DF15B87E6F00C090C5 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */; };
+		F3D7F44F15C0954300704029 /* JCSGameAlgorithmTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F44B15C0954300704029 /* JCSGameAlgorithmTest.m */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -531,6 +535,14 @@
 		F300578015B0B04800BAD89C /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F300578115B0B04800BAD89C /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
 		F35B94CD15C07BAC00C7A593 /* JCSFlipGameStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatus.h; sourceTree = "<group>"; };
+		F35B94DB15C0946E00C7A593 /* JCSFlipGameState+GameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCSFlipGameState+GameNode.h"; sourceTree = "<group>"; };
+		F35B94DC15C0946E00C7A593 /* JCSFlipGameState+GameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCSFlipGameState+GameNode.m"; sourceTree = "<group>"; };
+		F35B94DD15C0946E00C7A593 /* JCSGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSGameAlgorithm.h; sourceTree = "<group>"; };
+		F35B94DE15C0946E00C7A593 /* JCSGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSGameNode.h; sourceTree = "<group>"; };
+		F35B94DF15C0946E00C7A593 /* JCSMinimaxGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMinimaxGameAlgorithm.h; sourceTree = "<group>"; };
+		F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSMinimaxGameAlgorithm.m; sourceTree = "<group>"; };
+		F35B94E115C0946E00C7A593 /* JCSRandomGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRandomGameAlgorithm.h; sourceTree = "<group>"; };
+		F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRandomGameAlgorithm.m; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
 		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -543,6 +555,7 @@
 		F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameState.m; sourceTree = "<group>"; };
 		F3D482DC15B87D1F00C090C5 /* JCSFlipCellState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipCellState.h; sourceTree = "<group>"; };
 		F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
+		F3D7F44B15C0954300704029 /* JCSGameAlgorithmTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSGameAlgorithmTest.m; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -627,6 +640,7 @@
 			isa = PBXGroup;
 			children = (
 				F3AAEAFF15BDD3BC00FE425B /* Core */,
+				F35B94CF15C093BC00C7A593 /* AI */,
 				F300551315B0AC2900BAD89C /* AppDelegate.h */,
 				F300551415B0AC2900BAD89C /* AppDelegate.m */,
 				F300551615B0AC2900BAD89C /* HelloWorldLayer.h */,
@@ -996,6 +1010,21 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		F35B94CF15C093BC00C7A593 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				F35B94DB15C0946E00C7A593 /* JCSFlipGameState+GameNode.h */,
+				F35B94DC15C0946E00C7A593 /* JCSFlipGameState+GameNode.m */,
+				F35B94DD15C0946E00C7A593 /* JCSGameAlgorithm.h */,
+				F35B94DE15C0946E00C7A593 /* JCSGameNode.h */,
+				F35B94DF15C0946E00C7A593 /* JCSMinimaxGameAlgorithm.h */,
+				F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */,
+				F35B94E115C0946E00C7A593 /* JCSRandomGameAlgorithm.h */,
+				F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */,
+			);
+			name = AI;
+			sourceTree = "<group>";
+		};
 		F3AAEAFF15BDD3BC00FE425B /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -1015,6 +1044,7 @@
 			children = (
 				F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */,
 				F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */,
+				F3D7F44B15C0954300704029 /* JCSGameAlgorithmTest.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -1023,6 +1053,7 @@
 			isa = PBXGroup;
 			children = (
 				F3AAEB0015BDD3E700FE425B /* Core */,
+				F3D7F44815C0952300704029 /* AI */,
 				F3B9DEDA15B4BE900078507F /* Supporting Files */,
 			);
 			path = FlipTests;
@@ -1036,6 +1067,13 @@
 				F3B9DEE215B4BE900078507F /* FlipTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F3D7F44815C0952300704029 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = AI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1308,6 +1346,9 @@
 				F300551815B0AC2900BAD89C /* HelloWorldLayer.m in Sources */,
 				F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */,
 				F3D482DB15B7649200C090C5 /* JCSFlipGameState.m in Sources */,
+				F35B94E315C0946E00C7A593 /* JCSFlipGameState+GameNode.m in Sources */,
+				F35B94E415C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m in Sources */,
+				F35B94E515C0946E00C7A593 /* JCSRandomGameAlgorithm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1424,6 +1465,7 @@
 			files = (
 				F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */,
 				F3D482DF15B87E6F00C090C5 /* JCSFlipGameStateTest.m in Sources */,
+				F3D7F44F15C0954300704029 /* JCSGameAlgorithmTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
