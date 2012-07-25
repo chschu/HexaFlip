@@ -1044,7 +1044,6 @@
 			children = (
 				F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */,
 				F3D482DE15B87E6F00C090C5 /* JCSFlipGameStateTest.m */,
-				F3D7F44B15C0954300704029 /* JCSGameAlgorithmTest.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -1072,6 +1071,7 @@
 		F3D7F44815C0952300704029 /* AI */ = {
 			isa = PBXGroup;
 			children = (
+				F3D7F44B15C0954300704029 /* JCSGameAlgorithmTest.m */,
 			);
 			name = AI;
 			sourceTree = "<group>";
