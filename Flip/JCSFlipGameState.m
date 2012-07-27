@@ -98,10 +98,7 @@
     NSInteger index = 0;
     for (NSInteger row = -_size+1; row < _size && !stop; row++) {
         for (NSInteger column = -_size+1; column < _size && !stop; column++) {
-            JCSFlipCellState cellState = _cellStates[index];
-            if (cellState != JCSFlipCellStateHole) {
-                block(row, column, cellState, &stop);
-            }
+            block(row, column, _cellStates[index], &stop);
             index++;
         }
     }
@@ -254,12 +251,12 @@
 	if (_status == JCSFlipGameStatusPlayerAToMove) {
 		_status = JCSFlipGameStatusPlayerBWon;
 		return YES;
-	} else if (_status == JCSFlipGameStatusPlayerBToMove) {
-		_status = JCSFlipGameStatusPlayerAWon;
-		return YES;
-	} else {
-		return NO;
-	}
+    } else if (_status == JCSFlipGameStatusPlayerBToMove) {
+        _status = JCSFlipGameStatusPlayerAWon;
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {

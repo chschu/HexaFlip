@@ -32,7 +32,7 @@
 // size must be non-negative, and none of the blocks may be nil
 - (id)initWithSize:(NSInteger)size status:(JCSFlipGameStatus)status cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
 
-// invoke the block for all non-hole cells
+// invoke the block for all cells, including holes
 // iteration stops when the block sets *stop to YES
 - (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block;
 

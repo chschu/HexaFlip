@@ -187,6 +187,8 @@
             return JCSFlipCellStateOwnedByPlayerA;
         } else if (row == -1 && column == 0) {
             return JCSFlipCellStateOwnedByPlayerB;
+        } else if (row == 0 && column == 1) {
+            return JCSFlipCellStateHole;
         }
 		return JCSFlipCellStateEmpty; 
 	};
@@ -207,6 +209,8 @@
             STAssertEquals(cellState, JCSFlipCellStateOwnedByPlayerA, nil);
         } else if (row == -1 && column == 0) {
             STAssertEquals(cellState, JCSFlipCellStateOwnedByPlayerB, nil);
+        } else if (row == 0 && column == 1) {
+            STAssertEquals(cellState, JCSFlipCellStateHole, nil);
         } else {
             STAssertEquals(cellState, JCSFlipCellStateEmpty, nil);
         }
