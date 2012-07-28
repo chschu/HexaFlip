@@ -20,6 +20,7 @@
 
     // container holding YES if skipping is allowed, NO if it is not
     // if this is nil, it is unknown if skipping is allowed
+    // this is immutable, and may be reused in different game state instances
     NSNumber *_skipAllowed;
 }
 
@@ -270,6 +271,7 @@
     JCSFlipCellState playerCellState = JCSFlipCellStateForGameStatus(_status);
     
     __block BOOL hasValidMove = NO;
+    __block JCSFlipGameState *stateCopy = [self copy];
     
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells
@@ -277,11 +279,13 @@
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
                 JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
-                JCSFlipGameState *stateCopy = [self copy];
+                // if the move is invalid, the state copy is re-used
                 if ([stateCopy applyMove:move]) {
                     // move is valid - invoke block
                     block(move, stateCopy, stop);
                     hasValidMove = YES;
+                    // initialize new state copy
+                    stateCopy = [self copy];
                 }
             }
         }
@@ -292,7 +296,6 @@
         _skipAllowed = [NSNumber numberWithBool:YES];
 
         // apply skip move
-        JCSFlipGameState *stateCopy = [self copy];
         JCSFlipMove *skip = [JCSFlipMove moveSkip];
         [stateCopy applyMove:skip];
         
@@ -309,10 +312,10 @@
 
 - (id)copyWithZone:(NSZone *)zone {
 	// create a new instance, using the current values
-	return [[[self class] allocWithZone:zone] initWithSize:_size status:_status cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
-        return [self cellStateAtRow:row column:column];
-    }];
+	return [[[self class] allocWithZone:zone] initWithGameState:self];
 }
+
+#pragma mark Debugging helper methods
 
 // return the string representation of the board
 - (NSString *)description {
