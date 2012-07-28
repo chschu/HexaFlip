@@ -23,7 +23,7 @@
 // the hexagonal direction of the move
 @property (readonly) JCSHexDirection direction; 
 
-// recycle cached instances
+// convenience methods
 + (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
 + (id)moveSkip;
 
