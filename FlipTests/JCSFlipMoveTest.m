@@ -31,30 +31,22 @@
     STAssertThrows([move direction], nil);
 }
 
-- (void)testReuseMove {
-    JCSFlipMove *move1 = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
-    JCSFlipMove *move2 = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
+- (void)testMove {
+    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
     
-    STAssertNotNil(move1, nil);
-    STAssertEquals(move1, move2, nil);
-    
-    STAssertFalse(move1.skip, nil);
-    STAssertEquals(move1.startRow, 3, nil);
-    STAssertEquals(move1.startColumn, 4, nil);
-    STAssertEquals(move1.direction, JCSHexDirectionSE, nil);
+    STAssertFalse(move.skip, nil);
+    STAssertEquals(move.startRow, 3, nil);
+    STAssertEquals(move.startColumn, 4, nil);
+    STAssertEquals(move.direction, JCSHexDirectionSE, nil);
 }
 
-- (void)testReuseSkip {
-    JCSFlipMove *move1 = [JCSFlipMove moveSkip];
-    JCSFlipMove *move2 = [JCSFlipMove moveSkip];
+- (void)testSkip {
+    JCSFlipMove *move = [JCSFlipMove moveSkip];
     
-    STAssertNotNil(move1, nil);
-    STAssertEquals(move1, move2, nil);
-    
-    STAssertTrue(move1.skip, nil);
-    STAssertThrows([move1 startRow], nil);
-    STAssertThrows([move1 startColumn], nil);
-    STAssertThrows([move1 direction], nil);
+    STAssertTrue(move.skip, nil);
+    STAssertThrows([move startRow], nil);
+    STAssertThrows([move startColumn], nil);
+    STAssertThrows([move direction], nil);
 }
 
 @end
