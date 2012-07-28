@@ -8,20 +8,27 @@
 
 #import "JCSHexDirection.h"
 
-@interface JCSFlipMove : NSObject
+// immutable move (see JCSFlipMutableMove for mutable variant)
+@interface JCSFlipMove : NSObject <NSCopying, NSMutableCopying> {
+    // declare property ivars here, because we also need them in the mutable variant
+    BOOL _skip;
+    NSInteger _startRow;
+    NSInteger _startColumn;
+    JCSHexDirection _direction;
+}
 
 // property indicating that this is a "skip" move
-// if this is YES, the other move properties cannot be accessed
-@property (readonly) BOOL skip;
+// if this is YES, the other move properties cannot be read
+@property (readonly, nonatomic) BOOL skip;
 
 // the starting row of the move
-@property (readonly) NSInteger startRow;
+@property (readonly, nonatomic) NSInteger startRow;
 
 // the starting column of the move
-@property (readonly) NSInteger startColumn;
+@property (readonly, nonatomic) NSInteger startColumn;
 
 // the hexagonal direction of the move
-@property (readonly) JCSHexDirection direction; 
+@property (readonly, nonatomic) JCSHexDirection direction; 
 
 // convenience methods
 + (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;

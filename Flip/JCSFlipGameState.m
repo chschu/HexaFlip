@@ -8,6 +8,7 @@
 
 #import "JCSFlipGameState.h"
 #import "JCSFlipCellState.h"
+#import "JCSFlipMutableMove.h"
 
 @implementation JCSFlipGameState {
     // size of the grid
@@ -288,37 +289,52 @@
     __block BOOL hasValidMove = NO;
     __block JCSFlipGameState *stateCopy = [self copy];
     
+    // initialize dummy move;
+    __block JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
+    
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells
         if (cellState == playerCellState) {
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
-                JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
-                // if the move is invalid, the state copy is re-used
+                // update move data
+                move.startRow = row;
+                move.startColumn = column;
+                move.direction = direction;
+                // try the move
                 if ([stateCopy applyMove:move]) {
-                    // move is valid - invoke block
-                    block(move, stateCopy, stop);
-                    hasValidMove = YES;
+                    // move is valid - invoke block with immutable move copy
+                    JCSFlipMove *moveCopy = [move copy];
+                    block(moveCopy, stateCopy, stop);
+                    
                     // initialize new state copy
                     stateCopy = [self copy];
+                    
+                    // we have a move
+                    hasValidMove = YES;
                 }
             }
         }
     }];
     
     if (!hasValidMove) {
-        // remember the result
+        // skipping is allowed
         _skipAllowed = [NSNumber numberWithBool:YES];
 
+        // update move date
+        move.skip = YES;
+
         // apply skip move
-        JCSFlipMove *skip = [JCSFlipMove moveSkip];
-        [stateCopy applyMove:skip];
-        
-        // invoke block with dummy stop flag - this is the only invocation
-        BOOL stop = NO;
-        block(skip, stateCopy, &stop);
+        if ([stateCopy applyMove:move]) {
+            // move is valid - invoke block with immutable move copy
+            JCSFlipMove *moveCopy = [move copy];
+
+            // invoke block with dummy stop flag - this is the only invocation
+            BOOL stop = NO;
+            block(moveCopy, stateCopy, &stop);
+        }
     } else {
-        // remember the result
+        // skipping is not allowed
         _skipAllowed = [NSNumber numberWithBool:NO];
     }
 }
