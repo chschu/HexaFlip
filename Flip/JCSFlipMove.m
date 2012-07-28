@@ -10,11 +10,6 @@
 
 @implementation JCSFlipMove
 
-#pragma static variables
-
-// instance cache
-NSCache *_cache;
-
 #pragma mark properties
 
 @synthesize skip = _skip;
@@ -24,29 +19,12 @@ NSCache *_cache;
 
 #pragma mark class methods
 
-+ (void)initialize {
-    [super initialize];
-    _cache = [[NSCache alloc] init];
-}
-
 + (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
-    NSString *key = [NSString stringWithFormat:@"%d:%d-%d", startRow, startColumn, direction];
-    JCSFlipMove *cached = [_cache objectForKey:key];
-    if (cached == nil) {
-        cached = [[self alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
-        [_cache setObject:cached forKey:key];
-    }
-    return cached;
+    return [[self alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
 }
 
 + (id)moveSkip {
-    NSString *key = @"skip";
-    JCSFlipMove *cached = [_cache objectForKey:key];
-    if (cached == nil) {
-        cached = [[self alloc] initSkip];
-        [_cache setObject:cached forKey:key];
-    }
-    return cached;
+    return [[self alloc] initSkip];
 }
 
 #pragma mark instance methods
