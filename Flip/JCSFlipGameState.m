@@ -35,6 +35,21 @@
 // parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
 #define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
 
+// private fast copy initializer
+- (id)initWithGameState:(JCSFlipGameState *)state {
+    if (self = [super init]) {
+        _size = state->_size;
+        _status = state->_status;
+        _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
+        memcpy(_cellStates, state->_cellStates, (2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
+        _skipAllowed = state->_skipAllowed;
+        _cellCountPlayerA = state->_cellCountPlayerA;
+        _cellCountPlayerB = state->_cellCountPlayerB;
+        _cellCountEmpty = state->_cellCountEmpty;
+    }
+    return self;
+}
+
 // designated initializer
 - (id)initWithSize:(NSInteger)size status:(JCSFlipGameStatus)status cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
