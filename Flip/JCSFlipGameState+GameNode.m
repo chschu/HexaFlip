@@ -27,10 +27,8 @@
     return self.status == JCSFlipGameStatusPlayerAToMove;
 }
 
-- (void)enumerateChildrenUsingBlock:(void(^)(id move, id<JCSGameNode> child, BOOL *stop))block {
-    [self forAllNextStatesInvokeBlock:^(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop) {
-        block(move, nextState, stop);
-    }];
+- (void)enumerateChildrenUsingBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
+    [self forAllNextStatesInvokeBlock:block];
 }
 
 @end
