@@ -35,17 +35,17 @@
 }
 
 - (float)maximizeForNode:(id<JCSGameNode>)node depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
-	id bestMove = nil;	
+	id bestMove = nil;
 	float bestScore = -INFINITY;
-
-    if (depth > 0) {
+    
+    if (depth > 0 && !node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenOfNode:node ascending:NO];
             for (NSArray *entry in entries) {
                 id move = [entry objectAtIndex:1];
                 id<JCSGameNode> child = [entry objectAtIndex:2];
                 float score = [self minimizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
-                if (score >= bestScore) {
+                if (score > bestScore || bestMove == nil) {
                     bestMove = move;
                     bestScore = score;
                     if (score > alpha) {
@@ -57,13 +57,9 @@
                 }
             }
         }
-
-        if (bestMove == nil) {
-            // found no admissible move, take the board's heuristic
-            bestScore = node.heuristicValue;
-        }
+        NSAssert(bestMove != nil, @"must have a best move");
     } else {
-        // maximum depth reached, take the board's heuristic
+        // maximum depth reached, or leaf node - take the board's heuristic
         bestScore = node.heuristicValue;
     }
     
@@ -75,17 +71,17 @@
 }
 
 - (float)minimizeForNode:(id<JCSGameNode>)node depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
-	id bestMove = nil;	
+	id bestMove = nil;
 	float bestScore = INFINITY;
     
-    if (depth > 0) {
+    if (depth > 0 && !node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenOfNode:node ascending:YES];
             for (NSArray *entry in entries) {
                 id move = [entry objectAtIndex:1];
                 id<JCSGameNode> child = [entry objectAtIndex:2];
                 float score = [self maximizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
-                if (score <= bestScore) {
+                if (score < bestScore || bestMove == nil) {
                     bestMove = move;
                     bestScore = score;
                     if (score < beta) {
@@ -95,16 +91,11 @@
                         break;
                     }
                 }
-
             }
         }
-
-        if (bestMove == nil) {
-            // found no admissible move, take the board's heuristic
-            bestScore = node.heuristicValue;
-        }
+        NSAssert(bestMove != nil, @"must have a best move");
     } else {
-        // maximum depth reached, take the board's heuristic
+        // maximum depth reached, or leaf node - take the board's heuristic
         bestScore = node.heuristicValue;
     }
     
