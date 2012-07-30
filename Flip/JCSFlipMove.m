@@ -72,4 +72,11 @@
     return [[JCSFlipMutableMove allocWithZone:zone] initWithSkip:_skip startRow:_startRow startColumn:_startColumn direction:_direction];
 }
 
+- (NSString *)description {
+    if (_skip) {
+        return [NSString stringWithFormat:@"%@:skip", [self class]];
+    }
+    return [NSString stringWithFormat:@"%@:(%d,%d)-%d", [self class], _startRow, _startColumn, _direction];
+}
+
 @end
