@@ -35,14 +35,20 @@ NSInteger _callCount = 0;
             // - all cells in the direction (up to the next hole) are owned by the player
             // - there is no empty cell in the opposing direction (up to the next hole)
             
-            // a player's cell that is safe for x directions scores 1+x points
+            // a player's cell that is safe for x directions scores 1+x*p points, where p influences the playing style
+            // the value of p should be in the range [-1,1]
+            // p<0: avoid safe moves
+            // p=0: don't consider safety at all
+            // p>0: prefer safe moves
+            // TODO: convert the heuristic to a class and make this a property
+            float p = 0.1; // some safety is fine
             
             // the total heuristic score is the difference of player A's and player B's scores
             
             [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
                 if (cellState == JCSFlipCellStateOwnedByPlayerA || cellState == JCSFlipCellStateOwnedByPlayerB) {
-                    // start with a base score of 1, add 1 for every safe direction
-                    NSInteger cellScore = 1;
+                    // start with a base score of 1, add p for every safe direction
+                    float cellScore = 1;
                     for (JCSHexDirection dir = JCSHexDirectionMin; dir <= JCSHexDirectionMax; dir++) {
                         NSInteger rowDelta = JCSHexDirectionRowDelta(dir);
                         NSInteger columnDelta = JCSHexDirectionColumnDelta(dir);
@@ -61,7 +67,7 @@ NSInteger _callCount = 0;
                         }
                         if (curState == JCSFlipCellStateHole) {
                             // direction is safe
-                            cellScore++;
+                            cellScore += p;
                             continue;
                         }
                         
@@ -75,7 +81,7 @@ NSInteger _callCount = 0;
                         }
                         if (curState != JCSFlipCellStateEmpty) {
                             // direction is safe
-                            cellScore++;
+                            cellScore += p;
                         }
                     }
                     
