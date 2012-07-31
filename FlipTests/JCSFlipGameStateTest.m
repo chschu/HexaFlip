@@ -515,6 +515,59 @@
     }];
 }
 
+- (void)testSkipAllowed {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A at (-1,-1), B at remainder of row -1 and column -1
+        if (row == -1 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == -1 || column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    // verify that skip is valid
+    STAssertTrue(underTest.skipAllowed, nil);
+}
+
+- (void)skipNotAllowedMoveExists {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A at (-1,-1), empty at (-1,1), B at remainder of row -1 and column -1
+        if (row == -1 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if ((row == -1 && column != 1) || column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    // verify that skip is invalid
+    STAssertFalse(underTest.skipAllowed, nil);
+}
+
+- (void)testSkipNotAllowedGameOver {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // some full board
+        if (row == -1 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else {
+            return JCSFlipCellStateOwnedByPlayerB;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    // verify that skip is invalid
+    STAssertFalse(underTest.skipAllowed, nil);
+}
+
+
 - (void)testResignOk {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         if (row == 0) {
