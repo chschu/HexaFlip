@@ -27,7 +27,7 @@
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:3];
     id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:careless];
     id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
-    int size = 5;
+    NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
@@ -35,7 +35,7 @@
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:3];
     id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:paranoid];
     id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:paranoid];
-    int size = 5;
+    NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
@@ -43,7 +43,7 @@
     id<JCSGameHeuristic> safe = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:0.5];
     id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:5 heuristic:safe];
     id<JCSGameAlgorithm> algoB = [[JCSRandomGameAlgorithm alloc] initWithSeed:time(NULL)];
-    int size = 5;
+    NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
@@ -79,7 +79,7 @@
     }
     NSLog(@"done");
 
-    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusDraw, nil);
+    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw, nil);
 }
 
 @end
