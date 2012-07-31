@@ -25,6 +25,9 @@
 // number of empty cells
 @property (readonly) NSInteger cellCountEmpty;
 
+// flag indicating if skipping is allowed
+@property (readonly) BOOL skipAllowed;
+
 // initialize with given size
 // status defines which player moves first
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
