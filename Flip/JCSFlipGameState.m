@@ -169,31 +169,36 @@
 // determine if skipping is allowed
 - (BOOL)skipAllowed {
     if (_skipAllowed == nil) {
-        NSAssert(_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove, @"may only be called if game is not over");
-        JCSFlipCellState playerCellState = JCSFlipCellStateForGameStatus(_status);
-        
-        __block BOOL hasValidMove = NO;
-        
-        // we only need one copy here
-        JCSFlipGameState *stateCopy = [self copy];
-        
-        [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-            // try cells with the correct owner as starting cells
-            if (cellState == playerCellState) {
-                // try all directions, but stop if we found a valid move
-                for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
-                    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
-                    if ([stateCopy applyMove:move]) {
-                        // move is valid - stop here
-                        hasValidMove = YES;
-                        *stop = YES;
+        if (_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove) {
+            // if the game is running, skipping is allowed if there is no other valid move
+            JCSFlipCellState playerCellState = JCSFlipCellStateForGameStatus(_status);
+            
+            __block BOOL hasValidMove = NO;
+            
+            // we only need one copy here
+            JCSFlipGameState *stateCopy = [self copy];
+            
+            [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+                // try cells with the correct owner as starting cells
+                if (cellState == playerCellState) {
+                    // try all directions, but stop if we found a valid move
+                    for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
+                        JCSFlipMove *move = [JCSFlipMove moveWithStartRow:row startColumn:column direction:direction];
+                        if ([stateCopy applyMove:move]) {
+                            // move is valid - stop here
+                            hasValidMove = YES;
+                            *stop = YES;
+                        }
                     }
                 }
-            }
-        }];
-
-        // if there is no valid move, skipping is allowed
-        _skipAllowed = [NSNumber numberWithBool:!hasValidMove];
+            }];
+            
+            // if there is no valid move, skipping is allowed
+            _skipAllowed = [NSNumber numberWithBool:!hasValidMove];
+        } else {
+            // if the game is over, skipping is not allowed
+            _skipAllowed = [NSNumber numberWithBool:NO];
+        }
     }
     return [_skipAllowed boolValue];
 }
