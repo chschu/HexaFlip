@@ -9,9 +9,6 @@
 // a node in a two-player zero-sum game tree
 @protocol JCSGameNode <NSObject>
 
-// the heuristic value of the receiving node
-@property (readonly) float heuristicValue;
-
 // whether the receiver is a leaf node
 @property (readonly) BOOL leaf;
 

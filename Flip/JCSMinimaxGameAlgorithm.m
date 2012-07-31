@@ -8,15 +8,20 @@
 
 #import "JCSMinimaxGameAlgorithm.h"
 
-@implementation JCSMinimaxGameAlgorithm
+@implementation JCSMinimaxGameAlgorithm {
+    // the heuristic evaluation to be used
+    id<JCSGameHeuristic> _heuristic;
+}
 
 @synthesize depth = _depth;
 
-- (id)initWithDepth:(NSInteger)depth {
+- (id)initWithDepth:(NSInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
 	NSAssert(depth > 0, @"depth must be positive");
+	NSAssert(heuristic != nil, @"heuristic must not be nil");
     
     if (self = [super init]) {
         _depth = depth;
+        _heuristic = heuristic;
     }
     return self;
 }
@@ -59,8 +64,8 @@
         }
         NSAssert(bestMove != nil, @"must have a best move");
     } else {
-        // maximum depth reached, or leaf node - take the board's heuristic
-        bestScore = node.heuristicValue;
+        // maximum depth reached, or leaf node - take the node's heuristic value
+        bestScore = [_heuristic valueOfNode:node];
     }
     
     if (bestMoveHolder != nil) {
@@ -95,8 +100,8 @@
         }
         NSAssert(bestMove != nil, @"must have a best move");
     } else {
-        // maximum depth reached, or leaf node - take the board's heuristic
-        bestScore = node.heuristicValue;
+        // maximum depth reached, or leaf node - take the node's heuristic value
+        bestScore = [_heuristic valueOfNode:node];
     }
     
     if (bestMoveHolder != nil) {
@@ -110,7 +115,8 @@
     __block NSMutableArray *result = [NSMutableArray array];
     
     [node enumerateChildrenUsingBlock:^(id move, id<JCSGameNode> child, BOOL *stop) {
-        NSArray *entry = [NSArray arrayWithObjects:[NSNumber numberWithFloat:child.heuristicValue], move, child, nil];
+        float heuristicValue = [_heuristic valueOfNode:node];
+        NSArray *entry = [NSArray arrayWithObjects:[NSNumber numberWithFloat:heuristicValue], move, child, nil];
         [result addObject:entry];
     }];
     

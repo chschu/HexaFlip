@@ -13,6 +13,7 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipGameState+GameNode.h"
+#import "JCSFlipGameStatePossessionSafetyHeuristic.h"
 
 @interface JCSFlipAlgoTest : SenTestCase
 @end
@@ -21,17 +22,28 @@
 
 #define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
 
-- (void)testMinimax2VsMinimax3 {
-    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2];
-    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1];
+- (void)testMinimax3VsMinimax2 {
+    id<JCSGameHeuristic> careless = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:-1];
+    id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:3];
+    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:careless];
+    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
     int size = 5;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
-- (void)testMinimax2VsRandom {
-    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1];
+- (void)testMinimax4VsMinimax3 {
+    id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:3];
+    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:paranoid];
+    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:paranoid];
+    int size = 5;
+    [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
+}
+
+- (void)testMinimax5VsRandom {
+    id<JCSGameHeuristic> safe = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:0.5];
+    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:5 heuristic:safe];
     id<JCSGameAlgorithm> algoB = [[JCSRandomGameAlgorithm alloc] initWithSeed:time(NULL)];
-    int size = 4;
+    int size = 5;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
@@ -67,7 +79,7 @@
     }
     NSLog(@"done");
 
-    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw, nil);
+    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusDraw, nil);
 }
 
 @end
