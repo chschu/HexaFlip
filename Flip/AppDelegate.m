@@ -7,7 +7,16 @@
 //
 
 #import "AppDelegate.h"
-#import "HelloWorldLayer.h"
+#import "JCSFlipUIGameScene.h"
+#import "JCSFlipGameState.h"
+#import "JCSGameHeuristic.h"
+#import "JCSGameAlgorithm.h"
+#import "JCSFlipGameStatePossessionSafetyHeuristic.h"
+#import "JCSMinimaxGameAlgorithm.h"
+#import "JCSFlipPlayerLocal.h"
+#import "JCSFlipPlayerAI.h"
+
+#define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
 
 @implementation AppDelegate
 
@@ -18,8 +27,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Create the main window
 	_window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    
+
 	// Create an CCGLView with a RGB565 color buffer, and a depth buffer of 0-bits
 	CCGLView *glView = [CCGLView viewWithFrame:[_window bounds]
 								   pixelFormat:kEAGLColorFormatRGB565	//kEAGLColorFormatRGBA8
@@ -54,17 +62,49 @@
 	// On iPad     : "-ipad", "-hd"
 	// On iPhone HD: "-hd"
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
-	sharedFileUtils.enableFallbackSuffixes = NO;            // Default: NO. No fallback suffixes are going to be used
-	sharedFileUtils.iPhoneRetinaDisplaySuffix = @"-hd";		// Default on iPhone RetinaDisplay is "-hd"
-	sharedFileUtils.iPadSuffix = @"-ipad";					// Default on iPad is "ipad"
-	sharedFileUtils.iPadRetinaDisplaySuffix = @"-ipadhd";	// Default on iPad RetinaDisplay is "-ipadhd"
+	sharedFileUtils.enableFallbackSuffixes = YES;            // Default: NO. No fallback suffixes are going to be used
+	// sharedFileUtils.iPhoneRetinaDisplaySuffix = @"-hd";		// Default on iPhone RetinaDisplay is "-hd"
+	// sharedFileUtils.iPadSuffix = @"-ipad";					// Default on iPad is "ipad"
+	// sharedFileUtils.iPadRetinaDisplaySuffix = @"-ipadhd";	// Default on iPad RetinaDisplay is "-ipadhd"
     
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
     
-	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[_director pushScene:[HelloWorldLayer scene]]; 
+    // TODO: for now, create the game state and the players here - this should be done in another scene
     
+    NSInteger size = 4;
+    JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
+        if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
+            return JCSFlipCellStateHole;
+        } else if (distanceFromOrigin == 1) {
+            if (row + 2*column < 0) {
+                return JCSFlipCellStateOwnedByPlayerA;
+            } else {
+                return JCSFlipCellStateOwnedByPlayerB;
+            }
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+    };
+    
+    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionSafetyHeuristic alloc] initWithPossession:1 safety:0.7];
+    id<JCSGameAlgorithm> algo = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:heuristic];
+    
+    __block JCSFlipUIGameScene *scene;
+    
+	// add the scene to the stack. The director will run it when it automatically when the view is displayed.
+    scene = [[JCSFlipUIGameScene alloc] initWithState:state];
+
+    // set players in scene, using the scene as move input delegate
+    scene.playerA = [[JCSFlipPlayerLocal alloc] initWithName:@"dummy player name"];
+    scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"dummy player name" algorithm:algo moveInputDelegate:scene];
+
+	[_director pushScene:scene];
+
 	// Create a Navigation Controller with the Director
 	_navController = [[UINavigationController alloc] initWithRootViewController:_director];
 	_navController.navigationBarHidden = YES;
@@ -74,7 +114,7 @@
 	
 	// make main window visible
 	[_window makeKeyAndVisible];
-	
+
 	return YES;
 }
 
