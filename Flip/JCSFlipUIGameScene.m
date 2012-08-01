@@ -40,7 +40,7 @@
     
     // both players must have been set
     NSAssert(_playerA != nil, @"playerA must be non-nil when the game scene enters the stage");
-    NSAssert(_playerB != nil, @"playerA must be non-nil when the game scene enters the stage");
+    NSAssert(_playerB != nil, @"playerB must be non-nil when the game scene enters the stage");
     
     _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
     _boardLayer.inputDelegate = self;
