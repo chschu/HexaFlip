@@ -6,25 +6,28 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipGameStatePossessionSafetyHeuristic.h"
+#import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipGameState+GameNode.h"
 
-@implementation JCSFlipGameStatePossessionSafetyHeuristic {
+@implementation JCSFlipGameStatePSRHeuristic {
     float _possession;
     float _safety;
+    float _randomness;
 }
 
-- (id)initWithPossession:(float)possession safety:(float)safety {
+- (id)initWithPossession:(float)possession safety:(float)safety randomness:(float)randomness {
     if (self = [super init]) {
         _possession = possession;
         _safety = safety;
+        _randomness = randomness;
     }
     return self;
 }
 
 - (float)valueOfNode:(JCSFlipGameState *)node {
     __block float score;
+    float baseCellScore;
     switch (node.status) {
 		case JCSFlipGameStatusPlayerAWon:
 			score = INFINITY;
@@ -36,11 +39,14 @@
             score = 0;
             break;
 		default:
-            score = 0;
+            // compute base cell score (independent of safety)
+            baseCellScore = _randomness * ([node hash] / NSUIntegerMax) + _possession;
+            
+            score = 0.0;
             [node forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
                 if (cellState == JCSFlipCellStateOwnedByPlayerA || cellState == JCSFlipCellStateOwnedByPlayerB) {
                     // start with a base possession score, add safety/6 for every safe direction
-                    float cellScore = _possession;
+                    float cellScore = baseCellScore;
                     for (JCSHexDirection dir = JCSHexDirectionMin; dir <= JCSHexDirectionMax; dir++) {
                         NSInteger rowDelta = JCSHexDirectionRowDelta(dir);
                         NSInteger columnDelta = JCSHexDirectionColumnDelta(dir);

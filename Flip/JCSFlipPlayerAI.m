@@ -38,9 +38,7 @@
         JCSFlipMove *move = [_algorithm moveAtNode:state];
         // notify in main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            // TODO: delegate might have been destroyed - this should set the delegate to nil
-            [_moveInputDelegate inputSelectedStartRow:move.startRow startColumn:move.startColumn];
-            [_moveInputDelegate inputSelectedDirection:move.direction];
+            // tell the delegate to make that move
             [_moveInputDelegate inputConfirmedWithMove:move];
         });
     });

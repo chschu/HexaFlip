@@ -8,7 +8,7 @@
 
 #import "CCNode.h"
 #import "JCSFlipCellState.h"
-#import "JCSFlipMoveInputDelegate.h"
+#import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
 
@@ -18,8 +18,8 @@
 @property (readonly) NSInteger column;
 @property (assign, nonatomic) JCSFlipCellState cellState;
 
-// the delegate to report move input to
-@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> inputDelegate;
+// the delegate to report touches to
+@property (weak, nonatomic) id<JCSFlipUICellNodeTouchDelegate> touchDelegate;
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 

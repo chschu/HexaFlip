@@ -24,8 +24,7 @@
 - (void)inputCancelled;
 
 // the player has confirmed the move with the given data
-// the delegate must return YES if the selection is valid, NO if it is not
 // it is actually sufficient to call only this method for each move, e.g. for AI players
-- (BOOL)inputConfirmedWithMove:(JCSFlipMove *)move;
+- (void)inputConfirmedWithMove:(JCSFlipMove *)move;
 
 @end

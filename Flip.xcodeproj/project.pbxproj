@@ -258,7 +258,9 @@
 		F35B94E315C0946E00C7A593 /* JCSFlipGameState+GameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94DC15C0946E00C7A593 /* JCSFlipGameState+GameNode.m */; };
 		F35B94E415C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */; };
 		F35B94E515C0946E00C7A593 /* JCSRandomGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */; };
-		F3AB8C8115C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.m */; };
+		F3AB8C8115C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m */; };
+		F3AB8C9C15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AB8C9B15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m */; };
+		F3AB8C9F15C9E37800D911B9 /* JCSFlipUIGameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AB8C9E15C9E37700D911B9 /* JCSFlipUIGameOverLayer.m */; };
 		F3D482D515B75B9C00C090C5 /* JCSFlipMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D415B75B9C00C090C5 /* JCSFlipMove.m */; };
 		F3D482D815B75C3700C090C5 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482D715B75C3700C090C5 /* JCSFlipMoveTest.m */; };
 		F3D482DB15B7649200C090C5 /* JCSFlipGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D482DA15B7649200C090C5 /* JCSFlipGameState.m */; };
@@ -543,6 +545,7 @@
 		F300577F15B0B04800BAD89C /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		F300578015B0B04800BAD89C /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F300578115B0B04800BAD89C /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
+		F308C1D415CB1F3E00333AB1 /* JCSFlipUICellNodeTouchDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNodeTouchDelegate.h; sourceTree = "<group>"; };
 		F325776A15C4781D007920E6 /* JCSFlipMutableMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMutableMove.h; sourceTree = "<group>"; };
 		F325776B15C4781D007920E6 /* JCSFlipMutableMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMutableMove.m; sourceTree = "<group>"; };
 		F325776E15C4980E007920E6 /* JCSFlipMutableMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMutableMoveTest.m; sourceTree = "<group>"; };
@@ -556,8 +559,12 @@
 		F35B94E115C0946E00C7A593 /* JCSRandomGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRandomGameAlgorithm.h; sourceTree = "<group>"; };
 		F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRandomGameAlgorithm.m; sourceTree = "<group>"; };
 		F3AB8C7E15C7B39B00D911B9 /* JCSGameHeuristic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSGameHeuristic.h; sourceTree = "<group>"; };
-		F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionSafetyHeuristic.h; sourceTree = "<group>"; };
-		F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionSafetyHeuristic.m; sourceTree = "<group>"; };
+		F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePSRHeuristic.h; sourceTree = "<group>"; };
+		F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePSRHeuristic.m; sourceTree = "<group>"; };
+		F3AB8C9A15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMainMenuScene.h; sourceTree = "<group>"; };
+		F3AB8C9B15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMainMenuScene.m; sourceTree = "<group>"; };
+		F3AB8C9D15C9E37700D911B9 /* JCSFlipUIGameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameOverLayer.h; sourceTree = "<group>"; };
+		F3AB8C9E15C9E37700D911B9 /* JCSFlipUIGameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameOverLayer.m; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3B9DEDB15B4BE900078507F /* FlipTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
 		F3B9DEDD15B4BE900078507F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1052,8 +1059,8 @@
 				F35B94DD15C0946E00C7A593 /* JCSGameAlgorithm.h */,
 				F35B94DE15C0946E00C7A593 /* JCSGameNode.h */,
 				F3AB8C7E15C7B39B00D911B9 /* JCSGameHeuristic.h */,
-				F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.h */,
-				F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.m */,
+				F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.h */,
+				F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m */,
 				F35B94DF15C0946E00C7A593 /* JCSMinimaxGameAlgorithm.h */,
 				F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */,
 				F35B94E115C0946E00C7A593 /* JCSRandomGameAlgorithm.h */,
@@ -1091,6 +1098,7 @@
 		F3AB8C8F15C8792E00D911B9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				F3AB8C9515C9D05F00D911B9 /* Menu */,
 				F3AB8C9015C8793F00D911B9 /* Game */,
 			);
 			name = Scenes;
@@ -1101,14 +1109,26 @@
 			children = (
 				F3D7F48415C1C91700704029 /* JCSFlipUIGameScene.h */,
 				F3D7F48515C1C91700704029 /* JCSFlipUIGameScene.m */,
+				F3AB8C9D15C9E37700D911B9 /* JCSFlipUIGameOverLayer.h */,
+				F3AB8C9E15C9E37700D911B9 /* JCSFlipUIGameOverLayer.m */,
 				F3D7F47415C119E600704029 /* JCSFlipUIBoardLayer.h */,
 				F3D7F47515C119E700704029 /* JCSFlipUIBoardLayer.m */,
 				F3D7F48715C1D02100704029 /* JCSFlipUIBackgroundLayer.h */,
 				F3D7F48815C1D02100704029 /* JCSFlipUIBackgroundLayer.m */,
+				F308C1D415CB1F3E00333AB1 /* JCSFlipUICellNodeTouchDelegate.h */,
 				F3D7F47815C1BC6100704029 /* JCSFlipUICellNode.h */,
 				F3D7F47915C1BC6100704029 /* JCSFlipUICellNode.m */,
 			);
 			name = Game;
+			sourceTree = "<group>";
+		};
+		F3AB8C9515C9D05F00D911B9 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				F3AB8C9A15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.h */,
+				F3AB8C9B15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m */,
+			);
+			name = Menu;
 			sourceTree = "<group>";
 		};
 		F3B9DED915B4BE900078507F /* FlipTests */ = {
@@ -1451,7 +1471,9 @@
 				F3D7F48615C1C91700704029 /* JCSFlipUIGameScene.m in Sources */,
 				F3D7F48915C1D02100704029 /* JCSFlipUIBackgroundLayer.m in Sources */,
 				F325776C15C4781D007920E6 /* JCSFlipMutableMove.m in Sources */,
-				F3AB8C8115C7B46900D911B9 /* JCSFlipGameStatePossessionSafetyHeuristic.m in Sources */,
+				F3AB8C8115C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m in Sources */,
+				F3AB8C9C15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m in Sources */,
+				F3AB8C9F15C9E37800D911B9 /* JCSFlipUIGameOverLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

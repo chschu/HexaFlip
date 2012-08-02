@@ -10,11 +10,12 @@
 #import "JCSFlipCellState.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMoveInputDelegate.h"
+#import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
 
 // the layer displaying the current board
-@interface JCSFlipUIBoardLayer : CCNode <JCSFlipMoveInputDelegate>
+@interface JCSFlipUIBoardLayer : CCNode <JCSFlipUICellNodeTouchDelegate>
 
 // the delegate for forward input information to
 @property (weak, nonatomic) id<JCSFlipMoveInputDelegate> inputDelegate;

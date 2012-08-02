@@ -29,8 +29,8 @@
             // remember in dictionary
             [self setCellNode:uiCell atRow:row column:column];
             
-            // register as input delegate of every cell
-            uiCell.inputDelegate = self;
+            // register as touch delegate of every cell
+            uiCell.touchDelegate = self;
             
             // place cells with spacing of 1
             uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
@@ -79,14 +79,24 @@
         id updateAction = [CCCallBlock actionWithBlock:^{
             uiCell.cellState = newCellState;
         }];
-        id showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.5];
+        id setZOrderAction = [CCCallBlock actionWithBlock:^{
+            // bring to front
+            uiCell.zOrder = 1;
+        }];
+        id showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.3];
+        id resetZOrderAction = [CCCallBlock actionWithBlock:^{
+            // put back
+            uiCell.zOrder = 0;
+        }];
         
         // create action array to be spawned
         NSArray *animActions = [NSArray arrayWithObjects:
                                 [CCDelayTime actionWithDuration:delay],
                                 [CCTargetedAction actionWithTarget:uiCell action:hideAction],
                                 updateAction,
+                                setZOrderAction,
                                 [CCTargetedAction actionWithTarget:uiCell action:showAction],
+                                resetZOrderAction,
                                 nil];
         
         [actions addObject:[CCSequence actionWithArray:animActions]];
@@ -127,15 +137,35 @@
     }
 }
 
-- (void)inputSelectedDirection:(JCSHexDirection)direction {
+- (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell {
+    return [_inputDelegate inputSelectedStartRow:cell.row startColumn:cell.column];
+}
+
+- (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged {
+    // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
+    JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
+    
+    // notify delegate
     [_inputDelegate inputSelectedDirection:direction];
 }
 
-- (BOOL)inputConfirmedWithMove:(JCSFlipMove *)move {
-    return [_inputDelegate inputConfirmedWithMove:move];
+- (void)touchEndedWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged {
+    // if distance is less than 0.5, cancel the move
+    if (hypot(dragged.x, dragged.y) >= 0.5) {
+        // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
+        JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
+        
+        // notify delegate
+        JCSFlipMove *move = [JCSFlipMove moveWithStartRow:cell.row startColumn:cell.column direction:direction];
+        [_inputDelegate inputConfirmedWithMove:move];
+    } else {
+        // notify delegate
+        [_inputDelegate inputCancelled];
+    }
 }
 
-- (void)inputCancelled {
+- (void)touchCancelledWithCell:(JCSFlipUICellNode *)cell {
+    // notify delegate
     [_inputDelegate inputCancelled];
 }
 

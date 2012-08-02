@@ -25,7 +25,8 @@
 // must not be changed while the scene is "on stage"
 @property (strong, nonatomic) id<JCSFlipPlayer> playerB;
 
-// initialize with a game state (which is copied), and the given players
-- (id)initWithState:(JCSFlipGameState *)state;
+// initialize with a game state (which is copied)
+// players must be set on the result, before the scene enters stage (- onEnter)
++ (JCSFlipUIGameScene *)sceneWithState:(JCSFlipGameState *)state;
 
 @end

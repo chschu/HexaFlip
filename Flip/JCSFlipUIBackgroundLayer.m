@@ -11,7 +11,7 @@
 @implementation JCSFlipUIBackgroundLayer
 
 - (id)init {
-    return [super initWithColor:ccc4(255, 240, 190, 255)];
+    return [super initWithColor:ccc4(255, 239, 191, 255) fadingTo:ccc4(255, 191, 127, 255)];
 }
 
 @end

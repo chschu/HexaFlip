@@ -19,7 +19,7 @@
 @synthesize cellState = _cellState;
 @synthesize row = _row;
 @synthesize column = _column;
-@synthesize inputDelegate = _inputDelegate;
+@synthesize touchDelegate = _touchDelegate;
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     if (self = [super init]) {
@@ -47,7 +47,6 @@
 
         _row = row;
         _column = column;
-        _inputDelegate = nil;
 
         // use property access to initialize sprite
         self.cellState = cellState;
@@ -70,42 +69,28 @@
     CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
     CGPoint location = [self convertTouchToNodeSpace:touch];
     if (CGRectContainsPoint(box, location)) {
-        // notify delegate and swallow touch if delegate allows
-        return [_inputDelegate inputSelectedStartRow:_row startColumn:_column];
+        // notify delegate and swallow touch
+        [_touchDelegate touchBeganWithCell:self];
+        return YES;
     }
     return NO;
 }
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint location = [self convertTouchToNodeSpace:touch];
-    
-    // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
-    JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(location.y, location.x));
-
-    // notify delegate
-    [_inputDelegate inputSelectedDirection:direction];
+    // notify delegate about the dragging
+    [_touchDelegate touchWithCell:self dragged:location];
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint location = [self convertTouchToNodeSpace:touch];
-
-    // if distance is less than 0.5, cancel the move
-    if (hypot(location.x, location.y) >= 0.5) {
-        // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
-        JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(location.y, location.x));
-        
-        // notify delegate
-        JCSFlipMove *move = [JCSFlipMove moveWithStartRow:_row startColumn:_column direction:direction];
-        [_inputDelegate inputConfirmedWithMove:move];
-    } else {
-        // notify delegate
-        [_inputDelegate inputCancelled];
-    }
+    // notify delegate about the release
+    [_touchDelegate touchEndedWithCell:self dragged:location];
 }
 
 - (void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
-    // notify delegate
-    [_inputDelegate inputCancelled];
+    // notify delegate about the cancellation
+    [_touchDelegate touchCancelledWithCell:self];
 }
 
 - (void)setCellState:(JCSFlipCellState)cellState {
