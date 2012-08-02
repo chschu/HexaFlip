@@ -137,7 +137,7 @@
     // TODO: visual
 }
 
-- (BOOL)inputConfirmedWithMove:(JCSFlipMove *)move {
+- (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     // apply the move to a temporary copy
     if ([_state applyMove:move]) {
         NSLog(@"confirmed move %@", move);
@@ -148,9 +148,7 @@
             [self updateUI];
             [self tellCurrentPlayerMakeMove];
         }];
-        return YES;
     }
-    return NO;
 }
 
 - (void)inputCancelled {
