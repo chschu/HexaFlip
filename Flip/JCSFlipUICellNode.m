@@ -69,9 +69,8 @@
     CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
     CGPoint location = [self convertTouchToNodeSpace:touch];
     if (CGRectContainsPoint(box, location)) {
-        // notify delegate and swallow touch
-        [_touchDelegate touchBeganWithCell:self];
-        return YES;
+        // notify delegate and swallow touch if delegate tells us to
+        return [_touchDelegate touchBeganWithCell:self];
     }
     return NO;
 }

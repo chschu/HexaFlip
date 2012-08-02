@@ -40,7 +40,7 @@
         
         // create immutable dictionary
         _uiCellNodes = [_uiCellNodes copy];
-        
+
         // disallow move input
         _moveInputEnabled = NO;
     }
@@ -129,16 +129,12 @@
     return [_uiCellNodes valueForKey:[NSString stringWithFormat:@"%d:%d", row, column]];
 }
 
-- (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
+- (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell {
     if (_moveInputEnabled) {
-        return [_inputDelegate inputSelectedStartRow:startRow startColumn:startColumn];
+        return [_inputDelegate inputSelectedStartRow:cell.row startColumn:cell.column];
     } else {
         return NO;
     }
-}
-
-- (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell {
-    return [_inputDelegate inputSelectedStartRow:cell.row startColumn:cell.column];
 }
 
 - (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged {
