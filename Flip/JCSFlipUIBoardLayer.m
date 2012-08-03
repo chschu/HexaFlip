@@ -137,7 +137,8 @@ typedef enum {
                                 fullAnimationAction,
                                 finalBlockAction,
                                 nil];
-    
+
+    // if the scene is no longer running, the actions won't start anymore
     [self runAction:[CCSequence actionWithArray:sequenceActions]];
 }
 
