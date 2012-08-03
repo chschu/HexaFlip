@@ -24,7 +24,7 @@
 // -inputClearedDirection:startRow:startColumn: (clear for final selected direction)
 // -inputClearedStartRow:startColumn: (clear for start cell)
 // -inputConfirmedWithMove:
-@protocol JCSFlipMoveInputDelegate
+@protocol JCSFlipMoveInputDelegate <NSObject>
 
 // the player has selected a row and column to start the move
 // the delegate must return YES if the selection is valid, NO if it is not
