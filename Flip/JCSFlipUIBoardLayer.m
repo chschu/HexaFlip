@@ -9,18 +9,29 @@
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSFlipUICellNode.h"
 
+// states for move input
+typedef enum {
+    JCSFlipUIMoveInputStateReady, // ready for move input
+    JCSFlipUIMoveInputStateFirstTapInside, // first tap, drag position inside start cell
+    JCSFlipUIMoveInputStateFirstTapOutside,  // first tap, drag position outside start cell
+    JCSFlipUIMoveInputStateFirstTapSelected,  // first tap, selected by releasing inside start cell
+    JCSFlipUIMoveInputStateSecondTapInside, // second tap, drag position inside target cell
+    JCSFlipUIMoveInputStateSecondTapOutside,  // second tap, drag position outside target cell
+} JCSFlipUIMoveInputState;
+
 @implementation JCSFlipUIBoardLayer {
     // the child nodes representing the cells
     // key: "row:column"
     // value: (JCSFlipUICellNode *) at that coordinate
     NSDictionary *_uiCellNodes;
+
+    // move input state
+    JCSFlipUIMoveInputState _moveInputState;
     
-    // selected starting cell for tap-tap move input
-    // not used for drag move input
+    // selected starting cell
     JCSFlipUICellNode *_moveStartCell;
     
-    // direction of the move for tap-tap move input
-    // not used for drag move input
+    // current direction of the potential move
     JCSHexDirection _moveDirection;
 }
 
@@ -51,6 +62,7 @@
         
         // disallow move input
         _moveInputEnabled = NO;
+        _moveInputState = JCSFlipUIMoveInputStateReady;
     }
     return self;
 }
@@ -139,149 +151,224 @@
 
 - (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell {
     if (_moveInputEnabled) {
-        if (_moveStartCell == nil) {
-            // first tap of tap-tap or start of drag move input
-            return [_inputDelegate inputSelectedStartRow:cell.row startColumn:cell.column];
-        } else {
-            // second tap of tap-tap move input
-            
-            if (cell.cellState != JCSFlipCellStateEmpty) {
-                // second tap cell is not empty
-                // cancel move input and notify delegate
-                _moveStartCell = nil;
-                [_inputDelegate inputCancelled];
-                return NO;
-            }
-            
-            NSInteger dr = cell.row - _moveStartCell.row;
-            NSInteger dc = cell.column - _moveStartCell.column;
-            if (!(dr == 0 || dc == 0 || dr+dc == 0)) {
-                // not a straight line between the two tapped cells
-            }
-            
-            // determine direction for tap-tap move input
-            if (dr == 0) {
-                if (dc > 0) {
-                    _moveDirection = JCSHexDirectionE;
-                } else {
-                    _moveDirection = JCSHexDirectionW;
+        switch (_moveInputState) {
+            case JCSFlipUIMoveInputStateReady:
+                if ([_inputDelegate inputSelectedStartRow:cell.row startColumn:cell.column]) {
+                    _moveStartCell = cell;
+                    _moveInputState = JCSFlipUIMoveInputStateFirstTapInside;
+                    return YES;
                 }
-            } else if (dc == 0) {
-                if (dr > 0) {
-                    _moveDirection = JCSHexDirectionNE;
-                } else {
-                    _moveDirection = JCSHexDirectionSW;
-                }
-            } else if (dr+dc == 0) {
-                if (dr > 0) {
-                    _moveDirection = JCSHexDirectionNW;
-                } else {
-                    _moveDirection = JCSHexDirectionSE;
-                }
-            } else {
-                // not a straight line
-                // cancel move input and notify delegate
-                _moveStartCell = nil;
-                [_inputDelegate inputCancelled];
                 return NO;
-            }
-            
-            // check that the second tap is on the first empty cell in that direction
-            NSInteger curRow = _moveStartCell.row;
-            NSInteger curColumn = _moveStartCell.column;
-            NSInteger rowDelta = JCSHexDirectionRowDelta(_moveDirection);
-            NSInteger columnDelta = JCSHexDirectionColumnDelta(_moveDirection);
-            JCSFlipCellState curState;
-            while ((curState = [self cellNodeAtRow:curRow column:curColumn].cellState) != JCSFlipCellStateEmpty) {
-                curRow += rowDelta;
-                curColumn += columnDelta;
-            }
-            if (curRow != cell.row || curColumn != cell.column) {
-                // not the first empty cell in that direction
-                // cancel move input and notify delegate
-                _moveStartCell = nil;
-                [_inputDelegate inputCancelled];
+                
+            case JCSFlipUIMoveInputStateFirstTapSelected:
+                if (cell == _moveStartCell) {
+                    // tapped the same cell twice
+                    
+                    // cancel move input and discard touch
+                    [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                    [_inputDelegate inputCancelled];
+                    _moveInputState = JCSFlipUIMoveInputStateReady;
+                    return NO;
+                }
+                
+                if (cell.cellState != JCSFlipCellStateEmpty) {
+                    // second tap cell is not empty
+                    
+                    // discard touch
+                    return NO;
+                }
+
+                NSInteger dr = cell.row - _moveStartCell.row;
+                NSInteger dc = cell.column - _moveStartCell.column;
+                if (!(dr == 0 || dc == 0 || dr+dc == 0)) {
+                    // not a straight line between the two tapped cells
+                    
+                    // discard touch
+                    return NO;
+                }
+                
+                // determine direction for tap-tap move input
+                if (dr == 0) {
+                    if (dc > 0) {
+                        _moveDirection = JCSHexDirectionE;
+                    } else {
+                        _moveDirection = JCSHexDirectionW;
+                    }
+                } else if (dc == 0) {
+                    if (dr > 0) {
+                        _moveDirection = JCSHexDirectionNE;
+                    } else {
+                        _moveDirection = JCSHexDirectionSW;
+                    }
+                } else { // dr+dc == 0
+                    if (dr > 0) {
+                        _moveDirection = JCSHexDirectionNW;
+                    } else {
+                        _moveDirection = JCSHexDirectionSE;
+                    }
+                }
+                
+                // check that the second tap is on the first empty cell in that direction
+                NSInteger curRow = _moveStartCell.row;
+                NSInteger curColumn = _moveStartCell.column;
+                NSInteger rowDelta = JCSHexDirectionRowDelta(_moveDirection);
+                NSInteger columnDelta = JCSHexDirectionColumnDelta(_moveDirection);
+                JCSFlipCellState curState;
+                while ((curState = [self cellNodeAtRow:curRow column:curColumn].cellState) != JCSFlipCellStateEmpty) {
+                    curRow += rowDelta;
+                    curColumn += columnDelta;
+                }
+                if (curRow != cell.row || curColumn != cell.column) {
+                    // not the first empty cell in that direction
+                    
+                    // discard touch
+                    return NO;
+                }
+                
+                // accept the direction
+                _moveInputState = JCSFlipUIMoveInputStateSecondTapInside;
+                [_inputDelegate inputSelectedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                
+                // keep track of the touch
+                return YES;
+                
+            default:
+                NSAssert(NO, @"illegal move input state %d", _moveInputState);
                 return NO;
-            }
-            
-            // accept the direction
-            [_inputDelegate inputSelectedDirection:_moveDirection];
-            return YES;
         }
     } else {
         return NO;
     }
 }
 
-- (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged {
-    if (hypot(dragged.x, dragged.y) >= 0.5) {
-        if (_moveStartCell == nil) {
-            // dragged out during first tap
-            
-            // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
-            JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
-            
-            // notify delegate
-            [_inputDelegate inputSelectedDirection:direction];
-        } else {
-            // dragged out during second tap of tap-tap move input
-            
-            // clear the direction selection
-            [_inputDelegate inputClearedDirection];
-        }
-    } else {
-        if (_moveStartCell == nil) {
-            // dragged back in during first tap
-            
-            // clear the direction selection
-            [_inputDelegate inputClearedDirection];
-        } else {
-            // dragged back in during second tap of tap-tap move input
-            
-            // set the direction again
-            [_inputDelegate inputSelectedDirection:_moveDirection];
-        }
-    }
-}
+- (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged ended:(BOOL)ended {
+    BOOL inside = (hypot(dragged.x, dragged.y) <= 0.5);
 
-- (void)touchEndedWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged {
-    if (hypot(dragged.x, dragged.y) >= 0.5) {
-        if (_moveStartCell == nil) {
-            // drag move input
+    // track inside/outside changes
+    switch (_moveInputState) {
+        case JCSFlipUIMoveInputStateFirstTapInside:
+            if (!inside) {
+                // set direction
+                _moveDirection = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
+                [_inputDelegate inputSelectedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                _moveInputState = JCSFlipUIMoveInputStateFirstTapOutside;
+            }
+            break;
+        
+        case JCSFlipUIMoveInputStateFirstTapOutside:
+            if (inside) {
+                [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                _moveInputState = JCSFlipUIMoveInputStateFirstTapInside;
+            } else {
+                // update direction
+                JCSHexDirection oldDirection = _moveDirection;
+                _moveDirection = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
+                if (_moveDirection != oldDirection) {
+                    [_inputDelegate inputClearedDirection:oldDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                    [_inputDelegate inputSelectedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                }
+            }
+            break;
+
+        case JCSFlipUIMoveInputStateSecondTapInside:
+            if (!inside) {
+                // hide direction
+                [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                _moveInputState = JCSFlipUIMoveInputStateSecondTapOutside;
+            }
+            break;
+
+        case JCSFlipUIMoveInputStateSecondTapOutside:
+            if (inside) {
+                // show direction
+                [_inputDelegate inputSelectedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                _moveInputState = JCSFlipUIMoveInputStateSecondTapInside;
+            }
+            break;
+
+        default:
+            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            break;
+    }
+
+    // move/cancel stage
+    if (ended) {
+        JCSFlipMove *move;
+        switch (_moveInputState) {
+            case JCSFlipUIMoveInputStateFirstTapInside:
+                // released inside start cell: initiate tap-tap move input
+                _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;
+                break;
+
+            case JCSFlipUIMoveInputStateFirstTapOutside:
+                // released outside start cell: complete drag move input
+                [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
+                [_inputDelegate inputConfirmedWithMove:move];
+                _moveInputState = JCSFlipUIMoveInputStateReady;
+                break;
             
-            // determine direction from angle in radians (ccw, 0 is positive x, i.e. east)
-            JCSHexDirection direction = JCSHexDirectionForAngle(atan2f(dragged.y, dragged.x));
-            
-            // execute the move
-            JCSFlipMove *move = [JCSFlipMove moveWithStartRow:cell.row startColumn:cell.column direction:direction];
-            [_inputDelegate inputConfirmedWithMove:move];
-        } else {
-            // dragged out during second tap of tap-tap move input
-            
-            // clear the direction selection
-            [_inputDelegate inputClearedDirection];
-        }
-    } else {
-        if (_moveStartCell == nil) {
-            // first tap of tap-tap move input
-            
-            // set the start cell for tap-tap move input
-            _moveStartCell = cell;
-        } else {
-            // second tap of tap-tap move input
-            
-            // execute the move
-            JCSFlipMove *move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
-            _moveStartCell = nil;
-            [_inputDelegate inputConfirmedWithMove:move];
+            case JCSFlipUIMoveInputStateSecondTapInside:
+                // released inside target cell: complete tap-tap move input
+                [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+                move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
+                [_inputDelegate inputConfirmedWithMove:move];
+                _moveInputState = JCSFlipUIMoveInputStateReady;
+                break;
+                
+            case JCSFlipUIMoveInputStateSecondTapOutside:
+                // released outside target cell: rewind to tap-tap direction input
+                _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;
+                break;
+                
+            default:
+                NSAssert(NO, @"illegal move input state %d", _moveInputState);
+                break;
         }
     }
 }
 
 - (void)touchCancelledWithCell:(JCSFlipUICellNode *)cell {
-    // clear state and notify delegate
-    _moveStartCell = nil;
-    [_inputDelegate inputCancelled];
+    switch (_moveInputState) {
+        case JCSFlipUIMoveInputStateFirstTapInside:
+            [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            [_inputDelegate inputCancelled];
+            _moveInputState = JCSFlipUIMoveInputStateReady;
+            break;
+            
+        case JCSFlipUIMoveInputStateFirstTapOutside:
+            [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            [_inputDelegate inputCancelled];
+            _moveInputState = JCSFlipUIMoveInputStateReady;
+            break;
+            
+        case JCSFlipUIMoveInputStateFirstTapSelected:
+            break;
+        
+        case JCSFlipUIMoveInputStateSecondTapInside:
+            [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;
+            break;
+            
+        case JCSFlipUIMoveInputStateSecondTapOutside:
+            _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;
+            break;
+            
+        default:
+            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            break;
+    }
+}
+
+- (void)startFlashForCellAtRow:(NSInteger)row column:(NSInteger)column {
+    [[self cellNodeAtRow:row column:column] startFlash];
+}
+
+- (void)stopFlashForCellAtRow:(NSInteger)row column:(NSInteger)column {
+    [[self cellNodeAtRow:row column:column] stopFlash];
 }
 
 @end

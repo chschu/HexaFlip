@@ -16,9 +16,9 @@
 
 @implementation JCSFlipUIGameScene {
     JCSFlipGameState *_state;
-
+    
     JCSFlipUIBoardLayer *_boardLayer;
-
+    
     CCMenuItemFont *_skipButton;
     CCMenuItemFont *_exitButton;
 }
@@ -46,12 +46,12 @@
     
     JCSFlipUIBackgroundLayer *backgroundLayer = [[JCSFlipUIBackgroundLayer alloc] init];
     [self addChild:backgroundLayer z:0];
-
+    
     CCDirector *director = [CCDirector sharedDirector];
     
     NSInteger windowWidth = director.winSize.width;
     NSInteger windowHeight = director.winSize.height;
-
+    
     // center board layer' origin on screen, and scale properly
     // TODO: determine scale programmatically
     _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
@@ -61,7 +61,7 @@
     [self addChild:_boardLayer z:1];
     
     ccColor3B menuColor = ccc3(0, 0, 127);
-
+    
     _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
         CCScene *scene = [JCSFlipUIMainMenuScene scene];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInL transitionWithDuration:0.5 scene:scene]];
@@ -69,7 +69,7 @@
     _exitButton.color = menuColor;
     _exitButton.anchorPoint = ccp(0,1);
     _exitButton.position = ccp(-windowWidth/2+10, windowHeight/2-10);
-
+    
     _skipButton = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
         [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
     }];
@@ -79,7 +79,7 @@
     
     CCMenu *menu = [CCMenu menuWithItems:_exitButton, _skipButton, nil];
     [self addChild:menu];
-
+    
     [self updateUI];
     [self tellCurrentPlayerMakeMove];
 }
@@ -94,7 +94,7 @@
     // A enabled iff player A to move, and player A does not block input
     BOOL playerAEnabled = (_state.status == JCSFlipGameStatusPlayerAToMove && _playerA.localControls);
     BOOL playerBEnabled = (_state.status == JCSFlipGameStatusPlayerBToMove && _playerB.localControls);
- 
+    
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
     _skipButton.visible = _state.skipAllowed && (playerAEnabled || playerBEnabled);
@@ -126,28 +126,58 @@
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
+    NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
     if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForGameStatus(_state.status)) {
-        // TODO: visual
-        NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
+        [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;
     }
     return NO;
 }
 
-- (void)inputSelectedDirection:(JCSHexDirection)direction {
-    NSLog(@"input: selected direction %d", direction);
-    // TODO: visual
+- (void)inputClearedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
+    NSLog(@"input: cleared start cell");
+    [_boardLayer stopFlashForCellAtRow:startRow column:startColumn];
 }
 
-- (void)inputClearedDirection {
+- (void)inputSelectedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
+    NSLog(@"input: selected direction %d", direction);
+    
+    // check if the move is valid
+    JCSFlipGameState *stateCopy = [_state copy];
+    if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
+        // flash all cells changed by the move
+        [stateCopy forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            if (cellState != [_state cellStateAtRow:row column:column]) {
+                [_boardLayer startFlashForCellAtRow:row column:column];
+            }
+        }];
+    }
+}
+
+- (void)inputClearedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: cleared direction");
+
+    // check if the move is valid
+    JCSFlipGameState *stateCopy = [_state copy];
+    if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
+        // un-flash all cells changed by the move
+        [stateCopy forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            if (cellState != [_state cellStateAtRow:row column:column]) {
+                [_boardLayer stopFlashForCellAtRow:row column:column];
+            }
+        }];
+    }
+}
+
+- (void)inputCancelled {
+    NSLog(@"input: cancelled");
     // TODO: visual
 }
 
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
-    // apply the move to a temporary copy
+    NSLog(@"input: confirmed move %@", move);
+    // apply the move
     if ([_state applyMove:move]) {
-        NSLog(@"input: confirmed move %@", move);
         // block move input during animation
         [self disableMoveInput];
         [_boardLayer animateMove:move newGameState:_state afterAnimationInvokeBlock:^{
@@ -156,11 +186,6 @@
             [self tellCurrentPlayerMakeMove];
         }];
     }
-}
-
-- (void)inputCancelled {
-    NSLog(@"input: cancelled");
-    // TODO: visual
 }
 
 - (void)setPlayerA:(id<JCSFlipPlayer>)playerA {

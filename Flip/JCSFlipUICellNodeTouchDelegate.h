@@ -15,15 +15,11 @@
 // returns YES if the touch was accepted by the delegate, NO if not
 - (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell;
 
-// user is dragging
+// user is dragging or stopped dragging
 // the touch started at the given cell, and spans the given dragging movement
 // delta is in cell-relative cartesian coordinates, i.e. ccp(1,-2) is 1 cell size right, and 2 cell sizes down
-- (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged;
-
-// user stopped dragging
-// the touch started at the given cell, and spans the given dragging movement
-// delta is in cell-relative cartesian coordinates, i.e. ccp(1,-2) is 1 cell size right, and 2 cell sizes down
-- (void)touchEndedWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged;
+// ended is set to YES if the user stopped dragging
+- (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged ended:(BOOL)ended;
 
 // touch has been cancelled (e.g. by incoming call)
 - (void)touchCancelledWithCell:(JCSFlipUICellNode *)cell;

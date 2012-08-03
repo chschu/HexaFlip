@@ -30,4 +30,7 @@
 // after the animation is done, the block is invoked (asnychronously!)
 - (void)animateMove:(JCSFlipMove *)move newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block;
 
+- (void)startFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
+- (void)stopFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
+    
 @end

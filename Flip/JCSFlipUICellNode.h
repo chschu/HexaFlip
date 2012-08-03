@@ -23,4 +23,7 @@
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
+- (void)startFlash;
+- (void)stopFlash;
+
 @end
