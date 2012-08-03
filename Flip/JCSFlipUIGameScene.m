@@ -128,19 +128,26 @@
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForGameStatus(_state.status)) {
         // TODO: visual
+        NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
         return YES;
     }
     return NO;
 }
 
 - (void)inputSelectedDirection:(JCSHexDirection)direction {
+    NSLog(@"input: selected direction %d", direction);
+    // TODO: visual
+}
+
+- (void)inputClearedDirection {
+    NSLog(@"input: cleared direction");
     // TODO: visual
 }
 
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     // apply the move to a temporary copy
     if ([_state applyMove:move]) {
-        NSLog(@"confirmed move %@", move);
+        NSLog(@"input: confirmed move %@", move);
         // block move input during animation
         [self disableMoveInput];
         [_boardLayer animateMove:move newGameState:_state afterAnimationInvokeBlock:^{
@@ -152,6 +159,7 @@
 }
 
 - (void)inputCancelled {
+    NSLog(@"input: cancelled");
     // TODO: visual
 }
 

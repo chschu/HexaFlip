@@ -20,6 +20,9 @@
 // the player has selected a direction (might be invoked multiple times)
 - (void)inputSelectedDirection:(JCSHexDirection)direction;
 
+// the player has deselected the direction
+- (void)inputClearedDirection;
+
 // the player has cancelled move input
 - (void)inputCancelled;
 
