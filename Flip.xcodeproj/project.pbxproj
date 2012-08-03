@@ -1165,7 +1165,6 @@
 				F3D7F48C15C336C000704029 /* JCSFlipMoveInputDelegate.h */,
 				F3D7F48D15C3457E00704029 /* Player */,
 				F3AB8C8F15C8792E00D911B9 /* Scenes */,
-				F3D7F48E15C3459100704029 /* Nodes */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1180,13 +1179,6 @@
 				F3D7F46D15C0A60E00704029 /* JCSFlipPlayerAI.m */,
 			);
 			name = Player;
-			sourceTree = "<group>";
-		};
-		F3D7F48E15C3459100704029 /* Nodes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Nodes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
