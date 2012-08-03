@@ -27,13 +27,13 @@
         _emptyCellSprite = [CCSprite spriteWithFile:@"cell-empty.png"];
         _playerAOverlaySprite = [CCSprite spriteWithFile:@"cell-overlay-a.png"];
         _playerBOverlaySprite = [CCSprite spriteWithFile:@"cell-overlay-b.png"];
-
+        
         CGFloat width = _emptyCellSprite.texture.contentSize.width;
         CGFloat height = _emptyCellSprite.texture.contentSize.height;
         
         // must be square
         NSAssert(width == height, @"sprite must be square");
-
+        
         // overlays must be of same size
         NSAssert(_playerAOverlaySprite.texture.contentSize.width == width, @"sprites must be of same size");
         NSAssert(_playerAOverlaySprite.texture.contentSize.height == height, @"sprites must be of same size");
@@ -44,10 +44,10 @@
         _emptyCellSprite.scale = 1.0/width;
         _playerAOverlaySprite.scale = 1.0/width;
         _playerBOverlaySprite.scale = 1.0/width;
-
+        
         _row = row;
         _column = column;
-
+        
         // use property access to initialize sprite
         self.cellState = cellState;
     }
@@ -65,12 +65,15 @@
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    // our sprite has node coordinates from -0.5 to 0.5
-    CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
-    CGPoint location = [self convertTouchToNodeSpace:touch];
-    if (CGRectContainsPoint(box, location)) {
-        // notify delegate and swallow touch if delegate tells us to
-        return [_touchDelegate touchBeganWithCell:self];
+    // we don't consider touches on holes
+    if (_cellState != JCSFlipCellStateHole) {
+        // our sprite has node coordinates from -0.5 to 0.5
+        CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
+        CGPoint location = [self convertTouchToNodeSpace:touch];
+        if (CGRectContainsPoint(box, location)) {
+            // notify delegate and swallow touch if delegate tells us to
+            return [_touchDelegate touchBeganWithCell:self];
+        }
     }
     return NO;
 }
@@ -97,7 +100,7 @@
     
     // remove sprites
     [self removeAllChildrenWithCleanup:YES];
-
+    
     // add sprites
     switch (cellState) {
         case JCSFlipCellStateEmpty:
