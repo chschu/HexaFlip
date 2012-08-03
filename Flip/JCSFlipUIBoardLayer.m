@@ -272,6 +272,7 @@
             
             // execute the move
             JCSFlipMove *move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
+            _moveStartCell = nil;
             [_inputDelegate inputConfirmedWithMove:move];
         }
     }
