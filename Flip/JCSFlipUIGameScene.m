@@ -78,7 +78,7 @@
     _skipButton.position = ccp(windowWidth/2-10, -windowHeight/2+10);
     
     CCMenu *menu = [CCMenu menuWithItems:_exitButton, _skipButton, nil];
-    [self addChild:menu];
+    [self addChild:menu z:1];
     
     [self updateUI];
     [self tellCurrentPlayerMakeMove];
@@ -141,7 +141,7 @@
 
 - (void)inputSelectedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected direction %d", direction);
-    
+
     // check if the move is valid
     JCSFlipGameState *stateCopy = [_state copy];
     if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
