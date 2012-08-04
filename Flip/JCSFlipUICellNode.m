@@ -122,13 +122,17 @@
 }
 
 - (void)startFlash {
-    if (_flashAction == nil) {
-        CCTintTo *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
-        CCTintTo *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
-        CCSequence *flash = [CCSequence actionOne:tint two:untint];
-        _flashAction = [CCRepeatForever actionWithAction:flash];
-        [_emptyCellSprite runAction:_flashAction];
+    if (_flashAction != nil) {
+        [_emptyCellSprite stopAction:_flashAction];
     }
+        
+    CCTintTo *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
+    CCTintTo *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
+    CCSequence *flashOnce = [CCSequence actions:tint, untint, nil];
+    
+    _flashAction = [CCRepeatForever actionWithAction:flashOnce];
+    
+    [_emptyCellSprite runAction:_flashAction];
 }
 
 - (void)stopFlash {

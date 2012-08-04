@@ -31,7 +31,7 @@
 - (void)animateMove:(JCSFlipMove *)move newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block;
 
 // repeatedly flash a cell
-// no-op if the cell is already flashing
+// restarts flashing if the cell is already flashing
 - (void)startFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
 
 // stops the cell's flashing

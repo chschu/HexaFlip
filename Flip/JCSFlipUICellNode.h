@@ -24,7 +24,7 @@
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
 // repeatedly flash the cell
-// no-op if the cell is already flashing
+// restarts flashing if the cell is already flashing
 - (void)startFlash;
 
 // stops the cell's flashing

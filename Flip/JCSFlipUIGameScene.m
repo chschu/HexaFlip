@@ -145,6 +145,8 @@
     // check if the move is valid
     JCSFlipGameState *stateCopy = [_state copy];
     if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
+        // re-trigger the flash of the start cell to get it in sync
+        [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         // flash all cells changed by the move
         [stateCopy forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             if (cellState != [_state cellStateAtRow:row column:column]) {
