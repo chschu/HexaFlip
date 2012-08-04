@@ -27,7 +27,6 @@
 
 - (float)valueOfNode:(JCSFlipGameState *)node {
     __block float score;
-    float baseCellScore;
     switch (node.status) {
 		case JCSFlipGameStatusPlayerAWon:
 			score = INFINITY;
@@ -39,14 +38,12 @@
             score = 0;
             break;
 		default:
-            // compute base cell score (independent of safety)
-            baseCellScore = _randomness * ([node hash] / NSUIntegerMax) + _possession;
-            
-            score = 0.0;
+            // start out with the random part
+            score = _randomness * (2.0 * [node hash] / NSUIntegerMax - 1.0);
             [node forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
                 if (cellState == JCSFlipCellStateOwnedByPlayerA || cellState == JCSFlipCellStateOwnedByPlayerB) {
                     // start with a base possession score, add safety/6 for every safe direction
-                    float cellScore = baseCellScore;
+                    float cellScore = _possession;
                     for (JCSHexDirection dir = JCSHexDirectionMin; dir <= JCSHexDirectionMax; dir++) {
                         NSInteger rowDelta = JCSHexDirectionRowDelta(dir);
                         NSInteger columnDelta = JCSHexDirectionColumnDelta(dir);
