@@ -23,7 +23,12 @@
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
+// repeatedly flash the cell
+// no-op if the cell is already flashing
 - (void)startFlash;
+
+// stops the cell's flashing
+// no-op if the cell is not flashing
 - (void)stopFlash;
 
 @end

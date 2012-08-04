@@ -30,7 +30,12 @@
 // after the animation is done, the block is invoked (asnychronously!)
 - (void)animateMove:(JCSFlipMove *)move newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block;
 
+// repeatedly flash a cell
+// no-op if the cell is already flashing
 - (void)startFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
+
+// stops the cell's flashing
+// no-op if the cell is not flashing
 - (void)stopFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
     
 @end
