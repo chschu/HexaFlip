@@ -32,7 +32,7 @@
 }
 
 - (void)onEnter {
-    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:1 swallowsTouches:YES];
+    [[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:NSIntegerMin swallowsTouches:YES];
     [super onEnter];
 }
 
@@ -42,10 +42,12 @@
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    return YES;
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
     CCScene *scene = [JCSFlipUIMainMenuScene scene];
     [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInL transitionWithDuration:0.5 scene:scene]];
-    
-    return YES;
 }
 
 @end
