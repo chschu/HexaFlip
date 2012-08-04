@@ -123,7 +123,7 @@
 
 - (void)startFlash {
     if (_flashAction == nil) {
-        CCTintTo *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:127 green:255 blue:127] rate:2];
+        CCTintTo *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
         CCTintTo *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
         CCSequence *flash = [CCSequence actionOne:tint two:untint];
         _flashAction = [CCRepeatForever actionWithAction:flash];
