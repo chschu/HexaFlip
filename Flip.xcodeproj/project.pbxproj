@@ -558,6 +558,7 @@
 		F35B94E015C0946E00C7A593 /* JCSMinimaxGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSMinimaxGameAlgorithm.m; sourceTree = "<group>"; };
 		F35B94E115C0946E00C7A593 /* JCSRandomGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRandomGameAlgorithm.h; sourceTree = "<group>"; };
 		F35B94E215C0946E00C7A593 /* JCSRandomGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRandomGameAlgorithm.m; sourceTree = "<group>"; };
+		F396468015CD97BC007F2C58 /* InfoPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPlist.h; sourceTree = "<group>"; };
 		F3AB8C7E15C7B39B00D911B9 /* JCSGameHeuristic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSGameHeuristic.h; sourceTree = "<group>"; };
 		F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePSRHeuristic.h; sourceTree = "<group>"; };
 		F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePSRHeuristic.m; sourceTree = "<group>"; };
@@ -710,6 +711,7 @@
 		F300550F15B0AC2900BAD89C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F396468015CD97BC007F2C58 /* InfoPlist.h */,
 				F300551015B0AC2900BAD89C /* Prefix.pch */,
 				F300551115B0AC2900BAD89C /* main.m */,
 			);
@@ -1324,6 +1326,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "Flip" */;
 			buildPhases = (
+				F37732F915CD798F00CE2649 /* Run Script */,
 				F300538115B0AC2700BAD89C /* Sources */,
 				F300538215B0AC2700BAD89C /* Frameworks */,
 				F300538315B0AC2700BAD89C /* Resources */,
@@ -1429,6 +1432,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F37732F915CD798F00CE2649 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\ncd \"$PROJECT_DIR\"\nversion=$(/usr/bin/git log -1 --format=\"%H\")\necho \"#define GIT_HASH $version\" > Flip/InfoPlist.h";
+		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1660,6 +1677,8 @@
 				GCC_PREFIX_HEADER = Flip/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Flip/libs/kazmath/include\"";
 				INFOPLIST_FILE = Flip/Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Flip/InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -1681,6 +1700,8 @@
 				GCC_PREFIX_HEADER = Flip/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Flip/libs/kazmath/include\"";
 				INFOPLIST_FILE = Flip/Resources/Info.plist;
+				INFOPLIST_PREFIX_HEADER = Flip/InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-lz",
