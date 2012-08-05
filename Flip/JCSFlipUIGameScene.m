@@ -64,7 +64,7 @@
     
     _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
         CCScene *scene = [JCSFlipUIMainMenuScene scene];
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInL transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     _exitButton.color = menuColor;
     _exitButton.anchorPoint = ccp(0,1);

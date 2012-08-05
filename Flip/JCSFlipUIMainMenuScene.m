@@ -38,7 +38,7 @@
         scene.playerA = [[JCSFlipPlayerLocal alloc] initWithName:@"Red"];
         scene.playerB = [[JCSFlipPlayerLocal alloc] initWithName:@"Blue"];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     playerVsPlayer.color = menuColor;
     
@@ -47,7 +47,7 @@
         scene.playerA = [[JCSFlipPlayerLocal alloc] initWithName:@"Player"];
         scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"AI" algorithm:[self algorithmEasy] moveInputDelegate:scene];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     playerVsAIEasy.color = menuColor;
 
@@ -56,7 +56,7 @@
         scene.playerA = [[JCSFlipPlayerLocal alloc] initWithName:@"Player"];
         scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"AI" algorithm:[self algorithmMedium] moveInputDelegate:scene];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     playerVsAIMedium.color = menuColor;
 
@@ -65,7 +65,7 @@
         scene.playerA = [[JCSFlipPlayerLocal alloc] initWithName:@"Player"];
         scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"AI" algorithm:[self algorithmHard] moveInputDelegate:scene];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     playerVsAIHard.color = menuColor;
 
@@ -74,7 +74,7 @@
         scene.playerA = [[JCSFlipPlayerAI alloc] initWithName:@"Medium" algorithm:[self algorithmMedium] moveInputDelegate:scene];
         scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"Hard" algorithm:[self algorithmHard] moveInputDelegate:scene];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     aiMediumVsAiHard.color = menuColor;
 
@@ -83,7 +83,7 @@
         scene.playerA = [[JCSFlipPlayerAI alloc] initWithName:@"Red" algorithm:[self algorithmRandom] moveInputDelegate:scene];
         scene.playerB = [[JCSFlipPlayerAI alloc] initWithName:@"Blue" algorithm:[self algorithmRandom] moveInputDelegate:scene];
         
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionSlideInR transitionWithDuration:0.5 scene:scene]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
     }];
     aiBattle.color = menuColor;
 
