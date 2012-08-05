@@ -13,7 +13,8 @@
 // this heuristic uses the number of cells owned by each player, and the "safety" degrees of each of these cells,
 // as well as a pseudo-random base score to make gameplay somewhat non-deterministic
 //
-// for finished games, its value is INFINITY (A won), -INFINITY (B won), or 0 (draw)
+// for finished games, its value is 10^20 * (cells owned by A - cells owned by B)
+// it uses this "near infinity" values to reach the best score even when the outcome is already certain
 //
 // for running games, its value is determined in the following way:
 //

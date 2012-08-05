@@ -29,13 +29,9 @@
     __block float score;
     switch (node.status) {
 		case JCSFlipGameStatusPlayerAWon:
-			score = INFINITY;
-            break;
 		case JCSFlipGameStatusPlayerBWon:
-            score = -INFINITY;
-            break;
 		case JCSFlipGameStatusDraw:
-            score = 0;
+            score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
             break;
 		default:
             // start out with the random part
@@ -61,8 +57,8 @@
                             curColumn += columnDelta;
                         }
                         if (curState == JCSFlipCellStateHole) {
-                            // direction is safe
-                            cellScore += _safety/6;
+                            // direction is safe, add 1/6 safety score
+                            cellScore += _safety/(JCSHexDirectionMax-JCSHexDirectionMin+1);
                             continue;
                         }
                         
@@ -75,8 +71,8 @@
                             curColumn -= columnDelta;
                         }
                         if (curState != JCSFlipCellStateEmpty) {
-                            // direction is safe
-                            cellScore += _safety/6;
+                            // direction is safe, add 1/6 safety score
+                            cellScore += _safety/(JCSHexDirectionMax-JCSHexDirectionMin+1);
                         }
                     }
                     
