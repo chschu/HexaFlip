@@ -91,8 +91,13 @@
 
     CCMenu *menu = [CCMenu menuWithItems:playerVsPlayer, playerVsAIEasy, playerVsAIMedium, playerVsAIHard, aiMediumVsAiHard, aiBattle, nil];
     [menu alignItemsVertically];
-    
     [self addChild:menu];
+    
+    NSString *buildString = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    CCLabelTTF *buildLabel = [CCLabelTTF labelWithString:buildString fontName:@"Marker Felt" fontSize:12];
+    buildLabel.anchorPoint = ccp(0, 0);
+    buildLabel.position = ccp(5, 5);
+    [self addChild:buildLabel];
 }
 
 - (id<JCSGameAlgorithm>)algorithmEasy {
