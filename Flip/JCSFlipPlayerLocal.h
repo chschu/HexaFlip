@@ -10,6 +10,6 @@
 
 @interface JCSFlipPlayerLocal : NSObject <JCSFlipPlayer>
 
-- (id)initWithName:(NSString *)name;
++ (id)playerWithName:(NSString *)name;
 
 @end

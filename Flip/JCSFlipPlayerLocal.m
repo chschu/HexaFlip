@@ -12,6 +12,10 @@
 
 @synthesize name = _name;
 
++ (id)playerWithName:(NSString *)name {
+    return [[self alloc] initWithName:name];
+}
+
 - (id)initWithName:(NSString *)name {
     if (self = [super init]) {
         _name = name;

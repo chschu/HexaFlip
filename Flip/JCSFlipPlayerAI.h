@@ -14,7 +14,7 @@
 
 @property (strong, readonly) id<JCSGameAlgorithm> algorithm;
 
-// initialize with name, algorithm, and a delegate to perform the move input
-- (id)initWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;
+// create an AI player with name, algorithm, and a delegate to perform the move input
++ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;
 
 @end

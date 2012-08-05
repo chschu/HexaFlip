@@ -19,6 +19,10 @@
 @synthesize name = _name;
 @synthesize algorithm = _algorithm;
 
++ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
+    return [[self alloc] initWithName:name algorithm:algorithm moveInputDelegate:moveInputDelegate];
+}
+
 - (id)initWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
     if (self = [super init]) {
         _name = name;
