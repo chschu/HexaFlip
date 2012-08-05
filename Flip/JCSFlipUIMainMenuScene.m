@@ -101,12 +101,12 @@
 }
 
 - (id<JCSGameAlgorithm>)algorithmMedium {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.4 randomness:2];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.2 randomness:2];
     return [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
 }
 
 - (id<JCSGameAlgorithm>)algorithmHard {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.2];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.5 randomness:0.2];
     return [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:heuristic];
 }
 
