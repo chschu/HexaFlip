@@ -115,7 +115,7 @@
     __block NSMutableArray *result = [NSMutableArray array];
     
     [node enumerateChildrenUsingBlock:^(id move, id<JCSGameNode> child, BOOL *stop) {
-        float heuristicValue = [_heuristic valueOfNode:node];
+        float heuristicValue = [_heuristic valueOfNode:child];
         NSArray *entry = [NSArray arrayWithObjects:[NSNumber numberWithFloat:heuristicValue], move, child, nil];
         [result addObject:entry];
     }];
