@@ -112,14 +112,14 @@
 }
 
 - (NSArray *)sortedChildrenOfNode:(id<JCSGameNode>)node ascending:(BOOL)ascending {
-    __block NSMutableArray *result = [NSMutableArray array];
+    NSMutableArray *result = [NSMutableArray array];
     
     [node enumerateChildrenUsingBlock:^(id move, id<JCSGameNode> child, BOOL *stop) {
         float heuristicValue = [_heuristic valueOfNode:child];
         NSArray *entry = [NSArray arrayWithObjects:[NSNumber numberWithFloat:heuristicValue], move, child, nil];
         [result addObject:entry];
     }];
-    
+
     NSComparisonResult(^comparator)(NSArray *, NSArray *);
     
     if (ascending) {
