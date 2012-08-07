@@ -16,7 +16,7 @@
     NSInteger _size;
     
     // cell states for all cells in the grid, in row-major order
-    // the state of the cell at (r,c) is stored at index size*(r+(size-1)) + c+(size-1)
+    // the state of the cell at (r,c) is stored at index (2*size-1)*(r+(size-1)) + c+(size-1)
     JCSFlipCellState *_cellStates;
 
     // container holding YES if skipping is allowed, NO if it is not
