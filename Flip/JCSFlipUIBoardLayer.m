@@ -41,6 +41,10 @@ typedef enum {
 - (id)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
         _uiCellNodes = [NSMutableDictionary dictionary];
+
+        CCSpriteFrame *spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dummy.png"];
+
+        CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
         
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             JCSFlipUICellNode *uiCell = [[JCSFlipUICellNode alloc] initWithRow:row column:column cellState:cellState];
@@ -53,9 +57,13 @@ typedef enum {
             
             // place cells with spacing of 1
             uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
-            
-            [self addChild:uiCell z:0];
+
+            // add the cell to the batch node
+            [batchNode addChild:uiCell z:0];
         }];
+        
+        // add the batch node to the layer
+        [self addChild:batchNode z:0];
         
         // create immutable dictionary
         _uiCellNodes = [_uiCellNodes copy];
@@ -137,7 +145,7 @@ typedef enum {
                                 fullAnimationAction,
                                 finalBlockAction,
                                 nil];
-
+    
     // if the scene is no longer running, the actions won't start anymore
     [self runAction:[CCSequence actionWithArray:sequenceActions]];
 }
@@ -178,7 +186,7 @@ typedef enum {
                     // discard touch
                     return NO;
                 }
-
+                
                 NSInteger dr = cell.row - _moveStartCell.row;
                 NSInteger dc = cell.column - _moveStartCell.column;
                 if (!(dr == 0 || dc == 0 || dr+dc == 0)) {
@@ -244,7 +252,7 @@ typedef enum {
 
 - (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged ended:(BOOL)ended {
     BOOL inside = (hypot(dragged.x, dragged.y) <= 0.5);
-
+    
     // track inside/outside changes
     switch (_moveInputState) {
         case JCSFlipUIMoveInputStateFirstTapInside:
@@ -255,7 +263,7 @@ typedef enum {
                 _moveInputState = JCSFlipUIMoveInputStateFirstTapOutside;
             }
             break;
-        
+            
         case JCSFlipUIMoveInputStateFirstTapOutside:
             if (inside) {
                 [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
@@ -270,7 +278,7 @@ typedef enum {
                 }
             }
             break;
-
+            
         case JCSFlipUIMoveInputStateSecondTapInside:
             if (!inside) {
                 // hide direction
@@ -278,7 +286,7 @@ typedef enum {
                 _moveInputState = JCSFlipUIMoveInputStateSecondTapOutside;
             }
             break;
-
+            
         case JCSFlipUIMoveInputStateSecondTapOutside:
             if (inside) {
                 // show direction
@@ -286,12 +294,12 @@ typedef enum {
                 _moveInputState = JCSFlipUIMoveInputStateSecondTapInside;
             }
             break;
-
+            
         default:
             NSAssert(NO, @"illegal move input state %d", _moveInputState);
             break;
     }
-
+    
     // move/cancel stage
     if (ended) {
         JCSFlipMove *move;
@@ -300,7 +308,7 @@ typedef enum {
                 // released inside start cell: initiate tap-tap move input
                 _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;
                 break;
-
+                
             case JCSFlipUIMoveInputStateFirstTapOutside:
                 // released outside start cell: complete drag move input
                 [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
@@ -309,7 +317,7 @@ typedef enum {
                 [_inputDelegate inputConfirmedWithMove:move];
                 _moveInputState = JCSFlipUIMoveInputStateReady;
                 break;
-            
+                
             case JCSFlipUIMoveInputStateSecondTapInside:
                 // released inside target cell: complete tap-tap move input
                 [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
@@ -348,7 +356,7 @@ typedef enum {
             
         case JCSFlipUIMoveInputStateFirstTapSelected:
             break;
-        
+            
         case JCSFlipUIMoveInputStateSecondTapInside:
             [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
             _moveInputState = JCSFlipUIMoveInputStateFirstTapSelected;

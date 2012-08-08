@@ -24,36 +24,45 @@
 @synthesize touchDelegate = _touchDelegate;
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
-    if (self = [super init]) {
-        // initialize sprites
-        _emptyCellSprite = [CCSprite spriteWithFile:@"cell-empty.png"];
-        _playerAOverlaySprite = [CCSprite spriteWithFile:@"cell-overlay-a.png"];
-        _playerBOverlaySprite = [CCSprite spriteWithFile:@"cell-overlay-b.png"];
+    if (self = [super initWithSpriteFrameName:@"dummy.png"]) {
+        // determine sprite frames (required for proper scaling)
+        CCSpriteFrameCache *spriteFrameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
+        CCSpriteFrame *emptyCellSpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-empty.png"];
+        CCSpriteFrame *playerAOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-a.png"];
+        CCSpriteFrame *playerBOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-b.png"];
+
+        // initialize child sprites
+        _emptyCellSprite = [CCSprite spriteWithSpriteFrame:emptyCellSpriteFrame];
+        _playerAOverlaySprite = [CCSprite spriteWithSpriteFrame:playerAOverlaySpriteFrame];
+        _playerBOverlaySprite = [CCSprite spriteWithSpriteFrame:playerBOverlaySpriteFrame];
         
-        CGFloat width = _emptyCellSprite.texture.contentSize.width;
-        CGFloat height = _emptyCellSprite.texture.contentSize.height;
-        
-        // must be square
-        NSAssert(width == height, @"sprite must be square");
-        
-        // overlays must be of same size
-        NSAssert(_playerAOverlaySprite.texture.contentSize.width == width, @"sprites must be of same size");
-        NSAssert(_playerAOverlaySprite.texture.contentSize.height == height, @"sprites must be of same size");
-        NSAssert(_playerBOverlaySprite.texture.contentSize.width == width, @"sprites must be of same size");
-        NSAssert(_playerBOverlaySprite.texture.contentSize.height == height, @"sprites must be of same size");
-        
-        // sprites are 96x96 points, place in 1x1 coordinate square
-        _emptyCellSprite.scale = 1.0/width;
-        _playerAOverlaySprite.scale = 1.0/width;
-        _playerBOverlaySprite.scale = 1.0/width;
-        
+        // scale sprites to unit size (in cell sprite coordinates)
+        _emptyCellSprite.scaleX = 1.0/emptyCellSpriteFrame.originalSize.width;
+        _emptyCellSprite.scaleY = 1.0/emptyCellSpriteFrame.originalSize.height;
+        _playerAOverlaySprite.scaleX = 1.0/playerAOverlaySpriteFrame.originalSize.width;
+        _playerAOverlaySprite.scaleY = 1.0/playerAOverlaySpriteFrame.originalSize.height;
+        _playerBOverlaySprite.scaleX = 1.0/playerBOverlaySpriteFrame.originalSize.width;
+        _playerBOverlaySprite.scaleY = 1.0/playerBOverlaySpriteFrame.originalSize.height;
+
+        // move child sprites' centers to center of cell sprite
+        _emptyCellSprite.position = ccp(0.5, 0.5);
+        _playerAOverlaySprite.position = ccp(0.5, 0.5);
+        _playerBOverlaySprite.position = ccp(0.5, 0.5);
+
+        // set cell sprite content size to unit square (in parent's coordinates)
+        self.contentSize = CGSizeMake(1, 1);
+
         _row = row;
         _column = column;
         
-        // use property access to initialize sprite
+        // use property access to add child sprites
         self.cellState = cellState;
     }
     return self;
+}
+
+- (void)draw {
+    // empty method to avoid drawing the dummy sprite required for batching
 }
 
 - (void)onEnter {
@@ -69,9 +78,10 @@
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     // we don't consider touches on holes
     if (_cellState != JCSFlipCellStateHole) {
-        // our sprite has node coordinates from -0.5 to 0.5
+        // our sprite has anchor relative node coordinates from -0.5 to 0.5
         CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
-        CGPoint location = [self convertTouchToNodeSpace:touch];
+        // convert to anchor relative node space coordinates
+        CGPoint location = [self convertTouchToNodeSpaceAR:touch];
         if (CGRectContainsPoint(box, location)) {
             // notify delegate and swallow touch if delegate tells us to
             return [_touchDelegate touchBeganWithCell:self];
@@ -81,13 +91,13 @@
 }
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint location = [self convertTouchToNodeSpace:touch];
+    CGPoint location = [self convertTouchToNodeSpaceAR:touch];
     // notify delegate about the dragging
     [_touchDelegate touchWithCell:self dragged:location ended:NO];
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint location = [self convertTouchToNodeSpace:touch];
+    CGPoint location = [self convertTouchToNodeSpaceAR:touch];
     // notify delegate about the release
     [_touchDelegate touchWithCell:self dragged:location ended:YES];
 }
@@ -100,7 +110,7 @@
 - (void)setCellState:(JCSFlipCellState)cellState {
     _cellState = cellState;
     
-    // remove sprites
+    // remove child sprites
     [self removeAllChildrenWithCleanup:NO];
     
     // add sprites

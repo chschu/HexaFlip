@@ -12,7 +12,7 @@
 
 #import "cocos2d.h"
 
-@interface JCSFlipUICellNode : CCNode <CCTargetedTouchDelegate>
+@interface JCSFlipUICellNode : CCSprite <CCTargetedTouchDelegate>
 
 @property (readonly) NSInteger row;
 @property (readonly) NSInteger column;
