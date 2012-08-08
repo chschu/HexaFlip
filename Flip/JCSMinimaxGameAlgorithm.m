@@ -8,9 +8,29 @@
 
 #import "JCSMinimaxGameAlgorithm.h"
 
+// simple container class for move ordering
+@interface JCSMinimaxChildData : NSObject {
+@package
+    // the child node
+    id<JCSGameNode> child;
+    
+    // the child's heuristic value (used for move ordering)
+    float childHeuristicValue;
+    
+    // the move
+    id move;
+}
+@end
+
+@implementation JCSMinimaxChildData
+@end
+
 @implementation JCSMinimaxGameAlgorithm {
     // the heuristic evaluation to be used
     id<JCSGameHeuristic> _heuristic;
+
+    // number of analyzed nodes (for stat output)
+    NSInteger _count;
 }
 
 @synthesize depth = _depth;
@@ -30,28 +50,32 @@
     float score;
     id bestMove = nil;
     
+    _count = 0;
+    NSDate *start = [NSDate date];
+    
     if (node.maximizing) {
-        score = [self maximizeForNode:node depth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
+        score = [self maximizeForNode:node heuristicValue:[_heuristic valueOfNode:node] depth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
     } else {
-        score = [self minimizeForNode:node depth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
+        score = [self minimizeForNode:node heuristicValue:[_heuristic valueOfNode:node] depth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
     }
+    
+    NSLog(@"analyzed %d nodes in %.3f seconds", _count, [[NSDate date] timeIntervalSinceDate:start]);
     
     return bestMove;
 }
 
-- (float)maximizeForNode:(id<JCSGameNode>)node depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
+- (float)maximizeForNode:(id<JCSGameNode>)node heuristicValue:(float)heuristicValue depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
+    _count++;
 	id bestMove = nil;
 	float bestScore = -INFINITY;
     
     if (depth > 0 && !node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenOfNode:node ascending:NO];
-            for (NSArray *entry in entries) {
-                id move = [entry objectAtIndex:1];
-                id<JCSGameNode> child = [entry objectAtIndex:2];
-                float score = [self minimizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
+            for (JCSMinimaxChildData *entry in entries) {
+                float score = [self minimizeForNode:entry->child heuristicValue:entry->childHeuristicValue depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
                 if (score > bestScore || bestMove == nil) {
-                    bestMove = move;
+                    bestMove = entry->move;
                     bestScore = score;
                     if (score > alpha) {
                         alpha = score;
@@ -65,7 +89,7 @@
         NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
-        bestScore = [_heuristic valueOfNode:node];
+        bestScore = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
@@ -75,19 +99,18 @@
     return bestScore;
 }
 
-- (float)minimizeForNode:(id<JCSGameNode>)node depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
+- (float)minimizeForNode:(id<JCSGameNode>)node heuristicValue:(float)heuristicValue depth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder {
+    _count++;
 	id bestMove = nil;
 	float bestScore = INFINITY;
     
     if (depth > 0 && !node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenOfNode:node ascending:YES];
-            for (NSArray *entry in entries) {
-                id move = [entry objectAtIndex:1];
-                id<JCSGameNode> child = [entry objectAtIndex:2];
-                float score = [self maximizeForNode:child depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
+            for (JCSMinimaxChildData *entry in entries) {
+                float score = [self maximizeForNode:entry->child heuristicValue:entry->childHeuristicValue depth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil];
                 if (score < bestScore || bestMove == nil) {
-                    bestMove = move;
+                    bestMove = entry->move;
                     bestScore = score;
                     if (score < beta) {
                         beta = score;
@@ -101,7 +124,7 @@
         NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
-        bestScore = [_heuristic valueOfNode:node];
+        bestScore = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
@@ -115,24 +138,38 @@
     NSMutableArray *result = [NSMutableArray array];
     
     [node enumerateChildrenUsingBlock:^(id move, id<JCSGameNode> child, BOOL *stop) {
-        float heuristicValue = [_heuristic valueOfNode:child];
-        NSArray *entry = [NSArray arrayWithObjects:[NSNumber numberWithFloat:heuristicValue], move, child, nil];
+        JCSMinimaxChildData *entry = [[JCSMinimaxChildData alloc] init];
+        entry->child = child;
+        entry->childHeuristicValue = [_heuristic valueOfNode:child];
+        entry->move = move;
         [result addObject:entry];
     }];
 
-    NSComparisonResult(^comparator)(NSArray *, NSArray *);
+    NSComparisonResult(^comparator)(JCSMinimaxChildData *, JCSMinimaxChildData *);
     
     if (ascending) {
-        comparator = ^NSComparisonResult(NSArray *obj1, NSArray *obj2) {
-            NSNumber *score1 = [obj1 objectAtIndex:0];
-            NSNumber *score2 = [obj2 objectAtIndex:0];
-            return [score1 compare:score2];
+        comparator = ^NSComparisonResult(JCSMinimaxChildData *obj1, JCSMinimaxChildData *obj2) {
+            float v1 = obj1->childHeuristicValue;
+            float v2 = obj2->childHeuristicValue;
+            if (v1 < v2) {
+                return NSOrderedAscending;
+            }
+            if (v1 > v2) {
+                return NSOrderedDescending;
+            }
+            return NSOrderedSame;
         };
     } else {
-        comparator = ^NSComparisonResult(NSArray *obj1, NSArray *obj2) {
-            NSNumber *score1 = [obj1 objectAtIndex:0];
-            NSNumber *score2 = [obj2 objectAtIndex:0];
-            return [score2 compare:score1];
+        comparator = ^NSComparisonResult(JCSMinimaxChildData *obj1, JCSMinimaxChildData *obj2) {
+            float v1 = obj1->childHeuristicValue;
+            float v2 = obj2->childHeuristicValue;
+            if (v1 > v2) {
+                return NSOrderedAscending;
+            }
+            if (v1 < v2) {
+                return NSOrderedDescending;
+            }
+            return NSOrderedSame;
         };
     }
     
