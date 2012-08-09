@@ -55,14 +55,15 @@
         _row = row;
         _column = column;
         
-        // use property access to add child sprites
+        // add child sprites
+        [self addChild:_emptyCellSprite z:0];
+        [self addChild:_playerAOverlaySprite z:1];
+        [self addChild:_playerBOverlaySprite z:1];
+        
+        // use property access to adjust visibility
         self.cellState = cellState;
     }
     return self;
-}
-
-- (void)draw {
-    // empty method to avoid drawing the dummy sprite required for batching
 }
 
 - (void)onEnter {
@@ -109,26 +110,11 @@
 
 - (void)setCellState:(JCSFlipCellState)cellState {
     _cellState = cellState;
-    
-    // remove child sprites
-    [self removeAllChildrenWithCleanup:NO];
-    
-    // add sprites
-    switch (cellState) {
-        case JCSFlipCellStateEmpty:
-            [self addChild:_emptyCellSprite z:0];
-            break;
-        case JCSFlipCellStateOwnedByPlayerA:
-            [self addChild:_emptyCellSprite z:0];
-            [self addChild:_playerAOverlaySprite z:1];
-            break;
-        case JCSFlipCellStateOwnedByPlayerB:
-            [self addChild:_emptyCellSprite z:0];
-            [self addChild:_playerBOverlaySprite z:1];
-            break;
-        case JCSFlipCellStateHole:
-            break;
-    }
+
+    // set visibility of child sprites
+    _emptyCellSprite.visible = (cellState != JCSFlipCellStateHole);
+    _playerAOverlaySprite.visible = (cellState == JCSFlipCellStateOwnedByPlayerA);
+    _playerBOverlaySprite.visible = (cellState == JCSFlipCellStateOwnedByPlayerB);
 }
 
 - (void)startFlash {
