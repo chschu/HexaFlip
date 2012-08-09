@@ -14,9 +14,9 @@
 
 @interface JCSFlipUICellNode : CCSprite <CCTargetedTouchDelegate>
 
-@property (readonly) NSInteger row;
-@property (readonly) NSInteger column;
-@property (assign, nonatomic) JCSFlipCellState cellState;
+@property (readonly, nonatomic) NSInteger row;
+@property (readonly, nonatomic) NSInteger column;
+@property (nonatomic) JCSFlipCellState cellState;
 
 // the delegate to report touches to
 @property (weak, nonatomic) id<JCSFlipUICellNodeTouchDelegate> touchDelegate;

@@ -12,7 +12,7 @@
 
 @interface JCSFlipPlayerAI : NSObject <JCSFlipPlayer>
 
-@property (strong, readonly) id<JCSGameAlgorithm> algorithm;
+@property (readonly, nonatomic) id<JCSGameAlgorithm> algorithm;
 
 // create an AI player with name, algorithm, and a delegate to perform the move input
 + (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;

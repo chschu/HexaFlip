@@ -10,10 +10,10 @@
 @protocol JCSGameNode <NSObject>
 
 // whether the receiver is a leaf node
-@property (readonly) BOOL leaf;
+@property (readonly, nonatomic) BOOL leaf;
 
 // whether the receiver is a maximizing node
-@property (readonly) BOOL maximizing;
+@property (readonly, nonatomic) BOOL maximizing;
 
 // enumerate the child nodes of the receiver, passing move data and the child node to the given block
 // enumeration stops when the block sets *stop to YES

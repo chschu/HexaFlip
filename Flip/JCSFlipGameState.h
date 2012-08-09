@@ -14,19 +14,19 @@
 @interface JCSFlipGameState : NSObject <NSCopying>
 
 // the current game status
-@property (readonly) JCSFlipGameStatus status;
+@property (readonly, nonatomic) JCSFlipGameStatus status;
 
 // number of cells owned by player A
-@property (readonly) NSInteger cellCountPlayerA;
+@property (readonly, nonatomic) NSInteger cellCountPlayerA;
 
 // number of cells owned by player B
-@property (readonly) NSInteger cellCountPlayerB;
+@property (readonly, nonatomic) NSInteger cellCountPlayerB;
 
 // number of empty cells
-@property (readonly) NSInteger cellCountEmpty;
+@property (readonly, nonatomic) NSInteger cellCountEmpty;
 
 // flag indicating if skipping is allowed
-@property (readonly) BOOL skipAllowed;
+@property (readonly, nonatomic) BOOL skipAllowed;
 
 // initialize with given size
 // status defines which player moves first

@@ -12,11 +12,11 @@
 @protocol JCSFlipPlayer <NSObject>
 
 // display name of the player
-@property (strong, readonly) NSString *name;
+@property (readonly, nonatomic) NSString *name;
 
 // does the player have local controls?
 // YES for local human players, NO otherwise
-@property (readonly) BOOL localControls;
+@property (readonly, nonatomic) BOOL localControls;
 
 // tell the player it's their turn
 - (void)tellMakeMove:(JCSFlipGameState *)state;

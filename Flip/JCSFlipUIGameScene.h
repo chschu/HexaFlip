@@ -18,12 +18,12 @@
 // first player
 // must be non-nil when the scene enters stage (- onEnter)
 // must not be changed while the scene is "on stage"
-@property (strong, nonatomic) id<JCSFlipPlayer> playerA;
+@property (nonatomic) id<JCSFlipPlayer> playerA;
 
 // first player
 // must be non-nil when the scene enters stage (- onEnter)
 // must not be changed while the scene is "on stage"
-@property (strong, nonatomic) id<JCSFlipPlayer> playerB;
+@property (nonatomic) id<JCSFlipPlayer> playerB;
 
 // initialize with a game state (which is copied)
 // players must be set on the result, before the scene enters stage (- onEnter)

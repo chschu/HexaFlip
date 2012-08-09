@@ -12,8 +12,7 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CCDirectorDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-@property (strong, readonly) UINavigationController *navController;
-@property (strong, readonly) CCDirector *director;
+@property (readonly, nonatomic) UINavigationController *navController;
+@property (readonly, nonatomic) CCDirector *director;
 
 @end
