@@ -243,7 +243,7 @@
         // iterate again to flip cells
         curRow = startRow + rowDelta;
         curColumn = startColumn + columnDelta;
-        while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateHole && curState != JCSFlipCellStateEmpty) {
+        while ((curState = [self cellStateAtRow:curRow column:curColumn]) != JCSFlipCellStateEmpty) {
             [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
             curRow += rowDelta;
             curColumn += columnDelta;
