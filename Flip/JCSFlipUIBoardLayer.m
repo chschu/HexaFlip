@@ -24,7 +24,7 @@ typedef enum {
     // key: "row:column"
     // value: (JCSFlipUICellNode *) at that coordinate
     NSDictionary *_uiCellNodes;
-
+    
     // move input state
     JCSFlipUIMoveInputState _moveInputState;
     
@@ -41,9 +41,9 @@ typedef enum {
 - (id)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
         _uiCellNodes = [NSMutableDictionary dictionary];
-
+        
         CCSpriteFrame *spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dummy.png"];
-
+        
         CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
         
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -57,7 +57,7 @@ typedef enum {
             
             // place cells with spacing of 1
             uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
-
+            
             // add the cell to the batch node
             [batchNode addChild:uiCell z:0];
         }];
@@ -75,64 +75,61 @@ typedef enum {
     return self;
 }
 
-- (void)animateMove:(JCSFlipMove *)move newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block {
+- (CCAction *)createMoveAnimationForRow:(NSInteger)row column:(NSInteger)column newCellState:(JCSFlipCellState)newCellState scaleToFactor:(float)scaleToFactor delay:(float)delay {
+    JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
+    
+    float oldScale = uiCell.scale;
+    float newScale = oldScale*scaleToFactor;
+    id hideAction = [CCScaleTo actionWithDuration:0.3 scale:newScale];
+    id updateAction = [CCCallBlock actionWithBlock:^{
+        uiCell.cellState = newCellState;
+    }];
+    id setZOrderAction = [CCCallBlock actionWithBlock:^{
+        // bring to front
+        uiCell.zOrder = 1;
+    }];
+    id showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.3];
+    id resetZOrderAction = [CCCallBlock actionWithBlock:^{
+        // put back
+        uiCell.zOrder = 0;
+    }];
+    
+    // create action array to be spawned
+    NSArray *animActions = [NSArray arrayWithObjects:
+                            [CCDelayTime actionWithDuration:delay],
+                            [CCTargetedAction actionWithTarget:uiCell action:hideAction],
+                            updateAction,
+                            setZOrderAction,
+                            [CCTargetedAction actionWithTarget:uiCell action:showAction],
+                            resetZOrderAction,
+                            nil];
+    
+    return [CCSequence actionWithArray:animActions];
+}
+
+- (void)animateMove:(JCSFlipMove *)move moveInfo:(id)moveInfo newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block {
     if (move.skip) {
         // TODO: animate skip
         block();
         return;
     }
     
-    NSInteger curRow = move.startRow;
-    NSInteger curColumn = move.startColumn;
-    NSInteger rowDelta = JCSHexDirectionRowDelta(move.direction);
-    NSInteger columnDelta = JCSHexDirectionColumnDelta(move.direction);
+    NSInteger startRow = move.startRow;
+    NSInteger startColumn = move.startColumn;
     
     NSMutableArray *actions = [NSMutableArray array];
     
-    ccTime delay = 0;
+    __block ccTime delay = 0;
+
+    // create animation for starting cell
+    [actions addObject:[self createMoveAnimationForRow:startRow column:startColumn newCellState:[newGameState cellStateAtRow:startRow column:startColumn] scaleToFactor:0.5 delay:delay]];
+    delay += 0.1;
     
-    // iterate to flip cells
-    while (YES) {
-        JCSFlipCellState newCellState = [newGameState cellStateAtRow:curRow column:curColumn];
-        JCSFlipUICellNode *uiCell = [self cellNodeAtRow:curRow column:curColumn];
-        
-        if (uiCell.cellState == newCellState && (curRow != move.startRow || curColumn != move.startColumn)) {
-            break;
-        }
-        
-        // create animation
-        float oldScale = uiCell.scale;
-        float newScale = (uiCell.cellState == newCellState ? oldScale*0.5 : 0.0);
-        id hideAction = [CCScaleTo actionWithDuration:0.3 scale:newScale];
-        id updateAction = [CCCallBlock actionWithBlock:^{
-            uiCell.cellState = newCellState;
-        }];
-        id setZOrderAction = [CCCallBlock actionWithBlock:^{
-            // bring to front
-            uiCell.zOrder = 1;
-        }];
-        id showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.3];
-        id resetZOrderAction = [CCCallBlock actionWithBlock:^{
-            // put back
-            uiCell.zOrder = 0;
-        }];
-        
-        // create action array to be spawned
-        NSArray *animActions = [NSArray arrayWithObjects:
-                                [CCDelayTime actionWithDuration:delay],
-                                [CCTargetedAction actionWithTarget:uiCell action:hideAction],
-                                updateAction,
-                                setZOrderAction,
-                                [CCTargetedAction actionWithTarget:uiCell action:showAction],
-                                resetZOrderAction,
-                                nil];
-        
-        [actions addObject:[CCSequence actionWithArray:animActions]];
-        
-        curRow += rowDelta;
-        curColumn += columnDelta;
+    // create animations for modified cells
+    [newGameState forAllCellsChangedByMove:move moveInfo:moveInfo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState newCellState, BOOL *stop) {
+        [actions addObject:[self createMoveAnimationForRow:row column:column newCellState:newCellState scaleToFactor:0 delay:delay]];
         delay += 0.1;
-    }
+    }];
     
     id fullAnimationAction = [CCSpawn actionWithArray:actions];
     

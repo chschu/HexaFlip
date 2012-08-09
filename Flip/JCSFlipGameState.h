@@ -11,7 +11,7 @@
 #import "JCSFlipCellState.h"
 
 // state information for a running game
-@interface JCSFlipGameState : NSObject <NSCopying>
+@interface JCSFlipGameState : NSObject
 
 // the current game status
 @property (readonly, nonatomic) JCSFlipGameStatus status;
@@ -42,18 +42,41 @@
 // determines the state of the cell at the given coordinate
 - (JCSFlipCellState)cellStateAtRow:(NSInteger)row column:(NSInteger)column;
 
-// applies move, switches players, and returns YES if the move is legal 
+// applies move, switches players, and returns YES if the move is legal
 // returns NO if the move is illegal 
 - (BOOL)applyMove:(JCSFlipMove *)move;
+
+// allocate and initialize a moveInfo memento instance, to be passed to -applyMove:moveInfo: and -unapplyMove:moveInfo:
+- (id)newMoveInfo;
+
+// applies the move, switches players, and returns YES if the move is legal
+// returns NO if the move is illegal
+// for legal moves, the moveInfo is populated and can be passed to -unapplyMove:moveInfo: later on
+// if moveInfo is nil, the move information is simply discarded
+- (BOOL)applyMove:(JCSFlipMove *)move moveInfo:(id)moveInfo;
+
+// un-applies the move, using the information stored in moveInfo by -applyMove:moveInfo:
+// the move must be the last one applied to the receiver
+// moveInfo must not be nil
+- (void)unapplyMove:(JCSFlipMove *)move moveInfo:(id)moveInfo;
+
+// invoke the block for cells whose states were changed by the move, using the information stored in moveInfo by -applyMove:moveInfo:
+// the first invocation of the block is for the cell closest to the starting cell of the move
+// the last invocation of the block is for the cell that was occupied (not flipped) by the move
+// the move must be the last one applied to the receiver
+// moveInfo must not be nil
+// iteration stops when the block sets *stop to YES
+- (void)forAllCellsChangedByMove:(JCSFlipMove *)move moveInfo:(id)moveInfo invokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState newCellState, BOOL *stop))block;
 
 // let the other player win
 // returns YES if successful
 // returns NO if the game has already been over
 - (BOOL)resign;
 
-// iterate over all possible moves leading away from the game state
-// the move and the successor state is passed to the given block
+// iterate over all valid moves for the receiving game state
+// each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver
 // iteration stops when the block sets *stop to YES
-- (void)forAllNextStatesInvokeBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block;
+// a new move instance is passed to each invocation of the block
+- (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block;
 
 @end

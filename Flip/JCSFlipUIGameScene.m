@@ -32,7 +32,7 @@
 
 - (id)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
-        _state = [state copy];
+        _state = state;
     }
     return self;
 }
@@ -143,16 +143,17 @@
     NSLog(@"input: selected direction %d", direction);
 
     // check if the move is valid
-    JCSFlipGameState *stateCopy = [_state copy];
-    if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
+    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
+    id moveInfo = [_state newMoveInfo];
+    if ([_state applyMove:move moveInfo:moveInfo]) {
         // re-trigger the flash of the start cell to get it in sync
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         // flash all cells changed by the move
-        [stateCopy forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-            if (cellState != [_state cellStateAtRow:row column:column]) {
-                [_boardLayer startFlashForCellAtRow:row column:column];
-            }
+        [_state forAllCellsChangedByMove:move moveInfo:moveInfo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState newCellState, BOOL *stop) {
+            [_boardLayer startFlashForCellAtRow:row column:column];
         }];
+        // un-apply the move
+        [_state unapplyMove:move moveInfo:moveInfo];
     }
 }
 
@@ -160,14 +161,15 @@
     NSLog(@"input: cleared direction");
 
     // check if the move is valid
-    JCSFlipGameState *stateCopy = [_state copy];
-    if ([stateCopy applyMove:[JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction]]) {
+    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
+    id moveInfo = [_state newMoveInfo];
+    if ([_state applyMove:move moveInfo:moveInfo]) {
         // un-flash all cells changed by the move
-        [stateCopy forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-            if (cellState != [_state cellStateAtRow:row column:column]) {
-                [_boardLayer stopFlashForCellAtRow:row column:column];
-            }
+        [_state forAllCellsChangedByMove:move moveInfo:moveInfo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState newCellState, BOOL *stop) {
+            [_boardLayer stopFlashForCellAtRow:row column:column];
         }];
+        // un-apply the move
+        [_state unapplyMove:move moveInfo:moveInfo];
     }
 }
 
@@ -179,10 +181,11 @@
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     NSLog(@"input: confirmed move %@", move);
     // apply the move
-    if ([_state applyMove:move]) {
+    id moveInfo = [_state newMoveInfo];
+    if ([_state applyMove:move moveInfo:moveInfo]) {
         // block move input during animation
         [self disableMoveInput];
-        [_boardLayer animateMove:move newGameState:_state afterAnimationInvokeBlock:^{
+        [_boardLayer animateMove:move moveInfo:moveInfo newGameState:_state afterAnimationInvokeBlock:^{
             // animation is done - update UI and notify player
             [self updateUI];
             [self tellCurrentPlayerMakeMove];

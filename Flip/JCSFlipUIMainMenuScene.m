@@ -69,9 +69,18 @@
     }];
     playerVsAIHard.color = menuColor;
 
+    CCMenuItemFont *aiHardVsAIHard = [CCMenuItemFont itemWithString:@"AI (hard) vs. AI (hard)" block:^(id sender) {
+        JCSFlipUIGameScene *scene = [JCSFlipUIGameScene sceneWithState:[self createBoardOfSize:5]];
+        scene.playerA = [self playerAIHardWithMoveInputDelegate:scene];
+        scene.playerB = [self playerAIHardWithMoveInputDelegate:scene];
+        
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
+    }];
+    aiHardVsAIHard.color = menuColor;
+    
     [self addChild:[CCLayerGradient layerWithColor:ccc4(255, 239, 191, 255) fadingTo:ccc4(255, 191, 127, 255)]];
 
-    CCMenu *menu = [CCMenu menuWithItems:playerVsPlayer, playerVsAIEasy, playerVsAIMedium, playerVsAIHard, nil];
+    CCMenu *menu = [CCMenu menuWithItems:playerVsPlayer, playerVsAIEasy, playerVsAIMedium, playerVsAIHard, aiHardVsAIHard, nil];
     [menu alignItemsVertically];
     [self addChild:menu];
     
@@ -100,7 +109,7 @@
 
 - (id<JCSFlipPlayer>)playerAIHardWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.5 randomness:0];
-    id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:heuristic];
+    id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithName:@"AI (hard)" algorithm:algorithm moveInputDelegate:moveInputDelegate];
 }
 

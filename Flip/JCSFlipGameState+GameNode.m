@@ -18,8 +18,6 @@
     return self.status == JCSFlipGameStatusPlayerAToMove;
 }
 
-- (void)enumerateChildrenUsingBlock:(void(^)(JCSFlipMove *move, JCSFlipGameState *nextState, BOOL *stop))block {
-    [self forAllNextStatesInvokeBlock:block];
-}
+// the other protocol methods are already implemented in JCSFlipGameState
 
 @end

@@ -20,7 +20,11 @@
 }
 
 - (id)moveAtNode:(id<JCSGameNode>)node {
-    NSArray *moves = [self movesOfNode:node];
+    NSMutableArray *moves = [NSMutableArray array];
+    
+    [node applyAllPossibleMovesAndInvokeBlock:^(id move, BOOL *stop) {
+        [moves addObject:move];
+    }];
     
     NSUInteger count = [moves count];
     if (count == 0) {
@@ -29,16 +33,6 @@
     
     NSUInteger index = (NSUInteger) (count * rand_r(&_seed) / RAND_MAX);
     return [moves objectAtIndex:index];
-}
-
-- (NSArray *)movesOfNode:(id<JCSGameNode>)node {
-    NSMutableArray *result = [NSMutableArray array];
-    
-    [node enumerateChildrenUsingBlock:^(id move, id<JCSGameNode> child, BOOL *stop) {
-        [result addObject:move];
-    }];
-    
-    return [result copy];
 }
 
 @end
