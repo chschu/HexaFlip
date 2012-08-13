@@ -274,6 +274,7 @@
 		F3D7F47A15C1BC6100704029 /* JCSFlipUICellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F47915C1BC6100704029 /* JCSFlipUICellNode.m */; };
 		F3D7F48615C1C91700704029 /* JCSFlipUIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F48515C1C91700704029 /* JCSFlipUIGameScene.m */; };
 		F3D7F48915C1D02100704029 /* JCSFlipUIBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F48815C1D02100704029 /* JCSFlipUIBackgroundLayer.m */; };
+		F3D9A40215D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D9A40115D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -594,6 +595,8 @@
 		F3D7F48715C1D02100704029 /* JCSFlipUIBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBackgroundLayer.h; sourceTree = "<group>"; };
 		F3D7F48815C1D02100704029 /* JCSFlipUIBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBackgroundLayer.m; sourceTree = "<group>"; };
 		F3D7F48C15C336C000704029 /* JCSFlipMoveInputDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipMoveInputDelegate.h; sourceTree = "<group>"; };
+		F3D9A40015D9C15C00B2FF19 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
+		F3D9A40115D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionHeuristic.m; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1058,6 +1061,8 @@
 				F35B94DD15C0946E00C7A593 /* JCSGameAlgorithm.h */,
 				F35B94DE15C0946E00C7A593 /* JCSGameNode.h */,
 				F3AB8C7E15C7B39B00D911B9 /* JCSGameHeuristic.h */,
+				F3D9A40015D9C15C00B2FF19 /* JCSFlipGameStatePossessionHeuristic.h */,
+				F3D9A40115D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m */,
 				F3AB8C7F15C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.h */,
 				F3AB8C8015C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m */,
 				F35B94DF15C0946E00C7A593 /* JCSMinimaxGameAlgorithm.h */,
@@ -1479,6 +1484,7 @@
 				F3AB8C8115C7B46900D911B9 /* JCSFlipGameStatePSRHeuristic.m in Sources */,
 				F3AB8C9C15C9D0A600D911B9 /* JCSFlipUIMainMenuScene.m in Sources */,
 				F3AB8C9F15C9E37800D911B9 /* JCSFlipUIGameOverLayer.m in Sources */,
+				F3D9A40215D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

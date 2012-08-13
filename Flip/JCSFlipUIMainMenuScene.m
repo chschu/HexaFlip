@@ -11,6 +11,7 @@
 #import "JCSFlipGameState.h"
 #import "JCSGameHeuristic.h"
 #import "JCSGameAlgorithm.h"
+#import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSMinimaxGameAlgorithm.h"
 #import "JCSRandomGameAlgorithm.h"
@@ -96,19 +97,19 @@
 }
 
 - (id<JCSFlipPlayer>)playerAIEasyWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0 randomness:3];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithName:@"AI (easy)" algorithm:algorithm moveInputDelegate:moveInputDelegate];
 }
 
 - (id<JCSFlipPlayer>)playerAIMediumWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.2 randomness:1];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithName:@"AI (medium)" algorithm:algorithm moveInputDelegate:moveInputDelegate];
 }
 
 - (id<JCSFlipPlayer>)playerAIHardWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.5 randomness:0];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithName:@"AI (hard)" algorithm:algorithm moveInputDelegate:moveInputDelegate];
 }
