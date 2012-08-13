@@ -38,7 +38,7 @@
 
 - (void)tellMakeMove:(JCSFlipGameState *)state {
     // determine move asynchronously
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         JCSFlipMove *move = [_algorithm moveAtNode:state];
         // notify in main thread
         double delay = 0;
