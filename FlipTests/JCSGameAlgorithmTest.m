@@ -74,7 +74,7 @@
             break;
         }
 
-        [state applyMove:move];
+        [state pushMove:move];
         
         NSLog(@"\n%@", state);
     }

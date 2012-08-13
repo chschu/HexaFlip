@@ -71,17 +71,14 @@
 	id bestMove = nil;
 	float bestScore = -INFINITY;
     
-    // allocate a single move info instace
-    id moveInfo = [_node newMoveInfo];
-    
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenAscending:NO];
             for (JCSMinimaxChildData *entry in entries) {
                 
-                [_node applyMove:entry->move moveInfo:moveInfo];
+                [_node pushMove:entry->move];
                 float score = [self minimizeWithDepth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil currentHeuristicValue:entry->childHeuristicValue];
-                [_node unapplyMove:entry->move moveInfo:moveInfo];
+                [_node popMove];
                 
                 if (score > bestScore || bestMove == nil) {
                     bestMove = entry->move;
@@ -112,18 +109,15 @@
     _count++;
 	id bestMove = nil;
 	float bestScore = INFINITY;
-    
-    // allocate a single move info instace
-    id moveInfo = [_node newMoveInfo];
 
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenAscending:YES];
             for (JCSMinimaxChildData *entry in entries) {
                 
-                [_node applyMove:entry->move moveInfo:moveInfo];
+                [_node pushMove:entry->move];
                 float score = [self maximizeWithDepth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil currentHeuristicValue:entry->childHeuristicValue];
-                [_node unapplyMove:entry->move moveInfo:moveInfo];
+                [_node popMove];
                 
                 if (score < bestScore || bestMove == nil) {
                     bestMove = entry->move;

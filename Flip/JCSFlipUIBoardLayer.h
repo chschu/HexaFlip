@@ -26,10 +26,9 @@
 // initializes the view with the given game state
 - (id)initWithState:(JCSFlipGameState *)state;
 
-// asynchronously start an animation for the given move, using the moveInfo to determine the modified cells
-// the moveInfo must have been populated before, by passing it when the move is applied
+// asynchronously start an animation for the last move applied to the given game state
 // after the animation is done, the block is invoked (asnychronously!)
-- (void)animateMove:(JCSFlipMove *)move moveInfo:(id)moveInfo newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block;
+- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState afterAnimationInvokeBlock:(void(^)())block;
 
 // repeatedly flash a cell
 // restarts flashing if the cell is already flashing

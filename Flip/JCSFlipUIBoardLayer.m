@@ -75,59 +75,55 @@ typedef enum {
     return self;
 }
 
-- (CCAction *)createMoveAnimationForRow:(NSInteger)row column:(NSInteger)column newCellState:(JCSFlipCellState)newCellState scaleToFactor:(float)scaleToFactor delay:(float)delay {
+- (CCAction *)createMoveAnimationForRow:(NSInteger)row column:(NSInteger)column oldCellState:(JCSFlipCellState)oldCellState newCellState:(JCSFlipCellState)newCellState delay:(float)delay {
     JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
     
+    // scale factor depends on wether the state changed or not
+    float scaleToFactor = (oldCellState == newCellState ? 0.5 : 0.0);
+    
+    // action: scale down
     float oldScale = uiCell.scale;
     float newScale = oldScale*scaleToFactor;
-    id hideAction = [CCScaleTo actionWithDuration:0.3 scale:newScale];
-    id updateAction = [CCCallBlock actionWithBlock:^{
+    CCScaleTo *hideAction = [CCScaleTo actionWithDuration:0.3 scale:newScale];
+    
+    // action: update cell state
+    CCCallBlock *updateAction = [CCCallBlock actionWithBlock:^{
         uiCell.cellState = newCellState;
     }];
-    id setZOrderAction = [CCCallBlock actionWithBlock:^{
-        // bring to front
+    
+    // action: bring to front
+    CCCallBlock *setZOrderAction = [CCCallBlock actionWithBlock:^{
         uiCell.zOrder = 1;
     }];
-    id showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.3];
-    id resetZOrderAction = [CCCallBlock actionWithBlock:^{
-        // put back
+    
+    // action: scale up (with elastic effect at the end)
+    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:oldScale] period:0.3];
+    
+    // action: put z-order back
+    CCCallBlock *resetZOrderAction = [CCCallBlock actionWithBlock:^{
         uiCell.zOrder = 0;
     }];
     
-    // create action array to be spawned
-    NSArray *animActions = [NSArray arrayWithObjects:
-                            [CCDelayTime actionWithDuration:delay],
-                            [CCTargetedAction actionWithTarget:uiCell action:hideAction],
-                            updateAction,
-                            setZOrderAction,
-                            [CCTargetedAction actionWithTarget:uiCell action:showAction],
-                            resetZOrderAction,
-                            nil];
-    
-    return [CCSequence actionWithArray:animActions];
+    // create action sequence
+    return [CCSequence actions:
+            [CCDelayTime actionWithDuration:delay],
+            [CCTargetedAction actionWithTarget:uiCell action:hideAction],
+            updateAction,
+            setZOrderAction,
+            [CCTargetedAction actionWithTarget:uiCell action:showAction],
+            resetZOrderAction,
+            nil];
 }
 
-- (void)animateMove:(JCSFlipMove *)move moveInfo:(id)moveInfo newGameState:(JCSFlipGameState *)newGameState afterAnimationInvokeBlock:(void(^)())block {
-    if (move.skip) {
-        // TODO: animate skip
-        block();
-        return;
-    }
-    
-    NSInteger startRow = move.startRow;
-    NSInteger startColumn = move.startColumn;
+- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState afterAnimationInvokeBlock:(void(^)())block {
     
     NSMutableArray *actions = [NSMutableArray array];
     
     __block ccTime delay = 0;
-
-    // create animation for starting cell
-    [actions addObject:[self createMoveAnimationForRow:startRow column:startColumn newCellState:[newGameState cellStateAtRow:startRow column:startColumn] scaleToFactor:0.5 delay:delay]];
-    delay += 0.1;
     
-    // create animations for modified cells
-    [newGameState forAllCellsChangedByMove:move moveInfo:moveInfo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState newCellState, BOOL *stop) {
-        [actions addObject:[self createMoveAnimationForRow:row column:column newCellState:newCellState scaleToFactor:0 delay:delay]];
+    // create animations for involved cells
+    [gameState forAllCellsInvolvedInLastMoveInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+        [actions addObject:[self createMoveAnimationForRow:row column:column oldCellState:oldCellState newCellState:newCellState delay:delay]];
         delay += 0.1;
     }];
     
