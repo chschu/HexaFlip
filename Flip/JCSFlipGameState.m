@@ -106,7 +106,8 @@
         }
 
         // allocate the move info stack
-        // maximum number of moves = number of empty cells
+        // use the number of empty cells as a hint for the allocation
+        // the maximum number of moves can be a bit larger due to skipping
         _moveInfoStack = [NSMutableArray arrayWithCapacity:_cellCountEmpty];
 
         // check game over and update state (quite strange at this stage, but possible)
