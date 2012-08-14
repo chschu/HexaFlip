@@ -110,8 +110,8 @@
         // the maximum number of moves can be a bit larger due to skipping
         _moveInfoStack = [NSMutableArray arrayWithCapacity:_cellCountEmpty];
 
-        // check game over and update state (quite strange at this stage, but possible)
-        [self updateStateIfGameOver];
+        // check game over and update status (quite strange at this stage, but possible)
+        [self updateStatusIfGameOver];
     }
     
 	return self;
@@ -121,8 +121,8 @@
     free(_cellStates);
 }
 
-// check if game is over and set state accordingly
-- (void)updateStateIfGameOver {
+// check if game is over and set status accordingly
+- (void)updateStatusIfGameOver {
 	if (_cellCountPlayerA == 0 || _cellCountPlayerB == 0 || _cellCountEmpty == 0) {
 		if (_cellCountPlayerA > _cellCountPlayerB) {
 			_status = JCSFlipGameStatusPlayerAWon;
@@ -277,8 +277,8 @@
     // switch players
     _status = JCSFlipGameStatusOtherPlayerToMove(_status);
     
-    // update the state if the game is over
-    [self updateStateIfGameOver];
+    // update the status if the game is over
+    [self updateStatusIfGameOver];
     
     // "skip allowed" flag needs to be determined
     _skipAllowed = nil;
