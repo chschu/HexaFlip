@@ -287,10 +287,9 @@
 }
 
 - (void)popMove {
-    NSAssert(_moveInfoStack.count > 0, @"move stack must not be empty");
-
     // pop the move info from the stack
     JCSFlipGameStateMoveInfo *moveInfo = [_moveInfoStack lastObject];
+    NSAssert(moveInfo != nil, @"move stack must not be empty");
     [_moveInfoStack removeLastObject];
     
     NSInteger modCount = moveInfo->modCount;
@@ -320,10 +319,9 @@
 }
 
 - (void)forAllCellsInvolvedInLastMoveInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
-    NSAssert(_moveInfoStack.count > 0, @"move stack must not be empty");
-
     // peek at the move info from the stack
     JCSFlipGameStateMoveInfo *moveInfo = [_moveInfoStack lastObject];
+    NSAssert(moveInfo != nil, @"move stack must not be empty");
 
     NSInteger modCount = moveInfo->modCount;
     
