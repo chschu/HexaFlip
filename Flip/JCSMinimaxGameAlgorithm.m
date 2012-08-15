@@ -61,7 +61,7 @@
         score = [self minimizeWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove currentHeuristicValue:[_heuristic valueOfNode:node]];
     }
     
-    NSLog(@"analyzed %d nodes in %.3f seconds", _count, [[NSDate date] timeIntervalSinceDate:start]);
+    NSLog(@"analyzed %d nodes in %.3f seconds, got best move %@ with score %.3f", _count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score);
     
     return bestMove;
 }
