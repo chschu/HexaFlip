@@ -10,10 +10,10 @@
 
 // simple container class for move ordering
 @interface JCSMinimaxChildData : NSObject {
-@package
+    @package
     // the move
     id move;
-
+    
     // the child's heuristic value (used for move ordering)
     float childHeuristicValue;
 }
@@ -25,7 +25,7 @@
 @implementation JCSMinimaxGameAlgorithm {
     // the heuristic evaluation to be used
     id<JCSGameHeuristic> _heuristic;
-
+    
     // the currently analyzed node (modified during tree traversal)
     id<JCSGameNode> _node;
     
@@ -109,7 +109,7 @@
     _count++;
 	id bestMove = nil;
 	float bestScore = INFINITY;
-
+    
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
             NSArray *entries = [self sortedChildrenAscending:YES];
@@ -153,7 +153,7 @@
         entry->childHeuristicValue = [_heuristic valueOfNode:_node];
         [result addObject:entry];
     }];
-
+    
     NSComparisonResult(^comparator)(JCSMinimaxChildData *, JCSMinimaxChildData *);
     
     if (ascending) {
