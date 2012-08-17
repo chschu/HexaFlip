@@ -10,35 +10,40 @@
 #import "JCSFlipCellState.h"
 #import "JCSFlipMutableMove.h"
 
-// simple container class for move information
-// instances of this class are held on the internal move/undo stackx
-@interface JCSFlipGameStateMoveInfo : NSObject {
-    @package
+// enumeration for the "skip allowed" flag
+typedef enum {
+    JCSFlipGameStateSkipAllowedUnknown = -1,
+    JCSFlipGameStateSkipAllowedNo = 0,
+    JCSFlipGameStateSkipAllowedYes = 1,
+} JCSFlipGameStateSkipAllowed;
+
+// simple container structure holding move information
+// this struct contains a "next" pointer to represent a stack
+typedef struct JCSFlipGameStateMoveInfo {
     // skip flag of the move
     BOOL skip;
     
     // start row of the move
     NSInteger startRow;
-
+    
     // start column of the move
     NSInteger startColumn;
     
     // direction of the move
     JCSHexDirection direction;
-
+    
     // number of cells modified by the move (x flipped + 1 occupied)
     NSInteger modCount;
     
     // status before the move had been applied
     JCSFlipGameStatus oldStatus;
     
-    // value of the "skip allowed" container before the move had been applied
-    NSNumber *oldSkipAllowed;
-}
-@end
-
-@implementation JCSFlipGameStateMoveInfo
-@end
+    // value of the "skip allowed" flag before the move had been applied
+    JCSFlipGameStateSkipAllowed oldSkipAllowed;
+    
+    // stack element below this one, or NULL if there are none
+    struct JCSFlipGameStateMoveInfo *next;
+} JCSFlipGameStateMoveInfo;
 
 @implementation JCSFlipGameState {
     // size of the grid
@@ -48,15 +53,13 @@
     // cell states for all cells in the grid, in row-major order
     // the state of the cell at (r,c) is stored at index (2*size-1)*(r+(size-1)) + c+(size-1)
     JCSFlipCellState *_cellStates;
-
-    // container holding YES if skipping is allowed, NO if it is not
-    // if this is nil, it is unknown if skipping is allowed
-    // this is immutable, and may be reused in different game state instances
-    NSNumber *_skipAllowed;
-
-    // stack with the moves pushed by -pushMove:
-    // elements are of type JCSFlipGameStateMoveInfo
-    NSMutableArray *_moveInfoStack;
+    
+    // is the "skip" move allowed?
+    JCSFlipGameStateSkipAllowed _skipAllowed;
+    
+    // top element of the stack of moves pushed by -pushMove:
+    // NULL if the stack is empty
+    JCSFlipGameStateMoveInfo *_moveInfoStackTop;
 }
 
 @synthesize status = _status;
@@ -79,7 +82,7 @@
         _size = size;
         _status = status;
         _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
-        _skipAllowed = nil;
+        _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
         _cellCountPlayerA = 0;
         _cellCountPlayerB = 0;
         _cellCountEmpty = 0;
@@ -104,12 +107,10 @@
                 index++;
             }
         }
-
-        // allocate the move info stack
-        // use the number of empty cells as a hint for the allocation
-        // the maximum number of moves can be a bit larger due to skipping
-        _moveInfoStack = [NSMutableArray arrayWithCapacity:_cellCountEmpty];
-
+        
+        // initialize the move stack (empty)
+        _moveInfoStackTop = NULL;
+        
         // check game over and update status (quite strange at this stage, but possible)
         [self updateStatusIfGameOver];
     }
@@ -118,6 +119,14 @@
 }
 
 - (void)dealloc {
+    // free the move stack
+    while (_moveInfoStackTop != NULL) {
+        JCSFlipGameStateMoveInfo *oldTop = _moveInfoStackTop;
+        _moveInfoStackTop = _moveInfoStackTop->next;
+        free(oldTop);
+    }
+    
+    // free the cell states array
     free(_cellStates);
 }
 
@@ -156,7 +165,7 @@
 // private accessor to set a cell state (without range check)
 - (void)setCellState:(JCSFlipCellState)cellState atRow:(NSInteger)row column:(NSInteger)column {
     NSInteger index = JCS_CELL_STATE_INDEX(row, column);
-
+    
     // subtract one for old state
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
@@ -173,7 +182,7 @@
     }
     
     _cellStates[index] = cellState;
-
+    
     // add one for new state
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
@@ -192,19 +201,19 @@
 
 // determine if skipping is allowed
 - (BOOL)skipAllowed {
-    if (_skipAllowed == nil) {
+    if (_skipAllowed == JCSFlipGameStateSkipAllowedUnknown) {
         // this initializes the "skip allowed" flag properly
         [self applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
             // stop at the first move
             *stop = YES;
         }];
     }
-    return [_skipAllowed boolValue];
+    return _skipAllowed == JCSFlipGameStateSkipAllowedYes;
 }
 
 - (BOOL)pushMove:(JCSFlipMove *)move {
     NSAssert(move != nil, @"move must not be nil");
-
+    
     // fail if the game is over
     if (!(_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove)) {
         return NO;
@@ -217,7 +226,7 @@
         NSInteger startColumn = move.startColumn;
         
         JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
-
+        
         // cell state of start cell must match player
         if (startCellState != JCSFlipCellStateForGameStatus(_status)) {
             return NO;
@@ -261,8 +270,8 @@
         return NO;
     }
     
-    // push move info on the stack
-    JCSFlipGameStateMoveInfo *moveInfo = [[JCSFlipGameStateMoveInfo alloc] init];
+    // populate move info
+    JCSFlipGameStateMoveInfo *moveInfo = malloc(sizeof(JCSFlipGameStateMoveInfo));
     moveInfo->skip = move.skip;
     if (!moveInfo->skip) {
         moveInfo->startRow = move.startRow;
@@ -272,7 +281,10 @@
     moveInfo->modCount = modCount;
     moveInfo->oldStatus = _status;
     moveInfo->oldSkipAllowed = _skipAllowed;
-    [_moveInfoStack addObject:moveInfo];
+    
+    // push move info on the stack
+    moveInfo->next = _moveInfoStackTop;
+    _moveInfoStackTop = moveInfo;
     
     // switch players
     _status = JCSFlipGameStatusOtherPlayerToMove(_status);
@@ -281,7 +293,7 @@
     [self updateStatusIfGameOver];
     
     // "skip allowed" flag needs to be determined
-    _skipAllowed = nil;
+    _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
     
     // move successful
     return YES;
@@ -289,17 +301,17 @@
 
 - (void)popMove {
     // pop the move info from the stack
-    JCSFlipGameStateMoveInfo *moveInfo = [_moveInfoStack lastObject];
-    NSAssert(moveInfo != nil, @"move stack must not be empty");
-    [_moveInfoStack removeLastObject];
+    NSAssert(_moveInfoStackTop != NULL, @"move stack is empty");
+    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStackTop;
+    _moveInfoStackTop = _moveInfoStackTop->next;
     
     NSInteger modCount = moveInfo->modCount;
-
+    
     if (modCount > 0) {
         JCSHexDirection direction = moveInfo->direction;
         NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
         NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
-
+        
         // iterate to flip back cells
         NSInteger curRow = moveInfo->startRow + rowDelta;
         NSInteger curColumn = moveInfo->startColumn + columnDelta;
@@ -317,13 +329,16 @@
     // put back old values
     _status = moveInfo->oldStatus;
     _skipAllowed = moveInfo->oldSkipAllowed;
+    
+    // release the move info
+    free(moveInfo);
 }
 
 - (void)forAllCellsInvolvedInLastMoveInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
     // peek at the move info from the stack
-    JCSFlipGameStateMoveInfo *moveInfo = [_moveInfoStack lastObject];
-    NSAssert(moveInfo != nil, @"move stack must not be empty");
-
+    NSAssert(_moveInfoStackTop != NULL, @"move stack is empty");
+    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStackTop;
+    
     NSInteger modCount = moveInfo->modCount;
     
     if (modCount > 0) {
@@ -370,7 +385,7 @@
 
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block {
     NSAssert(block != nil, @"block must not be nil");
-
+    
     // don't do anything if the game is over
     if (!(_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove)) {
         return;
@@ -389,7 +404,7 @@
             // update move data
             move.startRow = row;
             move.startColumn = column;
-
+            
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
                 move.direction = direction;
@@ -411,7 +426,7 @@
     
     if (!hasValidMove) {
         // skipping is allowed
-        _skipAllowed = [NSNumber numberWithBool:YES];
+        _skipAllowed = JCSFlipGameStateSkipAllowedYes;
         
         // update move date
         move.skip = YES;
@@ -422,7 +437,7 @@
             JCSFlipMove *moveCopy = [move copy];
             BOOL stop = NO;
             block(moveCopy, &stop);
-
+            
             // undo the move
             [self popMove];
         } else {
@@ -430,7 +445,7 @@
         }
     } else {
         // skipping is not allowed
-        _skipAllowed = [NSNumber numberWithBool:NO];
+        _skipAllowed = JCSFlipGameStateSkipAllowedNo;
     }
 }
 
