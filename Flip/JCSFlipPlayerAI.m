@@ -46,7 +46,7 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
                 [_moveInputDelegate inputSelectedStartRow:move.startRow startColumn:move.startColumn];
             });
-            delay += 0.5;
+            delay += 0.25;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
                 [_moveInputDelegate inputSelectedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
             });
