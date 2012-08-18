@@ -127,17 +127,25 @@ typedef enum {
         delay += 0.1;
     }];
     
-    id fullAnimationAction = [CCSpawn actionWithArray:actions];
-    
     id finalBlockAction = [CCCallBlock actionWithBlock:^{
         block();
     }];
     
+    NSArray *sequenceActions;
+    
     // create sequence of animation and notification
-    NSArray *sequenceActions = [NSArray arrayWithObjects:
-                                fullAnimationAction,
-                                finalBlockAction,
-                                nil];
+    if ([actions count] == 0) {
+        // TODO: animate skip
+        sequenceActions = [NSArray arrayWithObjects:
+                           finalBlockAction,
+                           nil];
+    } else {
+        sequenceActions = [NSArray arrayWithObjects:
+                           [CCSpawn actionWithArray:actions],
+                           finalBlockAction,
+                           nil];
+    }
+    
     
     // if the scene is no longer running, the actions won't start anymore
     [self runAction:[CCSequence actionWithArray:sequenceActions]];
