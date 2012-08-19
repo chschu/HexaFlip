@@ -597,6 +597,13 @@
 		F3D7F48C15C336C000704029 /* JCSFlipMoveInputDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipMoveInputDelegate.h; sourceTree = "<group>"; };
 		F3D9A40015D9C15C00B2FF19 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
 		F3D9A40115D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionHeuristic.m; sourceTree = "<group>"; };
+		F3D9A69315E16A6600B2FF19 /* cell-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-empty.png"; sourceTree = "<group>"; };
+		F3D9A69415E16A6600B2FF19 /* cell-overlay-a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-a.png"; sourceTree = "<group>"; };
+		F3D9A69515E16A6600B2FF19 /* cell-overlay-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-b.png"; sourceTree = "<group>"; };
+		F3D9A69615E16A6600B2FF19 /* cells.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cells.svg; sourceTree = "<group>"; };
+		F3D9A69715E16A6600B2FF19 /* cells.xcf.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = cells.xcf.gz; sourceTree = "<group>"; };
+		F3D9A69815E16A6600B2FF19 /* dummy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dummy.png; sourceTree = "<group>"; };
+		F3D9A69E15E16A6600B2FF19 /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -687,6 +694,7 @@
 				F300551415B0AC2900BAD89C /* AppDelegate.m */,
 				F300539C15B0AC2700BAD89C /* Resources */,
 				F300550F15B0AC2900BAD89C /* Supporting Files */,
+				F3D9A69115E16A6500B2FF19 /* External */,
 			);
 			path = Flip;
 			sourceTree = "<group>";
@@ -1183,6 +1191,20 @@
 				F3D7F46D15C0A60E00704029 /* JCSFlipPlayerAI.m */,
 			);
 			name = Player;
+			sourceTree = "<group>";
+		};
+		F3D9A69115E16A6500B2FF19 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				F3D9A69315E16A6600B2FF19 /* cell-empty.png */,
+				F3D9A69415E16A6600B2FF19 /* cell-overlay-a.png */,
+				F3D9A69515E16A6600B2FF19 /* cell-overlay-b.png */,
+				F3D9A69615E16A6600B2FF19 /* cells.svg */,
+				F3D9A69715E16A6600B2FF19 /* cells.xcf.gz */,
+				F3D9A69815E16A6600B2FF19 /* dummy.png */,
+				F3D9A69E15E16A6600B2FF19 /* texture-atlas.zwd */,
+			);
+			path = External;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
