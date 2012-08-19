@@ -30,7 +30,7 @@
         CCSpriteFrame *emptyCellSpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-empty.png"];
         CCSpriteFrame *playerAOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-a.png"];
         CCSpriteFrame *playerBOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-b.png"];
-
+        
         // initialize child sprites
         _emptyCellSprite = [CCSprite spriteWithSpriteFrame:emptyCellSpriteFrame];
         _playerAOverlaySprite = [CCSprite spriteWithSpriteFrame:playerAOverlaySpriteFrame];
@@ -41,15 +41,15 @@
         _emptyCellSprite.scale = spriteScale;
         _playerAOverlaySprite.scale = spriteScale;
         _playerBOverlaySprite.scale = spriteScale;
-
+        
         // move child sprites' centers to center of cell sprite
         _emptyCellSprite.position = ccp(0.5, 0.5);
         _playerAOverlaySprite.position = ccp(0.5, 0.5);
         _playerBOverlaySprite.position = ccp(0.5, 0.5);
-
+        
         // set cell sprite content size to unit square (in parent's coordinates)
         self.contentSize = CGSizeMake(1, 1);
-
+        
         _row = row;
         _column = column;
         
@@ -144,10 +144,10 @@
         _cellState = newCellState;
         [self adjustChildSpriteVisibility];
     }];
-
+    
     // action: scale up (with elastic effect at the end)
     CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:spriteScale] period:0.3];
-        
+    
     // create action sequence
     return [CCSequence actions:
             [CCSpawn actions:
