@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F3D9A6B315E1877100B2FF19 /* GenerateBuildNumber */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F3D9A6B415E1877100B2FF19 /* Build configuration list for PBXAggregateTarget "GenerateBuildNumber" */;
+			buildPhases = (
+				F3D9A6BB15E1878F00B2FF19 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = GenerateBuildNumber;
+			productName = GenerateBuildNumber;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		F300538A15B0AC2700BAD89C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300538915B0AC2700BAD89C /* QuartzCore.framework */; };
 		F300538C15B0AC2700BAD89C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300538B15B0AC2700BAD89C /* OpenGLES.framework */; };
@@ -281,6 +295,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F3D9A6B715E1877C00B2FF19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F300537C15B0AC2600BAD89C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3D9A6B315E1877100B2FF19;
+			remoteInfo = GenerateBuildNumber;
+		};
+		F3D9A6B915E1877C00B2FF19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F300537C15B0AC2600BAD89C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F300552415B0AF2400BAD89C;
+			remoteInfo = "cocos2d-library";
+		};
 		F3EAE71A15B5ED01004827DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F300537C15B0AC2600BAD89C /* Project object */;
@@ -1350,7 +1378,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "Flip" */;
 			buildPhases = (
-				F37732F915CD798F00CE2649 /* Run Script */,
 				F300538115B0AC2700BAD89C /* Sources */,
 				F300538215B0AC2700BAD89C /* Frameworks */,
 				F300538315B0AC2700BAD89C /* Resources */,
@@ -1358,6 +1385,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				F3D9A6B815E1877C00B2FF19 /* PBXTargetDependency */,
+				F3D9A6BA15E1877C00B2FF19 /* PBXTargetDependency */,
 			);
 			name = Flip;
 			productName = Flip;
@@ -1421,9 +1450,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				F3D9A6B315E1877100B2FF19 /* GenerateBuildNumber */,
+				F300552415B0AF2400BAD89C /* cocos2d-library */,
 				F300538415B0AC2700BAD89C /* Flip */,
 				F3EAE70615B5EBC9004827DB /* FlipTests */,
-				F300552415B0AF2400BAD89C /* cocos2d-library */,
 			);
 		};
 /* End PBXProject section */
@@ -1455,19 +1485,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F37732F915CD798F00CE2649 /* Run Script */ = {
+		F3D9A6BB15E1878F00B2FF19 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nversion=$(/usr/bin/git describe --always --dirty)\necho \"#define GIT_HASH $version\" > Flip/InfoPlist.h\ntouch ${INFOPLIST_FILE}";
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nversion=$(/usr/bin/git describe --always --dirty)\necho \"#define GIT_HASH $version\" > Flip/InfoPlist.h\ntouch Flip/Resources/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1631,6 +1660,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F3D9A6B815E1877C00B2FF19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3D9A6B315E1877100B2FF19 /* GenerateBuildNumber */;
+			targetProxy = F3D9A6B715E1877C00B2FF19 /* PBXContainerItemProxy */;
+		};
+		F3D9A6BA15E1877C00B2FF19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F300552415B0AF2400BAD89C /* cocos2d-library */;
+			targetProxy = F3D9A6B915E1877C00B2FF19 /* PBXContainerItemProxy */;
+		};
 		F3EAE71B15B5ED01004827DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F300538415B0AC2700BAD89C /* Flip */;
@@ -1776,6 +1815,20 @@
 			};
 			name = Release;
 		};
+		F3D9A6B515E1877100B2FF19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F3D9A6B615E1877100B2FF19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		F3EAE71615B5EBC9004827DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1855,6 +1908,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F3D9A6B415E1877100B2FF19 /* Build configuration list for PBXAggregateTarget "GenerateBuildNumber" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3D9A6B515E1877100B2FF19 /* Debug */,
+				F3D9A6B615E1877100B2FF19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
 			isa = XCConfigurationList;
