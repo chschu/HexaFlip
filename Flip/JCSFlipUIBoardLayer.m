@@ -47,19 +47,22 @@ typedef enum {
         CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
         
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-            JCSFlipUICellNode *uiCell = [[JCSFlipUICellNode alloc] initWithRow:row column:column cellState:cellState];
-            
-            // remember in dictionary
-            [self setCellNode:uiCell atRow:row column:column];
-            
-            // register as touch delegate of every cell
-            uiCell.touchDelegate = self;
-            
-            // place cells with spacing of 1
-            uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
-            
-            // add the cell to the batch node
-            [batchNode addChild:uiCell z:0];
+            if (cellState != JCSFlipCellStateHole) {
+                // create cell node
+                JCSFlipUICellNode *uiCell = [[JCSFlipUICellNode alloc] initWithRow:row column:column cellState:cellState];
+                
+                // remember in dictionary
+                [self setCellNode:uiCell atRow:row column:column];
+                
+                // register as touch delegate of every cell
+                uiCell.touchDelegate = self;
+                
+                // place cells with spacing of 1
+                uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
+                
+                // add the cell to the batch node
+                [batchNode addChild:uiCell z:0];
+            }
         }];
         
         // add the batch node to the layer
