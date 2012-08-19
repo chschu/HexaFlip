@@ -1916,6 +1916,7 @@
 				F3D9A6B615E1877100B2FF19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
 			isa = XCConfigurationList;

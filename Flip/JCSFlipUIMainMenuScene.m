@@ -85,7 +85,10 @@
     [menu alignItemsVertically];
     [self addChild:menu];
     
-    NSString *buildString = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *bundleShortVersion = [info objectForKey:@"CFBundleShortVersionString"];
+    NSString *bundleVersion = [info objectForKey:@"CFBundleVersion"];
+    NSString *buildString = [NSString stringWithFormat:@"Version %@ - Build %@", bundleShortVersion, bundleVersion];
     CCLabelTTF *buildLabel = [CCLabelTTF labelWithString:buildString fontName:@"Marker Felt" fontSize:12];
     buildLabel.anchorPoint = ccp(0, 0);
     buildLabel.position = ccp(5, 5);
