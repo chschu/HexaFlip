@@ -16,7 +16,7 @@
 
 @property (readonly, nonatomic) NSInteger row;
 @property (readonly, nonatomic) NSInteger column;
-@property (nonatomic) JCSFlipCellState cellState;
+@property (readonly, nonatomic) JCSFlipCellState cellState;
 
 // the delegate to report touches to
 @property (weak, nonatomic) id<JCSFlipUICellNodeTouchDelegate> touchDelegate;
@@ -30,5 +30,8 @@
 // stops the cell's flashing
 // no-op if the cell is not flashing
 - (void)stopFlash;
+
+// create an action that animates the cell state change
+- (CCFiniteTimeAction *)createAnimationForChangeToCellState:(JCSFlipCellState)newCellState;
 
 @end

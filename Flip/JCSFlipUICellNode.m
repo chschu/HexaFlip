@@ -15,7 +15,7 @@
     CCSprite *_playerAOverlaySprite;
     CCSprite *_playerBOverlaySprite;
     
-    CCAction *_flashAction;
+    float spriteScale;
 }
 
 @synthesize cellState = _cellState;
@@ -36,13 +36,11 @@
         _playerAOverlaySprite = [CCSprite spriteWithSpriteFrame:playerAOverlaySpriteFrame];
         _playerBOverlaySprite = [CCSprite spriteWithSpriteFrame:playerBOverlaySpriteFrame];
         
-        // scale sprites to unit size (in cell sprite coordinates)
-        _emptyCellSprite.scaleX = 1.0/emptyCellSpriteFrame.originalSize.width;
-        _emptyCellSprite.scaleY = 1.0/emptyCellSpriteFrame.originalSize.height;
-        _playerAOverlaySprite.scaleX = 1.0/playerAOverlaySpriteFrame.originalSize.width;
-        _playerAOverlaySprite.scaleY = 1.0/playerAOverlaySpriteFrame.originalSize.height;
-        _playerBOverlaySprite.scaleX = 1.0/playerBOverlaySpriteFrame.originalSize.width;
-        _playerBOverlaySprite.scaleY = 1.0/playerBOverlaySpriteFrame.originalSize.height;
+        // scale sprites to unit width (in cell sprite coordinates)
+        spriteScale = 1.0/emptyCellSpriteFrame.originalSize.width;
+        _emptyCellSprite.scale = spriteScale;
+        _playerAOverlaySprite.scale = spriteScale;
+        _playerBOverlaySprite.scale = spriteScale;
 
         // move child sprites' centers to center of cell sprite
         _emptyCellSprite.position = ccp(0.5, 0.5);
@@ -60,8 +58,9 @@
         [self addChild:_playerAOverlaySprite z:1];
         [self addChild:_playerBOverlaySprite z:1];
         
-        // use property access to adjust visibility
-        self.cellState = cellState;
+        // make the correct child sprite visible
+        _cellState = cellState;
+        [self adjustChildSpriteVisibility];
     }
     return self;
 }
@@ -108,40 +107,59 @@
     [_touchDelegate touchCancelledWithCell:self];
 }
 
-- (void)setCellState:(JCSFlipCellState)cellState {
-    _cellState = cellState;
-
+- (void)adjustChildSpriteVisibility {
     // set visibility of child sprites
-    _emptyCellSprite.visible = (cellState != JCSFlipCellStateHole);
-    _playerAOverlaySprite.visible = (cellState == JCSFlipCellStateOwnedByPlayerA);
-    _playerBOverlaySprite.visible = (cellState == JCSFlipCellStateOwnedByPlayerB);
+    _playerAOverlaySprite.visible = (_cellState == JCSFlipCellStateOwnedByPlayerA);
+    _playerBOverlaySprite.visible = (_cellState == JCSFlipCellStateOwnedByPlayerB);
 }
 
 - (void)startFlash {
-    if (_flashAction != nil) {
-        [_emptyCellSprite stopAction:_flashAction];
-    }
-        
-    CCTintTo *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
-    CCTintTo *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
+    [_emptyCellSprite stopAllActions];
+    
+    CCEaseInOut *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
+    CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
     CCSequence *flashOnce = [CCSequence actions:tint, untint, nil];
     
-    _flashAction = [CCRepeatForever actionWithAction:flashOnce];
+    CCAction *flashAction = [CCRepeatForever actionWithAction:flashOnce];
     
-    [_emptyCellSprite runAction:_flashAction];
+    [_emptyCellSprite runAction:flashAction];
 }
 
 - (void)stopFlash {
-    if (_flashAction != nil) {
-        [_emptyCellSprite stopAction:_flashAction];
-        CCTintTo *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
-        CCCallBlock *reset = [CCCallBlock actionWithBlock:^{
-            self.cellState = _cellState;
-        }];
-        CCSequence *unflash = [CCSequence actionOne:untint two:reset];
-        [_emptyCellSprite runAction:unflash];
-        _flashAction = nil;
-    }
+    [_emptyCellSprite stopAllActions];
+    
+    CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
+    [_emptyCellSprite runAction:untint];
+}
+
+- (CCFiniteTimeAction *)createAnimationForChangeToCellState:(JCSFlipCellState)newCellState {
+    // scale factor depends on wether the state changed or not
+    float newScaleFactor = (_cellState == newCellState ? 0.5 : 0.0);
+    
+    // action: scale down
+    CCScaleTo *hideAction = [CCScaleTo actionWithDuration:0.3 scale:spriteScale * newScaleFactor];
+    
+    // action: update cell state
+    CCCallBlock *updateAction = [CCCallBlock actionWithBlock:^{
+        _cellState = newCellState;
+        [self adjustChildSpriteVisibility];
+    }];
+
+    // action: scale up (with elastic effect at the end)
+    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:spriteScale] period:0.3];
+        
+    // create action sequence
+    return [CCSequence actions:
+            [CCSpawn actions:
+             [CCTargetedAction actionWithTarget:_playerAOverlaySprite action:hideAction],
+             [CCTargetedAction actionWithTarget:_playerBOverlaySprite action:[hideAction copy]],
+             nil],
+            updateAction,
+            [CCSpawn actions:
+             [CCTargetedAction actionWithTarget:_playerAOverlaySprite action:showAction],
+             [CCTargetedAction actionWithTarget:_playerBOverlaySprite action:[showAction copy]],
+             nil],
+            nil];
 }
 
 @end
