@@ -32,8 +32,8 @@ typedef struct JCSFlipGameStateMoveInfo {
     // direction of the move
     JCSHexDirection direction;
     
-    // number of cells modified by the move (x flipped + 1 occupied)
-    NSInteger modCount;
+    // number of cells flipped by the move
+    NSInteger flipCount;
     
     // status before the move had been applied
     JCSFlipGameStatus oldStatus;
@@ -219,7 +219,7 @@ typedef struct JCSFlipGameStateMoveInfo {
         return NO;
     }
     
-    NSInteger modCount = 0;
+    NSInteger flipCount = 0;
     
     if (!move.skip) {
         NSInteger startRow = move.startRow;
@@ -259,12 +259,11 @@ typedef struct JCSFlipGameStateMoveInfo {
             [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
             curRow += rowDelta;
             curColumn += columnDelta;
-            modCount++;
+            flipCount++;
         }
         
         // occupy empty target cell
         [self setCellState:startCellState atRow:curRow column:curColumn];
-        modCount++;
     } else if (![self skipAllowed]) {
         // skip is not allowed
         return NO;
@@ -278,7 +277,7 @@ typedef struct JCSFlipGameStateMoveInfo {
         moveInfo->startColumn = move.startColumn;
         moveInfo->direction = move.direction;
     }
-    moveInfo->modCount = modCount;
+    moveInfo->flipCount = flipCount;
     moveInfo->oldStatus = _status;
     moveInfo->oldSkipAllowed = _skipAllowed;
     
@@ -305,9 +304,9 @@ typedef struct JCSFlipGameStateMoveInfo {
     JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStackTop;
     _moveInfoStackTop = _moveInfoStackTop->next;
     
-    NSInteger modCount = moveInfo->modCount;
-    
-    if (modCount > 0) {
+    if (!moveInfo->skip) {
+        NSInteger flipCount = moveInfo->flipCount;
+        
         JCSHexDirection direction = moveInfo->direction;
         NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
         NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
@@ -315,7 +314,7 @@ typedef struct JCSFlipGameStateMoveInfo {
         // iterate to flip back cells
         NSInteger curRow = moveInfo->startRow + rowDelta;
         NSInteger curColumn = moveInfo->startColumn + columnDelta;
-        for (NSInteger i = modCount-1; i > 0; i--) {
+        for (NSInteger i = flipCount; i > 0; i--) {
             JCSFlipCellState curState = [self cellStateAtRow:curRow column:curColumn];
             [self setCellState:JCSFlipCellStateOther(curState) atRow:curRow column:curColumn];
             curRow += rowDelta;
@@ -339,9 +338,9 @@ typedef struct JCSFlipGameStateMoveInfo {
     NSAssert(_moveInfoStackTop != NULL, @"move stack is empty");
     JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStackTop;
     
-    NSInteger modCount = moveInfo->modCount;
-    
-    if (modCount > 0) {
+    if (!moveInfo->skip) {
+        NSInteger flipCount = moveInfo->flipCount;
+        
         JCSHexDirection direction = moveInfo->direction;
         NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
         NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
@@ -351,10 +350,10 @@ typedef struct JCSFlipGameStateMoveInfo {
         // invoke block for start cell, flipped cells, and target cell (total: modCount+1 cells)
         NSInteger curRow = moveInfo->startRow;
         NSInteger curColumn = moveInfo->startColumn;
-        for (NSInteger i = modCount; i >= 0 && !stop; i--) {
+        for (NSInteger i = flipCount + 1; i >= 0 && !stop; i--) {
             JCSFlipCellState newCellState = [self cellStateAtRow:curRow column:curColumn];
             JCSFlipCellState oldCellState;
-            if (i == modCount) {
+            if (i == flipCount + 1) {
                 // start cell
                 oldCellState = newCellState;
             } else if (i == 0) {
