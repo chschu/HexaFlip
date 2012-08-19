@@ -19,14 +19,14 @@
 	// Create the main window
 	_window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-	// Create an CCGLView with a RGB565 color buffer, and a depth buffer of 0-bits
+	// Create an CCGLView with a RGBA8 color buffer, and a depth buffer of 0-bits
 	CCGLView *glView = [CCGLView viewWithFrame:[_window bounds]
 								   pixelFormat:kEAGLColorFormatRGBA8
 								   depthFormat:0
 							preserveBackbuffer:YES
 									sharegroup:nil
-								 multiSampling:NO
-							   numberOfSamples:0];
+								 multiSampling:YES
+							   numberOfSamples:3];
     
 	_director = [CCDirector sharedDirector];
     
