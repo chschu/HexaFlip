@@ -56,7 +56,9 @@
     // TODO: determine scale programmatically
     _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
     _boardLayer.inputDelegate = self;
-    _boardLayer.position = ccp(windowWidth/2, windowHeight/2);
+    _boardLayer.contentSize = CGSizeMake(5, 5);
+    _boardLayer.anchorPoint = ccp(1, 0);
+    _boardLayer.position = ccp(windowWidth, windowHeight/2);
     _boardLayer.scale = 96 * 0.4 * windowHeight / 320.0;
     [self addChild:_boardLayer z:1];
     
