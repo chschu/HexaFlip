@@ -25,8 +25,8 @@
 								   depthFormat:0
 							preserveBackbuffer:YES
 									sharegroup:nil
-								 multiSampling:YES
-							   numberOfSamples:3];
+								 multiSampling:NO
+							   numberOfSamples:0];
     
 	_director = [CCDirector sharedDirector];
     
