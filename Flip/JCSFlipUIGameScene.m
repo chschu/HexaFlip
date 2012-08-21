@@ -21,6 +21,8 @@
     
     CCMenuItemFont *_skipButton;
     CCMenuItemFont *_exitButton;
+    
+    CCLabelTTF *_scoreLabel;
 }
 
 @synthesize playerA = _playerA;
@@ -54,7 +56,7 @@
     
     _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
     _boardLayer.inputDelegate = self;
-
+    
     // center board layer vertically, and place it on the right border
     _boardLayer.anchorPoint = ccp(1, 0);
     _boardLayer.position = ccp(windowWidth, windowHeight/2);
@@ -80,6 +82,12 @@
     CCMenu *menu = [CCMenu menuWithItems:_exitButton, _skipButton, nil];
     [self addChild:menu z:1];
     
+    _scoreLabel = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:24];
+    _scoreLabel.color = ccc3(0, 0, 0);
+    _scoreLabel.anchorPoint = ccp(0,0);
+    _scoreLabel.position = ccp(10, 10);
+    [self addChild:_scoreLabel z:1];
+    
     [self updateUI];
     [self tellCurrentPlayerMakeMove];
 }
@@ -98,6 +106,19 @@
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
     _skipButton.visible = _state.skipAllowed && (playerAEnabled || playerBEnabled);
+    
+    // update score label
+    _scoreLabel.string = [NSString stringWithFormat:@"%d:%d", _state.cellCountPlayerA, _state.cellCountPlayerB];
+    switch (_state.status) {
+        case JCSFlipGameStatusPlayerAToMove:
+            _scoreLabel.color = ccc3(255, 0, 0);
+            break;
+        case JCSFlipGameStatusPlayerBToMove:
+            _scoreLabel.color = ccc3(0, 0, 255);
+            break;
+        default:
+            _scoreLabel.color = ccc3(0, 0, 0);
+    }
 }
 
 // tell the current player to make a move
@@ -141,7 +162,7 @@
 
 - (void)inputSelectedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected direction %d", direction);
-
+    
     // check if the move is valid
     JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
     if ([_state pushMove:move]) {
@@ -157,7 +178,7 @@
 
 - (void)inputClearedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: cleared direction");
-
+    
     // check if the move is valid
     JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
     if ([_state pushMove:move]) {
