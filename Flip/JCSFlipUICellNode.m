@@ -129,7 +129,7 @@
     }];
     
     // action: scale up (with elastic effect at the end)
-    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
+    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:1.0] period:0.3];
     
     // create action sequence
     return [CCSequence actions:
