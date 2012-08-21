@@ -112,7 +112,7 @@
 }
 
 - (id<JCSFlipPlayer>)playerAIHardWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
+    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithName:@"AI (hard)" algorithm:algorithm moveInputDelegate:moveInputDelegate];
 }
