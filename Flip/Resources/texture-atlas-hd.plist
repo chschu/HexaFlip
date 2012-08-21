@@ -12,9 +12,29 @@
 			<key>y</key>
 			<real>0</real>
 			<key>width</key>
-			<real>40</real>
+			<real>80</real>
 			<key>height</key>
-			<real>45</real>
+			<real>90</real>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-0</real>
+			<key>originalWidth</key>
+			<real>72</real>
+			<key>originalHeight</key>
+			<real>82</real>
+		</dict>
+		
+		<key>cell-overlay-a.png</key>
+		<dict>
+			<key>x</key>
+			<real>80</real>
+			<key>y</key>
+			<real>0</real>
+			<key>width</key>
+			<real>44</real>
+			<key>height</key>
+			<real>44</real>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
@@ -22,56 +42,36 @@
 			<key>originalWidth</key>
 			<real>36</real>
 			<key>originalHeight</key>
-			<real>41</real>
-		</dict>
-		
-		<key>cell-overlay-a.png</key>
-		<dict>
-			<key>x</key>
-			<real>40</real>
-			<key>y</key>
-			<real>0</real>
-			<key>width</key>
-			<real>22</real>
-			<key>height</key>
-			<real>22</real>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>-0</real>
-			<key>originalWidth</key>
-			<real>18</real>
-			<key>originalHeight</key>
-			<real>18</real>
+			<real>36</real>
 		</dict>
 		
 		<key>cell-overlay-b.png</key>
 		<dict>
 			<key>x</key>
-			<real>40</real>
+			<real>80</real>
 			<key>y</key>
-			<real>22</real>
+			<real>44</real>
 			<key>width</key>
-			<real>22</real>
+			<real>44</real>
 			<key>height</key>
-			<real>22</real>
+			<real>44</real>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
 			<real>-0</real>
 			<key>originalWidth</key>
-			<real>18</real>
+			<real>36</real>
 			<key>originalHeight</key>
-			<real>18</real>
+			<real>36</real>
 		</dict>
 		
 	</dict>
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>64</integer>
+		<integer>128</integer>
 		<key>height</key>
-		<integer>64</integer>
+		<integer>128</integer>
 	</dict>
 </dict>
 </plist>

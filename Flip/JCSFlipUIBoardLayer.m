@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+#import "JCSFlipUIConstants.h"
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSFlipUICellNode.h"
 
@@ -42,9 +43,12 @@ typedef enum {
     if (self = [super init]) {
         _uiCellNodes = [NSMutableDictionary dictionary];
         
-        CCSpriteFrame *spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"dummy.png"];
+        CCSpriteFrame *spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"cell-empty.png"];
         
         CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
+        
+        __block float maxAbsX = 0.0;
+        __block float maxAbsY = 0.0;
         
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             if (cellState != JCSFlipCellStateHole) {
@@ -56,18 +60,27 @@ typedef enum {
                 
                 // register as touch delegate of every cell
                 uiCell.touchDelegate = self;
-                
-                // place cells with spacing of 1
-                uiCell.position = ccp((row/2.0+column), (sqrt(3.0)*row/2.0));
+                                
+                // place cells with defined spacing
+                float x = JCS_FLIP_UI_CELL_SPACING_POINTS * (row/2.0+column);
+                float y = JCS_FLIP_UI_CELL_SPACING_POINTS * (sqrt(3.0)*row/2.0);
+                uiCell.position = ccp(x, y);
                 
                 // add the cell to the batch node
                 [batchNode addChild:uiCell z:0];
+                
+                maxAbsX = max(abs(x), maxAbsX);
+                maxAbsY = max(abs(y), maxAbsY);
             }
         }];
         
         // add the batch node to the layer
         [self addChild:batchNode z:0];
         
+        // add some borders to get a reasonable content size (for positioning in the parent node)
+        self.contentSize = CGSizeMake(maxAbsX + JCS_FLIP_UI_CELL_SPACING_POINTS/2.0 + JCS_FLIP_UI_BOARD_BORDER,
+                                      maxAbsY + JCS_FLIP_UI_CELL_SPACING_POINTS/sqrt(3.0) + JCS_FLIP_UI_BOARD_BORDER);
+
         // create immutable dictionary
         _uiCellNodes = [_uiCellNodes copy];
         
@@ -218,7 +231,7 @@ typedef enum {
 }
 
 - (void)touchWithCell:(JCSFlipUICellNode *)cell dragged:(CGPoint)dragged ended:(BOOL)ended {
-    BOOL inside = (hypot(dragged.x, dragged.y) <= 0.5);
+    BOOL inside = (hypot(dragged.x, dragged.y) <= JCS_FLIP_UI_DRAG_OUTSIDE_THRESHOLD);
     
     // track inside/outside changes
     switch (_moveInputState) {

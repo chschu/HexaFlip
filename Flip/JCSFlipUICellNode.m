@@ -11,11 +11,8 @@
 #import "cocos2d.h"
 
 @implementation JCSFlipUICellNode {
-    CCSprite *_emptyCellSprite;
     CCSprite *_playerAOverlaySprite;
     CCSprite *_playerBOverlaySprite;
-    
-    float spriteScale;
 }
 
 @synthesize cellState = _cellState;
@@ -24,37 +21,22 @@
 @synthesize touchDelegate = _touchDelegate;
 
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
-    if (self = [super initWithSpriteFrameName:@"dummy.png"]) {
-        // determine sprite frames (required for proper scaling)
-        CCSpriteFrameCache *spriteFrameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
-        CCSpriteFrame *emptyCellSpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-empty.png"];
-        CCSpriteFrame *playerAOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-a.png"];
-        CCSpriteFrame *playerBOverlaySpriteFrame = [spriteFrameCache spriteFrameByName:@"cell-overlay-b.png"];
-        
+    NSAssert(cellState != JCSFlipCellStateHole, @"cell cannot be initialized to display a hole");
+
+    if (self = [super initWithSpriteFrameName:@"cell-empty.png"]) {
         // initialize child sprites
-        _emptyCellSprite = [CCSprite spriteWithSpriteFrame:emptyCellSpriteFrame];
-        _playerAOverlaySprite = [CCSprite spriteWithSpriteFrame:playerAOverlaySpriteFrame];
-        _playerBOverlaySprite = [CCSprite spriteWithSpriteFrame:playerBOverlaySpriteFrame];
+        _playerAOverlaySprite = [CCSprite spriteWithSpriteFrameName:@"cell-overlay-a.png"];
+        _playerBOverlaySprite = [CCSprite spriteWithSpriteFrameName:@"cell-overlay-b.png"];
         
-        // scale sprites to unit width (in cell sprite coordinates)
-        spriteScale = 1.0/emptyCellSpriteFrame.originalSize.width;
-        _emptyCellSprite.scale = spriteScale;
-        _playerAOverlaySprite.scale = spriteScale;
-        _playerBOverlaySprite.scale = spriteScale;
-        
-        // move child sprites' centers to center of cell sprite
-        _emptyCellSprite.position = ccp(0.5, 0.5);
-        _playerAOverlaySprite.position = ccp(0.5, 0.5);
-        _playerBOverlaySprite.position = ccp(0.5, 0.5);
-        
-        // set cell sprite content size to unit square (in parent's coordinates)
-        self.contentSize = CGSizeMake(1, 1);
+        // move child sprites' to center of cell sprite
+        CGPoint center = ccp(self.contentSize.width/2.0,self.contentSize.height/2.0);
+        _playerAOverlaySprite.position = center;
+        _playerBOverlaySprite.position = center;
         
         _row = row;
         _column = column;
         
         // add child sprites
-        [self addChild:_emptyCellSprite z:0];
         [self addChild:_playerAOverlaySprite z:1];
         [self addChild:_playerBOverlaySprite z:1];
         
@@ -76,16 +58,15 @@
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    // we don't consider touches on holes
-    if (_cellState != JCSFlipCellStateHole) {
-        // our sprite has anchor relative node coordinates from -0.5 to 0.5
-        CGRect box = CGRectMake(-0.5, -0.5, 1, 1);
-        // convert to anchor relative node space coordinates
-        CGPoint location = [self convertTouchToNodeSpaceAR:touch];
-        if (CGRectContainsPoint(box, location)) {
-            // notify delegate and swallow touch if delegate tells us to
-            return [_touchDelegate touchBeganWithCell:self];
-        }
+    // determine content rectangle in anchor relative node coordinates
+    float w = self.contentSize.width;
+    float h = self.contentSize.height;
+    CGRect box = CGRectMake(-w/2.0, -h/2.0, w, h);
+    // convert to anchor relative node space coordinates
+    CGPoint location = [self convertTouchToNodeSpaceAR:touch];
+    if (CGRectContainsPoint(box, location)) {
+        // notify delegate and swallow touch if delegate tells us to
+        return [_touchDelegate touchBeganWithCell:self];
     }
     return NO;
 }
@@ -114,7 +95,7 @@
 }
 
 - (void)startFlash {
-    [_emptyCellSprite stopAllActions];
+    [self stopAllActions];
     
     CCEaseInOut *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
     CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
@@ -122,22 +103,24 @@
     
     CCAction *flashAction = [CCRepeatForever actionWithAction:flashOnce];
     
-    [_emptyCellSprite runAction:flashAction];
+    [self runAction:flashAction];
 }
 
 - (void)stopFlash {
-    [_emptyCellSprite stopAllActions];
+    [self stopAllActions];
     
     CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
-    [_emptyCellSprite runAction:untint];
+    [self runAction:untint];
 }
 
 - (CCFiniteTimeAction *)createAnimationForChangeToCellState:(JCSFlipCellState)newCellState {
+    NSAssert(newCellState != JCSFlipCellStateHole, @"cell cannot be animated to display a hole");
+    
     // scale factor depends on wether the state changed or not
-    float newScaleFactor = (_cellState == newCellState ? 0.5 : 0.0);
+    float newScale = (_cellState == newCellState ? 0.5 : 0.0);
     
     // action: scale down
-    CCScaleTo *hideAction = [CCScaleTo actionWithDuration:0.3 scale:spriteScale * newScaleFactor];
+    CCScaleTo *hideAction = [CCScaleTo actionWithDuration:0.3 scale:newScale];
     
     // action: update cell state
     CCCallBlock *updateAction = [CCCallBlock actionWithBlock:^{
@@ -146,7 +129,7 @@
     }];
     
     // action: scale up (with elastic effect at the end)
-    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:spriteScale] period:0.3];
+    CCEaseElasticOut *showAction = [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:1.0]];
     
     // create action sequence
     return [CCSequence actions:

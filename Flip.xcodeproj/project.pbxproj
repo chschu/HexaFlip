@@ -289,6 +289,8 @@
 		F3D7F48615C1C91700704029 /* JCSFlipUIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F48515C1C91700704029 /* JCSFlipUIGameScene.m */; };
 		F3D7F48915C1D02100704029 /* JCSFlipUIBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D7F48815C1D02100704029 /* JCSFlipUIBackgroundLayer.m */; };
 		F3D9A40215D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D9A40115D9C15D00B2FF19 /* JCSFlipGameStatePossessionHeuristic.m */; };
+		F3D9A6CA15E4353600B2FF19 /* texture-atlas-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F3D9A6C915E4353500B2FF19 /* texture-atlas-hd.png */; };
+		F3D9A6CC15E435E100B2FF19 /* texture-atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3D9A6CB15E435E000B2FF19 /* texture-atlas-hd.plist */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -629,9 +631,10 @@
 		F3D9A69415E16A6600B2FF19 /* cell-overlay-a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-a.png"; sourceTree = "<group>"; };
 		F3D9A69515E16A6600B2FF19 /* cell-overlay-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-b.png"; sourceTree = "<group>"; };
 		F3D9A69615E16A6600B2FF19 /* cells.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = cells.svg; sourceTree = "<group>"; };
-		F3D9A69715E16A6600B2FF19 /* cells.xcf.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = cells.xcf.gz; sourceTree = "<group>"; };
-		F3D9A69815E16A6600B2FF19 /* dummy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dummy.png; sourceTree = "<group>"; };
 		F3D9A69E15E16A6600B2FF19 /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
+		F3D9A6C915E4353500B2FF19 /* texture-atlas-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "texture-atlas-hd.png"; path = "Resources/texture-atlas-hd.png"; sourceTree = "<group>"; };
+		F3D9A6CB15E435E000B2FF19 /* texture-atlas-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "texture-atlas-hd.plist"; path = "Resources/texture-atlas-hd.plist"; sourceTree = "<group>"; };
+		F3D9A6CD15E4369000B2FF19 /* JCSFlipUIConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIConstants.h; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -731,7 +734,9 @@
 			isa = PBXGroup;
 			children = (
 				F3AD1BE115D30E7200D66AE3 /* texture-atlas.plist */,
+				F3D9A6CB15E435E000B2FF19 /* texture-atlas-hd.plist */,
 				F3AD1BE215D30E7200D66AE3 /* texture-atlas.png */,
+				F3D9A6C915E4353500B2FF19 /* texture-atlas-hd.png */,
 				F30053A715B0AC2700BAD89C /* Icon-72.png */,
 				F30053A915B0AC2700BAD89C /* Icon-Small-50.png */,
 				F30053AB15B0AC2700BAD89C /* Icon-Small.png */,
@@ -1202,6 +1207,7 @@
 		F3D7F46115C0A1D200704029 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F3D9A6CD15E4369000B2FF19 /* JCSFlipUIConstants.h */,
 				F3D7F48C15C336C000704029 /* JCSFlipMoveInputDelegate.h */,
 				F3D7F48D15C3457E00704029 /* Player */,
 				F3AB8C8F15C8792E00D911B9 /* Scenes */,
@@ -1228,8 +1234,6 @@
 				F3D9A69415E16A6600B2FF19 /* cell-overlay-a.png */,
 				F3D9A69515E16A6600B2FF19 /* cell-overlay-b.png */,
 				F3D9A69615E16A6600B2FF19 /* cells.svg */,
-				F3D9A69715E16A6600B2FF19 /* cells.xcf.gz */,
-				F3D9A69815E16A6600B2FF19 /* dummy.png */,
 				F3D9A69E15E16A6600B2FF19 /* texture-atlas.zwd */,
 			);
 			path = External;
@@ -1472,6 +1476,8 @@
 				F30053B515B0AC2700BAD89C /* iTunesArtwork in Resources */,
 				F3AD1BE315D30E7200D66AE3 /* texture-atlas.plist in Resources */,
 				F3AD1BE415D30E7200D66AE3 /* texture-atlas.png in Resources */,
+				F3D9A6CA15E4353600B2FF19 /* texture-atlas-hd.png in Resources */,
+				F3D9A6CC15E435E100B2FF19 /* texture-atlas-hd.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

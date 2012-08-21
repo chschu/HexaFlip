@@ -52,14 +52,12 @@
     NSInteger windowWidth = director.winSize.width;
     NSInteger windowHeight = director.winSize.height;
     
-    // center board layer' origin on screen, and scale properly
-    // TODO: determine scale programmatically
     _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
     _boardLayer.inputDelegate = self;
-    _boardLayer.contentSize = CGSizeMake(5, 5);
+
+    // center board layer vertically, and place it on the right border
     _boardLayer.anchorPoint = ccp(1, 0);
     _boardLayer.position = ccp(windowWidth, windowHeight/2);
-    _boardLayer.scale = 96 * 0.4 * windowHeight / 320.0;
     [self addChild:_boardLayer z:1];
     
     ccColor3B menuColor = ccc3(0, 0, 127);
