@@ -14,7 +14,7 @@ xcuserdata/
 *.o
 *.pyc
 *.hi
-Flip/InfoPlist.h
+Flip/Support/InfoPlist.h
 
 #Python modules
 MANIFEST
