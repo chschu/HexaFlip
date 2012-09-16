@@ -32,6 +32,13 @@
 		F300539A15B0AC2700BAD89C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539915B0AC2700BAD89C /* GameKit.framework */; };
 		F300552615B0AF2400BAD89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
 		F300553015B0B00200BAD89C /* libcocos2d-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F300552515B0AF2400BAD89C /* libcocos2d-library.a */; };
+		F388F09516064F33004CCF7D /* JCSFlipGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F09116064F33004CCF7D /* JCSFlipGameController.m */; };
+		F388F09616064F33004CCF7D /* JCSFlipGameSelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F09316064F33004CCF7D /* JCSFlipGameSelectionController.m */; };
+		F388F09716064F33004CCF7D /* JCSFlipStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F388F09416064F33004CCF7D /* JCSFlipStoryboard.storyboard */; };
+		F388F0A1160673E0004CCF7D /* JCSFlipUIBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F09A160673E0004CCF7D /* JCSFlipUIBackgroundLayer.m */; };
+		F388F0A2160673E0004CCF7D /* JCSFlipUIBoardLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F09C160673E0004CCF7D /* JCSFlipUIBoardLayer.m */; };
+		F388F0A3160673E0004CCF7D /* JCSFlipUICellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F09E160673E0004CCF7D /* JCSFlipUICellNode.m */; };
+		F388F0A4160673E0004CCF7D /* JCSFlipUIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F388F0A0160673E0004CCF7D /* JCSFlipUIGameScene.m */; };
 		F3A8B38115EE9C9800FAD822 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110515EE9A030057309C /* Icon.png */; };
 		F3A8B38215EE9C9800FAD822 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110615EE9A030057309C /* Icon@2x.png */; };
 		F3A8B38315EE9C9800FAD822 /* texture-atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110715EE9A030057309C /* texture-atlas-hd.plist */; };
@@ -50,12 +57,6 @@
 		F3A8B3C215EE9CC800FAD822 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3A315EE9CC800FAD822 /* main.m */; };
 		F3A8B3C315EE9CC800FAD822 /* JCSFlipPlayerAI.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3A815EE9CC800FAD822 /* JCSFlipPlayerAI.m */; };
 		F3A8B3C415EE9CC800FAD822 /* JCSFlipPlayerLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3AA15EE9CC800FAD822 /* JCSFlipPlayerLocal.m */; };
-		F3A8B3C515EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3AC15EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.m */; };
-		F3A8B3C615EE9CC800FAD822 /* JCSFlipUIBoardLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3AE15EE9CC800FAD822 /* JCSFlipUIBoardLayer.m */; };
-		F3A8B3C715EE9CC800FAD822 /* JCSFlipUICellNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3B015EE9CC800FAD822 /* JCSFlipUICellNode.m */; };
-		F3A8B3C815EE9CC800FAD822 /* JCSFlipUIGameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3B415EE9CC800FAD822 /* JCSFlipUIGameOverLayer.m */; };
-		F3A8B3C915EE9CC800FAD822 /* JCSFlipUIGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3B615EE9CC800FAD822 /* JCSFlipUIGameScene.m */; };
-		F3A8B3CA15EE9CC800FAD822 /* JCSFlipUIMainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3B815EE9CC800FAD822 /* JCSFlipUIMainMenuScene.m */; };
 		F3A8B4BE15EE9E6B00FAD822 /* CCAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B3CC15EE9E6B00FAD822 /* CCAction.h */; };
 		F3A8B4BF15EE9E6B00FAD822 /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3CD15EE9E6B00FAD822 /* CCAction.m */; };
 		F3A8B4C015EE9E6B00FAD822 /* CCActionCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B3CE15EE9E6B00FAD822 /* CCActionCamera.h */; };
@@ -327,6 +328,19 @@
 		F300539715B0AC2700BAD89C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F300539915B0AC2700BAD89C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F300552515B0AF2400BAD89C /* libcocos2d-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2d-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F388F09016064F33004CCF7D /* JCSFlipGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameController.h; sourceTree = "<group>"; };
+		F388F09116064F33004CCF7D /* JCSFlipGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameController.m; sourceTree = "<group>"; };
+		F388F09216064F33004CCF7D /* JCSFlipGameSelectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameSelectionController.h; sourceTree = "<group>"; };
+		F388F09316064F33004CCF7D /* JCSFlipGameSelectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameSelectionController.m; sourceTree = "<group>"; };
+		F388F09416064F33004CCF7D /* JCSFlipStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = JCSFlipStoryboard.storyboard; sourceTree = "<group>"; };
+		F388F099160673E0004CCF7D /* JCSFlipUIBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBackgroundLayer.h; sourceTree = "<group>"; };
+		F388F09A160673E0004CCF7D /* JCSFlipUIBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBackgroundLayer.m; sourceTree = "<group>"; };
+		F388F09B160673E0004CCF7D /* JCSFlipUIBoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBoardLayer.h; sourceTree = "<group>"; };
+		F388F09C160673E0004CCF7D /* JCSFlipUIBoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBoardLayer.m; sourceTree = "<group>"; };
+		F388F09D160673E0004CCF7D /* JCSFlipUICellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNode.h; sourceTree = "<group>"; };
+		F388F09E160673E0004CCF7D /* JCSFlipUICellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUICellNode.m; sourceTree = "<group>"; };
+		F388F09F160673E0004CCF7D /* JCSFlipUIGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScene.h; sourceTree = "<group>"; };
+		F388F0A0160673E0004CCF7D /* JCSFlipUIGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameScene.m; sourceTree = "<group>"; };
 		F3A8B38A15EE9CC800FAD822 /* JCSFlipGameState+GameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCSFlipGameState+GameNode.h"; sourceTree = "<group>"; };
 		F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCSFlipGameState+GameNode.m"; sourceTree = "<group>"; };
 		F3A8B38C15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
@@ -358,20 +372,8 @@
 		F3A8B3A815EE9CC800FAD822 /* JCSFlipPlayerAI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerAI.m; sourceTree = "<group>"; };
 		F3A8B3A915EE9CC800FAD822 /* JCSFlipPlayerLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerLocal.h; sourceTree = "<group>"; };
 		F3A8B3AA15EE9CC800FAD822 /* JCSFlipPlayerLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerLocal.m; sourceTree = "<group>"; };
-		F3A8B3AB15EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBackgroundLayer.h; sourceTree = "<group>"; };
-		F3A8B3AC15EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBackgroundLayer.m; sourceTree = "<group>"; };
-		F3A8B3AD15EE9CC800FAD822 /* JCSFlipUIBoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBoardLayer.h; sourceTree = "<group>"; };
-		F3A8B3AE15EE9CC800FAD822 /* JCSFlipUIBoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBoardLayer.m; sourceTree = "<group>"; };
-		F3A8B3AF15EE9CC800FAD822 /* JCSFlipUICellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNode.h; sourceTree = "<group>"; };
-		F3A8B3B015EE9CC800FAD822 /* JCSFlipUICellNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUICellNode.m; sourceTree = "<group>"; };
 		F3A8B3B115EE9CC800FAD822 /* JCSFlipUICellNodeTouchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNodeTouchDelegate.h; sourceTree = "<group>"; };
 		F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIConstants.h; sourceTree = "<group>"; };
-		F3A8B3B315EE9CC800FAD822 /* JCSFlipUIGameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameOverLayer.h; sourceTree = "<group>"; };
-		F3A8B3B415EE9CC800FAD822 /* JCSFlipUIGameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameOverLayer.m; sourceTree = "<group>"; };
-		F3A8B3B515EE9CC800FAD822 /* JCSFlipUIGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScene.h; sourceTree = "<group>"; };
-		F3A8B3B615EE9CC800FAD822 /* JCSFlipUIGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameScene.m; sourceTree = "<group>"; };
-		F3A8B3B715EE9CC800FAD822 /* JCSFlipUIMainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMainMenuScene.h; sourceTree = "<group>"; };
-		F3A8B3B815EE9CC800FAD822 /* JCSFlipUIMainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMainMenuScene.m; sourceTree = "<group>"; };
 		F3A8B3CC15EE9E6B00FAD822 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		F3A8B3CD15EE9E6B00FAD822 /* CCAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAction.m; sourceTree = "<group>"; };
 		F3A8B3CE15EE9E6B00FAD822 /* CCActionCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionCamera.h; sourceTree = "<group>"; };
@@ -713,6 +715,33 @@
 			path = Flip;
 			sourceTree = "<group>";
 		};
+		F388F08716064F22004CCF7D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F388F09416064F33004CCF7D /* JCSFlipStoryboard.storyboard */,
+				F388F09016064F33004CCF7D /* JCSFlipGameController.h */,
+				F388F09116064F33004CCF7D /* JCSFlipGameController.m */,
+				F388F09216064F33004CCF7D /* JCSFlipGameSelectionController.h */,
+				F388F09316064F33004CCF7D /* JCSFlipGameSelectionController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F388F098160672D6004CCF7D /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				F388F099160673E0004CCF7D /* JCSFlipUIBackgroundLayer.h */,
+				F388F09A160673E0004CCF7D /* JCSFlipUIBackgroundLayer.m */,
+				F388F09B160673E0004CCF7D /* JCSFlipUIBoardLayer.h */,
+				F388F09C160673E0004CCF7D /* JCSFlipUIBoardLayer.m */,
+				F388F09D160673E0004CCF7D /* JCSFlipUICellNode.h */,
+				F388F09E160673E0004CCF7D /* JCSFlipUICellNode.m */,
+				F388F09F160673E0004CCF7D /* JCSFlipUIGameScene.h */,
+				F388F0A0160673E0004CCF7D /* JCSFlipUIGameScene.m */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		F3A8B38915EE9CC800FAD822 /* AI */ = {
 			isa = PBXGroup;
 			children = (
@@ -752,26 +781,16 @@
 		F3A8B3A415EE9CC800FAD822 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F388F08716064F22004CCF7D /* Controllers */,
+				F388F098160672D6004CCF7D /* Nodes */,
 				F3A8B3A515EE9CC800FAD822 /* JCSFlipMoveInputDelegate.h */,
 				F3A8B3A615EE9CC800FAD822 /* JCSFlipPlayer.h */,
 				F3A8B3A715EE9CC800FAD822 /* JCSFlipPlayerAI.h */,
 				F3A8B3A815EE9CC800FAD822 /* JCSFlipPlayerAI.m */,
 				F3A8B3A915EE9CC800FAD822 /* JCSFlipPlayerLocal.h */,
 				F3A8B3AA15EE9CC800FAD822 /* JCSFlipPlayerLocal.m */,
-				F3A8B3AB15EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.h */,
-				F3A8B3AC15EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.m */,
-				F3A8B3AD15EE9CC800FAD822 /* JCSFlipUIBoardLayer.h */,
-				F3A8B3AE15EE9CC800FAD822 /* JCSFlipUIBoardLayer.m */,
-				F3A8B3AF15EE9CC800FAD822 /* JCSFlipUICellNode.h */,
-				F3A8B3B015EE9CC800FAD822 /* JCSFlipUICellNode.m */,
 				F3A8B3B115EE9CC800FAD822 /* JCSFlipUICellNodeTouchDelegate.h */,
 				F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */,
-				F3A8B3B315EE9CC800FAD822 /* JCSFlipUIGameOverLayer.h */,
-				F3A8B3B415EE9CC800FAD822 /* JCSFlipUIGameOverLayer.m */,
-				F3A8B3B515EE9CC800FAD822 /* JCSFlipUIGameScene.h */,
-				F3A8B3B615EE9CC800FAD822 /* JCSFlipUIGameScene.m */,
-				F3A8B3B715EE9CC800FAD822 /* JCSFlipUIMainMenuScene.h */,
-				F3A8B3B815EE9CC800FAD822 /* JCSFlipUIMainMenuScene.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1435,6 +1454,7 @@
 				F3A8B38415EE9C9800FAD822 /* texture-atlas-hd.png in Resources */,
 				F3A8B38515EE9C9800FAD822 /* texture-atlas.plist in Resources */,
 				F3A8B38615EE9C9800FAD822 /* texture-atlas.png in Resources */,
+				F388F09716064F33004CCF7D /* JCSFlipStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,12 +1513,12 @@
 				F3A8B3C215EE9CC800FAD822 /* main.m in Sources */,
 				F3A8B3C315EE9CC800FAD822 /* JCSFlipPlayerAI.m in Sources */,
 				F3A8B3C415EE9CC800FAD822 /* JCSFlipPlayerLocal.m in Sources */,
-				F3A8B3C515EE9CC800FAD822 /* JCSFlipUIBackgroundLayer.m in Sources */,
-				F3A8B3C615EE9CC800FAD822 /* JCSFlipUIBoardLayer.m in Sources */,
-				F3A8B3C715EE9CC800FAD822 /* JCSFlipUICellNode.m in Sources */,
-				F3A8B3C815EE9CC800FAD822 /* JCSFlipUIGameOverLayer.m in Sources */,
-				F3A8B3C915EE9CC800FAD822 /* JCSFlipUIGameScene.m in Sources */,
-				F3A8B3CA15EE9CC800FAD822 /* JCSFlipUIMainMenuScene.m in Sources */,
+				F388F09516064F33004CCF7D /* JCSFlipGameController.m in Sources */,
+				F388F09616064F33004CCF7D /* JCSFlipGameSelectionController.m in Sources */,
+				F388F0A1160673E0004CCF7D /* JCSFlipUIBackgroundLayer.m in Sources */,
+				F388F0A2160673E0004CCF7D /* JCSFlipUIBoardLayer.m in Sources */,
+				F388F0A3160673E0004CCF7D /* JCSFlipUICellNode.m in Sources */,
+				F388F0A4160673E0004CCF7D /* JCSFlipUIGameScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

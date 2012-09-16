@@ -10,9 +10,6 @@
 
 #import "cocos2d.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CCDirectorDelegate>
-
-@property (readonly, nonatomic) UINavigationController *navController;
-@property (readonly, nonatomic) CCDirector *director;
+@interface AppDelegate : NSObject <UIApplicationDelegate>
 
 @end

@@ -18,6 +18,9 @@
 // YES for local human players, NO otherwise
 @property (readonly, nonatomic) BOOL localControls;
 
+// the delegate to be used if the player implementation requires automatic move input
+@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
+
 // tell the player it's their turn
 - (void)tellMakeMove:(JCSFlipGameState *)state;
 

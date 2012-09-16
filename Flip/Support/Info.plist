@@ -44,6 +44,8 @@
 	<string>GIT_HASH</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIMainStoryboardFile</key>
+	<string>JCSFlipStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
 		<key>accelerometer</key>

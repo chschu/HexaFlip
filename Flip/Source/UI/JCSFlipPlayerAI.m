@@ -11,23 +11,21 @@
 
 #import "cocos2d.h"
 
-@implementation JCSFlipPlayerAI {
-    // delegate for automatic move input, in case the player is supposed to do that
-    id<JCSFlipMoveInputDelegate> _moveInputDelegate;
-}
+@implementation JCSFlipPlayerAI
 
 @synthesize name = _name;
 @synthesize algorithm = _algorithm;
+@synthesize moveInputDelegate = _moveInputDelegate;
 
-+ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
-    return [[self alloc] initWithName:name algorithm:algorithm moveInputDelegate:moveInputDelegate];
++ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm {
+    return [[self alloc] initWithName:name algorithm:algorithm];
 }
 
-- (id)initWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm moveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
+- (id)initWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm {
     if (self = [super init]) {
         _name = name;
         _algorithm = algorithm;
-        _moveInputDelegate = moveInputDelegate;
+        _moveInputDelegate = nil;
     }
     return self;
 }

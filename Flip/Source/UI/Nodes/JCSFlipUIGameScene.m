@@ -7,12 +7,10 @@
 //
 
 #import "JCSFlipUIGameScene.h"
-#import "JCSFlipUIMainMenuScene.h"
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSFlipCellState.h"
 #import "JCSFlipUIBackgroundLayer.h"
 #import "JCSFlipMove.h"
-#import "JCSFlipUIGameOverLayer.h"
 
 @implementation JCSFlipUIGameScene {
     JCSFlipGameState *_state;
@@ -23,28 +21,32 @@
     CCMenuItemFont *_exitButton;
     
     CCLabelTTF *_scoreLabel;
+    
+    id<JCSFlipPlayer> _playerA;
+    id<JCSFlipPlayer> _playerB;
+    
+    // block invoked when the game should be exited
+    void(^_exitBlock)(id sender);
 }
 
-@synthesize playerA = _playerA;
-@synthesize playerB = _playerB;
-
-+ (CCScene *)sceneWithState:(JCSFlipGameState *)state {
-    return [[self alloc] initWithState:state];
++ (JCSFlipUIGameScene *)sceneWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)(id))exitBlock {
+    return [[self alloc] initWithState:state playerA:playerA playerB:playerB exitBlock:exitBlock];
 }
 
-- (id)initWithState:(JCSFlipGameState *)state {
+- (id)initWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)())exitBlock {
     if (self = [super init]) {
         _state = state;
+        _playerA = playerA;
+        _playerA.moveInputDelegate = self;
+        _playerB = playerB;
+        _playerB.moveInputDelegate = self;
+        _exitBlock = exitBlock;
     }
     return self;
 }
 
 - (void)onEnter {
     [super onEnter];
-    
-    // both players must have been set
-    NSAssert(_playerA != nil, @"playerA must be non-nil when the game scene enters the stage");
-    NSAssert(_playerB != nil, @"playerB must be non-nil when the game scene enters the stage");
     
     JCSFlipUIBackgroundLayer *backgroundLayer = [[JCSFlipUIBackgroundLayer alloc] init];
     [self addChild:backgroundLayer z:0];
@@ -64,10 +66,7 @@
     
     ccColor3B menuColor = ccc3(0, 0, 127);
     
-    _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
-        CCScene *scene = [JCSFlipUIMainMenuScene scene];
-        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:scene withColor:ccc3(255, 255, 255)]];
-    }];
+    _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:_exitBlock];
     _exitButton.color = menuColor;
     _exitButton.anchorPoint = ccp(0,1);
     _exitButton.position = ccp(-windowWidth/2+10, windowHeight/2-10);
@@ -129,17 +128,6 @@
         currentPlayer = _playerA;
     } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
         currentPlayer = _playerB;
-    } else {
-        NSString *text;
-        if (_state.status == JCSFlipGameStatusPlayerAWon) {
-            text = [NSString stringWithFormat:@"%d:%d - %@ wins!", _state.cellCountPlayerA, _state.cellCountPlayerB, _playerA.name];
-        } else if (_state.status == JCSFlipGameStatusPlayerBWon) {
-            text = [NSString stringWithFormat:@"%d:%d - %@ wins!", _state.cellCountPlayerA, _state.cellCountPlayerB, _playerB.name];
-        } else {
-            text = [NSString stringWithFormat:@"%d:%d - Draw!", _state.cellCountPlayerA, _state.cellCountPlayerB];
-        }
-        CCLayer *layer = [JCSFlipUIGameOverLayer layerWithText:text];
-        [self addChild:layer z:2];
     }
     
     // tell the current player to make a move
@@ -210,16 +198,6 @@
             [self tellCurrentPlayerMakeMove];
         }];
     }
-}
-
-- (void)setPlayerA:(id<JCSFlipPlayer>)playerA {
-    NSAssert(!self.isRunning, @"playerA may not be set if the scene is running");
-    _playerA = playerA;
-}
-
-- (void)setPlayerB:(id<JCSFlipPlayer>)playerB {
-    NSAssert(!self.isRunning, @"playerB may not be set if the scene is running");
-    _playerB = playerB;
 }
 
 @end

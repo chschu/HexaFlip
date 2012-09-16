@@ -7,42 +7,39 @@
 //
 
 #import "AppDelegate.h"
-#import "JCSFlipUIMainMenuScene.h"
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    BOOL _wasAnimating;
+}
 
-@synthesize window = _window;
-@synthesize navController = _navController;
-@synthesize director = _director;
+@synthesize window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Create the main window
-	_window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-	// Create an CCGLView with a RGBA8 color buffer, and a depth buffer of 0-bits
-	CCGLView *glView = [CCGLView viewWithFrame:[_window bounds]
-								   pixelFormat:kEAGLColorFormatRGBA8
-								   depthFormat:0
-							preserveBackbuffer:YES
-									sharegroup:nil
-								 multiSampling:NO
-							   numberOfSamples:0];
+	CCDirector *director = [CCDirector sharedDirector];
     
-	_director = [CCDirector sharedDirector];
+	director.wantsFullScreenLayout = YES;
     
-	_director.wantsFullScreenLayout = YES;
-    
-	_director.view = glView;
-	_director.delegate = self;
-        
 	// 2D projection
-	_director.projection = kCCDirectorProjection2D;
+	director.projection = kCCDirectorProjection2D;
+
+    // create the OpenGL view that cocos2d will render to.
+    CCGLView *glView = [CCGLView viewWithFrame:[UIApplication sharedApplication].keyWindow.bounds
+                                   pixelFormat:kEAGLColorFormatRGBA8
+                                   depthFormat:0
+                            preserveBackbuffer:NO
+                                    sharegroup:nil
+                                 multiSampling:NO
+                               numberOfSamples:0];
     
-	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	if (![_director enableRetinaDisplay:YES]) {
-		CCLOG(@"Retina Display Not supported");
+    // assign the view to the director.
+    director.view = glView;
+    
+    // enables high-resolution mode (retina display) if supported
+    // must be done after the view has been set on the director
+    if (![director enableRetinaDisplay:YES]) {
+        CCLOG(@"Retina Display not supported");
     }
-    
+
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
@@ -64,51 +61,37 @@
     // initialize texture atlas
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"texture-atlas.plist"];
 
-	// add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[_director runWithScene:[JCSFlipUIMainMenuScene scene]];
-
-	// Create a Navigation Controller with the Director
-	_navController = [[UINavigationController alloc] initWithRootViewController:_director];
-	_navController.navigationBarHidden = YES;
-	
-	// set the Navigation Controller as the root view controller
-	_window.rootViewController = _navController;
-	
-	// make main window visible
-	[_window makeKeyAndVisible];
-
 	return YES;
 }
 
-// Supported orientations: Landscape. Customize it for your own needs
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
-
-// getting a call, pause the game
+// enter inactive state (incoming call, application about to enter background)
 - (void)applicationWillResignActive:(UIApplication *)application {
-	if (_navController.visibleViewController == _director) {
-		[_director pause];
-    }
+    [[CCDirector sharedDirector] pause];
 }
 
-// call got rejected
+// enter active state (incoming call rejected, application about to enter foreground)
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-	if (_navController.visibleViewController == _director) {
-		[_director resume];
-    }
+    [[CCDirector sharedDirector] resume];
 }
 
+// stop animations when entering background
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-	if (_navController.visibleViewController == _director) {
-		[_director stopAnimation];
+    if ([CCDirector sharedDirector].isAnimating) {
+        _wasAnimating = YES;
+        [[CCDirector sharedDirector] stopAnimation];
+    } else {
+        _wasAnimating = NO;
     }
 }
 
+// start animations when entering foreground
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-	if (_navController.visibleViewController == _director) {
-		[_director startAnimation];
+    if (_wasAnimating) {
+        [[CCDirector sharedDirector] startAnimation];
     }
 }
 
