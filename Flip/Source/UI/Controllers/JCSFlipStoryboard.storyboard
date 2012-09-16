@@ -17,10 +17,10 @@
                             <tableViewSection id="rRz-04-ysg">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="egF-eN-7Ys" style="IBUITableViewCellStyleDefault" id="lJp-8P-95U">
-                                        <rect key="frame" x="0.0" y="10" width="480" height="46"/>
+                                        <rect key="frame" x="0.0" y="10" width="480" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="460" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="460" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. Player" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egF-eN-7Ys">
@@ -35,19 +35,15 @@
                                             <segue destination="Ey1-R6-lEA" kind="push" identifier="PlayerVsPlayer" id="SMo-aa-faJ"/>
                                         </connections>
                                     </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="bOf-c8-8EQ">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3pG-eN-K7N" style="IBUITableViewCellStyleDefault" id="ZE0-Uo-Xc1">
-                                        <rect key="frame" x="0.0" y="76" width="480" height="45"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3pG-eN-K7N" style="IBUITableViewCellStyleDefault" id="ZE0-Uo-Xc1">
+                                        <rect key="frame" x="0.0" y="55" width="480" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="460" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Easy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3pG-eN-K7N">
-                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -60,15 +56,15 @@
                                             <segue destination="Ey1-R6-lEA" kind="push" identifier="PlayerVsAIEasy" id="lWY-4a-asd"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LNx-hv-Mgy" style="IBUITableViewCellStyleDefault" id="DrL-zn-AYO">
-                                        <rect key="frame" x="0.0" y="121" width="480" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LNx-hv-Mgy" style="IBUITableViewCellStyleDefault" id="DrL-zn-AYO">
+                                        <rect key="frame" x="0.0" y="99" width="480" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="460" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Medium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LNx-hv-Mgy">
-                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,15 +77,15 @@
                                             <segue destination="Ey1-R6-lEA" kind="push" identifier="PlayerVsAIMedium" id="TFe-oR-O8Q"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="TVY-Vu-WEi" style="IBUITableViewCellStyleDefault" id="zX7-0U-hEq">
-                                        <rect key="frame" x="0.0" y="165" width="480" height="45"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="TVY-Vu-WEi" style="IBUITableViewCellStyleDefault" id="zX7-0U-hEq">
+                                        <rect key="frame" x="0.0" y="143" width="480" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="460" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Hard" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TVY-Vu-WEi">
-                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -104,6 +100,28 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="gwd-Ae-Km1">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="kYv-6g-aLT" style="IBUITableViewCellStyleDefault" id="yDT-nF-Etj">
+                                        <rect key="frame" x="0.0" y="208" width="480" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="460" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Build Info" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kYv-6g-aLT">
+                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="ac8-rJ-IfI" id="u5F-mO-MNe"/>
@@ -111,6 +129,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Select Game Type" id="d89-UZ-v8I"/>
+                    <connections>
+                        <outlet property="buildInfoLabel" destination="kYv-6g-aLT" id="mJ9-h3-a8e"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9UQ-DP-W9i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -157,6 +178,9 @@
         </class>
         <class className="JCSFlipGameSelectionController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/JCSFlipGameSelectionController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buildInfoLabel" candidateClass="UILabel"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

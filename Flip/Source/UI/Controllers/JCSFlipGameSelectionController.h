@@ -10,4 +10,6 @@
 
 @interface JCSFlipGameSelectionController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *buildInfoLabel;
+
 @end
