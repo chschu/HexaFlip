@@ -103,7 +103,7 @@ typedef enum {
         CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:newCellState];
         CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
         [actions addObject:cellAnimationWithDelay];
-        delay += 0.1;
+        delay += 0.05;
     }];
     
     id finalBlockAction = [CCCallBlock actionWithBlock:^{
