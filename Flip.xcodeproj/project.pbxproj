@@ -1479,7 +1479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nversion=$(/usr/bin/git describe --always --dirty)\necho \"#define GIT_HASH $version\" > Flip/Support/InfoPlist.h\ntouch Flip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\nversion=$(/usr/bin/git describe --always --dirty=\"*\")\necho \"#define GIT_HASH $version\" > Flip/Support/InfoPlist.h\ntouch Flip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
