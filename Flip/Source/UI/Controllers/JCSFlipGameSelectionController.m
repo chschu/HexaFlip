@@ -19,6 +19,7 @@
 @implementation JCSFlipGameSelectionController
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *bundleShortVersion = [info objectForKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [info objectForKey:@"CFBundleVersion"];
