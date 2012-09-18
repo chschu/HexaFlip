@@ -18,15 +18,6 @@
 
 @implementation JCSFlipGameSelectionController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *bundleShortVersion = [info objectForKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [info objectForKey:@"CFBundleVersion"];
-    NSString *buildString = [NSString stringWithFormat:@"Version %@ (%@)", bundleShortVersion, bundleVersion];
-    self.buildInfoLabel.text = buildString;
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *identifier = segue.identifier;
     
@@ -54,8 +45,6 @@
         dest.playerA = [self playerLocalWithName:@"Player"];
         dest.playerB = [self playerAIHard];
         dest.exitBlock = exitBlock;
-    } else {
-        NSAssert(false, @"unknown segue identifier %@", identifier);
     }
 }
 
