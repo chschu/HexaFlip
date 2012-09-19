@@ -39,15 +39,15 @@
                             </tableViewSection>
                             <tableViewSection id="yIl-ez-QUB">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3pG-eN-K7N" style="IBUITableViewCellStyleDefault" id="ZE0-Uo-Xc1">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="3pG-eN-K7N" style="IBUITableViewCellStyleDefault" id="ZE0-Uo-Xc1">
                                         <rect key="frame" x="0.0" y="76" width="480" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="440" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="460" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Easy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3pG-eN-K7N">
-                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -60,15 +60,15 @@
                                             <segue destination="Ey1-R6-lEA" kind="push" identifier="PlayerVsAIEasy" id="lWY-4a-asd"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LNx-hv-Mgy" style="IBUITableViewCellStyleDefault" id="DrL-zn-AYO">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="LNx-hv-Mgy" style="IBUITableViewCellStyleDefault" id="DrL-zn-AYO">
                                         <rect key="frame" x="0.0" y="121" width="480" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="460" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Medium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LNx-hv-Mgy">
-                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,15 +81,15 @@
                                             <segue destination="Ey1-R6-lEA" kind="push" identifier="PlayerVsAIMedium" id="TFe-oR-O8Q"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="TVY-Vu-WEi" style="IBUITableViewCellStyleDefault" id="zX7-0U-hEq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="TVY-Vu-WEi" style="IBUITableViewCellStyleDefault" id="zX7-0U-hEq">
                                         <rect key="frame" x="0.0" y="165" width="480" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="0.0" width="440" height="43"/>
+                                            <rect key="frame" x="10" y="0.0" width="460" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Player vs. AI Hard" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TVY-Vu-WEi">
-                                                    <rect key="frame" x="10" y="0.0" width="420" height="43"/>
+                                                    <rect key="frame" x="10" y="0.0" width="440" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
