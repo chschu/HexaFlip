@@ -11,14 +11,15 @@
 #import "JCSFlipUICellNode.h"
 
 // states for move input
-typedef enum {
-    JCSFlipUIMoveInputStateReady, // ready for move input
-    JCSFlipUIMoveInputStateFirstTapInside, // first tap, drag position inside start cell
-    JCSFlipUIMoveInputStateFirstTapOutside,  // first tap, drag position outside start cell
-    JCSFlipUIMoveInputStateFirstTapSelected,  // first tap, selected by releasing inside start cell
-    JCSFlipUIMoveInputStateSecondTapInside, // second tap, drag position inside target cell
-    JCSFlipUIMoveInputStateSecondTapOutside,  // second tap, drag position outside target cell
-} JCSFlipUIMoveInputState;
+enum {
+    JCSFlipUIMoveInputStateReady = 0, // ready for move input
+    JCSFlipUIMoveInputStateFirstTapInside = 1, // first tap, drag position inside start cell
+    JCSFlipUIMoveInputStateFirstTapOutside = 2,  // first tap, drag position outside start cell
+    JCSFlipUIMoveInputStateFirstTapSelected = 3,  // first tap, selected by releasing inside start cell
+    JCSFlipUIMoveInputStateSecondTapInside = 4, // second tap, drag position inside target cell
+    JCSFlipUIMoveInputStateSecondTapOutside = 5,  // second tap, drag position outside target cell
+};
+typedef NSInteger JCSFlipUIMoveInputState;
 
 @implementation JCSFlipUIBoardLayer {
     // the child nodes representing the cells

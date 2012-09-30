@@ -11,11 +11,12 @@
 #import "JCSFlipMutableMove.h"
 
 // enumeration for the "skip allowed" flag
-typedef enum {
+enum {
     JCSFlipGameStateSkipAllowedUnknown = -1,
     JCSFlipGameStateSkipAllowedNo = 0,
     JCSFlipGameStateSkipAllowedYes = 1,
-} JCSFlipGameStateSkipAllowed;
+};
+typedef NSInteger JCSFlipGameStateSkipAllowed;
 
 // simple container structure holding move information
 // this struct contains a "next" pointer to represent a stack
