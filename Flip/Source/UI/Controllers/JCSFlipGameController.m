@@ -49,8 +49,8 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 // hide the navigation bar when the view appears

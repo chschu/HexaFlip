@@ -10,6 +10,10 @@
 
 @implementation JCSFlipMainMenuController
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+
 #pragma mark UITableViewDataModel
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
