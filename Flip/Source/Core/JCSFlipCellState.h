@@ -1,5 +1,5 @@
 //
-//  NSObject_JCSFlipCellState.h
+//  JCSFlipCellState.h
 //  Flip
 //
 //  Created by Christian Schuster on 19.07.12.
