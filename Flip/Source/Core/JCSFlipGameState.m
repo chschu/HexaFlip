@@ -479,4 +479,35 @@ typedef struct JCSFlipGameStateMoveInfo {
     return [NSString stringWithString:temp];
 }
 
+#pragma mark NSCoding (serialization/deserialization)
+
+NSString *coderKey_size = @"a";
+NSString *coderKey_status = @"b";
+NSString *coderKey_cellStates = @"c";
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeInteger:_size forKey:coderKey_size];
+    [aCoder encodeInteger:_status forKey:coderKey_status];
+    [aCoder encodeBytes:_cellStates length:(2*_size-1)*(2*_size-1) forKey:coderKey_cellStates];
+    
+    // TODO encode move stack (?)
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    NSInteger size = [aDecoder decodeIntegerForKey:coderKey_size];
+    JCSFlipGameStatus status = [aDecoder decodeIntegerForKey:coderKey_status];
+    
+    NSUInteger length;
+    const JCSFlipCellState *cellStates = [aDecoder decodeBytesForKey:coderKey_cellStates returnedLength:&length];
+    NSAssert(length == (2*size-1)*(2*size-1), @"invalid length");
+    
+    self = [self initWithSize:size status:status cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+        return cellStates[JCS_CELL_STATE_INDEX(row, column)];
+    }];
+
+    // TODO decode move stack (?)
+
+    return self;
+}
+
 @end

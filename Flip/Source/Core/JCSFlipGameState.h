@@ -11,7 +11,7 @@
 #import "JCSFlipCellState.h"
 
 // state information for a running game
-@interface JCSFlipGameState : NSObject
+@interface JCSFlipGameState : NSObject <NSCoding>
 
 // the current game status
 @property (readonly, nonatomic) JCSFlipGameStatus status;

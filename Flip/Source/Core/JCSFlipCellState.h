@@ -12,7 +12,9 @@ enum {
     JCSFlipCellStateOwnedByPlayerA = 2,
     JCSFlipCellStateOwnedByPlayerB = 3,
 };
-typedef NSInteger JCSFlipCellState;
+
+// define as single-byte type for easier serialization
+typedef uint8_t JCSFlipCellState;
 
 // determine the cell state matching a game status (JCSFlipGameStatusPlayerAToMove or JCSFlipGameStatusPlayerBToMove)
 #define JCSFlipCellStateForGameStatus(status) ((status) == JCSFlipGameStatusPlayerAToMove ? JCSFlipCellStateOwnedByPlayerA : JCSFlipCellStateOwnedByPlayerB)
