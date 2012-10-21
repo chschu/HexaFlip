@@ -13,7 +13,6 @@
 
 @synthesize playerA = _playerA;
 @synthesize playerB = _playerB;
-@synthesize exitBlock = _exitBlock;
 
 - (void)loadView {
     [super loadView];
@@ -21,7 +20,6 @@
     // both players must have been set
     NSAssert(_playerA != nil, @"playerA must be non-nil");
     NSAssert(_playerB != nil, @"playerB must be non-nil");
-    NSAssert(_exitBlock != nil, @"exitBlock must be non-nil");
     
     CCDirector *director = [CCDirector sharedDirector];
 
@@ -39,7 +37,9 @@
     [director didMoveToParentViewController:self];
 
     JCSFlipGameState *state = [self createBoardOfSize:5];
-    JCSFlipUIGameScene *scene = [JCSFlipUIGameScene sceneWithState:state playerA:_playerA playerB:_playerB exitBlock:_exitBlock];
+    JCSFlipUIGameScene *scene = [JCSFlipUIGameScene sceneWithState:state playerA:_playerA playerB:_playerB exitBlock:^(id sender) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 
     // run whatever scene we'd like to run here.
     if (director.runningScene) {

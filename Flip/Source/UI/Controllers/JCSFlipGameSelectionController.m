@@ -25,30 +25,22 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *identifier = segue.identifier;
     
-    void(^exitBlock)(id) = ^(id sender) {
-        [self.navigationController popToViewController:self animated:YES];
-    };
-    
     if ([identifier isEqualToString:@"PlayerVsPlayer"]) {
         JCSFlipGameController *dest = segue.destinationViewController;
         dest.playerA = [self playerLocalWithName:@"Player A"];
         dest.playerB = [self playerLocalWithName:@"Player B"];
-        dest.exitBlock = exitBlock;
     } else if ([identifier isEqualToString:@"PlayerVsAIEasy"]) {
         JCSFlipGameController *dest = segue.destinationViewController;
         dest.playerA = [self playerLocalWithName:@"Player"];
         dest.playerB = [self playerAIEasy];
-        dest.exitBlock = exitBlock;
     } else if ([identifier isEqualToString:@"PlayerVsAIMedium"]) {
         JCSFlipGameController *dest = segue.destinationViewController;
         dest.playerA = [self playerLocalWithName:@"Player"];
         dest.playerB = [self playerAIMedium];
-        dest.exitBlock = exitBlock;
     } else if ([identifier isEqualToString:@"PlayerVsAIHard"]) {
         JCSFlipGameController *dest = segue.destinationViewController;
         dest.playerA = [self playerLocalWithName:@"Player"];
         dest.playerB = [self playerAIHard];
-        dest.exitBlock = exitBlock;
     }
 }
 
