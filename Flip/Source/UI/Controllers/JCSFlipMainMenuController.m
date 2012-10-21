@@ -17,7 +17,7 @@
 #pragma mark UITableViewDataModel
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -25,9 +25,6 @@
     if (section == 0) {
         rows = 1;
     } else if (section == 1) {
-        // TODO ask core data about the number of active games
-        rows = 4;
-    } else if (section == 2) {
         rows = 1;
     } else {
         NSAssert(false, @"illegal section number");
@@ -40,8 +37,6 @@
     if (section == 0) {
         title = nil;
     } else if (section == 1) {
-        title = @"Active Games";
-    } else if (section == 2) {
         title = @"Build Info";
     } else {
         NSAssert(false, @"illegal section number");
@@ -55,8 +50,6 @@
     if (section == 0) {
         identifier = @"NewGameCell";
     } else if (section == 1) {
-        identifier = @"ExistingGameCell";
-    } else if (section == 2) {
         identifier = @"BuildInfoCell";
     } else {
         NSAssert(false, @"illegal section number");
@@ -67,8 +60,6 @@
     if (section == 0) {
         // TODO configure cell
     } else if (section == 1) {
-        // TODO configure cell
-    } else if (section == 2) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         cell.textLabel.text = [NSString stringWithFormat:@"Version %@", [info objectForKey:@"CFBundleShortVersionString"]];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Build %@", [info objectForKey:@"CFBundleVersion"]];
