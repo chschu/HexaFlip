@@ -983,20 +983,74 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
     
-    // push a move
+    // push some moves
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
     
     JCSFlipGameState *reloaded = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
     // check properties
-    STAssertEquals([reloaded status], [underTest status], nil);
-    STAssertEquals([reloaded cellCountPlayerA], [underTest cellCountPlayerA], nil);
-    STAssertEquals([reloaded cellCountPlayerB], [underTest cellCountPlayerB], nil);
-    STAssertEquals([reloaded cellCountEmpty], [underTest cellCountEmpty], nil);
+    STAssertEquals(reloaded.status, underTest.status, nil);
+    STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
+    STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
+    STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+
+    // check cell states (must be match original board)
+    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
+    }];
+
+    // undo moves
+    [reloaded popMove];
+    [reloaded popMove];
+    [reloaded popMove];
     
-    // check cell states
+    // check cell states (must be back to original)
+    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
+    }];
+    
+    // check that move stack is empty
+    STAssertThrows([reloaded popMove], nil);
+}
+
+- (void)testCodingWithoutStack {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    // push some moves
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
+    
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [underTest encodeWithCoder:coder includeMoveStack:false];
+    [coder finishEncoding];
+    
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    JCSFlipGameState *reloaded = [underTest initWithCoder:decoder];
+    
+    // check properties
+    STAssertEquals(reloaded.status, underTest.status, nil);
+    STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
+    STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
+    STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    
+    // check cell states (must be match original board)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
     }];

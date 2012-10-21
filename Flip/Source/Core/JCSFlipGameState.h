@@ -69,4 +69,9 @@
 // a new move instance is passed to each invocation of the block
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block;
 
+// encode the receiver into the given NSCoder instance, optionally including the move stack
+// the decoding method is provided by the NSCoding protocol
+// the encoding method from the NSCoding protocol includes the move stack
+- (void)encodeWithCoder:(NSCoder *)aCoder includeMoveStack:(BOOL)includeMoveStack;
+
 @end

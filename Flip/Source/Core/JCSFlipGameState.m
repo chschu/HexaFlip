@@ -484,13 +484,60 @@ typedef struct JCSFlipGameStateMoveInfo {
 NSString *coderKey_size = @"a";
 NSString *coderKey_status = @"b";
 NSString *coderKey_cellStates = @"c";
+NSString *coderKey_moveStackArray = @"d";
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
+// recursively converts the move stack to an array
+- (NSArray *)convertMoveInfoStackToArray:(JCSFlipGameStateMoveInfo *)moveInfoStackTop {
+    NSMutableArray *array = [NSMutableArray array];
+
+    [array addObject:[NSNumber numberWithBool:moveInfoStackTop->skip]];
+    [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startRow]];
+    [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startColumn]];
+    [array addObject:[NSNumber numberWithInt:moveInfoStackTop->direction]];
+    [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->flipCount]];
+    [array addObject:[NSNumber numberWithInt:moveInfoStackTop->oldStatus]];
+    [array addObject:[NSNumber numberWithInt:moveInfoStackTop->oldSkipAllowed]];
+    
+    if (moveInfoStackTop->next != NULL) {
+        [array addObject:[self convertMoveInfoStackToArray:moveInfoStackTop->next]];
+    }
+
+    // return immutable copy
+    return [NSArray arrayWithArray:array];
+}
+
+// recursively converts the array to a move stack
+- (JCSFlipGameStateMoveInfo *)convertArrayToMoveInfoStack:(NSArray *)array {
+    JCSFlipGameStateMoveInfo *moveInfoStackTop = malloc(sizeof(JCSFlipGameStateMoveInfo));
+
+    moveInfoStackTop->skip = [[array objectAtIndex:0] boolValue];
+    moveInfoStackTop->startRow = [[array objectAtIndex:1] integerValue];
+    moveInfoStackTop->startColumn = [[array objectAtIndex:2] integerValue];
+    moveInfoStackTop->direction = [[array objectAtIndex:3] intValue];
+    moveInfoStackTop->flipCount = [[array objectAtIndex:4] integerValue];
+    moveInfoStackTop->oldStatus = [[array objectAtIndex:5] intValue];
+    moveInfoStackTop->oldSkipAllowed = [[array objectAtIndex:6] intValue];
+    
+    if ([array count] == 8) {
+        moveInfoStackTop->next = [self convertArrayToMoveInfoStack:[array objectAtIndex:7]];
+    } else {
+        moveInfoStackTop->next = NULL;
+    }
+    
+    return moveInfoStackTop;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder includeMoveStack:(BOOL)includeMoveStack {
     [aCoder encodeInteger:_size forKey:coderKey_size];
     [aCoder encodeInteger:_status forKey:coderKey_status];
     [aCoder encodeBytes:_cellStates length:(2*_size-1)*(2*_size-1) forKey:coderKey_cellStates];
-    
-    // TODO encode move stack (?)
+    if (includeMoveStack) {
+        [aCoder encodeObject:[self convertMoveInfoStackToArray:_moveInfoStackTop] forKey:coderKey_moveStackArray];
+    }
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [self encodeWithCoder:aCoder includeMoveStack:YES];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -505,7 +552,9 @@ NSString *coderKey_cellStates = @"c";
         return cellStates[JCS_CELL_STATE_INDEX(row, column)];
     }];
 
-    // TODO decode move stack (?)
+    if ([aDecoder containsValueForKey:coderKey_moveStackArray]) {
+        _moveInfoStackTop = [self convertArrayToMoveInfoStack:[aDecoder decodeObjectForKey:coderKey_moveStackArray]];
+    }
 
     return self;
 }
