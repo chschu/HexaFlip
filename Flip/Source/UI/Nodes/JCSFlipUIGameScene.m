@@ -64,27 +64,29 @@
     _boardLayer.position = ccp(windowWidth, windowHeight/2);
     [self addChild:_boardLayer z:1];
     
-    ccColor3B menuColor = ccc3(0, 0, 127);
+    ccColor3B menuColor = ccc3(0, 0, 0);
     
     _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:_exitBlock];
     _exitButton.color = menuColor;
     _exitButton.anchorPoint = ccp(0,1);
-    _exitButton.position = ccp(-windowWidth/2+10, windowHeight/2-10);
+    _exitButton.position = ccp(10, windowHeight-10);
     
     _skipButton = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
         [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
     }];
     _skipButton.color = menuColor;
-    _skipButton.anchorPoint = ccp(1,0);
-    _skipButton.position = ccp(windowWidth/2-10, -windowHeight/2+10);
+    _skipButton.anchorPoint = ccp(0,0);
+    _skipButton.position = ccp(10, 10);
     
     CCMenu *menu = [CCMenu menuWithItems:_exitButton, _skipButton, nil];
+    menu.anchorPoint = ccp(0,0);
+    menu.position = ccp(0,0);
     [self addChild:menu z:1];
     
     _scoreLabel = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:24];
     _scoreLabel.color = ccc3(0, 0, 0);
-    _scoreLabel.anchorPoint = ccp(0,0);
-    _scoreLabel.position = ccp(10, 10);
+    _scoreLabel.anchorPoint = ccp(0,0.5);
+    _scoreLabel.position = ccp(10, windowHeight/2.0);
     [self addChild:_scoreLabel z:1];
     
     [self updateUI];
