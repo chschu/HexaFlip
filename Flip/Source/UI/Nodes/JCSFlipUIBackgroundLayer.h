@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface JCSFlipUIBackgroundLayer : CCLayerGradient
+@interface JCSFlipUIBackgroundLayer : CCLayer
 
 @end

@@ -11,7 +11,13 @@
 @implementation JCSFlipUIBackgroundLayer
 
 - (id)init {
-    return [super initWithColor:ccc4(255, 239, 191, 255) fadingTo:ccc4(255, 191, 127, 255)];
+    if (self = [super init]) {
+        CCSprite *backgroundSprite = [CCSprite spriteWithSpriteFrameName:@"background.png"];
+        backgroundSprite.anchorPoint = ccp(0,0);
+        backgroundSprite.position = ccp(0,0);
+        [self addChild:backgroundSprite];
+    }
+    return self;
 }
 
 @end
