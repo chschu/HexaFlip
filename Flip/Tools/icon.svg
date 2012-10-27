@@ -25,7 +25,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="87.791339"
+     inkscape:cx="32.232949"
      inkscape:cy="357.72472"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -59,10 +59,13 @@
        width="57"
        height="57"
        x="52.116608"
-       y="708.9599" />
+       y="708.9599"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/Users/chschu/Documents/Workspace/Flip/Flip/Resources/Icon.png" />
     <path
        sodipodi:type="star"
-       style="fill:#ffffe6;fill-opacity:1;stroke:#000000;stroke-width:53.0853157;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:53.08531570000000244;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="icon"
        sodipodi:sides="6"
        sodipodi:cx="205.71429"
