@@ -1520,7 +1520,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nversion=$(/usr/bin/git describe --always --dirty=\"*\")\necho \"#define GIT_HASH $version\" > Flip/Support/InfoPlist.h\ntouch Flip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\ndescribe=$(/usr/bin/git describe --long --dirty=\"*\")\nversion=$(echo $describe | /usr/bin/sed -e 's/\\(.*\\)-\\(.*\\)-.*/\\1.\\2/')\nbuild=$(echo $describe | /usr/bin/sed -e 's/.*-\\(.*\\)/\\1/')\necho \"#define GIT_VERSION $version\" > Flip/Support/InfoPlist.h\necho \"#define GIT_BUILD $build\" >> Flip/Support/InfoPlist.h\ntouch Flip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
