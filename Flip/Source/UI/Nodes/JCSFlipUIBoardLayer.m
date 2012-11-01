@@ -50,6 +50,12 @@ typedef enum {
         __block float maxAbsX = 0.0;
         __block float maxAbsY = 0.0;
         
+        // add the board background (rotated by 60 degrees)
+        CCSprite *boardSprite = [CCSprite spriteWithSpriteFrameName:@"board.png"];
+        boardSprite.rotation = 60;
+        [batchNode addChild:boardSprite];
+        
+        // add the cells
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             if (cellState != JCSFlipCellStateHole) {
                 // create cell node

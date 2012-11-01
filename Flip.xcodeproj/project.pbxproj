@@ -49,6 +49,8 @@
 		F3A26083163C91BD0035A0D1 /* cell-overlay-a.png in Resources */ = {isa = PBXBuildFile; fileRef = F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */; };
 		F3A26084163C91BD0035A0D1 /* cell-overlay-b.png in Resources */ = {isa = PBXBuildFile; fileRef = F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */; };
 		F3A26085163C91BD0035A0D1 /* cell-overlay.xcf in Resources */ = {isa = PBXBuildFile; fileRef = F3A2607F163C91BD0035A0D1 /* cell-overlay.xcf */; };
+		F3A2609E1642D9EF0035A0D1 /* board.xcf in Resources */ = {isa = PBXBuildFile; fileRef = F3A2609D1642D9EE0035A0D1 /* board.xcf */; };
+		F3A260A11642DA2F0035A0D1 /* board.png in Resources */ = {isa = PBXBuildFile; fileRef = F3A260A01642DA2E0035A0D1 /* board.png */; };
 		F3A8B38115EE9C9800FAD822 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110515EE9A030057309C /* Icon.png */; };
 		F3A8B38215EE9C9800FAD822 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110615EE9A030057309C /* Icon@2x.png */; };
 		F3A8B38315EE9C9800FAD822 /* texture-atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110715EE9A030057309C /* texture-atlas-hd.plist */; };
@@ -362,6 +364,8 @@
 		F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-a.png"; sourceTree = "<group>"; };
 		F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-b.png"; sourceTree = "<group>"; };
 		F3A2607F163C91BD0035A0D1 /* cell-overlay.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cell-overlay.xcf"; sourceTree = "<group>"; };
+		F3A2609D1642D9EE0035A0D1 /* board.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = board.xcf; sourceTree = "<group>"; };
+		F3A260A01642DA2E0035A0D1 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
 		F3A8B38A15EE9CC800FAD822 /* JCSFlipGameState+GameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCSFlipGameState+GameNode.h"; sourceTree = "<group>"; };
 		F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCSFlipGameState+GameNode.m"; sourceTree = "<group>"; };
 		F3A8B38C15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
@@ -1240,6 +1244,8 @@
 			isa = PBXGroup;
 			children = (
 				F3A2607A163C91BC0035A0D1 /* background.png */,
+				F3A260A01642DA2E0035A0D1 /* board.png */,
+				F3A2609D1642D9EE0035A0D1 /* board.xcf */,
 				F3A2607B163C91BC0035A0D1 /* background.xcf */,
 				F3A2607C163C91BC0035A0D1 /* cell-empty.png */,
 				F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */,
@@ -1496,6 +1502,8 @@
 				F3A26083163C91BD0035A0D1 /* cell-overlay-a.png in Resources */,
 				F3A26084163C91BD0035A0D1 /* cell-overlay-b.png in Resources */,
 				F3A26085163C91BD0035A0D1 /* cell-overlay.xcf in Resources */,
+				F3A2609E1642D9EF0035A0D1 /* board.xcf in Resources */,
+				F3A260A11642DA2F0035A0D1 /* board.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
