@@ -20,6 +20,10 @@
 @synthesize column = _column;
 @synthesize touchDelegate = _touchDelegate;
 
++ (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
+    return [[self alloc] initWithRow:row column:column cellState:cellState];
+}
+
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     NSAssert(cellState != JCSFlipCellStateHole, @"cell cannot be initialized to display a hole");
 

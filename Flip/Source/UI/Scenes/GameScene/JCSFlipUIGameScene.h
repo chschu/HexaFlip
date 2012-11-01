@@ -17,6 +17,6 @@
 
 // initialize with a game state (which is copied) and two players
 // the scene is registered as the move input delegate of both players
-+ (JCSFlipUIGameScene *)sceneWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)(id))exitBlock;
++ (id)nodeWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)(id))exitBlock;
 
 @end

@@ -24,7 +24,7 @@
 @property (nonatomic) BOOL moveInputEnabled;
 
 // initializes the view with the given game state
-- (id)initWithState:(JCSFlipGameState *)state;
++ (id)nodeWithState:(JCSFlipGameState *)state;
 
 // asynchronously start an animation for the last move applied to the given game state
 // after the animation is done, the block is invoked (asnychronously!)

@@ -39,6 +39,10 @@ typedef enum {
 @synthesize inputDelegate = _inputDelegate;
 @synthesize moveInputEnabled = _moveInputEnabled;
 
++ (id)nodeWithState:(JCSFlipGameState *)state {
+    return [[self alloc] initWithState:state];
+}
+
 - (id)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
         _uiCellNodes = [NSMutableDictionary dictionary];
@@ -59,7 +63,7 @@ typedef enum {
         [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             if (cellState != JCSFlipCellStateHole) {
                 // create cell node
-                JCSFlipUICellNode *uiCell = [[JCSFlipUICellNode alloc] initWithRow:row column:column cellState:cellState];
+                JCSFlipUICellNode *uiCell = [JCSFlipUICellNode nodeWithRow:row column:column cellState:cellState];
                 
                 // remember in dictionary
                 [self setCellNode:uiCell atRow:row column:column];

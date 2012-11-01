@@ -40,7 +40,7 @@
     [director didMoveToParentViewController:self];
     
     JCSFlipGameState *state = [self createBoardOfSize:5];
-    JCSFlipUIGameScene *scene = [JCSFlipUIGameScene sceneWithState:state playerA:_playerA playerB:_playerB exitBlock:^(id sender) {
+    JCSFlipUIGameScene *scene = [JCSFlipUIGameScene nodeWithState:state playerA:_playerA playerB:_playerB exitBlock:^(id sender) {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
     

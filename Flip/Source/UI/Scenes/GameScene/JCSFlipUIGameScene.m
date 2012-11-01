@@ -29,7 +29,7 @@
     void(^_exitBlock)(id sender);
 }
 
-+ (JCSFlipUIGameScene *)sceneWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)(id))exitBlock {
++ (id)nodeWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB exitBlock:(void(^)(id))exitBlock {
     return [[self alloc] initWithState:state playerA:playerA playerB:playerB exitBlock:exitBlock];
 }
 
@@ -48,7 +48,7 @@
 - (void)onEnter {
     [super onEnter];
     
-    JCSFlipUIBackgroundLayer *backgroundLayer = [[JCSFlipUIBackgroundLayer alloc] init];
+    JCSFlipUIBackgroundLayer *backgroundLayer = [JCSFlipUIBackgroundLayer node];
     [self addChild:backgroundLayer z:0];
     
     CCDirector *director = [CCDirector sharedDirector];
@@ -56,7 +56,7 @@
     NSInteger windowWidth = director.winSize.width;
     NSInteger windowHeight = director.winSize.height;
     
-    _boardLayer = [[JCSFlipUIBoardLayer alloc] initWithState:_state];
+    _boardLayer = [JCSFlipUIBoardLayer nodeWithState:_state];
     _boardLayer.inputDelegate = self;
     
     // center board layer vertically, and place it on the right border

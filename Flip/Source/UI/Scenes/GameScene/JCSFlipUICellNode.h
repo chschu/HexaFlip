@@ -21,7 +21,7 @@
 // the delegate to report touches to
 @property (weak, nonatomic) id<JCSFlipUICellNodeTouchDelegate> touchDelegate;
 
-- (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
++ (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
 // repeatedly flash the cell
 // restarts flashing if the cell is already flashing
