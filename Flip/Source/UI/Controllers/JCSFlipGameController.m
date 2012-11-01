@@ -14,15 +14,18 @@
 @synthesize playerA = _playerA;
 @synthesize playerB = _playerB;
 
-- (void)loadView {
-    [super loadView];
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     // both players must have been set
     NSAssert(_playerA != nil, @"playerA must be non-nil");
     NSAssert(_playerB != nil, @"playerB must be non-nil");
     
+    // hide the navigation bar when the view appears
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
     CCDirector *director = [CCDirector sharedDirector];
-
+    
     // Set the view controller as the director's delegate, so we can respond to certain events.
     director.delegate = self;
     
@@ -35,12 +38,12 @@
     
     // finish up our view controller containment responsibilities.
     [director didMoveToParentViewController:self];
-
+    
     JCSFlipGameState *state = [self createBoardOfSize:5];
     JCSFlipUIGameScene *scene = [JCSFlipUIGameScene sceneWithState:state playerA:_playerA playerB:_playerB exitBlock:^(id sender) {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
-
+    
     // run whatever scene we'd like to run here.
     if (director.runningScene) {
         [director replaceScene:scene];
@@ -49,20 +52,15 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-	return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
-}
-
-// hide the navigation bar when the view appears
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-// show the navigation bar when the view disappears
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    // show the navigation bar when the view disappears
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 #define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
