@@ -8,9 +8,9 @@
 		<key>background.png</key>
 		<dict>
 			<key>x</key>
-			<real>1</real>
+			<real>0</real>
 			<key>y</key>
-			<real>1</real>
+			<real>0</real>
 			<key>width</key>
 			<real>570</real>
 			<key>height</key>
@@ -28,13 +28,13 @@
 		<key>board.png</key>
 		<dict>
 			<key>x</key>
-			<real>1</real>
+			<real>0</real>
 			<key>y</key>
-			<real>323</real>
+			<real>322</real>
 			<key>width</key>
-			<real>421</real>
+			<real>423</real>
 			<key>height</key>
-			<real>386</real>
+			<real>388</real>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
@@ -48,9 +48,9 @@
 		<key>cell-empty.png</key>
 		<dict>
 			<key>x</key>
-			<real>571</real>
+			<real>570</real>
 			<key>y</key>
-			<real>1</real>
+			<real>0</real>
 			<key>width</key>
 			<real>38</real>
 			<key>height</key>
@@ -68,9 +68,9 @@
 		<key>cell-overlay-a.png</key>
 		<dict>
 			<key>x</key>
-			<real>571</real>
+			<real>570</real>
 			<key>y</key>
-			<real>44</real>
+			<real>43</real>
 			<key>width</key>
 			<real>26</real>
 			<key>height</key>
@@ -88,9 +88,9 @@
 		<key>cell-overlay-b.png</key>
 		<dict>
 			<key>x</key>
-			<real>571</real>
+			<real>570</real>
 			<key>y</key>
-			<real>72</real>
+			<real>71</real>
 			<key>width</key>
 			<real>26</real>
 			<key>height</key>
