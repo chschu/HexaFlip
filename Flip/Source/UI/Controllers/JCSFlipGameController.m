@@ -59,6 +59,22 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    CCDirector *director = [CCDirector sharedDirector];
+
+    // replace with dummy scene to free resources
+    [director replaceScene:[CCScene node]];
+
+    // the director seems to be stopped at this point
+    // invoke drawScene again to draw the new scene and force release of the old scene
+    [director drawScene];
+
+    // clear the delegate reference (unfortunately, this is a strong reference in cocos2d)
+    director.delegate = nil;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
 	return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
