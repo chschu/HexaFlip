@@ -118,6 +118,25 @@ typedef struct JCSFlipGameStateMoveInfo {
 	return self;
 }
 
+#define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
+
+- (id)initDefaultWithSize:(NSInteger)size {
+    return [self initWithSize:size status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+        NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
+        if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
+            return JCSFlipCellStateHole;
+        } else if (distanceFromOrigin == 1) {
+            if (row + 2*column < 0) {
+                return JCSFlipCellStateOwnedByPlayerA;
+            } else {
+                return JCSFlipCellStateOwnedByPlayerB;
+            }
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+    }];
+}
+
 - (void)dealloc {
     // free the move stack
     while (_moveInfoStackTop != NULL) {
@@ -489,7 +508,7 @@ NSString *coderKey_moveStackArray = @"d";
 // recursively converts the move stack to an array
 - (NSArray *)convertMoveInfoStackToArray:(JCSFlipGameStateMoveInfo *)moveInfoStackTop {
     NSMutableArray *array = [NSMutableArray array];
-
+    
     [array addObject:[NSNumber numberWithBool:moveInfoStackTop->skip]];
     [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startRow]];
     [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startColumn]];
@@ -501,7 +520,7 @@ NSString *coderKey_moveStackArray = @"d";
     if (moveInfoStackTop->next != NULL) {
         [array addObject:[self convertMoveInfoStackToArray:moveInfoStackTop->next]];
     }
-
+    
     // return immutable copy
     return [NSArray arrayWithArray:array];
 }
@@ -509,7 +528,7 @@ NSString *coderKey_moveStackArray = @"d";
 // recursively converts the array to a move stack
 - (JCSFlipGameStateMoveInfo *)convertArrayToMoveInfoStack:(NSArray *)array {
     JCSFlipGameStateMoveInfo *moveInfoStackTop = malloc(sizeof(JCSFlipGameStateMoveInfo));
-
+    
     moveInfoStackTop->skip = [[array objectAtIndex:0] boolValue];
     moveInfoStackTop->startRow = [[array objectAtIndex:1] integerValue];
     moveInfoStackTop->startColumn = [[array objectAtIndex:2] integerValue];
@@ -551,11 +570,11 @@ NSString *coderKey_moveStackArray = @"d";
     self = [self initWithSize:size status:status cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         return cellStates[JCS_CELL_STATE_INDEX(row, column)];
     }];
-
+    
     if ([aDecoder containsValueForKey:coderKey_moveStackArray]) {
         _moveInfoStackTop = [self convertArrayToMoveInfoStack:[aDecoder decodeObjectForKey:coderKey_moveStackArray]];
     }
-
+    
     return self;
 }
 

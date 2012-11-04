@@ -10,6 +10,6 @@
 
 #import "cocos2d.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate, CCDirectorDelegate>
 
 @end

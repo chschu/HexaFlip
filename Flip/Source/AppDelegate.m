@@ -7,12 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "JCSFlipUIScene.h"
 
 @implementation AppDelegate {
     BOOL _wasAnimating;
 }
 
-@synthesize window;
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	CCDirector *director = [CCDirector sharedDirector];
@@ -21,9 +22,12 @@
     
 	// 2D projection
 	director.projection = kCCDirectorProjection2D;
-
+    
+	// create the main window
+    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     // create the OpenGL view that cocos2d will render to.
-    CCGLView *glView = [CCGLView viewWithFrame:[UIApplication sharedApplication].keyWindow.bounds
+    CCGLView *glView = [CCGLView viewWithFrame:_window.bounds
                                    pixelFormat:kEAGLColorFormatRGBA8
                                    depthFormat:0
                             preserveBackbuffer:NO
@@ -39,7 +43,16 @@
     if (![director enableRetinaDisplay:YES]) {
         CCLOG(@"Retina Display not supported");
     }
-
+    
+	// Display FSP and SPF
+	[director setDisplayStats:YES];
+    
+	// set FPS at 60
+	[director setAnimationInterval:1.0/60];
+    
+	// for rotation and other messages
+	[director setDelegate:self];
+    
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.
@@ -57,13 +70,25 @@
     
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
-
+    
     // initialize texture atlas
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"texture-atlas.plist"];
-
+    
+	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
+	[director pushScene:[JCSFlipUIScene node]];
+    
+	// Create a Navigation Controller with the Director
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:director];
+	navController.navigationBarHidden = YES;
+	
+	// set the Navigation Controller as the root view controller
+	[_window setRootViewController:navController];
+	
+	// make main window visible
+	[_window makeKeyAndVisible];
+	
 	return YES;
 }
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
