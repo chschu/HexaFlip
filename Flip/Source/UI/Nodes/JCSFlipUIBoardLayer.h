@@ -9,7 +9,7 @@
 #import "JCSFlipPlayer.h"
 #import "JCSFlipCellState.h"
 #import "JCSFlipGameState.h"
-#import "JCSFlipMoveInputDelegate.h"
+#import "JCSFlipPlayerMoveInputDelegate.h"
 #import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
@@ -18,7 +18,7 @@
 @interface JCSFlipUIBoardLayer : CCNode <JCSFlipUICellNodeTouchDelegate>
 
 // the delegate for forward input information to
-@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> inputDelegate;
+@property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> inputDelegate;
 
 // is local move input enabled (NO by default)
 @property (nonatomic) BOOL moveInputEnabled;

@@ -7,14 +7,14 @@
 //
 
 #import "JCSFlipGameState.h"
-#import "JCSFlipMoveInputDelegate.h"
+#import "JCSFlipPlayerMoveInputDelegate.h"
 #import "JCSFlipPlayer.h"
 #import "JCSFlipUIScreen.h"
 #import "JCSFlipUIGameScreenDelegate.h"
 
 #import "cocos2d.h"
 
-@interface JCSFlipUIGameScreen : CCNode <JCSFlipMoveInputDelegate, JCSFlipUIScreen>
+@interface JCSFlipUIGameScreen : CCNode <JCSFlipPlayerMoveInputDelegate, JCSFlipUIScreen>
 
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIGameScreenDelegate> delegate;

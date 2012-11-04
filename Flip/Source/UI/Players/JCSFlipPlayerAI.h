@@ -8,7 +8,6 @@
 
 #import "JCSFlipPlayer.h"
 #import "JCSGameAlgorithm.h"
-#import "JCSFlipMoveInputDelegate.h"
 
 @interface JCSFlipPlayerAI : NSObject <JCSFlipPlayer>
 
