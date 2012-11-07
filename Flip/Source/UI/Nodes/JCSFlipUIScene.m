@@ -7,7 +7,6 @@
 //
 
 #import "JCSFlipUIScene.h"
-#import "JCSFlipUIBackgroundLayer.h"
 #import "JCSFlipUIGameScreen.h"
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSFlipUIPlayerMenuScreen.h"
@@ -35,51 +34,58 @@
     [super onEnter];
 
     CGSize winSize = [CCDirector sharedDirector].winSize;
-    CGPoint winSizePoint = ccpFromSize(winSize);
     
     _parallax = [CCParallaxNode node];
 
-    // still background
-    CCNode *backgroundLayer = [JCSFlipUIBackgroundLayer node];
-    // TODO use tile map and scroll background?
-    backgroundLayer.scale = 2;
-    [_parallax addChild:backgroundLayer z:0 parallaxRatio:ccp(-0.1,-0.1) positionOffset:ccp(0,0)];
+    // background tile map
+    CCNode *backgroundTileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"background.tmx"];
+    [_parallax addChild:backgroundTileMap z:0 parallaxRatio:ccp(1,1) positionOffset:ccp(-0.5*winSize.width,-1.5*winSize.height)];
 
     // main menu screen
     _mainMenuScreen = [JCSFlipUIMainMenuScreen node];
     _mainMenuScreen.delegate = self;
-    _mainMenuScreen.screenPoint = ccp(0,0);
-    [_parallax addChild:_mainMenuScreen z:1 parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(_gameScreen.screenPoint,winSizePoint)];
+    [self addScreen:_mainMenuScreen atScreenPoint:ccp(0,0) z:1];
     
     // player selection menu screen
     _playerMenuScreen = [JCSFlipUIPlayerMenuScreen node];
     _playerMenuScreen.delegate = self;
-    _playerMenuScreen.screenPoint = ccp(1,1);
-    [_parallax addChild:_playerMenuScreen z:1 parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(_playerMenuScreen.screenPoint,winSizePoint)];
+    [self addScreen:_playerMenuScreen atScreenPoint:ccp(1,1) z:1];
     
     // game screen
     _gameScreen = [JCSFlipUIGameScreen node];
     _gameScreen.delegate = self;
-    _gameScreen.screenPoint = ccp(1,-1);
-    [_parallax addChild:_gameScreen z:1 parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(_gameScreen.screenPoint,winSizePoint)];
+    [self addScreen:_gameScreen atScreenPoint:ccp(1,-1) z:1];
 
     [self addChild:_parallax];
 
     // enable the main menu screen
-    _mainMenuScreen.screenEnabled = YES;
-    _activeScreen = _mainMenuScreen;
+    [self scrollToScreen:_mainMenuScreen animated:NO];
 }
 
-- (void)scrollToScreen:(id<JCSFlipUIScreen>)screen {
+- (void)addScreen:(id<JCSFlipUIScreen>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    CGPoint winSizePoint = ccpFromSize(winSize);
+
+    screen.screenPoint = screenPoint;
+    [_parallax addChild:screen z:z parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(screenPoint,winSizePoint)];
+}
+
+- (void)scrollToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated {
     // disable the old screen
     _activeScreen.screenEnabled = NO;
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     CGPoint winSizePoint = ccpFromSize(winSize);
 
-    id action = [CCMoveTo actionWithDuration:1 position:ccpCompMult(screen.screenPoint,ccpMult(winSizePoint,-1))];
-    id easedAction = [CCEaseElasticOut actionWithAction:action period:0.8];
-    [_parallax runAction:easedAction];
+    CGPoint targetPosition = ccpCompMult(screen.screenPoint,ccpMult(winSizePoint,-1));
+    
+    if (animated) {
+        id action = [CCMoveTo actionWithDuration:1 position:targetPosition];
+        id easedAction = [CCEaseElasticOut actionWithAction:action period:0.8];
+        [_parallax runAction:easedAction];
+    } else {
+        _parallax.position = targetPosition;
+    }
     
     // enable the new screen
     _activeScreen = screen;
@@ -89,7 +95,7 @@
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
 
 - (void)play {
-    [self scrollToScreen:_playerMenuScreen];
+    [self scrollToScreen:_playerMenuScreen animated:YES];
 }
 
 #pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
@@ -98,7 +104,7 @@
     // prepare game screen
     [_gameScreen startGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
     
-    [self scrollToScreen:_gameScreen];
+    [self scrollToScreen:_gameScreen animated:YES];
 }
 
 #pragma mark JCSFLipUIGameScreenDelegate methods
@@ -106,7 +112,7 @@
 - (void)gameEndedWithStatus:(JCSFlipGameStatus)status {
     // TODO scoll to outcome specific screen
     
-    [self scrollToScreen:_mainMenuScreen];
+    [self scrollToScreen:_mainMenuScreen animated:YES];
 }
 
 @end

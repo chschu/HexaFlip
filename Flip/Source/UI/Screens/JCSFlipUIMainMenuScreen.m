@@ -16,7 +16,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        CCMenuItem *playItem = [CCMenuItemFont itemWithString:@"PLAY" block:^(id sender) {
+        CCMenuItem *playItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-pushed.png"] block:^(id sender) {
             if (_screenEnabled) {
                 [_delegate play];
             }

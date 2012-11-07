@@ -5,32 +5,12 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>background.png</key>
-		<dict>
-			<key>x</key>
-			<real>0</real>
-			<key>y</key>
-			<real>0</real>
-			<key>width</key>
-			<real>1136</real>
-			<key>height</key>
-			<real>640</real>
-			<key>offsetX</key>
-			<real>0</real>
-			<key>offsetY</key>
-			<real>-0</real>
-			<key>originalWidth</key>
-			<real>1136</real>
-			<key>originalHeight</key>
-			<real>640</real>
-		</dict>
-		
 		<key>board.png</key>
 		<dict>
 			<key>x</key>
 			<real>0</real>
 			<key>y</key>
-			<real>642</real>
+			<real>0</real>
 			<key>width</key>
 			<real>842</real>
 			<key>height</key>
@@ -45,10 +25,50 @@
 			<real>772</real>
 		</dict>
 		
+		<key>button-play-normal.png</key>
+		<dict>
+			<key>x</key>
+			<real>0</real>
+			<key>y</key>
+			<real>774</real>
+			<key>width</key>
+			<real>260</real>
+			<key>height</key>
+			<real>260</real>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-10</real>
+			<key>originalWidth</key>
+			<real>260</real>
+			<key>originalHeight</key>
+			<real>280</real>
+		</dict>
+		
+		<key>button-play-pushed.png</key>
+		<dict>
+			<key>x</key>
+			<real>262</real>
+			<key>y</key>
+			<real>774</real>
+			<key>width</key>
+			<real>260</real>
+			<key>height</key>
+			<real>260</real>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-10</real>
+			<key>originalWidth</key>
+			<real>260</real>
+			<key>originalHeight</key>
+			<real>280</real>
+		</dict>
+		
 		<key>cell-empty.png</key>
 		<dict>
 			<key>x</key>
-			<real>1138</real>
+			<real>844</real>
 			<key>y</key>
 			<real>0</real>
 			<key>width</key>
@@ -68,9 +88,9 @@
 		<key>cell-overlay-a.png</key>
 		<dict>
 			<key>x</key>
-			<real>1138</real>
+			<real>918</real>
 			<key>y</key>
-			<real>139</real>
+			<real>0</real>
 			<key>width</key>
 			<real>50</real>
 			<key>height</key>
@@ -88,9 +108,9 @@
 		<key>cell-overlay-b.png</key>
 		<dict>
 			<key>x</key>
-			<real>1138</real>
+			<real>970</real>
 			<key>y</key>
-			<real>85</real>
+			<real>0</real>
 			<key>width</key>
 			<real>50</real>
 			<key>height</key>
@@ -109,7 +129,7 @@
 	<key>texture</key>
 	<dict>
 		<key>width</key>
-		<integer>2048</integer>
+		<integer>1024</integer>
 		<key>height</key>
 		<integer>2048</integer>
 	</dict>
