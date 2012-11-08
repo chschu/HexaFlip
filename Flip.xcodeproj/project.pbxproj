@@ -657,8 +657,7 @@
 		F3CB113D15EE9A030057309C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3CB113E15EE9A030057309C /* InfoPlist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoPlist.h; sourceTree = "<group>"; };
 		F3CB113F15EE9A030057309C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		F3CB114115EE9A030057309C /* cell-empty.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "cell-empty.svg"; sourceTree = "<group>"; };
-		F3CB114215EE9A030057309C /* icon.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = icon.svg; sourceTree = "<group>"; };
+		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1267,8 +1266,7 @@
 		F3CB114015EE9A030057309C /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				F3CB114215EE9A030057309C /* icon.svg */,
-				F3CB114115EE9A030057309C /* cell-empty.svg */,
+				F3CB114115EE9A030057309C /* vectors.svg */,
 				F3107884164B17D200FE7FC2 /* button.xcf */,
 				F3A2607B163C91BC0035A0D1 /* background.xcf */,
 				F3A2609D1642D9EE0035A0D1 /* board.xcf */,
