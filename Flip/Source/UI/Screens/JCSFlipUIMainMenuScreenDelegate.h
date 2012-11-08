@@ -9,7 +9,7 @@
 // protocol for actions triggered by the main menu screen
 @protocol JCSFlipUIMainMenuScreenDelegate <NSObject>
 
-// "Play" menu item was tapped
+// "Play" button has been tapped
 - (void)play;
 
 @end
