@@ -95,28 +95,36 @@
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
 
 - (void)playFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
-    [self scrollToScreen:_playerMenuScreen animated:YES];
+    if (screen.screenEnabled) {
+        [self scrollToScreen:_playerMenuScreen animated:YES];
+    }
 }
 
 #pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    // prepare game screen
-    [_gameScreen startGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
+    if (screen.screenEnabled) {
+        // prepare game screen
+        [_gameScreen startGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
     
-    [self scrollToScreen:_gameScreen animated:YES];
+        [self scrollToScreen:_gameScreen animated:YES];
+    }
 }
 
 - (void)backFromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    [self scrollToScreen:_mainMenuScreen animated:YES];
+    if (screen.screenEnabled) {
+        [self scrollToScreen:_mainMenuScreen animated:YES];
+    }
 }
 
 #pragma mark JCSFLipUIGameScreenDelegate methods
 
 - (void)gameEndedWithStatus:(JCSFlipGameStatus)status fromGameScreen:(JCSFlipUIGameScreen *)screen {
-    // TODO scoll to outcome specific screen
+    if (screen.screenEnabled) {
+        // TODO scoll to outcome specific screen
     
-    [self scrollToScreen:_mainMenuScreen animated:YES];
+        [self scrollToScreen:_mainMenuScreen animated:YES];
+    }
 }
 
 @end

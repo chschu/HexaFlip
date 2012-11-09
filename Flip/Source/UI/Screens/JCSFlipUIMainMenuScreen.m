@@ -17,9 +17,7 @@
 - (id)init {
     if (self = [super init]) {
         CCMenuItem *playItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-pushed.png"] block:^(id sender) {
-            if (_screenEnabled) {
-                [_delegate playFromMainMenuScreen:self];
-            }
+            [_delegate playFromMainMenuScreen:self];
         }];
         CCMenu *menu = [CCMenu menuWithItems:playItem, nil];
         [self addChild:menu];

@@ -32,18 +32,14 @@
         
         // create the other controls
         _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
-            if (_screenEnabled) {
-                // TODO what is the outcome here?
-                [_delegate gameEndedWithStatus:JCSFlipGameStatusDraw fromGameScreen:self];
-            }
+            // TODO what is the outcome here?
+            [_delegate gameEndedWithStatus:JCSFlipGameStatusDraw fromGameScreen:self];
         }];
         _exitButton.anchorPoint = ccp(0,1);
         _exitButton.position = ccp(10, winSize.height-10);
         
         _skipButton = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
-            if (_screenEnabled) {
-                [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
-            }
+            [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
         }];
         _skipButton.anchorPoint = ccp(0,0);
         _skipButton.position = ccp(10, 10);
