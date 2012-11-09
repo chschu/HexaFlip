@@ -34,7 +34,7 @@
         _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
             if (_screenEnabled) {
                 // TODO what is the outcome here?
-                [_delegate gameEndedWithStatus:JCSFlipGameStatusDraw];
+                [_delegate gameEndedWithStatus:JCSFlipGameStatusDraw fromGameScreen:self];
             }
         }];
         _exitButton.anchorPoint = ccp(0,1);
@@ -128,7 +128,7 @@
         currentPlayer = _playerB;
     } else {
         // notify the delegate that the game has ended
-        [_delegate gameEndedWithStatus:_state.status];
+        [_delegate gameEndedWithStatus:_state.status fromGameScreen:self];
     }
     
     // tell the current player to make a move

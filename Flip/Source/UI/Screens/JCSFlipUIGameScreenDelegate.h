@@ -8,8 +8,10 @@
 
 #import "JCSFlipGameStatus.h"
 
+@class JCSFlipUIGameScreen;
+
 @protocol JCSFlipUIGameScreenDelegate <NSObject>
 
-- (void)gameEndedWithStatus:(JCSFlipGameStatus)status;
+- (void)gameEndedWithStatus:(JCSFlipGameStatus)status fromGameScreen:(JCSFlipUIGameScreen *)screen;
 
 @end

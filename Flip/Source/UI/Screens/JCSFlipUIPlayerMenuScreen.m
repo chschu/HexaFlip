@@ -26,7 +26,7 @@
         // create the other controls
         CCMenuItem *backItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-pushed.png"] block:^(id sender) {
             if (_screenEnabled) {
-                [_delegate backFromPlayerMenuScreen];
+                [_delegate backFromPlayerMenuScreen:self];
             }
         }];
         backItem.anchorPoint = ccp(0,1);
@@ -36,7 +36,7 @@
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
                 id<JCSFlipPlayer> playerB = [self playerLocalWithName:@"Player B"];
-                [_delegate startGameWithPlayerA:playerA playerB:playerB];
+                [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
             }
         }];
         playerVsPlayerItem.position = ccp(0,80);
@@ -45,7 +45,7 @@
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
                 id<JCSFlipPlayer> playerB = [self playerAIEasy];
-                [_delegate startGameWithPlayerA:playerA playerB:playerB];
+                [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
             }
         }];
         playerVsAIEasyItem.position = ccp(0,40);
@@ -54,7 +54,7 @@
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
                 id<JCSFlipPlayer> playerB = [self playerAIMedium];
-                [_delegate startGameWithPlayerA:playerA playerB:playerB];
+                [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
             }
         }];
         playerVsAIMediumItem.position = ccp(0,0);
@@ -63,7 +63,7 @@
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
                 id<JCSFlipPlayer> playerB = [self playerAIHard];
-                [_delegate startGameWithPlayerA:playerA playerB:playerB];
+                [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
             }
         }];
         playerVsAIHardItem.position = ccp(0,-40);
@@ -72,7 +72,7 @@
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerAIEasy];
                 id<JCSFlipPlayer> playerB = [self playerAIEasy];
-                [_delegate startGameWithPlayerA:playerA playerB:playerB];
+                [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
             }
         }];
         battleAI.position = ccp(0,-80);

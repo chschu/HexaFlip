@@ -6,10 +6,12 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+@class JCSFlipUIMainMenuScreen;
+
 // protocol for actions triggered by the main menu screen
 @protocol JCSFlipUIMainMenuScreenDelegate <NSObject>
 
 // "Play" button has been tapped
-- (void)play;
+- (void)playFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen;
 
 @end
