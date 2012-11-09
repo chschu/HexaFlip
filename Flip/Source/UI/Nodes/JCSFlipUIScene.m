@@ -107,6 +107,10 @@
     [self scrollToScreen:_gameScreen animated:YES];
 }
 
+- (void)backFromPlayerMenuScreen {
+    [self scrollToScreen:_mainMenuScreen animated:YES];
+}
+
 #pragma mark JCSFLipUIGameScreenDelegate methods
 
 - (void)gameEndedWithStatus:(JCSFlipGameStatus)status {

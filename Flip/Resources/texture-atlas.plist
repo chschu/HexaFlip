@@ -25,6 +25,46 @@
 			<real>386</real>
 		</dict>
 		
+		<key>button-back-normal.png</key>
+		<dict>
+			<key>x</key>
+			<real>0</real>
+			<key>y</key>
+			<real>649</real>
+			<key>width</key>
+			<real>64</real>
+			<key>height</key>
+			<real>64</real>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>-3</real>
+			<key>originalWidth</key>
+			<real>70</real>
+			<key>originalHeight</key>
+			<real>70</real>
+		</dict>
+		
+		<key>button-back-pushed.png</key>
+		<dict>
+			<key>x</key>
+			<real>0</real>
+			<key>y</key>
+			<real>715</real>
+			<key>width</key>
+			<real>64</real>
+			<key>height</key>
+			<real>64</real>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>-3</real>
+			<key>originalWidth</key>
+			<real>70</real>
+			<key>originalHeight</key>
+			<real>70</real>
+		</dict>
+		
 		<key>button-play-normal.png</key>
 		<dict>
 			<key>x</key>
@@ -40,7 +80,7 @@
 			<key>offsetY</key>
 			<real>-5</real>
 			<key>originalWidth</key>
-			<real>130</real>
+			<real>140</real>
 			<key>originalHeight</key>
 			<real>140</real>
 		</dict>
@@ -48,9 +88,9 @@
 		<key>button-play-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>131</real>
+			<real>0</real>
 			<key>y</key>
-			<real>387</real>
+			<real>518</real>
 			<key>width</key>
 			<real>130</real>
 			<key>height</key>
@@ -60,7 +100,7 @@
 			<key>offsetY</key>
 			<real>-5</real>
 			<key>originalWidth</key>
-			<real>130</real>
+			<real>140</real>
 			<key>originalHeight</key>
 			<real>140</real>
 		</dict>
@@ -68,9 +108,9 @@
 		<key>cell-empty.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
-			<key>y</key>
 			<real>0</real>
+			<key>y</key>
+			<real>781</real>
 			<key>width</key>
 			<real>36</real>
 			<key>height</key>
@@ -88,9 +128,9 @@
 		<key>cell-overlay-a.png</key>
 		<dict>
 			<key>x</key>
-			<real>459</real>
-			<key>y</key>
 			<real>0</real>
+			<key>y</key>
+			<real>823</real>
 			<key>width</key>
 			<real>24</real>
 			<key>height</key>
@@ -108,9 +148,9 @@
 		<key>cell-overlay-b.png</key>
 		<dict>
 			<key>x</key>
-			<real>485</real>
-			<key>y</key>
 			<real>0</real>
+			<key>y</key>
+			<real>850</real>
 			<key>width</key>
 			<real>24</real>
 			<key>height</key>

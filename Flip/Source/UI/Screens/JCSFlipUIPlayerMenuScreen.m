@@ -21,6 +21,17 @@
 
 - (id)init {
     if (self = [super init]) {
+        CGSize winSize = [CCDirector sharedDirector].winSize;
+        
+        // create the other controls
+        CCMenuItem *backItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-pushed.png"] block:^(id sender) {
+            if (_screenEnabled) {
+                [_delegate backFromPlayerMenuScreen];
+            }
+        }];
+        backItem.anchorPoint = ccp(0,1);
+        backItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
+        
         CCMenuItem *playerVsPlayerItem = [CCMenuItemFont itemWithString:@"Player vs. Player" block:^(id sender) {
             if (_screenEnabled) {
                 id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
@@ -66,7 +77,8 @@
         }];
         battleAI.position = ccp(0,-80);
 
-        CCMenu *menu = [CCMenu menuWithItems:playerVsPlayerItem, playerVsAIEasyItem, playerVsAIMediumItem, playerVsAIHardItem, battleAI, nil];
+        CCMenu *menu = [CCMenu menuWithItems:backItem, playerVsPlayerItem, playerVsAIEasyItem, playerVsAIMediumItem, playerVsAIHardItem, battleAI, nil];
+        
         [self addChild:menu];
     }
     return self;

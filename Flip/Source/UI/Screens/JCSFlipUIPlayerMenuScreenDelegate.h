@@ -14,4 +14,7 @@
 // start a game using the given players
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
 
+// "Back" button has been tapped
+- (void)backFromPlayerMenuScreen;
+
 @end

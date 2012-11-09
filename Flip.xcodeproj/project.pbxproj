@@ -47,6 +47,8 @@
 		F3107882164B12F000FE7FC2 /* button-play-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3107880164B12F000FE7FC2 /* button-play-normal.png */; };
 		F3107883164B12F000FE7FC2 /* button-play-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3107881164B12F000FE7FC2 /* button-play-pushed.png */; };
 		F3107885164B17D200FE7FC2 /* button.xcf in Resources */ = {isa = PBXBuildFile; fileRef = F3107884164B17D200FE7FC2 /* button.xcf */; };
+		F3107888164C7CCF00FE7FC2 /* button-back-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3107886164C7CCE00FE7FC2 /* button-back-normal.png */; };
+		F3107889164C7CCF00FE7FC2 /* button-back-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3107887164C7CCE00FE7FC2 /* button-back-pushed.png */; };
 		F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */; };
 		F388F0B71607C897004CCF7D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B51607C897004CCF7D /* Default.png */; };
 		F388F0B81607C897004CCF7D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B61607C897004CCF7D /* Default@2x.png */; };
@@ -374,6 +376,8 @@
 		F3107880164B12F000FE7FC2 /* button-play-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-normal.png"; sourceTree = "<group>"; };
 		F3107881164B12F000FE7FC2 /* button-play-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-pushed.png"; sourceTree = "<group>"; };
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
+		F3107886164C7CCE00FE7FC2 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
+		F3107887164C7CCE00FE7FC2 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F388F0B51607C897004CCF7D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F388F0B61607C897004CCF7D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -1277,6 +1281,8 @@
 				F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */,
 				F3107880164B12F000FE7FC2 /* button-play-normal.png */,
 				F3107881164B12F000FE7FC2 /* button-play-pushed.png */,
+				F3107886164C7CCE00FE7FC2 /* button-back-normal.png */,
+				F3107887164C7CCE00FE7FC2 /* button-back-pushed.png */,
 				F3CB114315EE9A030057309C /* texture-atlas.zwd */,
 			);
 			path = Tools;
@@ -1533,6 +1539,8 @@
 				F3107882164B12F000FE7FC2 /* button-play-normal.png in Resources */,
 				F3107883164B12F000FE7FC2 /* button-play-pushed.png in Resources */,
 				F3107885164B17D200FE7FC2 /* button.xcf in Resources */,
+				F3107888164C7CCF00FE7FC2 /* button-back-normal.png in Resources */,
+				F3107889164C7CCF00FE7FC2 /* button-back-pushed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
