@@ -10,6 +10,7 @@
 #import "JCSFlipUIGameScreen.h"
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSFlipUIPlayerMenuScreen.h"
+#import "JCSFlipUIOutcomeScreen.h"
 
 @implementation JCSFlipUIScene {
     // global parallax node
@@ -23,6 +24,9 @@
 
     // game screen
     JCSFlipUIGameScreen *_gameScreen;
+    
+    // game outcome screen
+    JCSFlipUIOutcomeScreen *_outcomeScreen;
     
     // currently active screen
     // this is the only screen with screenEnabled == YES
@@ -39,23 +43,28 @@
 
     // background tile map
     CCNode *backgroundTileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"background.tmx"];
-    [_parallax addChild:backgroundTileMap z:0 parallaxRatio:ccp(1,1) positionOffset:ccp(-0.5*winSize.width,-1.5*winSize.height)];
+    [_parallax addChild:backgroundTileMap z:0 parallaxRatio:ccp(1,1) positionOffset:ccp(-0.5*winSize.width,-0.5*winSize.height)];
 
     // main menu screen
     _mainMenuScreen = [JCSFlipUIMainMenuScreen node];
     _mainMenuScreen.delegate = self;
-    [self addScreen:_mainMenuScreen atScreenPoint:ccp(0,0) z:1];
+    [self addScreen:_mainMenuScreen atScreenPoint:ccp(0,2) z:1];
     
     // player selection menu screen
     _playerMenuScreen = [JCSFlipUIPlayerMenuScreen node];
     _playerMenuScreen.delegate = self;
-    [self addScreen:_playerMenuScreen atScreenPoint:ccp(1,1) z:1];
+    [self addScreen:_playerMenuScreen atScreenPoint:ccp(1,3) z:1];
     
     // game screen
     _gameScreen = [JCSFlipUIGameScreen node];
     _gameScreen.delegate = self;
-    [self addScreen:_gameScreen atScreenPoint:ccp(1,-1) z:1];
+    [self addScreen:_gameScreen atScreenPoint:ccp(1,1) z:1];
 
+    // outcome screen
+    _outcomeScreen = [JCSFlipUIOutcomeScreen node];
+    _outcomeScreen.delegate = self;
+    [self addScreen:_outcomeScreen atScreenPoint:ccp(1,0) z:1];
+    
     [self addChild:_parallax];
 
     // enable the main menu screen
@@ -81,7 +90,7 @@
     
     if (animated) {
         id action = [CCMoveTo actionWithDuration:1 position:targetPosition];
-        id easedAction = [CCEaseElasticOut actionWithAction:action period:0.8];
+        id easedAction = [CCEaseExponentialOut actionWithAction:action];
         [_parallax runAction:easedAction];
     } else {
         _parallax.position = targetPosition;
@@ -105,9 +114,12 @@
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
         // prepare game screen
-        [_gameScreen startGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
-    
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
+
         [self scrollToScreen:_gameScreen animated:YES];
+
+        // start the game
+        [_gameScreen startGame];
     }
 }
 
@@ -121,8 +133,23 @@
 
 - (void)gameEndedWithStatus:(JCSFlipGameStatus)status fromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
-        // TODO scoll to outcome specific screen
-    
+        // update and scoll to outcome screen
+        _outcomeScreen.status = status;
+        [self scrollToScreen:_outcomeScreen animated:YES];
+    }
+}
+
+- (void)gameEndedFromGameScreen:(JCSFlipUIGameScreen *)screen {
+    if (screen.screenEnabled) {
+        // TODO confirmation screen
+        [self scrollToScreen:_mainMenuScreen animated:YES];
+    }
+}
+
+#pragma mark JCSFLipUIOutcomeScreenDelegate methods
+
+- (void)backFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
+    if (screen.screenEnabled) {
         [self scrollToScreen:_mainMenuScreen animated:YES];
     }
 }

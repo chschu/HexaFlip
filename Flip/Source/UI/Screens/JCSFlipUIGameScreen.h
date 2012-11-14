@@ -19,8 +19,12 @@
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIGameScreenDelegate> delegate;
 
-// start a game with the given state and players
+// prepare a game with the given state and players
 // set the receiver as the move input delegate of both players
-- (void)startGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
+
+// start a previously prepared game
+// the screen must be enabled when this method is invoked
+- (void)startGame;
 
 @end

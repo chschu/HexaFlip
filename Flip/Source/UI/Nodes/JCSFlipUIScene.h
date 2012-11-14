@@ -11,7 +11,8 @@
 #import "JCSFlipUIMainMenuScreenDelegate.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
 #import "JCSFlipUIGameScreenDelegate.h"
+#import "JCSFlipUIOutcomeScreenDelegate.h"
 
-@interface JCSFlipUIScene : CCScene <JCSFlipUIMainMenuScreenDelegate, JCSFlipUIPlayerMenuScreenDelegate, JCSFlipUIGameScreenDelegate>
+@interface JCSFlipUIScene : CCScene <JCSFlipUIMainMenuScreenDelegate, JCSFlipUIPlayerMenuScreenDelegate, JCSFlipUIGameScreenDelegate, JCSFlipUIOutcomeScreenDelegate>
 
 @end

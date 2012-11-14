@@ -32,8 +32,29 @@
         
         // create the other controls
         _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
-            // TODO what is the outcome here?
-            [_delegate gameEndedWithStatus:JCSFlipGameStatusDraw fromGameScreen:self];
+            if (!_playerA.localControls) {
+                if (!_playerB.localControls) {
+                    // no player has local controls, no clear outcome
+                    [_delegate gameEndedFromGameScreen:self];
+                } else {
+                    // only player B has local controls, so player A wins
+                    [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerAWon fromGameScreen:self];
+                }
+            } else {
+                if (!_playerB.localControls) {
+                    // only player A has local controls, so player B wins
+                    [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerBWon fromGameScreen:self];
+                } else {
+                    // both players have local controls, the player to move loses
+                    if (_state.status == JCSFlipGameStatusPlayerAToMove) {
+                        [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerBWon fromGameScreen:self];
+                    } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
+                        [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerAWon fromGameScreen:self];
+                    } else {
+                        [_delegate gameEndedFromGameScreen:self];
+                    }
+                }
+            }
         }];
         _exitButton.anchorPoint = ccp(0,1);
         _exitButton.position = ccp(10, winSize.height-10);
@@ -54,13 +75,13 @@
         _scoreLabel.position = ccp(10, winSize.height/2.0);
         [self addChild:_scoreLabel z:1];
         
-        // start a "dummy" game to initialize the board and UI state
-        [self startGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil];
+        // prepare a "dummy" game to initialize the board and UI state
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil];
     }
     return self;
 }
 
-- (void)startGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
     // remove old board
@@ -72,11 +93,21 @@
     _boardLayer.anchorPoint = ccp(1,0);
     _boardLayer.position = ccp(winSize.width,winSize.height/2);
     [self addChild:_boardLayer];
+
+    // clear players
+    _playerA = nil;
+    _playerB = nil;
     
-    // assign players
+    // update UI (does not notify players, because they are not set)
+    [self updateUIAndNotifyPlayer];
+    
+    // assign players (but don't notify yet)
     _playerA = playerA;
     _playerB = playerB;
-    
+}
+
+- (void)startGame {
+    NSAssert(_screenEnabled, @"screen must be enabled");
     [self updateUIAndNotifyPlayer];
 }
 
