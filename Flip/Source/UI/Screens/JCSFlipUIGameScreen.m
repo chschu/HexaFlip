@@ -142,7 +142,6 @@
     
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
-    _skipButton.isEnabled = ((playerAEnabled || playerBEnabled) && _state.skipAllowed);
     _skipButton.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
     
     [self updateScoreLabel];
