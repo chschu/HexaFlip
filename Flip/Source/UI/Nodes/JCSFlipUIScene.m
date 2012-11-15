@@ -63,7 +63,7 @@
     // outcome screen
     _outcomeScreen = [JCSFlipUIOutcomeScreen node];
     _outcomeScreen.delegate = self;
-    [self addScreen:_outcomeScreen atScreenPoint:ccp(1,0) z:1];
+    [self addScreen:_outcomeScreen atScreenPoint:ccp(2,1) z:1];
     
     [self addChild:_parallax];
 
