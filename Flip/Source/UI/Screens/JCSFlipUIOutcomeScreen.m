@@ -21,15 +21,14 @@
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
 
-        // create the back button
-        CCMenuItem *backItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-pushed.png"] block:^(id sender) {
-            [_delegate backFromOutcomeScreen:self];
+        // create the rewind button
+        CCMenuItem *rewindItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-rewind-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-rewind-pushed.png"] block:^(id sender) {
+            [_delegate rewindFromOutcomeScreen:self];
         }];
-        backItem.anchorPoint = ccp(0,1);
-        backItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
+        rewindItem.anchorPoint = ccp(0,1);
+        rewindItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
 
-        CCMenu *menu = [CCMenu menuWithItems:backItem, nil];
-        
+        CCMenu *menu = [CCMenu menuWithItems:rewindItem, nil];
         [self addChild:menu];
         
         _outcomeLabel = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:48];

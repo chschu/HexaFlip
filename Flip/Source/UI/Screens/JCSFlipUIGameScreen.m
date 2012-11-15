@@ -15,8 +15,7 @@
     id<JCSFlipPlayer> _playerB;
     
     JCSFlipUIBoardLayer *_boardLayer;
-    CCMenuItemFont *_exitButton;
-    CCMenuItemFont *_skipButton;
+    CCMenuItem *_skipItem;
     CCLabelTTF *_scoreLabel;
 }
 
@@ -30,8 +29,8 @@
         
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        // create the other controls
-        _exitButton = [CCMenuItemFont itemWithString:@"Exit" block:^(id sender) {
+        // create the exit button
+        CCMenuItem *exitItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-stop-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-stop-pushed.png"] block:^(id sender) {
             if (!_playerA.localControls) {
                 if (!_playerB.localControls) {
                     // no player has local controls, no clear outcome
@@ -56,18 +55,19 @@
                 }
             }
         }];
-        _exitButton.anchorPoint = ccp(0,1);
-        _exitButton.position = ccp(10, winSize.height-10);
+        exitItem.anchorPoint = ccp(0,1);
+        exitItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
         
-        _skipButton = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
-            [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
+        // create the skip button
+        _skipItem = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
+            if (_screenEnabled) {
+                [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
+            }
         }];
-        _skipButton.anchorPoint = ccp(0,0);
-        _skipButton.position = ccp(10, 10);
+        _skipItem.anchorPoint = ccp(0,0);
+        _skipItem.position = ccp(-winSize.width/2+5, -winSize.height/2+5);
         
-        CCMenu *menu = [CCMenu menuWithItems:_exitButton, _skipButton, nil];
-        menu.anchorPoint = ccp(0,0);
-        menu.position = ccp(0,0);
+        CCMenu *menu = [CCMenu menuWithItems:exitItem, _skipItem, nil];
         [self addChild:menu z:1];
         
         _scoreLabel = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:24];
@@ -132,7 +132,7 @@
 
 - (void)disableMoveInput {
     _boardLayer.moveInputEnabled = NO;
-    _skipButton.isEnabled = NO;
+    _skipItem.isEnabled = NO;
 }
 
 // update UI according to the current game state, and notify the player to make his move
@@ -142,7 +142,7 @@
     
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
-    _skipButton.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
+    _skipItem.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
     
     [self updateScoreLabel];
     

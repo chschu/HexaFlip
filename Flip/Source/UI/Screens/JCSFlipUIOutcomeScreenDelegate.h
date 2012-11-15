@@ -10,8 +10,7 @@
 
 @protocol JCSFlipUIOutcomeScreenDelegate <NSObject>
 
-// "Back" button has been tapped
-- (void)backFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen;
-
+// "Rewind" button has been tapped
+- (void)rewindFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen;
 
 @end

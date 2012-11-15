@@ -148,7 +148,7 @@
 
 #pragma mark JCSFLipUIOutcomeScreenDelegate methods
 
-- (void)backFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
+- (void)rewindFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
     if (screen.screenEnabled) {
         [self scrollToScreen:_mainMenuScreen animated:YES];
     }

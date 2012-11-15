@@ -51,6 +51,10 @@
 		F3107889164C7CCF00FE7FC2 /* button-back-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3107887164C7CCE00FE7FC2 /* button-back-pushed.png */; };
 		F330E1611651CCBF004BB32E /* center-of-mass.py in Resources */ = {isa = PBXBuildFile; fileRef = F330E1601651CCBF004BB32E /* center-of-mass.py */; };
 		F330E17316530275004BB32E /* JCSFlipUIOutcomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F330E17216530275004BB32E /* JCSFlipUIOutcomeScreen.m */; };
+		F330E17616545354004BB32E /* button-rewind-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F330E17416545354004BB32E /* button-rewind-normal.png */; };
+		F330E17716545354004BB32E /* button-rewind-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F330E17516545354004BB32E /* button-rewind-pushed.png */; };
+		F330E17A16545680004BB32E /* button-stop-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F330E1781654567F004BB32E /* button-stop-normal.png */; };
+		F330E17B16545680004BB32E /* button-stop-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F330E17916545680004BB32E /* button-stop-pushed.png */; };
 		F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */; };
 		F388F0B71607C897004CCF7D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B51607C897004CCF7D /* Default.png */; };
 		F388F0B81607C897004CCF7D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B61607C897004CCF7D /* Default@2x.png */; };
@@ -384,6 +388,10 @@
 		F330E1701653023C004BB32E /* JCSFlipUIOutcomeScreenDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreenDelegate.h; sourceTree = "<group>"; };
 		F330E17116530275004BB32E /* JCSFlipUIOutcomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreen.h; sourceTree = "<group>"; };
 		F330E17216530275004BB32E /* JCSFlipUIOutcomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIOutcomeScreen.m; sourceTree = "<group>"; };
+		F330E17416545354004BB32E /* button-rewind-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-normal.png"; sourceTree = "<group>"; };
+		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
+		F330E1781654567F004BB32E /* button-stop-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-stop-normal.png"; sourceTree = "<group>"; };
+		F330E17916545680004BB32E /* button-stop-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-stop-pushed.png"; sourceTree = "<group>"; };
 		F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F388F0B51607C897004CCF7D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F388F0B61607C897004CCF7D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -1293,6 +1301,10 @@
 				F3107881164B12F000FE7FC2 /* button-play-pushed.png */,
 				F3107886164C7CCE00FE7FC2 /* button-back-normal.png */,
 				F3107887164C7CCE00FE7FC2 /* button-back-pushed.png */,
+				F330E17416545354004BB32E /* button-rewind-normal.png */,
+				F330E17516545354004BB32E /* button-rewind-pushed.png */,
+				F330E1781654567F004BB32E /* button-stop-normal.png */,
+				F330E17916545680004BB32E /* button-stop-pushed.png */,
 				F3CB114315EE9A030057309C /* texture-atlas.zwd */,
 			);
 			path = Tools;
@@ -1552,6 +1564,10 @@
 				F3107888164C7CCF00FE7FC2 /* button-back-normal.png in Resources */,
 				F3107889164C7CCF00FE7FC2 /* button-back-pushed.png in Resources */,
 				F330E1611651CCBF004BB32E /* center-of-mass.py in Resources */,
+				F330E17616545354004BB32E /* button-rewind-normal.png in Resources */,
+				F330E17716545354004BB32E /* button-rewind-pushed.png in Resources */,
+				F330E17A16545680004BB32E /* button-stop-normal.png in Resources */,
+				F330E17B16545680004BB32E /* button-stop-pushed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
