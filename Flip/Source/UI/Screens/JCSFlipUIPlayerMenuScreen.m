@@ -35,37 +35,30 @@
             id<JCSFlipPlayer> playerB = [self playerLocalWithName:@"Player B"];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        playerVsPlayerItem.position = ccp(0,80);
+        playerVsPlayerItem.position = ccp(0,60);
         
-        CCMenuItem *playerVsAIEasyItem = [CCMenuItemFont itemWithString:@"Player vs. AI Easy" block:^(id sender) {
+        CCMenuItem *aiEasyItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-easy-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-easy-pushed.png"] block:^(id sender) {
             id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
             id<JCSFlipPlayer> playerB = [self playerAIEasy];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        playerVsAIEasyItem.position = ccp(0,40);
+        aiEasyItem.position = ccp(-130,-60);
         
-        CCMenuItem *playerVsAIMediumItem = [CCMenuItemFont itemWithString:@"Player vs. AI Medium" block:^(id sender) {
+        CCMenuItem *aiMediumItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-medium-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-medium-pushed.png"] block:^(id sender) {
             id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
             id<JCSFlipPlayer> playerB = [self playerAIMedium];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        playerVsAIMediumItem.position = ccp(0,0);
-        
-        CCMenuItem *playerVsAIHardItem = [CCMenuItemFont itemWithString:@"Player vs. AI Hard" block:^(id sender) {
+        aiMediumItem.position = ccp(0,-60);
+
+        CCMenuItem *aiHardItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-hard-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-hard-pushed.png"] block:^(id sender) {
             id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
             id<JCSFlipPlayer> playerB = [self playerAIHard];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        playerVsAIHardItem.position = ccp(0,-40);
-        
-        CCMenuItem *battleAI = [CCMenuItemFont itemWithString:@"AI Easy vs. AI Easy" block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self playerAIEasy];
-            id<JCSFlipPlayer> playerB = [self playerAIEasy];
-            [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
-        }];
-        battleAI.position = ccp(0,-80);
-        
-        CCMenu *menu = [CCMenu menuWithItems:backItem, playerVsPlayerItem, playerVsAIEasyItem, playerVsAIMediumItem, playerVsAIHardItem, battleAI, nil];
+        aiHardItem.position = ccp(130,-60);
+
+        CCMenu *menu = [CCMenu menuWithItems:backItem, playerVsPlayerItem, aiEasyItem, aiMediumItem, aiHardItem, nil];
         
         [self addChild:menu];
     }

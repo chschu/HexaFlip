@@ -314,6 +314,12 @@
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
+		F3EFE5FE165B66FB0081CEAF /* button-ai-easy-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5F8165B66FB0081CEAF /* button-ai-easy-normal.png */; };
+		F3EFE5FF165B66FB0081CEAF /* button-ai-easy-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5F9165B66FB0081CEAF /* button-ai-easy-pushed.png */; };
+		F3EFE600165B66FB0081CEAF /* button-ai-hard-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FA165B66FB0081CEAF /* button-ai-hard-normal.png */; };
+		F3EFE601165B66FB0081CEAF /* button-ai-hard-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FB165B66FB0081CEAF /* button-ai-hard-pushed.png */; };
+		F3EFE602165B66FB0081CEAF /* button-ai-medium-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FC165B66FB0081CEAF /* button-ai-medium-normal.png */; };
+		F3EFE603165B66FB0081CEAF /* button-ai-medium-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FD165B66FB0081CEAF /* button-ai-medium-pushed.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -678,6 +684,12 @@
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3EFE5F8165B66FB0081CEAF /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
+		F3EFE5F9165B66FB0081CEAF /* button-ai-easy-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-pushed.png"; sourceTree = "<group>"; };
+		F3EFE5FA165B66FB0081CEAF /* button-ai-hard-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-hard-normal.png"; sourceTree = "<group>"; };
+		F3EFE5FB165B66FB0081CEAF /* button-ai-hard-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-hard-pushed.png"; sourceTree = "<group>"; };
+		F3EFE5FC165B66FB0081CEAF /* button-ai-medium-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-medium-normal.png"; sourceTree = "<group>"; };
+		F3EFE5FD165B66FB0081CEAF /* button-ai-medium-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-medium-pushed.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1305,6 +1317,12 @@
 				F330E17516545354004BB32E /* button-rewind-pushed.png */,
 				F330E1781654567F004BB32E /* button-stop-normal.png */,
 				F330E17916545680004BB32E /* button-stop-pushed.png */,
+				F3EFE5F8165B66FB0081CEAF /* button-ai-easy-normal.png */,
+				F3EFE5F9165B66FB0081CEAF /* button-ai-easy-pushed.png */,
+				F3EFE5FC165B66FB0081CEAF /* button-ai-medium-normal.png */,
+				F3EFE5FD165B66FB0081CEAF /* button-ai-medium-pushed.png */,
+				F3EFE5FA165B66FB0081CEAF /* button-ai-hard-normal.png */,
+				F3EFE5FB165B66FB0081CEAF /* button-ai-hard-pushed.png */,
 				F3CB114315EE9A030057309C /* texture-atlas.zwd */,
 			);
 			path = Tools;
@@ -1568,6 +1586,12 @@
 				F330E17716545354004BB32E /* button-rewind-pushed.png in Resources */,
 				F330E17A16545680004BB32E /* button-stop-normal.png in Resources */,
 				F330E17B16545680004BB32E /* button-stop-pushed.png in Resources */,
+				F3EFE5FE165B66FB0081CEAF /* button-ai-easy-normal.png in Resources */,
+				F3EFE5FF165B66FB0081CEAF /* button-ai-easy-pushed.png in Resources */,
+				F3EFE600165B66FB0081CEAF /* button-ai-hard-normal.png in Resources */,
+				F3EFE601165B66FB0081CEAF /* button-ai-hard-pushed.png in Resources */,
+				F3EFE602165B66FB0081CEAF /* button-ai-medium-normal.png in Resources */,
+				F3EFE603165B66FB0081CEAF /* button-ai-medium-pushed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
