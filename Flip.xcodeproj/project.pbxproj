@@ -320,6 +320,7 @@
 		F3EFE601165B66FB0081CEAF /* button-ai-hard-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FB165B66FB0081CEAF /* button-ai-hard-pushed.png */; };
 		F3EFE602165B66FB0081CEAF /* button-ai-medium-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FC165B66FB0081CEAF /* button-ai-medium-normal.png */; };
 		F3EFE603165B66FB0081CEAF /* button-ai-medium-pushed.png in Resources */ = {isa = PBXBuildFile; fileRef = F3EFE5FD165B66FB0081CEAF /* button-ai-medium-pushed.png */; };
+		F3F58B4C165EF2F30057BD36 /* JCSRadioMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -690,6 +691,8 @@
 		F3EFE5FB165B66FB0081CEAF /* button-ai-hard-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-hard-pushed.png"; sourceTree = "<group>"; };
 		F3EFE5FC165B66FB0081CEAF /* button-ai-medium-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-medium-normal.png"; sourceTree = "<group>"; };
 		F3EFE5FD165B66FB0081CEAF /* button-ai-medium-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-medium-pushed.png"; sourceTree = "<group>"; };
+		F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRadioMenu.h; sourceTree = "<group>"; };
+		F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRadioMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -816,6 +819,8 @@
 		F310784D1646D40B00FE7FC2 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */,
+				F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */,
 				F310786B1646D55400FE7FC2 /* JCSFlipUIScene.h */,
 				F310786C1646D55400FE7FC2 /* JCSFlipUIScene.m */,
 				F310785B1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.h */,
@@ -1657,6 +1662,7 @@
 				F310786A1646D4C500FE7FC2 /* JCSFlipPlayerLocal.m in Sources */,
 				F310786D1646D55400FE7FC2 /* JCSFlipUIScene.m in Sources */,
 				F330E17316530275004BB32E /* JCSFlipUIOutcomeScreen.m in Sources */,
+				F3F58B4C165EF2F30057BD36 /* JCSRadioMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
