@@ -30,7 +30,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // create the exit button
-        CCMenuItem *exitItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-stop-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-stop-pushed.png"] block:^(id sender) {
+        CCMenuItem *exitItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-stop-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-stop-pushed.png"] block:^(id sender) {
             if (!_playerA.localControls) {
                 if (!_playerB.localControls) {
                     // no player has local controls, no clear outcome

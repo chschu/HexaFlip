@@ -22,7 +22,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
 
         // create the rewind button
-        CCMenuItem *rewindItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-rewind-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-rewind-pushed.png"] block:^(id sender) {
+        CCMenuItem *rewindItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-rewind-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-rewind-pushed.png"] block:^(id sender) {
             [_delegate rewindFromOutcomeScreen:self];
         }];
         rewindItem.anchorPoint = ccp(0,1);
