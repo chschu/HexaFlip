@@ -12,6 +12,7 @@
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSMinimaxGameAlgorithm.h"
+#import "JCSRadioMenu.h"
 
 @implementation JCSFlipUIPlayerMenuScreen
 
@@ -23,44 +24,54 @@
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        // create the other controls
+        __block id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
+        __block id<JCSFlipPlayer> playerB;
+        
+        // create back button
         CCMenuItem *backItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-back-pushed.png"] block:^(id sender) {
             [_delegate backFromPlayerMenuScreen:self];
         }];
         backItem.anchorPoint = ccp(0,1);
         backItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
-        
-        CCMenuItem *playerVsPlayerItem = [CCMenuItemFont itemWithString:@"Player vs. Player" block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
-            id<JCSFlipPlayer> playerB = [self playerLocalWithName:@"Player B"];
+
+        // create play button
+        CCMenuItem *playItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-small-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-small-pushed.png"] disabledSprite:[CCSprite spriteWithSpriteFrameName:@"button-play-small-disabled.png"] block:^(id sender) {
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        playerVsPlayerItem.position = ccp(0,60);
+        playItem.anchorPoint = ccp(1,1);
+        playItem.position = ccp(winSize.width/2-5, winSize.height/2-5);
+        playItem.isEnabled = NO;
+        
+        // TODO icons
+        CCMenuItem *playerItem = [CCMenuItemFont itemWithString:@"Human" block:^(id sender) {
+            playerB = [self playerLocalWithName:@"Player B"];
+            playItem.isEnabled = YES;
+        }];
+        playerItem.position = ccp(-150,40);
         
         CCMenuItem *aiEasyItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-easy-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-easy-pushed.png"] block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
-            id<JCSFlipPlayer> playerB = [self playerAIEasy];
-            [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
+            playerB = [self playerAIEasy];
+            playItem.isEnabled = YES;
         }];
-        aiEasyItem.position = ccp(-130,-60);
+        aiEasyItem.position = ccp(-50,-40);
         
         CCMenuItem *aiMediumItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-medium-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-medium-pushed.png"] block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
-            id<JCSFlipPlayer> playerB = [self playerAIMedium];
-            [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
+            playerB = [self playerAIMedium];
+            playItem.isEnabled = YES;
         }];
-        aiMediumItem.position = ccp(0,-60);
+        aiMediumItem.position = ccp(50,40);
 
         CCMenuItem *aiHardItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-hard-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-ai-hard-pushed.png"] block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self playerLocalWithName:@"Player A"];
-            id<JCSFlipPlayer> playerB = [self playerAIHard];
-            [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
+            playerB = [self playerAIHard];
+            playItem.isEnabled = YES;
         }];
-        aiHardItem.position = ccp(130,-60);
+        aiHardItem.position = ccp(150,-40);
 
-        CCMenu *menu = [CCMenu menuWithItems:backItem, playerVsPlayerItem, aiEasyItem, aiMediumItem, aiHardItem, nil];
+        CCMenu *menu = [CCMenu menuWithItems:backItem, playItem, nil];
+        JCSRadioMenu *radioMenu = [JCSRadioMenu menuWithItems:playerItem, aiEasyItem, aiMediumItem, aiHardItem, nil];
         
         [self addChild:menu];
+        [self addChild:radioMenu];
     }
     return self;
 }

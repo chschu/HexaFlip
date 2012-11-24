@@ -82,6 +82,8 @@
 }
 
 - (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
+    NSAssert(state != nil, @"state must not be nil");
+
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
     // remove old board
@@ -108,6 +110,9 @@
 
 - (void)startGame {
     NSAssert(_screenEnabled, @"screen must be enabled");
+    NSAssert(_playerA != nil, @"playerA must not be nil");
+    NSAssert(_playerB != nil, @"playerB must not be nil");
+
     [self updateUIAndNotifyPlayer];
 }
 
