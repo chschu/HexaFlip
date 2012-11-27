@@ -150,7 +150,7 @@
 
 - (void)rewindFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
     if (screen.screenEnabled) {
-        [self scrollToScreen:_mainMenuScreen animated:YES];
+        [self scrollToScreen:_playerMenuScreen animated:YES];
     }
 }
 
