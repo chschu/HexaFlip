@@ -12,4 +12,8 @@
 
 @property (nonatomic) CCMenuItem *selectedItem;
 
+// when set to YES, disables all menu items and shows them in their "selected" state
+// this does not influence the selectedItem property
+@property (nonatomic) BOOL allSelectedMode;
+
 @end

@@ -37,10 +37,12 @@
     // the ivar state_ of CCMenu is used to hold the menu's state ("waiting" or "tracking touch")
 }
 
+@synthesize allSelectedMode = _allSelectedMode;
+
 - (void)setSelectedItem:(CCMenuItem *)item {
     if (selectedItem_ != item) {
         // mark the currently selected item as "unselected" if it is not the highlighted item
-        if (selectedItem_ != _highlightedItem) {
+        if (!_allSelectedMode && selectedItem_ != _highlightedItem) {
             [selectedItem_ unselected];
         }
         
@@ -48,7 +50,7 @@
         selectedItem_ = item;
 
         // mark the newly selected item as "selected" if it is not the highlighted item
-        if (selectedItem_ != _highlightedItem) {
+        if (!_allSelectedMode && selectedItem_ != _highlightedItem) {
             [selectedItem_ selected];
         }
         
@@ -62,10 +64,29 @@
     return selectedItem_;
 }
 
+- (void)setAllSelectedMode:(BOOL)allSelectedMode {
+    _allSelectedMode = allSelectedMode;
+    if (_allSelectedMode) {
+        // select all items
+        for (CCMenuItem *item in children_) {
+            if (!item.isSelected) {
+                [item selected];
+            }
+        }
+    } else {
+        // unselect all items except selected and highlighted item
+        for (CCMenuItem *item in children_) {
+            if (item.isSelected && item != selectedItem_ && item != _highlightedItem) {
+                [item unselected];
+            }
+        }
+    }
+}
+
 - (void)setHighlightedItem:(CCMenuItem *)item {
     if (_highlightedItem != item) {
         // mark the currently highlighted item as "unselected" if it is not the selected item
-        if (_highlightedItem != selectedItem_) {
+        if (!_allSelectedMode && _highlightedItem != selectedItem_) {
             [_highlightedItem unselected];
         }
         
@@ -73,7 +94,7 @@
         _highlightedItem = item;
         
         // mark the newly highlighted item as "selected" if it is not the selected item
-        if (_highlightedItem != selectedItem_) {
+        if (!_allSelectedMode && _highlightedItem != selectedItem_) {
             [_highlightedItem selected];
         }
     }
@@ -84,7 +105,7 @@
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    if (state_ == kCCMenuStateWaiting && visible_ && enabled_) {
+    if (state_ == kCCMenuStateWaiting && !_allSelectedMode && visible_ && enabled_) {
         CCMenuItem *touchItem = [self itemForTouch:touch];
         if (touchItem != nil) {
             self.highlightedItem = touchItem;
