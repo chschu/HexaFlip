@@ -48,9 +48,9 @@
         }];
         backItem.anchorPoint = ccp(0,1);
         backItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
-
+        
         _playerIsPlayerA = YES;
-
+        
         // create play button
         _playItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"play" block:^(id sender) {
             id<JCSFlipPlayer> playerA = (_playerIsPlayerA ? player : _opponent);
@@ -74,7 +74,9 @@
         }];
         _playerBItem.position = ccp(180,yPosition-2.5*yDelta);
         
-        CCMenuItem *opponentHumanItem = [CCMenuItemFont itemWithString:@"Human" block:^(id sender) {
+        // create opponent buttons
+        
+        CCMenuItem *opponentHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
             self.opponent = [self playerLocalWithName:@"Player A"];
         }];
         opponentHumanItem.position = ccp(-180,yPosition+yDelta);
