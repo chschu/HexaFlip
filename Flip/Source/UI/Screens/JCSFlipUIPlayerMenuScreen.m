@@ -77,7 +77,7 @@
         // create opponent buttons
         
         CCMenuItem *opponentHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
-            self.opponent = [self playerLocalWithName:@"Player A"];
+            self.opponent = [self playerLocalWithName:@"Opponent"];
         }];
         opponentHumanItem.position = ccp(-180,yPosition+yDelta);
         
