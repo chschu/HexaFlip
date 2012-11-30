@@ -8,6 +8,7 @@
 
 #import "JCSFlipUIGameScreen.h"
 #import "JCSFlipUIBoardLayer.h"
+#import "JCSButton.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;
@@ -30,7 +31,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // create the exit button
-        CCMenuItem *exitItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-stop-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-stop-pushed.png"] block:^(id sender) {
+        CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"stop" block:^(id sender) {
             if (!_playerA.localControls) {
                 if (!_playerB.localControls) {
                     // no player has local controls, no clear outcome
@@ -56,7 +57,7 @@
             }
         }];
         exitItem.anchorPoint = ccp(0,1);
-        exitItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
+        exitItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
         
         // create the skip button
         _skipItem = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
@@ -65,7 +66,7 @@
             }
         }];
         _skipItem.anchorPoint = ccp(0,0);
-        _skipItem.position = ccp(-winSize.width/2+5, -winSize.height/2+5);
+        _skipItem.position = ccp(-winSize.width/2+10, -winSize.height/2+10);
         
         CCMenu *menu = [CCMenu menuWithItems:exitItem, _skipItem, nil];
         [self addChild:menu z:1];

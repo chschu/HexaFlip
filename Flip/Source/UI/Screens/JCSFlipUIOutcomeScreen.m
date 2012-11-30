@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipUIOutcomeScreen.h"
+#import "JCSButton.h"
 
 @implementation JCSFlipUIOutcomeScreen {
     CCLabelTTF *_outcomeLabel;
@@ -22,11 +23,11 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
 
         // create the rewind button
-        CCMenuItem *rewindItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-rewind-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-rewind-pushed.png"] block:^(id sender) {
+        CCMenuItem *rewindItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"rewind" block:^(id sender) {
             [_delegate rewindFromOutcomeScreen:self];
         }];
         rewindItem.anchorPoint = ccp(0,1);
-        rewindItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
+        rewindItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
 
         CCMenu *menu = [CCMenu menuWithItems:rewindItem, nil];
         [self addChild:menu];

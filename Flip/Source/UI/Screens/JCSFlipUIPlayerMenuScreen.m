@@ -13,6 +13,7 @@
 #import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSMinimaxGameAlgorithm.h"
 #import "JCSRadioMenu.h"
+#import "JCSButton.h"
 
 @interface JCSFlipUIPlayerMenuScreen ()
 
@@ -42,57 +43,56 @@
         id<JCSFlipPlayer> player = [self playerLocalWithName:@"Player"];
         
         // create back button
-        CCMenuItem *backItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-back-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-back-pushed.png"] block:^(id sender) {
+        CCMenuItem *backItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
             [_delegate backFromPlayerMenuScreen:self];
         }];
         backItem.anchorPoint = ccp(0,1);
-        backItem.position = ccp(-winSize.width/2+5, winSize.height/2-5);
+        backItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
 
         _playerIsPlayerA = YES;
 
         // create play button
-        _playItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-play-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-play-pushed.png"] disabledSprite:[CCSprite spriteWithSpriteFrameName:@"button-small-play-disabled.png"] block:^(id sender) {
+        _playItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"play" block:^(id sender) {
             id<JCSFlipPlayer> playerA = (_playerIsPlayerA ? player : _opponent);
             id<JCSFlipPlayer> playerB = (_playerIsPlayerA ? _opponent : player);
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
         _playItem.anchorPoint = ccp(1,1);
-        _playItem.position = ccp(winSize.width/2-5, winSize.height/2-5);
+        _playItem.position = ccp(winSize.width/2-10, winSize.height/2-10);
         _playItem.isEnabled = NO;
         
         CGFloat xDistance = 80; // horizontal distance between the centers of button columns
+        CGFloat yPosition = -20; // vertical center of opponent buttons
         CGFloat yDelta = 20; // vertical zig-zag distance of opponent buttons
         
-        // TODO icons
-        _playerAItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-player-a-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-player-a-pushed.png"] block:^(id sender) {
+        _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"player-a" block:^(id sender) {
             _playerIsPlayerA = YES;
         }];
-        _playerAItem.position = ccp(180,40);
-        _playerBItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-player-b-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-player-b-pushed.png"] block:^(id sender) {
+        _playerAItem.position = ccp(180,yPosition+2.5*yDelta);
+        _playerBItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"player-b" block:^(id sender) {
             _playerIsPlayerA = NO;
         }];
-        _playerBItem.position = ccp(180,-40);
+        _playerBItem.position = ccp(180,yPosition-2.5*yDelta);
         
-        // TODO icons
         CCMenuItem *opponentHumanItem = [CCMenuItemFont itemWithString:@"Human" block:^(id sender) {
             self.opponent = [self playerLocalWithName:@"Player A"];
         }];
-        opponentHumanItem.position = ccp(-180,yDelta);
+        opponentHumanItem.position = ccp(-180,yPosition+yDelta);
         
-        CCMenuItem *opponentAIEasyItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-easy-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-easy-pushed.png"] block:^(id sender) {
+        CCMenuItem *opponentAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             self.opponent = [self playerAIEasy];
         }];
-        opponentAIEasyItem.position = ccp(-180+xDistance,-yDelta);
+        opponentAIEasyItem.position = ccp(-180+xDistance,yPosition-yDelta);
         
-        CCMenuItem *opponentAIMediumItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-medium-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-medium-pushed.png"] block:^(id sender) {
+        CCMenuItem *opponentAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium"  block:^(id sender) {
             self.opponent = [self playerAIMedium];
         }];
-        opponentAIMediumItem.position = ccp(-180+2*xDistance,yDelta);
+        opponentAIMediumItem.position = ccp(-180+2*xDistance,yPosition+yDelta);
         
-        CCMenuItem *opponentAIHardItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-hard-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-medium-ai-hard-pushed.png"] block:^(id sender) {
+        CCMenuItem *opponentAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard"  block:^(id sender) {
             self.opponent = [self playerAIHard];
         }];
-        opponentAIHardItem.position = ccp(-180+3*xDistance,-yDelta);
+        opponentAIHardItem.position = ccp(-180+3*xDistance,yPosition-yDelta);
         
         CCMenu *menu = [CCMenu menuWithItems:backItem, _playItem, nil];
         JCSRadioMenu *opponentRadioMenu = [JCSRadioMenu menuWithItems:opponentHumanItem, opponentAIEasyItem, opponentAIMediumItem, opponentAIHardItem, nil];
