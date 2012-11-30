@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipUIMainMenuScreen.h"
+#import "JCSButton.h"
 
 @implementation JCSFlipUIMainMenuScreen
 
@@ -16,7 +17,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        CCMenuItem *playItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"button-large-play-normal.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"button-large-play-pushed.png"] block:^(id sender) {
+        JCSButton *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
             [_delegate playFromMainMenuScreen:self];
         }];
         CCMenu *menu = [CCMenu menuWithItems:playItem, nil];

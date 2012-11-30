@@ -25,7 +25,7 @@
 			<real>386</real>
 		</dict>
 		
-		<key>button-large-play-normal.png</key>
+		<key>button-background-large.png</key>
 		<dict>
 			<key>x</key>
 			<real>0</real>
@@ -43,34 +43,94 @@
 			<real>140</real>
 			<key>originalHeight</key>
 			<real>140</real>
+		</dict>
+		
+		<key>button-background-medium.png</key>
+		<dict>
+			<key>x</key>
+			<real>422</real>
+			<key>y</key>
+			<real>0</real>
+			<key>width</key>
+			<real>84</real>
+			<key>height</key>
+			<real>84</real>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>-4</real>
+			<key>originalWidth</key>
+			<real>92</real>
+			<key>originalHeight</key>
+			<real>92</real>
+		</dict>
+		
+		<key>button-background-small.png</key>
+		<dict>
+			<key>x</key>
+			<real>422</real>
+			<key>y</key>
+			<real>252</real>
+			<key>width</key>
+			<real>54</real>
+			<key>height</key>
+			<real>54</real>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-2</real>
+			<key>originalWidth</key>
+			<real>60</real>
+			<key>originalHeight</key>
+			<real>60</real>
+		</dict>
+		
+		<key>button-large-play-normal.png</key>
+		<dict>
+			<key>x</key>
+			<real>422</real>
+			<key>y</key>
+			<real>86</real>
+			<key>width</key>
+			<real>84</real>
+			<key>height</key>
+			<real>84</real>
+			<key>offsetX</key>
+			<real>0</real>
+			<key>offsetY</key>
+			<real>-0</real>
+			<key>originalWidth</key>
+			<real>84</real>
+			<key>originalHeight</key>
+			<real>84</real>
 		</dict>
 		
 		<key>button-large-play-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>131</real>
+			<real>422</real>
 			<key>y</key>
-			<real>387</real>
+			<real>171</real>
 			<key>width</key>
-			<real>130</real>
+			<real>80</real>
 			<key>height</key>
-			<real>130</real>
+			<real>80</real>
 			<key>offsetX</key>
 			<real>0</real>
 			<key>offsetY</key>
-			<real>-5</real>
+			<real>-0</real>
 			<key>originalWidth</key>
-			<real>140</real>
+			<real>84</real>
 			<key>originalHeight</key>
-			<real>140</real>
+			<real>84</real>
 		</dict>
 		
 		<key>button-medium-ai-easy-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>0</real>
+			<real>314</real>
 			<key>y</key>
-			<real>609</real>
+			<real>387</real>
 			<key>width</key>
 			<real>89</real>
 			<key>height</key>
@@ -88,7 +148,7 @@
 		<key>button-medium-ai-easy-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>262</real>
+			<real>131</real>
 			<key>y</key>
 			<real>478</real>
 			<key>width</key>
@@ -108,9 +168,9 @@
 		<key>button-medium-ai-hard-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>274</real>
+			<real>405</real>
 			<key>y</key>
-			<real>605</real>
+			<real>414</real>
 			<key>width</key>
 			<real>89</real>
 			<key>height</key>
@@ -128,9 +188,9 @@
 		<key>button-medium-ai-hard-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>91</real>
+			<real>314</real>
 			<key>y</key>
-			<real>518</real>
+			<real>478</real>
 			<key>width</key>
 			<real>89</real>
 			<key>height</key>
@@ -148,9 +208,9 @@
 		<key>button-medium-ai-medium-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>262</real>
+			<real>405</real>
 			<key>y</key>
-			<real>387</real>
+			<real>505</real>
 			<key>width</key>
 			<real>89</real>
 			<key>height</key>
@@ -168,9 +228,9 @@
 		<key>button-medium-ai-medium-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>353</real>
+			<real>222</real>
 			<key>y</key>
-			<real>513</real>
+			<real>478</real>
 			<key>width</key>
 			<real>89</real>
 			<key>height</key>
@@ -186,46 +246,6 @@
 		</dict>
 		
 		<key>button-medium-player-a-normal.png</key>
-		<dict>
-			<key>x</key>
-			<real>405</real>
-			<key>y</key>
-			<real>422</real>
-			<key>width</key>
-			<real>89</real>
-			<key>height</key>
-			<real>89</real>
-			<key>offsetX</key>
-			<real>1</real>
-			<key>offsetY</key>
-			<real>-4</real>
-			<key>originalWidth</key>
-			<real>97</real>
-			<key>originalHeight</key>
-			<real>97</real>
-		</dict>
-		
-		<key>button-medium-player-a-pushed.png</key>
-		<dict>
-			<key>x</key>
-			<real>91</real>
-			<key>y</key>
-			<real>609</real>
-			<key>width</key>
-			<real>89</real>
-			<key>height</key>
-			<real>89</real>
-			<key>offsetX</key>
-			<real>1</real>
-			<key>offsetY</key>
-			<real>-4</real>
-			<key>originalWidth</key>
-			<real>97</real>
-			<key>originalHeight</key>
-			<real>97</real>
-		</dict>
-		
-		<key>button-medium-player-b-normal.png</key>
 		<dict>
 			<key>x</key>
 			<real>0</real>
@@ -245,10 +265,50 @@
 			<real>97</real>
 		</dict>
 		
+		<key>button-medium-player-a-pushed.png</key>
+		<dict>
+			<key>x</key>
+			<real>222</real>
+			<key>y</key>
+			<real>387</real>
+			<key>width</key>
+			<real>89</real>
+			<key>height</key>
+			<real>89</real>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>-4</real>
+			<key>originalWidth</key>
+			<real>97</real>
+			<key>originalHeight</key>
+			<real>97</real>
+		</dict>
+		
+		<key>button-medium-player-b-normal.png</key>
+		<dict>
+			<key>x</key>
+			<real>131</real>
+			<key>y</key>
+			<real>387</real>
+			<key>width</key>
+			<real>89</real>
+			<key>height</key>
+			<real>89</real>
+			<key>offsetX</key>
+			<real>1</real>
+			<key>offsetY</key>
+			<real>-4</real>
+			<key>originalWidth</key>
+			<real>97</real>
+			<key>originalHeight</key>
+			<real>97</real>
+		</dict>
+		
 		<key>button-medium-player-b-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>183</real>
+			<real>91</real>
 			<key>y</key>
 			<real>570</real>
 			<key>width</key>
@@ -270,7 +330,7 @@
 			<key>x</key>
 			<real>422</real>
 			<key>y</key>
-			<real>212</real>
+			<real>308</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -288,9 +348,9 @@
 		<key>button-small-back-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>295</real>
 			<key>y</key>
-			<real>53</real>
+			<real>570</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -308,9 +368,9 @@
 		<key>button-small-play-disabled.png</key>
 		<dict>
 			<key>x</key>
-			<real>353</real>
+			<real>351</real>
 			<key>y</key>
-			<real>387</real>
+			<real>570</real>
 			<key>width</key>
 			<real>51</real>
 			<key>height</key>
@@ -328,9 +388,9 @@
 		<key>button-small-play-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>403</real>
 			<key>y</key>
-			<real>318</real>
+			<real>597</real>
 			<key>width</key>
 			<real>51</real>
 			<key>height</key>
@@ -348,9 +408,9 @@
 		<key>button-small-play-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>351</real>
 			<key>y</key>
-			<real>370</real>
+			<real>622</real>
 			<key>width</key>
 			<real>51</real>
 			<key>height</key>
@@ -368,9 +428,9 @@
 		<key>button-small-rewind-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>239</real>
 			<key>y</key>
-			<real>159</real>
+			<real>570</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -388,9 +448,9 @@
 		<key>button-small-rewind-pushed.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>183</real>
 			<key>y</key>
-			<real>0</real>
+			<real>570</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -408,9 +468,9 @@
 		<key>button-small-stop-normal.png</key>
 		<dict>
 			<key>x</key>
-			<real>422</real>
+			<real>0</real>
 			<key>y</key>
-			<real>106</real>
+			<real>609</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -430,7 +490,7 @@
 			<key>x</key>
 			<real>422</real>
 			<key>y</key>
-			<real>265</real>
+			<real>361</real>
 			<key>width</key>
 			<real>53</real>
 			<key>height</key>
@@ -448,9 +508,9 @@
 		<key>cell-empty.png</key>
 		<dict>
 			<key>x</key>
-			<real>474</real>
+			<real>91</real>
 			<key>y</key>
-			<real>318</real>
+			<real>518</real>
 			<key>width</key>
 			<real>36</real>
 			<key>height</key>
@@ -470,7 +530,7 @@
 			<key>x</key>
 			<real>478</real>
 			<key>y</key>
-			<real>0</real>
+			<real>252</real>
 			<key>width</key>
 			<real>24</real>
 			<key>height</key>
@@ -490,7 +550,7 @@
 			<key>x</key>
 			<real>478</real>
 			<key>y</key>
-			<real>27</real>
+			<real>279</real>
 			<key>width</key>
 			<real>24</real>
 			<key>height</key>
