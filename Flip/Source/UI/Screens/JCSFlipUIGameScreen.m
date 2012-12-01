@@ -60,7 +60,7 @@
         exitItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
         
         // create the skip button
-        _skipItem = [CCMenuItemFont itemWithString:@"Skip" block:^(id sender) {
+        _skipItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"skip" block:^(id sender) {
             if (_screenEnabled) {
                 [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
             }
