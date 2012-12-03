@@ -26,8 +26,6 @@
 
 - (id)init {
     if (self = [super init]) {
-        // create a dummy board layer
-        
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // create the exit button
