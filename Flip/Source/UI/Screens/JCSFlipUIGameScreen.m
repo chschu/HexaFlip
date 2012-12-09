@@ -9,6 +9,7 @@
 #import "JCSFlipUIGameScreen.h"
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSButton.h"
+#import "JCSFlipScoreIndicator.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;
@@ -17,7 +18,7 @@
     
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_skipItem;
-    CCLabelTTF *_scoreLabel;
+    JCSFlipScoreIndicator *_scoreIndicator;
 }
 
 @synthesize delegate = _delegate;
@@ -69,10 +70,10 @@
         CCMenu *menu = [CCMenu menuWithItems:exitItem, _skipItem, nil];
         [self addChild:menu z:1];
         
-        _scoreLabel = [CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:24];
-        _scoreLabel.anchorPoint = ccp(0,0.5);
-        _scoreLabel.position = ccp(10, winSize.height/2.0);
-        [self addChild:_scoreLabel z:1];
+        _scoreIndicator = [JCSFlipScoreIndicator node];
+        _scoreIndicator.anchorPoint = ccp(0.5,0.5);
+        _scoreIndicator.position = ccp(10+JCSButtonSizeSmall/2.0,winSize.height/2.0);
+        [self addChild:_scoreIndicator z:2];
         
         // prepare a "dummy" game to initialize the board and UI state
         [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil];
@@ -93,13 +94,14 @@
     _boardLayer = [JCSFlipUIBoardLayer nodeWithState:_state];
     _boardLayer.anchorPoint = ccp(1,0);
     _boardLayer.position = ccp(winSize.width,winSize.height/2);
-    [self addChild:_boardLayer];
+    [self addChild:_boardLayer z:3];
 
     // clear players
     _playerA = nil;
     _playerB = nil;
     
     // update UI (does not notify players, because they are not set)
+    [self updateScoreIndicator];
     [self updateUIAndNotifyPlayer];
     
     // assign players (but don't notify yet)
@@ -148,7 +150,7 @@
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
     _skipItem.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
     
-    [self updateScoreLabel];
+    // TODO show whose turn it is
     
     // determine current player
     id<JCSFlipPlayer> currentPlayer = nil;
@@ -165,18 +167,8 @@
     [currentPlayer tellMakeMove:_state];
 }
 
-- (void)updateScoreLabel {
-    _scoreLabel.string = [NSString stringWithFormat:@"%d:%d", _state.cellCountPlayerA, _state.cellCountPlayerB];
-    switch (_state.status) {
-        case JCSFlipGameStatusPlayerAToMove:
-            _scoreLabel.color = ccc3(255, 0, 0);
-            break;
-        case JCSFlipGameStatusPlayerBToMove:
-            _scoreLabel.color = ccc3(0, 0, 255);
-            break;
-        default:
-            _scoreLabel.color = ccc3(0, 0, 0);
-    }
+- (void)updateScoreIndicator {
+    [_scoreIndicator setScoreA:_state.cellCountPlayerA scoreB:_state.cellCountPlayerB animationDuration:1];
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
@@ -237,6 +229,7 @@
     if ([_state pushMove:move]) {
         // block move input during animation
         [self disableMoveInput];
+        [self updateScoreIndicator];
         [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
             // animation is done - update UI and notify player
             [self updateUIAndNotifyPlayer];
