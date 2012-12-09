@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipScoreIndicator.h"
+#import "JCSFlipUIConstants.h"
 
 @implementation JCSFlipScoreIndicator {
     NSInteger _scoreA;
@@ -70,12 +71,13 @@
         // set content size for correct positioning
         self.contentSize = size;
         
-        [self updateWithAnimationDuration:0];
+        // initialize (without animation)
+        [self updateAnimated:NO];
     }
     return self;
 }
 
-- (void)updateWithAnimationDuration:(ccTime)animationDuration {
+- (void)updateAnimated:(BOOL)animated {
     CGFloat targetScaleB;
     
     NSInteger scoreSum = _scoreA + _scoreB;
@@ -85,9 +87,12 @@
         targetScaleB = 0.5;
     }
 
-    CCScaleTo *scaleB = [CCScaleTo actionWithDuration:animationDuration scaleX:1 scaleY:targetScaleB];
-
-    [_spritePlayerB runAction:[CCEaseExponentialOut actionWithAction:scaleB]];
+    if (animated) {
+        CCScaleTo *scaleB = [CCScaleTo actionWithDuration:JCS_FLIP_UI_SCORE_INDICATOR_ANIMATION_DURATION scaleX:1 scaleY:targetScaleB];
+        [_spritePlayerB runAction:[CCEaseExponentialOut actionWithAction:scaleB]];
+    } else {
+        _spritePlayerB.scaleY = targetScaleB;
+    }
 }
 
 // overridden to perform custom rendering
@@ -132,11 +137,11 @@
 	kmGLPopMatrix();
 }
 
-- (void)setScoreA:(NSInteger)scoreA scoreB:(NSInteger)scoreB animationDuration:(ccTime)animationDuration {
+- (void)setScoreA:(NSInteger)scoreA scoreB:(NSInteger)scoreB animated:(BOOL)animated {
     NSAssert(scoreA >= 0 && scoreB >= 0, @"scores must be non-negative");
     _scoreA = scoreA;
     _scoreB = scoreB;
-    [self updateWithAnimationDuration:animationDuration];
+    [self updateAnimated:animated];
 }
 
 @end

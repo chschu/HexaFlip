@@ -101,7 +101,7 @@
     _playerB = nil;
     
     // update UI (does not notify players, because they are not set)
-    [self updateScoreIndicator];
+    [self updateScoreIndicatorAnimated:NO];
     [self updateUIAndNotifyPlayer];
     
     // assign players (but don't notify yet)
@@ -167,8 +167,8 @@
     [currentPlayer tellMakeMove:_state];
 }
 
-- (void)updateScoreIndicator {
-    [_scoreIndicator setScoreA:_state.cellCountPlayerA scoreB:_state.cellCountPlayerB animationDuration:1];
+- (void)updateScoreIndicatorAnimated:(BOOL)animated {
+    [_scoreIndicator setScoreA:_state.cellCountPlayerA scoreB:_state.cellCountPlayerB animated:animated];
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
@@ -229,7 +229,8 @@
     if ([_state pushMove:move]) {
         // block move input during animation
         [self disableMoveInput];
-        [self updateScoreIndicator];
+        // update score indicator while animating the move
+        [self updateScoreIndicatorAnimated:YES];
         [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
             // animation is done - update UI and notify player
             [self updateUIAndNotifyPlayer];

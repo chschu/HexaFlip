@@ -10,6 +10,6 @@
 
 @interface JCSFlipScoreIndicator : CCNode
 
-- (void)setScoreA:(NSInteger)scoreA scoreB:(NSInteger)scoreB animationDuration:(ccTime)animationDuration;
+- (void)setScoreA:(NSInteger)scoreA scoreB:(NSInteger)scoreB animated:(BOOL)animated;
 
 @end

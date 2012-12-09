@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+#import "cocos2d.h"
+
 // distance between cell centers in points
 static const float JCS_FLIP_UI_CELL_SPACING_POINTS = 38.0;
 
@@ -17,3 +19,6 @@ static const float JCS_FLIP_UI_BOARD_BORDER = 10.0;
 // larger values avoid accidentially selecting a direction, but require a longer dragging distance
 // larget values may prohibit proper selection of a direction with the starting cell near a border
 static const float JCS_FLIP_UI_DRAG_OUTSIDE_THRESHOLD = JCS_FLIP_UI_CELL_SPACING_POINTS;
+
+// duration of the animated score update in seconds
+static const ccTime JCS_FLIP_UI_SCORE_INDICATOR_ANIMATION_DURATION = 0.5;
