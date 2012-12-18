@@ -9,6 +9,22 @@
 #import "AppDelegate.h"
 #import "JCSFlipUIScene.h"
 
+// extend CCDirector to support Auto-Rotation with iOS 6
+@interface CCDirectorIOS (iOS6)
+@end
+
+@implementation CCDirectorIOS (iOS6)
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+@end
+
 @implementation AppDelegate {
     BOOL _wasAnimating;
 }
@@ -76,21 +92,18 @@
     
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director pushScene:[JCSFlipUIScene node]];
-    
-	// Create a Navigation Controller with the Director
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:director];
-	navController.navigationBarHidden = YES;
-	
-	// set the Navigation Controller as the root view controller
-	[_window setRootViewController:navController];
-	
+    	
+	// set the director as the root view controller
+	[_window setRootViewController:director];
+
 	// make main window visible
 	[_window makeKeyAndVisible];
 	
 	return YES;
 }
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 // enter inactive state (incoming call, application about to enter background)
