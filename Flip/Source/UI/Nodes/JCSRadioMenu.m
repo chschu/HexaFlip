@@ -25,7 +25,9 @@
 @implementation CCMenuItem (InvokeBlock)
 
 - (void)invokeBlock:(id)sender {
-    block_(sender);
+    if (block_ != nil) {
+        block_(sender);
+    }
 }
 
 @end
