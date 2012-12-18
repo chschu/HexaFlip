@@ -44,7 +44,7 @@
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
-		<key>accelerometer</key>
+		<key>gamekit</key>
 		<true/>
 		<key>opengles-2</key>
 		<true/>
@@ -55,6 +55,7 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
