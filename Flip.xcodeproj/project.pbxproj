@@ -368,6 +368,11 @@
 		F3107880164B12F000FE7FC2 /* button-play-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-normal.png"; sourceTree = "<group>"; };
 		F3107881164B12F000FE7FC2 /* button-play-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-pushed.png"; sourceTree = "<group>"; };
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
+		F32758E01680FFD800869A23 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
+		F32758E61681212300869A23 /* button-play-single-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-normal.png"; sourceTree = "<group>"; };
+		F32758E71681212300869A23 /* button-play-single-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-pushed.png"; sourceTree = "<group>"; };
+		F32758E81681220A00869A23 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
+		F32758E91681220A00869A23 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
 		F330E1601651CCBF004BB32E /* center-of-mass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "center-of-mass.py"; sourceTree = "<group>"; };
 		F330E1701653023C004BB32E /* JCSFlipUIOutcomeScreenDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreenDelegate.h; sourceTree = "<group>"; };
 		F330E17116530275004BB32E /* JCSFlipUIOutcomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreen.h; sourceTree = "<group>"; };
@@ -392,8 +397,6 @@
 		F3574AAD16697425005B9BD4 /* button-player-a-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-player-a-pushed.png"; sourceTree = "<group>"; };
 		F3574AAE16697425005B9BD4 /* button-player-b-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-player-b-normal.png"; sourceTree = "<group>"; };
 		F3574AAF16697425005B9BD4 /* button-player-b-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-player-b-pushed.png"; sourceTree = "<group>"; };
-		F3574ACF16697E8B005B9BD4 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
-		F3574AD016697E8B005B9BD4 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
 		F3574AD1166ABF02005B9BD4 /* button-skip-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-skip-disabled.png"; sourceTree = "<group>"; };
 		F3574AD2166ABF02005B9BD4 /* button-skip-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-skip-normal.png"; sourceTree = "<group>"; };
 		F3574AD3166ABF03005B9BD4 /* button-skip-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-skip-pushed.png"; sourceTree = "<group>"; };
@@ -1307,6 +1310,7 @@
 		F3CB114015EE9A030057309C /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				F32758E01680FFD800869A23 /* icon1024.png */,
 				F3107884164B17D200FE7FC2 /* button.xcf */,
 				F3574ADA166BDDFE005B9BD4 /* score.xcf */,
 				F3CB114115EE9A030057309C /* vectors.svg */,
@@ -1322,6 +1326,8 @@
 				F3107880164B12F000FE7FC2 /* button-play-normal.png */,
 				F3107881164B12F000FE7FC2 /* button-play-pushed.png */,
 				F3452D12166181D4000AA83D /* button-play-disabled.png */,
+				F32758E61681212300869A23 /* button-play-single-normal.png */,
+				F32758E71681212300869A23 /* button-play-single-pushed.png */,
 				F3574A9616696EF0005B9BD4 /* button-back-normal.png */,
 				F3574A9716696EF0005B9BD4 /* button-back-pushed.png */,
 				F330E17416545354004BB32E /* button-rewind-normal.png */,
@@ -1331,8 +1337,8 @@
 				F3574AD3166ABF03005B9BD4 /* button-skip-pushed.png */,
 				F330E1781654567F004BB32E /* button-stop-normal.png */,
 				F330E17916545680004BB32E /* button-stop-pushed.png */,
-				F3574ACF16697E8B005B9BD4 /* button-human-normal.png */,
-				F3574AD016697E8B005B9BD4 /* button-human-pushed.png */,
+				F32758E81681220A00869A23 /* button-human-normal.png */,
+				F32758E91681220A00869A23 /* button-human-pushed.png */,
 				F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */,
 				F3574AA71669725D005B9BD4 /* button-ai-easy-pushed.png */,
 				F3574AAA1669725D005B9BD4 /* button-ai-medium-normal.png */,
@@ -1552,7 +1558,7 @@
 		F300537C15B0AC2600BAD89C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Christian Schuster";
 			};
 			buildConfigurationList = F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "Flip" */;
@@ -1807,6 +1813,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1817,6 +1827,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
@@ -1828,6 +1839,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1836,6 +1851,7 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;

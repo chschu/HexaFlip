@@ -61,48 +61,53 @@
         _playItem.position = ccp(winSize.width/2-10, winSize.height/2-10);
         _playItem.isEnabled = NO;
         
-        CGFloat xDistance = 80; // horizontal distance between the centers of button columns
-        CGFloat yPosition = -20; // vertical center of opponent buttons
-        CGFloat yDelta = 20; // vertical zig-zag distance of opponent buttons
+        CGFloat xDistance = JCSButtonSizeMedium*1.5; // horizontal distance between the centers of button columns
+        CGFloat yDistance = 120; // vertical distance between the centers of button rows
+        CGFloat xOffset = JCSButtonSizeSmall; // horizontal distance for the color chooser
         
-        _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"player-a" block:^(id sender) {
+        _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
             _playerIsPlayerA = YES;
         }];
-        _playerAItem.position = ccp(180,yPosition+2.5*yDelta);
-        _playerBItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"player-b" block:^(id sender) {
+        _playerAItem.position = ccp(-xOffset,yDistance/2);
+        _playerBItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-b" block:^(id sender) {
             _playerIsPlayerA = NO;
         }];
-        _playerBItem.position = ccp(180,yPosition-2.5*yDelta);
+        _playerBItem.position = ccp(xOffset,yDistance/2);
+
+        // create (always-on) player button
+        
+        CCMenuItem *playerItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:nil];
+        playerItem.position = ccp(0,yDistance/2);
         
         // create opponent buttons
-        
-        CCMenuItem *opponentHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
-            self.opponent = [self playerLocalWithName:@"Opponent"];
-        }];
-        opponentHumanItem.position = ccp(-180,yPosition+yDelta);
         
         CCMenuItem *opponentAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             self.opponent = [self playerAIEasy];
         }];
-        opponentAIEasyItem.position = ccp(-180+xDistance,yPosition-yDelta);
+        opponentAIEasyItem.position = ccp(-xDistance,-yDistance/2);
         
         CCMenuItem *opponentAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium"  block:^(id sender) {
             self.opponent = [self playerAIMedium];
         }];
-        opponentAIMediumItem.position = ccp(-180+2*xDistance,yPosition+yDelta);
+        opponentAIMediumItem.position = ccp(0,-yDistance/2);
         
         CCMenuItem *opponentAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard"  block:^(id sender) {
             self.opponent = [self playerAIHard];
         }];
-        opponentAIHardItem.position = ccp(-180+3*xDistance,yPosition-yDelta);
+        opponentAIHardItem.position = ccp(xDistance,-yDistance/2);
         
         CCMenu *menu = [CCMenu menuWithItems:backItem, _playItem, nil];
-        JCSRadioMenu *opponentRadioMenu = [JCSRadioMenu menuWithItems:opponentHumanItem, opponentAIEasyItem, opponentAIMediumItem, opponentAIHardItem, nil];
+        JCSRadioMenu *playerRadioMenu = [JCSRadioMenu menuWithItems:playerItem, nil];
+        JCSRadioMenu *opponentRadioMenu = [JCSRadioMenu menuWithItems:opponentAIEasyItem, opponentAIMediumItem, opponentAIHardItem, nil];
         _playerSideRadioMenu = [JCSRadioMenu menuWithItems:_playerAItem, _playerBItem, nil];
         
-        [self addChild:menu];
-        [self addChild:opponentRadioMenu];
-        [self addChild:_playerSideRadioMenu];
+        // select the always-on player item
+        playerRadioMenu.selectedItem = playerItem;
+        
+        [self addChild:menu z:1];
+        [self addChild:playerRadioMenu z:1];
+        [self addChild:opponentRadioMenu z:1];
+        [self addChild:_playerSideRadioMenu z:2];
         
         // initialize the UI state
         [self updateUIState];
@@ -113,8 +118,6 @@
 - (void)updateUIState {
     _playItem.isEnabled = (_opponent != nil);
     _playerSideRadioMenu.selectedItem = (_playerIsPlayerA ? _playerAItem : _playerBItem);
-    // TODO is this the right way to detect a local human opponent
-    _playerSideRadioMenu.allSelectedMode = _opponent.localControls;
 }
 
 - (void)setOpponent:(id<JCSFlipPlayer>)opponent {

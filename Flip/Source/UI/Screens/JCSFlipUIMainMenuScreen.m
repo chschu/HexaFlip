@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+#import <GameKit/GameKit.h>
+
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSButton.h"
 
@@ -17,10 +19,17 @@
 
 - (id)init {
     if (self = [super init]) {
-        JCSButton *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
-            [_delegate playFromMainMenuScreen:self];
+        JCSButton *playSingleItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-single" block:^(id sender) {
+            [_delegate playSingleFromMainMenuScreen:self];
         }];
-        CCMenu *menu = [CCMenu menuWithItems:playItem, nil];
+        playSingleItem.position = ccp(-60,0);
+        
+        JCSButton *playMultiItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-multi" block:^(id sender) {
+            [_delegate playMultiFromMainMenuScreen:self];
+        }];
+        playMultiItem.position = ccp(60,0);
+        
+        CCMenu *menu = [CCMenu menuWithItems:playSingleItem, playMultiItem, nil];
         [self addChild:menu];
     }
     return self;

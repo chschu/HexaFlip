@@ -11,7 +11,10 @@
 // protocol for actions triggered by the main menu screen
 @protocol JCSFlipUIMainMenuScreenDelegate <NSObject>
 
-// "Play" button has been tapped
-- (void)playFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen;
+// "Single Player" button has been tapped
+- (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen;
+
+// "Multi Player" button has been tapped
+- (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen;
 
 @end
