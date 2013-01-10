@@ -11,17 +11,18 @@
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSFlipUIPlayerMenuScreen.h"
 #import "JCSFlipUIOutcomeScreen.h"
+#import "JCSFlipPlayerLocal.h"
 
 @implementation JCSFlipUIScene {
     // global parallax node
     CCParallaxNode *_parallax;
-
+    
     // main menu screen
     JCSFlipUIMainMenuScreen *_mainMenuScreen;
-
+    
     // player selectio menu screen
     JCSFlipUIPlayerMenuScreen *_playerMenuScreen;
-
+    
     // game screen
     JCSFlipUIGameScreen *_gameScreen;
     
@@ -36,15 +37,15 @@
 // this could be done in -init, but then the scene is rendered in portrait mode, which breaks the layout
 - (void)onEnter {
     [super onEnter];
-
+    
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
     _parallax = [CCParallaxNode node];
-
+    
     // background tile map
     CCNode *backgroundTileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"background.tmx"];
     [_parallax addChild:backgroundTileMap z:0 parallaxRatio:ccp(1,1) positionOffset:ccp(-0.5*winSize.width,-0.5*winSize.height)];
-
+    
     // main menu screen
     _mainMenuScreen = [JCSFlipUIMainMenuScreen node];
     _mainMenuScreen.delegate = self;
@@ -59,14 +60,14 @@
     _gameScreen = [JCSFlipUIGameScreen node];
     _gameScreen.delegate = self;
     [self addScreen:_gameScreen atScreenPoint:ccp(1,1) z:1];
-
+    
     // outcome screen
     _outcomeScreen = [JCSFlipUIOutcomeScreen node];
     _outcomeScreen.delegate = self;
     [self addScreen:_outcomeScreen atScreenPoint:ccp(2,1) z:1];
     
     [self addChild:_parallax];
-
+    
     // enable the main menu screen
     [self scrollToScreen:_mainMenuScreen animated:NO];
 }
@@ -74,7 +75,7 @@
 - (void)addScreen:(id<JCSFlipUIScreen>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
     CGSize winSize = [CCDirector sharedDirector].winSize;
     CGPoint winSizePoint = ccpFromSize(winSize);
-
+    
     screen.screenPoint = screenPoint;
     [_parallax addChild:screen z:z parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(screenPoint,winSizePoint)];
 }
@@ -85,7 +86,7 @@
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     CGPoint winSizePoint = ccpFromSize(winSize);
-
+    
     CGPoint targetPosition = ccpCompMult(screen.screenPoint,ccpMult(winSizePoint,-1));
     
     if (animated) {
@@ -103,10 +104,14 @@
 
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
 
-- (void)playFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
+- (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
         [self scrollToScreen:_playerMenuScreen animated:YES];
     }
+}
+
+- (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
+    // TODO implement
 }
 
 #pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
@@ -115,9 +120,9 @@
     if (screen.screenEnabled) {
         // prepare game screen
         [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
-
+        
         [self scrollToScreen:_gameScreen animated:YES];
-
+        
         // start the game
         [_gameScreen startGame];
     }
