@@ -385,6 +385,9 @@
 		F3452D57166747B6000AA83D /* JCSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSButton.h; sourceTree = "<group>"; };
 		F3452D58166747B6000AA83D /* JCSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSButton.m; sourceTree = "<group>"; };
 		F3474C9E16695BEA0054493C /* button-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-background.png"; sourceTree = "<group>"; };
+		F3535335169F73CB0027192D /* button-play-multi-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-disabled.png"; sourceTree = "<group>"; };
+		F3535336169F73CB0027192D /* button-play-multi-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-normal.png"; sourceTree = "<group>"; };
+		F3535337169F73CB0027192D /* button-play-multi-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-pushed.png"; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
 		F3574A9716696EF0005B9BD4 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
@@ -1328,6 +1331,9 @@
 				F3452D12166181D4000AA83D /* button-play-disabled.png */,
 				F32758E61681212300869A23 /* button-play-single-normal.png */,
 				F32758E71681212300869A23 /* button-play-single-pushed.png */,
+				F3535335169F73CB0027192D /* button-play-multi-disabled.png */,
+				F3535336169F73CB0027192D /* button-play-multi-normal.png */,
+				F3535337169F73CB0027192D /* button-play-multi-pushed.png */,
 				F3574A9616696EF0005B9BD4 /* button-back-normal.png */,
 				F3574A9716696EF0005B9BD4 /* button-back-pushed.png */,
 				F330E17416545354004BB32E /* button-rewind-normal.png */,
