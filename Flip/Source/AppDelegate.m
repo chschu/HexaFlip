@@ -92,13 +92,13 @@
     
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director pushScene:[JCSFlipUIScene node]];
-    	
+    
 	// set the director as the root view controller
 	[_window setRootViewController:director];
-
+    
 	// make main window visible
 	[_window makeKeyAndVisible];
-	
+    
 	return YES;
 }
 
