@@ -10,6 +10,7 @@
 
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSButton.h"
+#import "JCSFlipUIMainMenuScreenDelegate.h"
 
 @implementation JCSFlipUIMainMenuScreen
 

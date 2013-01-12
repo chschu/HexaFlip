@@ -6,9 +6,8 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipPlayer.h"
-
 @class JCSFlipUIPlayerMenuScreen;
+@protocol JCSFlipPlayer;
 
 // protocol for actions triggered by the player selection menu screen
 @protocol JCSFlipUIPlayerMenuScreenDelegate <NSObject>

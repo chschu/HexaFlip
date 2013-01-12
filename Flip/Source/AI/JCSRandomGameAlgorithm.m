@@ -7,6 +7,7 @@
 //
 
 #import "JCSRandomGameAlgorithm.h"
+#import "JCSGameNode.h"
 
 @implementation JCSRandomGameAlgorithm {
     NSUInteger _seed;

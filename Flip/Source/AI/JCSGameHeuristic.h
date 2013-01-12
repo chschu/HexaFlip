@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSGameNode.h"
+@protocol JCSGameNode;
 
 // protocol for heuristic evaluation of game nodes
 @protocol JCSGameHeuristic <NSObject>

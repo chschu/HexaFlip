@@ -7,8 +7,9 @@
 //
 
 #import "JCSFlipGameStatus.h"
-#import "JCSFlipMove.h"
 #import "JCSFlipCellState.h"
+
+@class JCSFlipMove;
 
 // state information for a running game
 @interface JCSFlipGameState : NSObject <NSCoding>

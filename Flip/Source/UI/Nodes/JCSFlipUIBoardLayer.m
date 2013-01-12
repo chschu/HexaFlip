@@ -9,6 +9,10 @@
 #import "JCSFlipUIConstants.h"
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSFlipUICellNode.h"
+#import "JCSHexDirection.h"
+#import "JCSFlipGameState.h"
+#import "JCSFlipPlayerMoveInputDelegate.h"
+#import "JCSFlipMove.h"
 
 // states for move input
 typedef enum {

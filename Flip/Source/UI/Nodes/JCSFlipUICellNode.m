@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipUICellNode.h"
+#import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
 

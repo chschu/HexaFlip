@@ -6,10 +6,11 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+#import "JCSFlipUIScreen.h"
+
 #import "cocos2d.h"
 
-#import "JCSFlipUIPlayerMenuScreenDelegate.h"
-#import "JCSFlipUIScreen.h"
+@protocol JCSFlipUIPlayerMenuScreenDelegate;
 
 @interface JCSFlipUIPlayerMenuScreen : CCNode <JCSFlipUIScreen>
 

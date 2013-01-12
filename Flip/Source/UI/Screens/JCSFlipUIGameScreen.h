@@ -6,13 +6,14 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipGameState.h"
 #import "JCSFlipPlayerMoveInputDelegate.h"
-#import "JCSFlipPlayer.h"
 #import "JCSFlipUIScreen.h"
-#import "JCSFlipUIGameScreenDelegate.h"
 
 #import "cocos2d.h"
+
+@class JCSFlipGameState;
+@protocol JCSFlipPlayer;
+@protocol JCSFlipUIGameScreenDelegate;
 
 @interface JCSFlipUIGameScreen : CCNode <JCSFlipPlayerMoveInputDelegate, JCSFlipUIScreen>
 

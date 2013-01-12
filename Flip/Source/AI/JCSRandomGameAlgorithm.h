@@ -7,7 +7,6 @@
 //
 
 #import "JCSGameAlgorithm.h"
-#import "JCSGameNode.h"
 
 @interface JCSRandomGameAlgorithm : NSObject <JCSGameAlgorithm>
 

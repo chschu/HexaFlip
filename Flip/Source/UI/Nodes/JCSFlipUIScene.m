@@ -12,6 +12,7 @@
 #import "JCSFlipUIPlayerMenuScreen.h"
 #import "JCSFlipUIOutcomeScreen.h"
 #import "JCSFlipPlayerLocal.h"
+#import "JCSFlipGameState.h"
 
 @implementation JCSFlipUIScene {
     // global parallax node

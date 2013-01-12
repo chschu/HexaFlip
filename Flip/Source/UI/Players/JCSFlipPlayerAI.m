@@ -8,6 +8,9 @@
 
 #import "JCSFlipPlayerAI.h"
 #import "JCSFlipGameState+GameNode.h"
+#import "JCSGameAlgorithm.h"
+#import "JCSFlipMove.h"
+#import "JCSFlipPlayerMoveInputDelegate.h"
 
 #import "cocos2d.h"
 

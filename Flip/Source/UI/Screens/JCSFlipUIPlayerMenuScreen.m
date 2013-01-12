@@ -14,6 +14,7 @@
 #import "JCSMinimaxGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
+#import "JCSFlipUIPlayerMenuScreenDelegate.h"
 
 @interface JCSFlipUIPlayerMenuScreen ()
 

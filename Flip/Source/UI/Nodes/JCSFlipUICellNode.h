@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "CCNode.h"
 #import "JCSFlipCellState.h"
-#import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
+
+@protocol JCSFlipUICellNodeTouchDelegate;
 
 @interface JCSFlipUICellNode : CCSprite <CCTargetedTouchDelegate>
 

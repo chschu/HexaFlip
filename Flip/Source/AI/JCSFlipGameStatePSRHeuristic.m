@@ -9,6 +9,7 @@
 #import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipGameState+GameNode.h"
+#import "JCSHexDirection.h"
 
 @implementation JCSFlipGameStatePSRHeuristic {
     float _possession;

@@ -7,10 +7,11 @@
 //
 
 #import "JCSFlipUIScreen.h"
-#import "JCSFlipUIOutcomeScreenDelegate.h"
 #import "JCSFlipGameStatus.h"
 
 #import "cocos2d.h"
+
+@protocol JCSFlipUIOutcomeScreenDelegate;
 
 @interface JCSFlipUIOutcomeScreen : CCNode <JCSFlipUIScreen>
 

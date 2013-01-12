@@ -7,8 +7,8 @@
 //
 
 #import "JCSGameAlgorithm.h"
-#import "JCSGameNode.h"
-#import "JCSGameHeuristic.h"
+
+@protocol JCSGameHeuristic;
 
 @interface JCSMinimaxGameAlgorithm : NSObject <JCSGameAlgorithm>
 

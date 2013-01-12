@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipUIOutcomeScreen.h"
+#import "JCSFlipUIOutcomeScreenDelegate.h"
 #import "JCSButton.h"
 
 @implementation JCSFlipUIOutcomeScreen {

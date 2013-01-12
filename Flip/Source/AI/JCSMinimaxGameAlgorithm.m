@@ -7,6 +7,8 @@
 //
 
 #import "JCSMinimaxGameAlgorithm.h"
+#import "JCSGameHeuristic.h"
+#import "JCSGameNode.h"
 
 // simple container class for move ordering
 @interface JCSMinimaxChildData : NSObject {

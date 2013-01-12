@@ -7,7 +7,8 @@
 //
 
 #import "JCSFlipPlayer.h"
-#import "JCSGameAlgorithm.h"
+
+@protocol JCSGameAlgorithm;
 
 @interface JCSFlipPlayerAI : NSObject <JCSFlipPlayer>
 

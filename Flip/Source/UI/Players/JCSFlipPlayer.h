@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipGameState.h"
-#import "JCSFlipPlayerMoveInputDelegate.h"
+@class JCSFlipGameState;
+@protocol JCSFlipPlayerMoveInputDelegate;
 
 @protocol JCSFlipPlayer <NSObject>
 

@@ -7,7 +7,8 @@
 //
 
 #import "JCSHexDirection.h"
-#import "JCSFlipMove.h"
+
+@class JCSFlipMove;
 
 // protocol used for notification of move input
 // can be used to visualize the different stages of move input

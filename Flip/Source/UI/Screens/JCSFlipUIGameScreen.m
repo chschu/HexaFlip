@@ -10,6 +10,10 @@
 #import "JCSFlipUIBoardLayer.h"
 #import "JCSButton.h"
 #import "JCSFlipScoreIndicator.h"
+#import "JCSFlipPlayer.h"
+#import "JCSFlipUIGameScreenDelegate.h"
+#import "JCSFlipGameState.h"
+#import "JCSFlipMove.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;

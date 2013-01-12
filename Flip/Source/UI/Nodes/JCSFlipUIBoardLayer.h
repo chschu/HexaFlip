@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipPlayer.h"
-#import "JCSFlipCellState.h"
-#import "JCSFlipGameState.h"
-#import "JCSFlipPlayerMoveInputDelegate.h"
 #import "JCSFlipUICellNodeTouchDelegate.h"
 
 #import "cocos2d.h"
+
+@protocol JCSFlipPlayer;
+@protocol JCSFlipPlayerMoveInputDelegate;
+@class JCSFlipGameState;
 
 // the layer displaying the current board
 @interface JCSFlipUIBoardLayer : CCNode <JCSFlipUICellNodeTouchDelegate>
