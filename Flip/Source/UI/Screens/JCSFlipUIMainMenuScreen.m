@@ -12,7 +12,9 @@
 #import "JCSButton.h"
 #import "JCSFlipUIMainMenuScreenDelegate.h"
 
-@implementation JCSFlipUIMainMenuScreen
+@implementation JCSFlipUIMainMenuScreen {
+    JCSButton *_playMultiItem;
+}
 
 @synthesize delegate = _delegate;
 @synthesize screenEnabled = _screenEnabled;
@@ -25,15 +27,38 @@
         }];
         playSingleItem.position = ccp(-60,0);
         
-        JCSButton *playMultiItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-multi" block:^(id sender) {
+        _playMultiItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-multi" block:^(id sender) {
             [_delegate playMultiFromMainMenuScreen:self];
         }];
-        playMultiItem.position = ccp(60,0);
+        _playMultiItem.position = ccp(60,0);
         
-        CCMenu *menu = [CCMenu menuWithItems:playSingleItem, playMultiItem, nil];
+        CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
+        
+        // register for the game center authentication
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(playerAuthenticationDidChangeNotification:)
+                   name:GKPlayerAuthenticationDidChangeNotificationName
+                 object:nil];
+        
+        // synchronize the UI state
+        [self syncUIState];
     }
     return self;
+}
+
+- (void)dealloc {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self];
+}
+
+- (void)syncUIState {
+    _playMultiItem.isEnabled = [GKLocalPlayer localPlayer].isAuthenticated;
+}
+    
+- (void)playerAuthenticationDidChangeNotification:(NSNotification *)notification {
+    [self syncUIState];
 }
 
 @end

@@ -6,6 +6,8 @@
 //  Copyright Christian Schuster 2012. All rights reserved.
 //
 
+#import <GameKit/GameKit.h>
+
 #import "AppDelegate.h"
 #import "JCSFlipUIScene.h"
 
@@ -98,6 +100,10 @@
     
 	// make main window visible
 	[_window makeKeyAndVisible];
+
+    // authenticate with game center
+    // completion can be detected by observing the GKPlayerAuthenticationDidChange notification
+    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:nil];
     
 	return YES;
 }
