@@ -1038,7 +1038,7 @@
     
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [underTest encodeWithCoder:coder includeMoveStack:false];
+    [underTest encodeWithCoder:coder includeMoveStack:NO];
     [coder finishEncoding];
     
     NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
