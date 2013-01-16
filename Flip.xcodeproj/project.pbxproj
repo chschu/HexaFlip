@@ -388,6 +388,7 @@
 		F3535335169F73CB0027192D /* button-play-multi-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-disabled.png"; sourceTree = "<group>"; };
 		F3535336169F73CB0027192D /* button-play-multi-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-normal.png"; sourceTree = "<group>"; };
 		F3535337169F73CB0027192D /* button-play-multi-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-pushed.png"; sourceTree = "<group>"; };
+		F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIScreenWithPoint.h; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
 		F3574A9716696EF0005B9BD4 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
@@ -805,6 +806,7 @@
 			isa = PBXGroup;
 			children = (
 				F31078571646D42E00FE7FC2 /* JCSFlipUIScreen.h */,
+				F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */,
 				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
 				F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */,
 				F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */,

@@ -70,10 +70,10 @@
     [self addChild:_parallax];
     
     // enable the main menu screen
-    [self scrollToScreen:_mainMenuScreen animated:NO];
+    [self switchToScreen:_mainMenuScreen animated:NO];
 }
 
-- (void)addScreen:(id<JCSFlipUIScreen>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
+- (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
     CGSize winSize = [CCDirector sharedDirector].winSize;
     CGPoint winSizePoint = ccpFromSize(winSize);
     
@@ -81,21 +81,27 @@
     [_parallax addChild:screen z:z parallaxRatio:ccp(1,1) positionOffset:ccpCompMult(screenPoint,winSizePoint)];
 }
 
-- (void)scrollToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated {
+// disable the currently active screen, activate the given screen, and enable it
+// for screens with point (conforming to protocol JCSFlipUIScreenWithPoint), the screen is made visible, using an animation if the "animated" parameter is set to YES
+// for screens without point, the "animated" parameter is ignored, because no animation is required
+- (void)switchToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated {
     // disable the old screen
     _activeScreen.screenEnabled = NO;
     
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    CGPoint winSizePoint = ccpFromSize(winSize);
-    
-    CGPoint targetPosition = ccpCompMult(screen.screenPoint,ccpMult(winSizePoint,-1));
-    
-    if (animated) {
-        id action = [CCMoveTo actionWithDuration:1 position:targetPosition];
-        id easedAction = [CCEaseExponentialOut actionWithAction:action];
-        [_parallax runAction:easedAction];
-    } else {
-        _parallax.position = targetPosition;
+    if ([screen conformsToProtocol:@protocol(JCSFlipUIScreenWithPoint)]) {
+        id<JCSFlipUIScreenWithPoint> screenWithPoint = (id<JCSFlipUIScreenWithPoint>) screen;
+        CGSize winSize = [CCDirector sharedDirector].winSize;
+        CGPoint winSizePoint = ccpFromSize(winSize);
+        
+        CGPoint targetPosition = ccpCompMult(screenWithPoint.screenPoint,ccpMult(winSizePoint,-1));
+        
+        if (animated) {
+            id action = [CCMoveTo actionWithDuration:1 position:targetPosition];
+            id easedAction = [CCEaseExponentialOut actionWithAction:action];
+            [_parallax runAction:easedAction];
+        } else {
+            _parallax.position = targetPosition;
+        }
     }
     
     // enable the new screen
@@ -107,12 +113,14 @@
 
 - (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [self scrollToScreen:_playerMenuScreen animated:YES];
+        [self switchToScreen:_playerMenuScreen animated:YES];
     }
 }
 
 - (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
-    // TODO implement
+    if (screen.screenEnabled) {
+        // TODO implement
+    }
 }
 
 #pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
@@ -122,7 +130,7 @@
         // prepare game screen
         [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
         
-        [self scrollToScreen:_gameScreen animated:YES];
+        [self switchToScreen:_gameScreen animated:YES];
         
         // start the game
         [_gameScreen startGame];
@@ -131,32 +139,32 @@
 
 - (void)backFromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [self scrollToScreen:_mainMenuScreen animated:YES];
+        [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
 
-#pragma mark JCSFLipUIGameScreenDelegate methods
+#pragma mark JCSFlipUIGameScreenDelegate methods
 
 - (void)gameEndedWithStatus:(JCSFlipGameStatus)status fromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
         // update and scoll to outcome screen
         _outcomeScreen.status = status;
-        [self scrollToScreen:_outcomeScreen animated:YES];
+        [self switchToScreen:_outcomeScreen animated:YES];
     }
 }
 
 - (void)gameEndedFromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
         // TODO confirmation screen
-        [self scrollToScreen:_mainMenuScreen animated:YES];
+        [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
 
-#pragma mark JCSFLipUIOutcomeScreenDelegate methods
+#pragma mark JCSFlipUIOutcomeScreenDelegate methods
 
 - (void)rewindFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
     if (screen.screenEnabled) {
-        [self scrollToScreen:_playerMenuScreen animated:YES];
+        [self switchToScreen:_playerMenuScreen animated:YES];
     }
 }
 

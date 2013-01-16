@@ -12,8 +12,4 @@
 // disable any user actions on the screen
 @property (nonatomic) BOOL screenEnabled;
 
-// row and column where the screen is placed
-// both coordinates must be integers
-@property (nonatomic) CGPoint screenPoint;
-
 @end

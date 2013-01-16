@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipUIScreen.h"
+#import "JCSFlipUIScreenWithPoint.h"
 #import "JCSFlipGameStatus.h"
 
 #import "cocos2d.h"
 
 @protocol JCSFlipUIOutcomeScreenDelegate;
 
-@interface JCSFlipUIOutcomeScreen : CCNode <JCSFlipUIScreen>
+@interface JCSFlipUIOutcomeScreen : CCNode <JCSFlipUIScreenWithPoint>
 
 // the game status to display
 // this property may only be set to JCSFlipGameStatusPlayerAWon, JCSFlipGameStatusPlayerBWon, or JCSFlipGameStatusDraw

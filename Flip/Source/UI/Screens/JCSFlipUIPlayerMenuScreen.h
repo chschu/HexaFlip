@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipUIScreen.h"
+#import "JCSFlipUIScreenWithPoint.h"
 
 #import "cocos2d.h"
 
 @protocol JCSFlipUIPlayerMenuScreenDelegate;
 
-@interface JCSFlipUIPlayerMenuScreen : CCNode <JCSFlipUIScreen>
+@interface JCSFlipUIPlayerMenuScreen : CCNode <JCSFlipUIScreenWithPoint>
 
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIPlayerMenuScreenDelegate> delegate;
