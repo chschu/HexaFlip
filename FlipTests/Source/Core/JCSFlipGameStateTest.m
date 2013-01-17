@@ -1061,4 +1061,38 @@
     STAssertThrows([reloaded popMove], nil);
 }
 
+- (void)testCodingEmptyMoveStack {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
+    
+    JCSFlipGameState *reloaded = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    // check properties
+    STAssertEquals(reloaded.status, underTest.status, nil);
+    STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
+    STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
+    STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    
+    // check cell states (must be match original board)
+    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
+    }];
+    
+    // check that move stack is empty
+    STAssertThrows([reloaded popMove], nil);
+}
+
+
 @end
