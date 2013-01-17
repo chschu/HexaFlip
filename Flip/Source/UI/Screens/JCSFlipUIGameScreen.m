@@ -224,7 +224,6 @@
 
 - (void)inputCancelled {
     NSLog(@"input: cancelled");
-    // TODO: visual
 }
 
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
