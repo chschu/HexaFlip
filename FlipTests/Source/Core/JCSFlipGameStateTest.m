@@ -9,6 +9,8 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipGameStatus.h"
 #import "JCSFlipCellState.h"
+#import "JCSHexDirection.h"
+#import "JCSFlipMove.h"
 
 @interface JCSFlipGameStateTest : SenTestCase
 @end
