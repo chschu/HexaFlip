@@ -551,7 +551,7 @@ NSString *coderKey_moveStackArray = @"d";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder maxMoves:(NSUInteger)maxMoves {
     [aCoder encodeInteger:_size forKey:coderKey_size];
-    [aCoder encodeInteger:_status forKey:coderKey_status];
+    [aCoder encodeInt:_status forKey:coderKey_status];
     [aCoder encodeBytes:_cellStates length:(2*_size-1)*(2*_size-1) forKey:coderKey_cellStates];
     [aCoder encodeObject:[self convertMoveStackToArray:_moveInfoStackTop maxMoves:maxMoves] forKey:coderKey_moveStackArray];
 }
@@ -563,7 +563,7 @@ NSString *coderKey_moveStackArray = @"d";
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     NSInteger size = [aDecoder decodeIntegerForKey:coderKey_size];
-    JCSFlipGameStatus status = [aDecoder decodeIntegerForKey:coderKey_status];
+    JCSFlipGameStatus status = [aDecoder decodeIntForKey:coderKey_status];
     
     NSUInteger length;
     const JCSFlipCellState *cellStates = [aDecoder decodeBytesForKey:coderKey_cellStates returnedLength:&length];
