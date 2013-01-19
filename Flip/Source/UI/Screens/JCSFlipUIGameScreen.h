@@ -22,6 +22,7 @@
 
 // prepare a game with the given state and players
 // set the receiver as the move input delegate of both players
+// the players might be both nil to show a read-only game
 - (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
 
 // start a previously prepared game

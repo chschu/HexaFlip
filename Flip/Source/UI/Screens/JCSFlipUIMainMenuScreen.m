@@ -11,6 +11,7 @@
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSButton.h"
 #import "JCSFlipUIMainMenuScreenDelegate.h"
+#import "JCSFlipGameCenterManager.h"
 
 @implementation JCSFlipUIMainMenuScreen {
     JCSButton *_playMultiItem;
@@ -36,11 +37,7 @@
         [self addChild:menu];
         
         // register for the game center authentication
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self
-               selector:@selector(playerAuthenticationDidChangeNotification:)
-                   name:GKPlayerAuthenticationDidChangeNotificationName
-                 object:nil];
+        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
         
         // synchronize the UI state
         [self syncUIState];
@@ -49,15 +46,14 @@
 }
 
 - (void)dealloc {
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
+    [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
 }
 
 - (void)syncUIState {
-    _playMultiItem.isEnabled = [GKLocalPlayer localPlayer].isAuthenticated;
+    _playMultiItem.isEnabled = [JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated;
 }
     
-- (void)playerAuthenticationDidChangeNotification:(NSNotification *)notification {
+- (void)playerAuthenticationDidChange:(NSNotification *)notification {
     [self syncUIState];
 }
 

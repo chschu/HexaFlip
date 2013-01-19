@@ -506,9 +506,13 @@ NSString *coderKey_cellStates = @"c";
 NSString *coderKey_moveStackArray = @"d";
 
 // recursively converts the move stack to an array
-- (NSArray *)convertMoveInfoStackToArray:(JCSFlipGameStateMoveInfo *)moveInfoStackTop {
-    NSMutableArray *array = [NSMutableArray array];
+// an empty stack is converted to the NSNull singleton
+- (id)convertMoveInfoStackToArray:(JCSFlipGameStateMoveInfo *)moveInfoStackTop {
+    if (moveInfoStackTop == NULL) {
+        return [NSNull null];
+    }
     
+    NSMutableArray *array = [NSMutableArray array];
     [array addObject:[NSNumber numberWithBool:moveInfoStackTop->skip]];
     [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startRow]];
     [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->startColumn]];
@@ -516,19 +520,20 @@ NSString *coderKey_moveStackArray = @"d";
     [array addObject:[NSNumber numberWithInteger:moveInfoStackTop->flipCount]];
     [array addObject:[NSNumber numberWithInt:moveInfoStackTop->oldStatus]];
     [array addObject:[NSNumber numberWithInt:moveInfoStackTop->oldSkipAllowed]];
-    
-    if (moveInfoStackTop->next != NULL) {
-        [array addObject:[self convertMoveInfoStackToArray:moveInfoStackTop->next]];
-    }
+    [array addObject:[self convertMoveInfoStackToArray:moveInfoStackTop->next]];
     
     // return immutable copy
     return [NSArray arrayWithArray:array];
 }
 
 // recursively converts the array to a move stack
-- (JCSFlipGameStateMoveInfo *)convertArrayToMoveInfoStack:(NSArray *)array {
-    JCSFlipGameStateMoveInfo *moveInfoStackTop = malloc(sizeof(JCSFlipGameStateMoveInfo));
+// the NSNull singleton is converted to an empty stack
+- (JCSFlipGameStateMoveInfo *)convertArrayToMoveInfoStack:(id)array {
+    if (array == [NSNull null]) {
+        return NULL;
+    }
     
+    JCSFlipGameStateMoveInfo *moveInfoStackTop = malloc(sizeof(JCSFlipGameStateMoveInfo));
     moveInfoStackTop->skip = [[array objectAtIndex:0] boolValue];
     moveInfoStackTop->startRow = [[array objectAtIndex:1] integerValue];
     moveInfoStackTop->startColumn = [[array objectAtIndex:2] integerValue];
@@ -536,12 +541,7 @@ NSString *coderKey_moveStackArray = @"d";
     moveInfoStackTop->flipCount = [[array objectAtIndex:4] integerValue];
     moveInfoStackTop->oldStatus = [[array objectAtIndex:5] intValue];
     moveInfoStackTop->oldSkipAllowed = [[array objectAtIndex:6] intValue];
-    
-    if ([array count] == 8) {
-        moveInfoStackTop->next = [self convertArrayToMoveInfoStack:[array objectAtIndex:7]];
-    } else {
-        moveInfoStackTop->next = NULL;
-    }
+    moveInfoStackTop->next = [self convertArrayToMoveInfoStack:[array objectAtIndex:7]];
     
     return moveInfoStackTop;
 }

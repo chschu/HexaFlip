@@ -35,29 +35,7 @@
         
         // create the exit button
         CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"stop" block:^(id sender) {
-            if (!_playerA.localControls) {
-                if (!_playerB.localControls) {
-                    // no player has local controls, no clear outcome
-                    [_delegate gameEndedFromGameScreen:self];
-                } else {
-                    // only player B has local controls, so player A wins
-                    [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerAWon fromGameScreen:self];
-                }
-            } else {
-                if (!_playerB.localControls) {
-                    // only player A has local controls, so player B wins
-                    [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerBWon fromGameScreen:self];
-                } else {
-                    // both players have local controls, the player to move loses
-                    if (_state.status == JCSFlipGameStatusPlayerAToMove) {
-                        [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerBWon fromGameScreen:self];
-                    } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
-                        [_delegate gameEndedWithStatus:JCSFlipGameStatusPlayerAWon fromGameScreen:self];
-                    } else {
-                        [_delegate gameEndedFromGameScreen:self];
-                    }
-                }
-            }
+            [_delegate exitFromGameScreen:self];
         }];
         exitItem.anchorPoint = ccp(0,1);
         exitItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
@@ -100,25 +78,26 @@
     _boardLayer.position = ccp(winSize.width,winSize.height/2);
     [self addChild:_boardLayer z:3];
 
-    // clear players
-    _playerA = nil;
-    _playerB = nil;
-    
-    // update UI (does not notify players, because they are not set)
-    [self updateScoreIndicatorAnimated:NO];
-    [self updateUIAndNotifyPlayer];
-    
     // assign players (but don't notify yet)
     _playerA = playerA;
     _playerB = playerB;
+    
+    // update UI
+    [self updateScoreIndicatorAnimated:NO];
+    [self updateUI];
 }
 
 - (void)startGame {
     NSAssert(_screenEnabled, @"screen must be enabled");
-    NSAssert(_playerA != nil, @"playerA must not be nil");
-    NSAssert(_playerB != nil, @"playerB must not be nil");
 
-    [self updateUIAndNotifyPlayer];
+    [self updateUI];
+
+    // notify next player
+    if (_state.status == JCSFlipGameStatusPlayerAToMove) {
+        [_playerA tellMakeMove:_state];
+    } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
+        [_playerB tellMakeMove:_state];
+    }
 }
 
 - (void)setScreenEnabled:(BOOL)screenEnabled {
@@ -145,30 +124,14 @@
     _skipItem.isEnabled = NO;
 }
 
-// update UI according to the current game state, and notify the player to make his move
-- (void)updateUIAndNotifyPlayer {
+// update UI according to the current game state
+- (void)updateUI {
     BOOL playerAEnabled = (_state.status == JCSFlipGameStatusPlayerAToMove && _playerA.localControls);
     BOOL playerBEnabled = (_state.status == JCSFlipGameStatusPlayerBToMove && _playerB.localControls);
     
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
     _skipItem.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
-    
-    // TODO show whose turn it is
-    
-    // determine current player
-    id<JCSFlipPlayer> currentPlayer = nil;
-    if (_state.status == JCSFlipGameStatusPlayerAToMove) {
-        currentPlayer = _playerA;
-    } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
-        currentPlayer = _playerB;
-    } else {
-        // notify the delegate that the game has ended
-        [_delegate gameEndedWithStatus:_state.status fromGameScreen:self];
-    }
-    
-    // tell the current player to make a move
-    [currentPlayer tellMakeMove:_state];
 }
 
 - (void)updateScoreIndicatorAnimated:(BOOL)animated {
@@ -228,6 +191,10 @@
 
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     NSLog(@"input: confirmed move %@", move);
+    
+    // determine the waiting player (to be notified after the move)
+    id<JCSFlipPlayer> waitingPlayer = _state.status == JCSFlipGameStatusPlayerAToMove ? _playerB : _playerA;
+    
     // apply the move
     if ([_state pushMove:move]) {
         // block move input during animation
@@ -235,8 +202,20 @@
         // update score indicator while animating the move
         [self updateScoreIndicatorAnimated:YES];
         [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
-            // animation is done - update UI and notify player
-            [self updateUIAndNotifyPlayer];
+            // animation is done
+            
+            // notify waiting player
+            [waitingPlayer opponentDidMakeMove:_state];
+            
+            // update UI
+            [self updateUI];
+            
+            // notify next player
+            if (_state.status == JCSFlipGameStatusPlayerAToMove) {
+                [_playerA tellMakeMove:_state];
+            } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
+                [_playerB tellMakeMove:_state];
+            }
         }];
     }
 }
