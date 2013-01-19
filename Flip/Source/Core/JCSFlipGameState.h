@@ -76,9 +76,10 @@
 // a new move instance is passed to each invocation of the block
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block;
 
-// encode the receiver into the given NSCoder instance, optionally including the move stack
+// encode the receiver using the given NSCoder instance
+// the maximum number of moves is defined by the "maxMoves" parameter
 // the decoding method is provided by the NSCoding protocol
-// the encoding method from the NSCoding protocol includes the move stack
-- (void)encodeWithCoder:(NSCoder *)aCoder includeMoveStack:(BOOL)includeMoveStack;
+// the encoding method from the NSCoding protocol includes the full move stack
+- (void)encodeWithCoder:(NSCoder *)aCoder maxMoves:(NSUInteger)maxMoves;
 
 @end

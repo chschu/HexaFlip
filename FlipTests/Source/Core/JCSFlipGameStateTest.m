@@ -1019,7 +1019,7 @@
     STAssertThrows([reloaded popMove], nil);
 }
 
-- (void)testCodingWithoutStack {
+- (void)testCodingWithLimitedStack {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // A-B-A chain starting at (1,-2) and pointing SE
         if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
@@ -1040,7 +1040,7 @@
     
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [underTest encodeWithCoder:coder includeMoveStack:NO];
+    [underTest encodeWithCoder:coder maxMoves:2];
     [coder finishEncoding];
     
     NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -1056,6 +1056,10 @@
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
     }];
+    
+    // undo the two moves that have been coded
+    [reloaded popMove];
+    [reloaded popMove];
     
     // check that move stack is empty
     STAssertThrows([reloaded popMove], nil);
