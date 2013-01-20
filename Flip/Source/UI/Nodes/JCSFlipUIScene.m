@@ -158,7 +158,7 @@
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB matchID:nil];
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB match:nil];
         [self switchToScreen:_gameScreen animated:YES completionBlock:^{
             [_gameScreen startGame];
         }];
@@ -202,9 +202,9 @@
     }
 }
 
-- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState matchID:(NSString *)matchID fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
+- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB matchID:matchID];
+        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match];
         [self switchToScreen:_gameScreen animated:YES completionBlock:^{
             [_gameScreen startGame];
         }];

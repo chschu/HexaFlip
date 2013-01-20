@@ -20,7 +20,7 @@
     JCSFlipGameState *_state;
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
-    NSString *_matchID;
+    GKTurnBasedMatch *_match;
     
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_skipItem;
@@ -60,12 +60,12 @@
         [self addChild:_scoreIndicator z:2];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil matchID:nil];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil];
     }
     return self;
 }
 
-- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB matchID:(NSString *)matchID {
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match {
     NSAssert(state != nil, @"state must not be nil");
 
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -84,8 +84,8 @@
     _playerA = playerA;
     _playerB = playerB;
     
-    // assign matchID
-    _matchID = matchID;
+    // assign match
+    _match = match;
     
     // update UI
     [self updateScoreIndicatorAnimated:NO];
@@ -115,7 +115,7 @@
         // connect to game center event handler
         JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
         gameCenterManager.moveInputDelegate = self;
-        gameCenterManager.currentMatchID = _matchID;
+        gameCenterManager.currentMatch = _match;
         
         // connect to board layer for move input
         _boardLayer.inputDelegate = self;
@@ -126,7 +126,7 @@
 
         // disconnect from game center event handler
         JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
-        gameCenterManager.currentMatchID = nil;
+        gameCenterManager.currentMatch = nil;
         gameCenterManager.moveInputDelegate = nil;
 
         // disconnect from board layer

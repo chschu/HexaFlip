@@ -13,7 +13,7 @@
 
 @implementation JCSFlipGameCenterManager
 
-@synthesize currentMatchID = _currentMatchID;
+@synthesize currentMatch = _currentMatch;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
 static JCSFlipGameCenterManager *_sharedInstance = nil;
@@ -62,7 +62,9 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
         if (error != nil) {
             // TODO handle error
+            NSDictionary *userInfo = error.userInfo;
             NSLog(@"%@", error);
+            NSLog(@"%@", userInfo);
         }
     }];
 }
@@ -104,11 +106,14 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
 
 // handleTurnEventForMatch is called when becomes this player's turn. It may also get called if the player's turn has a timeout and it is about to expire. Note this may also arise from the player accepting an invite from another player. Because of this the app needs to be prepared to handle this even while the player is taking a turn in an existing match.  The boolean indicates whether this event launched or brought to forground the app.
 - (void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
-    if ([_currentMatchID isEqualToString:match.matchID]) {
+    if ([match.matchID isEqualToString:_currentMatch.matchID]) {
         // it's the current match, make the move
         
+        // update the current match ("match" is a new instance holding the updated data)
+        _currentMatch = match;
+        
         // extract last move
-        JCSFlipGameState *gameState = [self buildGameStateFromData:match.matchData];
+        JCSFlipGameState *gameState = [self buildGameStateFromData:_currentMatch.matchData];
         JCSFlipMove *move = gameState.lastMove;
         
         // notify in main thread

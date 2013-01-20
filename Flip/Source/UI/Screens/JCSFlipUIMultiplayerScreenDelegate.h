@@ -20,6 +20,6 @@
 - (void)matchMakingFailedWithError:(NSError *)error fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
 
 // match-making succeeded - switch to game
-- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState matchID:(NSString *)matchID fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
+- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
 
 @end

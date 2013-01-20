@@ -19,8 +19,8 @@
 // the playerID of the local player
 @property (nonatomic) NSString *localPlayerID;
 
-// the matchID of the currently displayed match (nil if not on game screen)
-@property (nonatomic) NSString *currentMatchID;
+// the currently displayed match (nil if not on game screen)
+@property (nonatomic) GKTurnBasedMatch *currentMatch;
 
 // the move input delegate to dispatch moves to (nil if not on game screen)
 @property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> moveInputDelegate;

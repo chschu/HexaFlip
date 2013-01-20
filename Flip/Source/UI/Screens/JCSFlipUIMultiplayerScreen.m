@@ -81,7 +81,7 @@
         playerB = nil;
     }
 
-    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState matchID:match.matchID fromMultiplayerScreen:self];
+    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match fromMultiplayerScreen:self];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.

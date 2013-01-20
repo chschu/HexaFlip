@@ -28,26 +28,22 @@
 }
 
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state {
-    // notify game center
-    NSData *data = [[JCSFlipGameCenterManager sharedInstance] buildDataFromGameState:state];;
+    JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     
-    // reload match
-    NSString *matchID = [JCSFlipGameCenterManager sharedInstance].currentMatchID;
-    [GKTurnBasedMatch loadMatchWithID:matchID withCompletionHandler:^(GKTurnBasedMatch *match, NSError *error) {
-        if (error != nil) {
-            // TODO handle error?
-            NSLog(@"%@", error);
-        } else {
-            // find participant corresponding to non-local player (= this player)
-            NSString *localPlayerID = [[JCSFlipGameCenterManager sharedInstance] localPlayerID];
-            NSUInteger participantIndex = [match.participants indexOfObjectPassingTest:^BOOL(GKTurnBasedParticipant *obj, NSUInteger idx, BOOL *stop) {
-                return ![localPlayerID isEqualToString:obj.playerID];
-            }];
-            GKTurnBasedParticipant *participant = [match.participants objectAtIndex:participantIndex];
-            
-            // update the match data
-            [match endTurnWithNextParticipant:participant matchData:data completionHandler:nil];
-        }
+    // generate data for game center
+    NSData *data = [gameCenterManager buildDataFromGameState:state];;
+    
+    // find participant corresponding to non-local player (= this player)
+    NSString *localPlayerID = gameCenterManager.localPlayerID;
+    GKTurnBasedMatch *currentMatch = gameCenterManager.currentMatch;
+    NSUInteger participantIndex = [currentMatch.participants indexOfObjectPassingTest:^BOOL(GKTurnBasedParticipant *obj, NSUInteger idx, BOOL *stop) {
+        return ![localPlayerID isEqualToString:obj.playerID];
+    }];
+    GKTurnBasedParticipant *participant = [currentMatch.participants objectAtIndex:participantIndex];
+    
+    // end the turn, updating the match data
+    [currentMatch endTurnWithNextParticipant:participant matchData:data completionHandler:^(NSError *error) {
+        NSLog(@"%@", error);
     }];
 }
 
