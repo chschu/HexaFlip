@@ -13,8 +13,6 @@
 
 @implementation JCSFlipGameCenterManager
 
-@synthesize isLocalPlayerAuthenticated = _isLocalPlayerAuthenticated;
-@synthesize localPlayerID = _localPlayerID;
 @synthesize currentMatchID = _currentMatchID;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
@@ -39,7 +37,6 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
 
 - (id)init {
     if (self = [super init]) {
-        [self addPlayerAuthenticationObserver:self selector:@selector(authenticationChanged:)];
         [GKTurnBasedEventHandler sharedTurnBasedEventHandler].delegate = self;
     }
     return self;
@@ -61,15 +58,21 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     
 }
 
-- (void)authenticationChanged:(NSNotification *)notification {
-    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
-    _isLocalPlayerAuthenticated = localPlayer.isAuthenticated;
-    _localPlayerID = localPlayer.playerID;
+- (void)authenticateLocalPlayer {
+    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
+        if (error != nil) {
+            // TODO handle error
+            NSLog(@"%@", error);
+        }
+    }];
 }
 
-- (void)authenticateLocalPlayer {
-    // completion is detected by notification
-    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:nil];
+- (BOOL)isLocalPlayerAuthenticated {
+    return [GKLocalPlayer localPlayer].isAuthenticated;
+}
+
+- (NSString *)localPlayerID {
+    return [GKLocalPlayer localPlayer].playerID;
 }
 
 - (NSData *)buildDataFromGameState:(JCSFlipGameState *)gameState {
