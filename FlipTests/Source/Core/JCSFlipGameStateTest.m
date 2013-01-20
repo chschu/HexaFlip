@@ -1,6 +1,6 @@
 //
 //  JCSFlipGameStateTest.m
-//  Flip
+//  HexaFlip
 //
 //  Created by Christian Schuster on 19.07.12.
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.

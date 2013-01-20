@@ -749,8 +749,8 @@
 		F300537A15B0AC2600BAD89C = {
 			isa = PBXGroup;
 			children = (
-				F300539B15B0AC2700BAD89C /* Flip */,
-				F3B9DED915B4BE900078507F /* FlipTests */,
+				F300539B15B0AC2700BAD89C /* HexaFlip */,
+				F3B9DED915B4BE900078507F /* HexaFlipTests */,
 				F300538815B0AC2700BAD89C /* Frameworks */,
 				F300538615B0AC2700BAD89C /* Products */,
 			);
@@ -783,7 +783,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F300539B15B0AC2700BAD89C /* Flip */ = {
+		F300539B15B0AC2700BAD89C /* HexaFlip */ = {
 			isa = PBXGroup;
 			children = (
 				F3CB110B15EE9A030057309C /* Source */,
@@ -792,6 +792,7 @@
 				F3CB113C15EE9A030057309C /* Support */,
 				F3CB114015EE9A030057309C /* Tools */,
 			);
+			name = HexaFlip;
 			path = Flip;
 			sourceTree = "<group>";
 		};
@@ -1257,12 +1258,13 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		F3B9DED915B4BE900078507F /* FlipTests */ = {
+		F3B9DED915B4BE900078507F /* HexaFlipTests */ = {
 			isa = PBXGroup;
 			children = (
 				F3A8B5B015EEA39400FAD822 /* Source */,
 				F3A8B5B715EEA39400FAD822 /* Support */,
 			);
+			name = HexaFlipTests;
 			path = FlipTests;
 			sourceTree = "<group>";
 		};
@@ -1515,9 +1517,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		F300538415B0AC2700BAD89C /* Flip */ = {
+		F300538415B0AC2700BAD89C /* HexaFlip */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "Flip" */;
+			buildConfigurationList = F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "HexaFlip" */;
 			buildPhases = (
 				F300538115B0AC2700BAD89C /* Sources */,
 				F300538215B0AC2700BAD89C /* Frameworks */,
@@ -1529,7 +1531,7 @@
 				F3D9A6B815E1877C00B2FF19 /* PBXTargetDependency */,
 				F3D9A6BA15E1877C00B2FF19 /* PBXTargetDependency */,
 			);
-			name = Flip;
+			name = HexaFlip;
 			productName = Flip;
 			productReference = F300538515B0AC2700BAD89C /* Flip.app */;
 			productType = "com.apple.product-type.application";
@@ -1551,9 +1553,9 @@
 			productReference = F300552515B0AF2400BAD89C /* libcocos2d-library.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		F3EAE70615B5EBC9004827DB /* FlipTests */ = {
+		F3EAE70615B5EBC9004827DB /* HexaFlipTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */;
+			buildConfigurationList = F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "HexaFlipTests" */;
 			buildPhases = (
 				F3EAE70215B5EBC9004827DB /* Sources */,
 				F3EAE70315B5EBC9004827DB /* Frameworks */,
@@ -1565,7 +1567,7 @@
 			dependencies = (
 				F3EAE71B15B5ED01004827DB /* PBXTargetDependency */,
 			);
-			name = FlipTests;
+			name = HexaFlipTests;
 			productName = FlipTests2;
 			productReference = F3EAE70715B5EBC9004827DB /* FlipTests.octest */;
 			productType = "com.apple.product-type.bundle";
@@ -1593,8 +1595,8 @@
 			targets = (
 				F3D9A6B315E1877100B2FF19 /* GenerateBuildNumber */,
 				F300552415B0AF2400BAD89C /* cocos2d-library */,
-				F300538415B0AC2700BAD89C /* Flip */,
-				F3EAE70615B5EBC9004827DB /* FlipTests */,
+				F300538415B0AC2700BAD89C /* HexaFlip */,
+				F3EAE70615B5EBC9004827DB /* HexaFlipTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1823,7 +1825,7 @@
 		};
 		F3EAE71B15B5ED01004827DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F300538415B0AC2700BAD89C /* Flip */;
+			target = F300538415B0AC2700BAD89C /* HexaFlip */;
 			targetProxy = F3EAE71A15B5ED01004827DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2041,7 +2043,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "Flip" */ = {
+		F300551E15B0AC2900BAD89C /* Build configuration list for PBXNativeTarget "HexaFlip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F300551F15B0AC2900BAD89C /* Debug */,
@@ -2068,7 +2070,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "FlipTests" */ = {
+		F3EAE71515B5EBC9004827DB /* Build configuration list for PBXNativeTarget "HexaFlipTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F3EAE71615B5EBC9004827DB /* Debug */,

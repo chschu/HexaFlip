@@ -1,6 +1,6 @@
 //
 //  JCSFlipMoveInputDelegate.h
-//  Flip
+//  HexaFlip
 //
 //  Created by Christian Schuster on 27.07.12.
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.

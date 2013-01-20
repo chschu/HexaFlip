@@ -1,6 +1,6 @@
 //
 //  JCSFlipUICellNodeTouchDelegate.h
-//  Flip
+//  HexaFlip
 //
 //  Created by Christian Schuster on 02.08.12.
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
