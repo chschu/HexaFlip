@@ -10,9 +10,9 @@
 
 #import "JCSFlipPlayer.h"
 
-@interface JCSFlipPlayerGameCenter : NSObject <JCSFlipPlayer, GKMatchmakerViewControllerDelegate>
+@interface JCSFlipPlayerGameCenter : NSObject <JCSFlipPlayer>
 
-// create an auto-matched Game Center player
+// create a player interacting with game center
 + (id)player;
 
 @end

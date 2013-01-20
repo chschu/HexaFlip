@@ -13,6 +13,7 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipPlayerLocal.h"
 #import "JCSFlipPlayerGameCenter.h"
+#import "JCSFlipGameCenterManager.h"
 
 @implementation JCSFlipUIMultiplayerScreen
 
@@ -49,38 +50,29 @@
 // A turned-based match has been found, the game should start
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match {
     [viewController dismissModalViewControllerAnimated:YES];
-    
-    // todo notify delegate to prepare and scroll to game screen
 
     // extract the game state from the match, or create a new one
-    JCSFlipGameState *gameState;
-    if (match.matchData == nil || match.matchData.length == 0) {
-        gameState = [[JCSFlipGameState alloc] initDefaultWithSize:5];
-    } else {
-        NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:match.matchData];
-        gameState = [[JCSFlipGameState alloc] initWithCoder:decoder];
-    }
-
-    // determine remote participant
-    NSString *localPlayerId = [GKLocalPlayer localPlayer].playerID;
-    NSUInteger remoteParticipantIndex = [match.participants indexOfObjectPassingTest:^BOOL(GKTurnBasedParticipant *obj, NSUInteger idx, BOOL *stop) {
-        return ![obj.playerID isEqualToString:localPlayerId];
-    }];
-    GKTurnBasedParticipant *remoteParticipant = [match.participants objectAtIndex:remoteParticipantIndex];
+    JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
+    JCSFlipGameState *gameState = [gameCenterManager buildGameStateFromData:match.matchData];
+    
+    // determine playerID of remote participant
+    NSString *localPlayerID = [gameCenterManager localPlayerID];
 
     // check if the local player can make his move
-    BOOL localPlayerToMove = [match.currentParticipant.playerID isEqualToString:localPlayerId];
+    BOOL localPlayerToMove = [match.currentParticipant.playerID isEqualToString:localPlayerID];
     
     // initialize the players
     id<JCSFlipPlayer> localPlayer = [JCSFlipPlayerLocal playerWithName:@"dummy name"];
-    id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter playerWithMatch:match participant:remoteParticipant];
+    id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
     
     id<JCSFlipPlayer> playerA;
     id<JCSFlipPlayer> playerB;
     if (gameState.status == JCSFlipGameStatusPlayerAToMove) {
+        // player A is to move, use corresponding players
         playerA = localPlayerToMove ? localPlayer : remotePlayer;
         playerB = localPlayerToMove ? remotePlayer : localPlayer;
     } else if (gameState.status == JCSFlipGameStatusPlayerBToMove) {
+        // player B is to move, use corresponding players
         playerA = localPlayerToMove ? remotePlayer : localPlayer;
         playerB = localPlayerToMove ? localPlayer : remotePlayer;
     } else {
@@ -89,7 +81,7 @@
         playerB = nil;
     }
 
-    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState fromMultiplayerScreen:self];
+    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState matchID:match.matchID fromMultiplayerScreen:self];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.
@@ -104,22 +96,13 @@
     nextParticipant.matchOutcome = GKTurnBasedMatchOutcomeWon;
 
     // extract the match data
-    JCSFlipGameState *gameState;
-    if (match.matchData == nil || match.matchData.length == 0) {
-        gameState = [[JCSFlipGameState alloc] initDefaultWithSize:5];
-    } else {
-        NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:match.matchData];
-        gameState = [[JCSFlipGameState alloc] initWithCoder:decoder];
-    }
+    JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromData:match.matchData];
     
     // resign the game
     [gameState resign];
     
     // build the match data to send
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [gameState encodeWithCoder:coder includeMoveStack:YES];
-    [coder finishEncoding];
+    NSData *data = [[JCSFlipGameCenterManager sharedInstance] buildDataFromGameState:gameState];
     
     // end the match
     [match endMatchInTurnWithMatchData:data completionHandler:nil];

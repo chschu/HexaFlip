@@ -14,11 +14,13 @@
 #import "JCSFlipUIGameScreenDelegate.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
+#import "JCSFlipGameCenterManager.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
+    NSString *_matchID;
     
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_skipItem;
@@ -58,12 +60,12 @@
         [self addChild:_scoreIndicator z:2];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil matchID:nil];
     }
     return self;
 }
 
-- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB matchID:(NSString *)matchID {
     NSAssert(state != nil, @"state must not be nil");
 
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -81,6 +83,9 @@
     // assign players (but don't notify yet)
     _playerA = playerA;
     _playerB = playerB;
+    
+    // assign matchID
+    _matchID = matchID;
     
     // update UI
     [self updateScoreIndicatorAnimated:NO];
@@ -107,13 +112,23 @@
         _playerA.moveInputDelegate = self;
         _playerB.moveInputDelegate = self;
         
+        // connect to game center event handler
+        JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
+        gameCenterManager.moveInputDelegate = self;
+        gameCenterManager.currentMatchID = _matchID;
+        
         // connect to board layer for move input
         _boardLayer.inputDelegate = self;
     } else {
         // disable automatic move input by players
         _playerA.moveInputDelegate = nil;
         _playerB.moveInputDelegate = nil;
-        
+
+        // disconnect from game center event handler
+        JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
+        gameCenterManager.currentMatchID = nil;
+        gameCenterManager.moveInputDelegate = nil;
+
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
     }

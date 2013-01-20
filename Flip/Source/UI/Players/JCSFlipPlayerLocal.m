@@ -28,8 +28,13 @@
     return YES;
 }
 
+- (void)opponentDidMakeMove:(JCSFlipGameState *)state {
+    // do nothing, the player will see it
+}
+
 - (void)tellMakeMove:(JCSFlipGameState *)state {
     // do nothing, the player will make a move
+    // TODO visual notification
 }
 
 @end

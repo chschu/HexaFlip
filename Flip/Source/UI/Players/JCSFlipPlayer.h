@@ -21,6 +21,9 @@
 // the delegate to be used if the player implementation requires automatic move input
 @property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> moveInputDelegate;
 
+// notify the player that the opponent has taken a turn
+- (void)opponentDidMakeMove:(JCSFlipGameState *)state;
+
 // tell the player it's their turn
 - (void)tellMakeMove:(JCSFlipGameState *)state;
 

@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "JCSFlipUIScene.h"
+#import "JCSFlipGameCenterManager.h"
 
 // extend CCDirector to support Auto-Rotation with iOS 6
 @interface CCDirectorIOS (iOS6)
@@ -102,8 +103,7 @@
 	[_window makeKeyAndVisible];
 
     // authenticate with game center
-    // completion can be detected by observing the GKPlayerAuthenticationDidChange notification
-    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:nil];
+    [[JCSFlipGameCenterManager sharedInstance] authenticateLocalPlayer];
     
 	return YES;
 }

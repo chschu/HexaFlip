@@ -37,6 +37,11 @@
     return NO;
 }
 
+
+- (void)opponentDidMakeMove:(JCSFlipGameState *)state {
+    // do nothing, AI is not interested in that
+}
+
 - (void)tellMakeMove:(JCSFlipGameState *)state {
     // determine move asynchronously
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{

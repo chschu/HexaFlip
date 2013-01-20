@@ -6,11 +6,13 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
+#import <GameKit/GameKit.h>
+
 #import "JCSFlipUIScene.h"
 #import "JCSFlipUIGameScreen.h"
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSFlipUIPlayerMenuScreen.h"
-#import "JCSFlipUIOutcomeScreen.h"
+#import "JCSFlipUIMultiplayerScreen.h"
 #import "JCSFlipPlayerLocal.h"
 #import "JCSFlipGameState.h"
 
@@ -26,9 +28,11 @@
     
     // game screen
     JCSFlipUIGameScreen *_gameScreen;
+        
+    // multiplayer pseudo-screen
+    JCSFlipUIMultiplayerScreen *_multiplayerScreen;
     
-    // game outcome screen
-    JCSFlipUIOutcomeScreen *_outcomeScreen;
+    BOOL _multiplayer;
     
     // currently active screen
     // this is the only screen with screenEnabled == YES
@@ -62,10 +66,9 @@
     _gameScreen.delegate = self;
     [self addScreen:_gameScreen atScreenPoint:ccp(1,1) z:1];
     
-    // outcome screen
-    _outcomeScreen = [JCSFlipUIOutcomeScreen node];
-    _outcomeScreen.delegate = self;
-    [self addScreen:_outcomeScreen atScreenPoint:ccp(2,1) z:1];
+    // multiplayer pseudo-screen
+    _multiplayerScreen = [JCSFlipUIMultiplayerScreen node];
+    _multiplayerScreen.delegate = self;
     
     [self addChild:_parallax];
     
@@ -82,44 +85,72 @@
 }
 
 // disable the currently active screen, activate the given screen, and enable it
-// for screens with point (conforming to protocol JCSFlipUIScreenWithPoint), the screen is made visible, using an animation if the "animated" parameter is set to YES
+// for screens with point (conforming to protocol JCSFlipUIScreenWithPoint), the screen is made visible
 // for screens without point, the "animated" parameter is ignored, because no animation is required
-- (void)switchToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated {
-    // disable the old screen
-    _activeScreen.screenEnabled = NO;
+// the completion block is called after the new screen has been enabled
+- (void)switchToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated completionBlock:(void(^)())block {
+    NSMutableArray *actions = [[NSMutableArray alloc] init];
     
+    // action to disable the old screen
+    id<JCSFlipUIScreen> oldScreen = _activeScreen;
+    CCCallBlock *disableOldScreen = [CCCallBlock actionWithBlock:^{
+        oldScreen.screenEnabled = NO;
+        _activeScreen = nil;
+    }];
+    [actions addObject:disableOldScreen];
+
     if ([screen conformsToProtocol:@protocol(JCSFlipUIScreenWithPoint)]) {
         id<JCSFlipUIScreenWithPoint> screenWithPoint = (id<JCSFlipUIScreenWithPoint>) screen;
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CGPoint winSizePoint = ccpFromSize(winSize);
         
         CGPoint targetPosition = ccpCompMult(screenWithPoint.screenPoint,ccpMult(winSizePoint,-1));
-        
+
+        CCAction *moveToNewScreen;
         if (animated) {
-            id action = [CCMoveTo actionWithDuration:1 position:targetPosition];
-            id easedAction = [CCEaseExponentialOut actionWithAction:action];
-            [_parallax runAction:easedAction];
+            moveToNewScreen = [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:0.5 position:targetPosition]];
         } else {
-            _parallax.position = targetPosition;
+            moveToNewScreen = [CCCallBlockN actionWithBlock:^(CCNode *node) {
+                node.position = targetPosition;
+            }];
         }
+        [actions addObject:moveToNewScreen];
     }
-    
-    // enable the new screen
-    _activeScreen = screen;
-    _activeScreen.screenEnabled = YES;
+
+    // action to enable the new screen
+    CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
+        screen.screenEnabled = YES;
+        _activeScreen = screen;
+    }];
+    [actions addObject:enableNewScreen];
+
+    if (block != nil) {
+        // action to call the given block
+        [actions addObject:[CCCallBlock actionWithBlock:block]];
+    }
+
+    // start the collected actions
+    [_parallax runAction:[CCSequence actionWithArray:actions]];
+}
+
+// convenience method to switch the screen without a completion block
+- (void)switchToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated {
+    [self switchToScreen:screen animated:animated completionBlock:nil];
 }
 
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
 
 - (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
+        _multiplayer = NO;
         [self switchToScreen:_playerMenuScreen animated:YES];
     }
 }
 
 - (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
-        // TODO implement
+        _multiplayer = YES;
+        [self switchToScreen:_multiplayerScreen animated:YES];
     }
 }
 
@@ -127,13 +158,10 @@
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        // prepare game screen
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB];
-        
-        [self switchToScreen:_gameScreen animated:YES];
-        
-        // start the game
-        [_gameScreen startGame];
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB matchID:nil];
+        [self switchToScreen:_gameScreen animated:YES completionBlock:^{
+            [_gameScreen startGame];
+        }];
     }
 }
 
@@ -145,26 +173,41 @@
 
 #pragma mark JCSFlipUIGameScreenDelegate methods
 
-- (void)gameEndedWithStatus:(JCSFlipGameStatus)status fromGameScreen:(JCSFlipUIGameScreen *)screen {
+- (void)exitFromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
-        // update and scoll to outcome screen
-        _outcomeScreen.status = status;
-        [self switchToScreen:_outcomeScreen animated:YES];
+        if (_multiplayer) {
+            [self switchToScreen:_multiplayerScreen animated:YES];
+        } else {
+            // TODO confirmation screen
+            [self switchToScreen:_mainMenuScreen animated:YES];
+        }
     }
 }
 
-- (void)gameEndedFromGameScreen:(JCSFlipUIGameScreen *)screen {
+#pragma mark JCSFlipUIMultiplayerScreenDelegate methods
+
+- (void)matchMakingCancelledFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        // TODO confirmation screen
         [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
 
-#pragma mark JCSFlipUIOutcomeScreenDelegate methods
-
-- (void)rewindFromOutcomeScreen:(JCSFlipUIOutcomeScreen *)screen {
+- (void)matchMakingFailedWithError:(NSError *)error fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        [self switchToScreen:_playerMenuScreen animated:YES];
+        [self switchToScreen:_mainMenuScreen animated:YES];
+        
+        // display the error
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState matchID:(NSString *)matchID fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
+    if (screen.screenEnabled) {
+        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB matchID:matchID];
+        [self switchToScreen:_gameScreen animated:YES completionBlock:^{
+            [_gameScreen startGame];
+        }];
     }
 }
 

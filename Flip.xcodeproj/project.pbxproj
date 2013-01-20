@@ -44,8 +44,10 @@
 		F310787B164851E500FE7FC2 /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F310787A164851E500FE7FC2 /* background-hd.png */; };
 		F310787D1648686200FE7FC2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F310787C1648686200FE7FC2 /* background.png */; };
 		F310787F164874F300FE7FC2 /* background-hd.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F310787E164874F300FE7FC2 /* background-hd.tmx */; };
-		F330E17316530275004BB32E /* JCSFlipUIOutcomeScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F330E17216530275004BB32E /* JCSFlipUIOutcomeScreen.m */; };
+		F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */; };
 		F3452D59166747B6000AA83D /* JCSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3452D58166747B6000AA83D /* JCSButton.m */; };
+		F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */; };
+		F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */; };
 		F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */; };
 		F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */; };
 		F388F0B71607C897004CCF7D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B51607C897004CCF7D /* Default.png */; };
@@ -368,15 +370,14 @@
 		F3107880164B12F000FE7FC2 /* button-play-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-normal.png"; sourceTree = "<group>"; };
 		F3107881164B12F000FE7FC2 /* button-play-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-pushed.png"; sourceTree = "<group>"; };
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
+		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
+		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
 		F32758E01680FFD800869A23 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
 		F32758E61681212300869A23 /* button-play-single-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-normal.png"; sourceTree = "<group>"; };
 		F32758E71681212300869A23 /* button-play-single-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-pushed.png"; sourceTree = "<group>"; };
 		F32758E81681220A00869A23 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
 		F32758E91681220A00869A23 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
 		F330E1601651CCBF004BB32E /* center-of-mass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "center-of-mass.py"; sourceTree = "<group>"; };
-		F330E1701653023C004BB32E /* JCSFlipUIOutcomeScreenDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreenDelegate.h; sourceTree = "<group>"; };
-		F330E17116530275004BB32E /* JCSFlipUIOutcomeScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIOutcomeScreen.h; sourceTree = "<group>"; };
-		F330E17216530275004BB32E /* JCSFlipUIOutcomeScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIOutcomeScreen.m; sourceTree = "<group>"; };
 		F330E17416545354004BB32E /* button-rewind-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-normal.png"; sourceTree = "<group>"; };
 		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
 		F330E1781654567F004BB32E /* button-stop-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-stop-normal.png"; sourceTree = "<group>"; };
@@ -389,6 +390,11 @@
 		F3535336169F73CB0027192D /* button-play-multi-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-normal.png"; sourceTree = "<group>"; };
 		F3535337169F73CB0027192D /* button-play-multi-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-pushed.png"; sourceTree = "<group>"; };
 		F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIScreenWithPoint.h; sourceTree = "<group>"; };
+		F353534716A626A50027192D /* JCSFlipUIMultiplayerScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMultiplayerScreen.h; sourceTree = "<group>"; };
+		F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMultiplayerScreen.m; sourceTree = "<group>"; };
+		F353534916A626A50027192D /* JCSFlipUIMultiplayerScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMultiplayerScreenDelegate.h; sourceTree = "<group>"; };
+		F353534B16A742510027192D /* JCSFlipPlayerGameCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerGameCenter.h; sourceTree = "<group>"; };
+		F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerGameCenter.m; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
 		F3574A9716696EF0005B9BD4 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
@@ -798,6 +804,8 @@
 				F31078681646D4C500FE7FC2 /* JCSFlipPlayerLocal.m */,
 				F31078651646D4C500FE7FC2 /* JCSFlipPlayerAI.h */,
 				F31078661646D4C500FE7FC2 /* JCSFlipPlayerAI.m */,
+				F353534B16A742510027192D /* JCSFlipPlayerGameCenter.h */,
+				F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */,
 			);
 			path = Players;
 			sourceTree = "<group>";
@@ -816,9 +824,9 @@
 				F31078561646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreenDelegate.h */,
 				F31078541646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.h */,
 				F31078551646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.m */,
-				F330E1701653023C004BB32E /* JCSFlipUIOutcomeScreenDelegate.h */,
-				F330E17116530275004BB32E /* JCSFlipUIOutcomeScreen.h */,
-				F330E17216530275004BB32E /* JCSFlipUIOutcomeScreen.m */,
+				F353534916A626A50027192D /* JCSFlipUIMultiplayerScreenDelegate.h */,
+				F353534716A626A50027192D /* JCSFlipUIMultiplayerScreen.h */,
+				F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -885,6 +893,8 @@
 				F310784D1646D40B00FE7FC2 /* Nodes */,
 				F310784C1646D40300FE7FC2 /* Screens */,
 				F310784B1646D3E500FE7FC2 /* Players */,
+				F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */,
+				F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */,
 				F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */,
 			);
 			path = UI;
@@ -1671,10 +1681,12 @@
 				F31078691646D4C500FE7FC2 /* JCSFlipPlayerAI.m in Sources */,
 				F310786A1646D4C500FE7FC2 /* JCSFlipPlayerLocal.m in Sources */,
 				F310786D1646D55400FE7FC2 /* JCSFlipUIScene.m in Sources */,
-				F330E17316530275004BB32E /* JCSFlipUIOutcomeScreen.m in Sources */,
 				F3F58B4C165EF2F30057BD36 /* JCSRadioMenu.m in Sources */,
 				F3452D59166747B6000AA83D /* JCSButton.m in Sources */,
 				F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */,
+				F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */,
+				F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */,
+				F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
