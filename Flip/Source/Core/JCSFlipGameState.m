@@ -498,6 +498,16 @@ typedef struct JCSFlipGameStateMoveInfo {
     return [NSString stringWithString:temp];
 }
 
+- (JCSFlipMove *)lastMove {
+    if (_moveInfoStackTop == NULL) {
+        return nil;
+    }
+    if (_moveInfoStackTop->skip == YES) {
+        return [JCSFlipMove moveSkip];
+    }
+    return [JCSFlipMove moveWithStartRow:_moveInfoStackTop->startRow startColumn:_moveInfoStackTop->startColumn direction:_moveInfoStackTop->direction];
+}
+
 #pragma mark NSCoding (serialization/deserialization)
 
 NSString *coderKey_size = @"a";

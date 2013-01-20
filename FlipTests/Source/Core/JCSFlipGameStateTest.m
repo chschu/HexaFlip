@@ -1098,5 +1098,50 @@
     STAssertThrows([reloaded popMove], nil);
 }
 
+- (void)testLastMove {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    
+    // push/pop some moves and check the last move
+    JCSFlipMove *lastMove;
+    
+    lastMove = underTest.lastMove;
+    STAssertNil(lastMove, nil);
+    
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    lastMove = underTest.lastMove;
+    STAssertFalse(lastMove.skip, nil);
+    STAssertEquals(lastMove.startRow, 1, nil);
+    STAssertEquals(lastMove.startColumn, -2, nil);
+    STAssertEquals(lastMove.direction, JCSHexDirectionSE, nil);
+    
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
+    lastMove = underTest.lastMove;
+    STAssertFalse(lastMove.skip, nil);
+    STAssertEquals(lastMove.startRow, -1, nil);
+    STAssertEquals(lastMove.startColumn, 0, nil);
+    STAssertEquals(lastMove.direction, JCSHexDirectionW, nil);
+
+    [underTest popMove];
+    lastMove = underTest.lastMove;
+    STAssertFalse(lastMove.skip, nil);
+    STAssertEquals(lastMove.startRow, 1, nil);
+    STAssertEquals(lastMove.startColumn, -2, nil);
+    STAssertEquals(lastMove.direction, JCSHexDirectionSE, nil);
+    
+    [underTest popMove];
+    lastMove = underTest.lastMove;
+    STAssertNil(lastMove, nil);
+}
 
 @end

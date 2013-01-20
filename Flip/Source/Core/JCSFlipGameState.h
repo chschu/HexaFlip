@@ -29,6 +29,9 @@
 // flag indicating if skipping is allowed
 @property (readonly, nonatomic) BOOL skipAllowed;
 
+// the last move, or nil if there is none, or it is not known (e.g. because the move stack has been discarded)
+@property (readonly, nonatomic) JCSFlipMove *lastMove;
+
 // initialize with given size
 // status defines which player moves first
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
