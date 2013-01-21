@@ -25,10 +25,13 @@
 @implementation JCSFlipUIPlayerMenuScreen {
     CCMenuItem *_playItem;
     JCSRadioMenu *_playerSideRadioMenu;
+    JCSRadioMenu *_opponentSideRadioMenu;
     
     BOOL _playerIsPlayerA;
     CCMenuItem *_playerAItem;
     CCMenuItem *_playerBItem;
+    CCMenuItem *_opponentAItem;
+    CCMenuItem *_opponentBItem;
 }
 
 @synthesize delegate = _delegate;
@@ -68,10 +71,12 @@
         
         _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
             _playerIsPlayerA = YES;
+            [self updateUIState];
         }];
         _playerAItem.position = ccp(-xOffset,yDistance/2);
         _playerBItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-b" block:^(id sender) {
             _playerIsPlayerA = NO;
+            [self updateUIState];
         }];
         _playerBItem.position = ccp(xOffset,yDistance/2);
 
@@ -81,6 +86,17 @@
         playerItem.position = ccp(0,yDistance/2);
         
         // create opponent buttons
+
+        _opponentAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
+            _playerIsPlayerA = NO;
+            [self updateUIState];
+        }];
+        _opponentAItem.position = ccp(-xDistance-xOffset,-yDistance/2);
+        _opponentBItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-b" block:^(id sender) {
+            _playerIsPlayerA = YES;
+            [self updateUIState];
+        }];
+        _opponentBItem.position = ccp(xDistance+xOffset,-yDistance/2);
         
         CCMenuItem *opponentAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             self.opponent = [self playerAIEasy];
@@ -101,6 +117,7 @@
         JCSRadioMenu *playerRadioMenu = [JCSRadioMenu menuWithItems:playerItem, nil];
         JCSRadioMenu *opponentRadioMenu = [JCSRadioMenu menuWithItems:opponentAIEasyItem, opponentAIMediumItem, opponentAIHardItem, nil];
         _playerSideRadioMenu = [JCSRadioMenu menuWithItems:_playerAItem, _playerBItem, nil];
+        _opponentSideRadioMenu = [JCSRadioMenu menuWithItems:_opponentAItem, _opponentBItem, nil];
         
         // select the always-on player item
         playerRadioMenu.selectedItem = playerItem;
@@ -109,6 +126,7 @@
         [self addChild:playerRadioMenu z:1];
         [self addChild:opponentRadioMenu z:1];
         [self addChild:_playerSideRadioMenu z:2];
+        [self addChild:_opponentSideRadioMenu z:2];
         
         // initialize the UI state
         [self updateUIState];
@@ -119,6 +137,7 @@
 - (void)updateUIState {
     _playItem.isEnabled = (_opponent != nil);
     _playerSideRadioMenu.selectedItem = (_playerIsPlayerA ? _playerAItem : _playerBItem);
+    _opponentSideRadioMenu.selectedItem = (_playerIsPlayerA ? _opponentBItem : _opponentAItem);
 }
 
 - (void)setOpponent:(id<JCSFlipPlayer>)opponent {
