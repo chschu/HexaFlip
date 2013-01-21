@@ -65,9 +65,9 @@
         _playItem.position = ccp(winSize.width/2-10, winSize.height/2-10);
         _playItem.isEnabled = NO;
         
-        CGFloat xDistance = JCSButtonSizeMedium*1.5; // horizontal distance between the centers of button columns
-        CGFloat yDistance = 120; // vertical distance between the centers of button rows
-        CGFloat xOffset = JCSButtonSizeSmall; // horizontal distance for the color chooser
+        CGFloat xDistance = 100; // horizontal distance between the centers of button columns
+        CGFloat yDistance = 100; // vertical distance between the centers of button rows
+        CGFloat xOffset = JCSButtonSizeSmall*1.2; // horizontal distance for the color chooser
         
         _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
             _playerIsPlayerA = YES;
