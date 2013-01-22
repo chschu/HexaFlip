@@ -11,7 +11,7 @@
 #import "JCSFlipUICellNode.h"
 #import "JCSHexDirection.h"
 #import "JCSFlipGameState.h"
-#import "JCSFlipPlayerMoveInputDelegate.h"
+#import "JCSFlipMoveInputDelegate.h"
 #import "JCSFlipMove.h"
 
 // states for move input

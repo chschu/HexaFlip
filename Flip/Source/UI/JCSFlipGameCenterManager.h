@@ -10,7 +10,7 @@
 
 @class JCSFlipGameState;
 
-@protocol JCSFlipPlayerMoveInputDelegate;
+@protocol JCSFlipMoveInputDelegate;
 
 @interface JCSFlipGameCenterManager : NSObject <GKTurnBasedEventHandlerDelegate>
 
@@ -23,7 +23,7 @@
 @property (nonatomic) GKTurnBasedMatch *currentMatch;
 
 // the move input delegate to dispatch moves to (nil if not on game screen)
-@property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> moveInputDelegate;
+@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
 
 + (JCSFlipGameCenterManager *)sharedInstance;
 

@@ -11,14 +11,14 @@
 #import "cocos2d.h"
 
 @protocol JCSFlipPlayer;
-@protocol JCSFlipPlayerMoveInputDelegate;
+@protocol JCSFlipMoveInputDelegate;
 @class JCSFlipGameState;
 
 // the layer displaying the current board
 @interface JCSFlipUIBoardLayer : CCNode <JCSFlipUICellNodeTouchDelegate>
 
 // the delegate for forward input information to
-@property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> inputDelegate;
+@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> inputDelegate;
 
 // is local move input enabled (NO by default)
 @property (nonatomic) BOOL moveInputEnabled;

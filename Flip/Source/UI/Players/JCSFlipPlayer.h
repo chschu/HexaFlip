@@ -7,7 +7,7 @@
 //
 
 @class JCSFlipGameState;
-@protocol JCSFlipPlayerMoveInputDelegate;
+@protocol JCSFlipMoveInputDelegate;
 
 @protocol JCSFlipPlayer <NSObject>
 
@@ -19,7 +19,7 @@
 @property (readonly, nonatomic) BOOL localControls;
 
 // the delegate to be used if the player implementation requires automatic move input
-@property (weak, nonatomic) id<JCSFlipPlayerMoveInputDelegate> moveInputDelegate;
+@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
 
 // notify the player that the opponent has taken a turn
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state;

@@ -329,7 +329,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F300538515B0AC2700BAD89C /* Flip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F300538515B0AC2700BAD89C /* HexaFlip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexaFlip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F300538915B0AC2700BAD89C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F300538B15B0AC2700BAD89C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		F300538D15B0AC2700BAD89C /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -361,7 +361,6 @@
 		F31078681646D4C500FE7FC2 /* JCSFlipPlayerLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerLocal.m; sourceTree = "<group>"; };
 		F310786B1646D55400FE7FC2 /* JCSFlipUIScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIScene.h; sourceTree = "<group>"; };
 		F310786C1646D55400FE7FC2 /* JCSFlipUIScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIScene.m; sourceTree = "<group>"; };
-		F310786E1646D5EC00FE7FC2 /* JCSFlipPlayerMoveInputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerMoveInputDelegate.h; sourceTree = "<group>"; };
 		F310786F1646D61C00FE7FC2 /* JCSFlipUICellNodeTouchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNodeTouchDelegate.h; sourceTree = "<group>"; };
 		F31078781648515800FE7FC2 /* background.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = background.tmx; sourceTree = "<group>"; };
 		F310787A164851E500FE7FC2 /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-hd.png"; sourceTree = "<group>"; };
@@ -382,6 +381,7 @@
 		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
 		F330E1781654567F004BB32E /* button-stop-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-stop-normal.png"; sourceTree = "<group>"; };
 		F330E17916545680004BB32E /* button-stop-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-stop-pushed.png"; sourceTree = "<group>"; };
+		F344372116AF466D0026042D /* JCSFlipMoveInputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMoveInputDelegate.h; sourceTree = "<group>"; };
 		F3452D12166181D4000AA83D /* button-play-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-disabled.png"; sourceTree = "<group>"; };
 		F3452D57166747B6000AA83D /* JCSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSButton.h; sourceTree = "<group>"; };
 		F3452D58166747B6000AA83D /* JCSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSButton.m; sourceTree = "<group>"; };
@@ -702,7 +702,7 @@
 		F3CB113F15EE9A030057309C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
-		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = FlipTests.octest; path = HexaFlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRadioMenu.h; sourceTree = "<group>"; };
 		F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRadioMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -759,7 +759,7 @@
 		F300538615B0AC2700BAD89C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F300538515B0AC2700BAD89C /* Flip.app */,
+				F300538515B0AC2700BAD89C /* HexaFlip.app */,
 				F300552515B0AF2400BAD89C /* libcocos2d-library.a */,
 				F3EAE70715B5EBC9004827DB /* FlipTests.octest */,
 			);
@@ -799,7 +799,6 @@
 		F310784B1646D3E500FE7FC2 /* Players */ = {
 			isa = PBXGroup;
 			children = (
-				F310786E1646D5EC00FE7FC2 /* JCSFlipPlayerMoveInputDelegate.h */,
 				F31078641646D4C500FE7FC2 /* JCSFlipPlayer.h */,
 				F31078671646D4C500FE7FC2 /* JCSFlipPlayerLocal.h */,
 				F31078681646D4C500FE7FC2 /* JCSFlipPlayerLocal.m */,
@@ -894,6 +893,7 @@
 				F310784D1646D40B00FE7FC2 /* Nodes */,
 				F310784C1646D40300FE7FC2 /* Screens */,
 				F310784B1646D3E500FE7FC2 /* Players */,
+				F344372116AF466D0026042D /* JCSFlipMoveInputDelegate.h */,
 				F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */,
 				F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */,
 				F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */,
@@ -1533,7 +1533,7 @@
 			);
 			name = HexaFlip;
 			productName = Flip;
-			productReference = F300538515B0AC2700BAD89C /* Flip.app */;
+			productReference = F300538515B0AC2700BAD89C /* HexaFlip.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F300552415B0AF2400BAD89C /* cocos2d-library */ = {

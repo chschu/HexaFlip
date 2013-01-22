@@ -10,7 +10,7 @@
 #import "JCSFlipGameState+GameNode.h"
 #import "JCSGameAlgorithm.h"
 #import "JCSFlipMove.h"
-#import "JCSFlipPlayerMoveInputDelegate.h"
+#import "JCSFlipMoveInputDelegate.h"
 
 #import "cocos2d.h"
 

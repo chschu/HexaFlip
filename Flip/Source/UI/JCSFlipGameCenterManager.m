@@ -9,7 +9,7 @@
 #import "JCSFlipGameCenterManager.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
-#import "JCSFlipPlayerMoveInputDelegate.h"
+#import "JCSFlipMoveInputDelegate.h"
 
 @implementation JCSFlipGameCenterManager
 
