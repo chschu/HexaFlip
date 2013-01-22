@@ -67,7 +67,7 @@
 
 - (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match {
     NSAssert(state != nil, @"state must not be nil");
-
+    
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
     // remove old board
@@ -79,7 +79,7 @@
     _boardLayer.anchorPoint = ccp(1,0);
     _boardLayer.position = ccp(winSize.width,winSize.height/2);
     [self addChild:_boardLayer z:3];
-
+    
     // assign players (but don't notify yet)
     _playerA = playerA;
     _playerB = playerB;
@@ -94,9 +94,9 @@
 
 - (void)startGame {
     NSAssert(_screenEnabled, @"screen must be enabled");
-
+    
     [self updateUI];
-
+    
     // notify next player
     if (_state.status == JCSFlipGameStatusPlayerAToMove) {
         [_playerA tellMakeMove:_state];
@@ -123,12 +123,12 @@
         // disable automatic move input by players
         _playerA.moveInputDelegate = nil;
         _playerB.moveInputDelegate = nil;
-
+        
         // disconnect from game center event handler
         JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
         gameCenterManager.currentMatch = nil;
         gameCenterManager.moveInputDelegate = nil;
-
+        
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
     }
@@ -234,6 +234,5 @@
         }];
     }
 }
-
 
 @end
