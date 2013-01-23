@@ -35,9 +35,6 @@ typedef struct JCSFlipGameStateMoveInfo {
     // number of cells flipped by the move
     NSInteger flipCount;
     
-    // status before the move had been applied
-    JCSFlipGameStatus oldStatus;
-    
     // value of the "skip allowed" flag before the move had been applied
     JCSFlipGameStateSkipAllowed oldSkipAllowed;
     
@@ -62,10 +59,10 @@ typedef struct JCSFlipGameStateMoveInfo {
     JCSFlipGameStateMoveInfo *_moveInfoStackTop;
 }
 
-@synthesize status = _status;
 @synthesize cellCountPlayerA = _cellCountPlayerA;
 @synthesize cellCountPlayerB = _cellCountPlayerB;
 @synthesize cellCountEmpty = _cellCountEmpty;
+@synthesize playerToMove = _playerToMove;
 
 #pragma mark instance methods
 
@@ -74,13 +71,13 @@ typedef struct JCSFlipGameStateMoveInfo {
 #define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
 
 // designated initializer
-- (id)initWithSize:(NSInteger)size status:(JCSFlipGameStatus)status cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
     
     if (self = [super init]) {
         _size = size;
-        _status = status;
+        _playerToMove = playerToMove;
         _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
         _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
         _cellCountPlayerA = 0;
@@ -110,9 +107,6 @@ typedef struct JCSFlipGameStateMoveInfo {
         
         // initialize the move stack (empty)
         _moveInfoStackTop = NULL;
-        
-        // check game over and update status (quite strange at this stage, but possible)
-        [self updateStatusIfGameOver];
     }
     
 	return self;
@@ -121,7 +115,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 #define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
 
 - (id)initDefaultWithSize:(NSInteger)size {
-    return [self initWithSize:size status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+    return [self initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
         if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
             return JCSFlipCellStateHole;
@@ -149,17 +143,21 @@ typedef struct JCSFlipGameStateMoveInfo {
     free(_cellStates);
 }
 
-// check if game is over and set status accordingly
-- (void)updateStatusIfGameOver {
+// getter for the current game status
+- (JCSFlipGameStatus)status {
+    JCSFlipGameStatus status;
 	if (_cellCountPlayerA == 0 || _cellCountPlayerB == 0 || _cellCountEmpty == 0) {
 		if (_cellCountPlayerA > _cellCountPlayerB) {
-			_status = JCSFlipGameStatusPlayerAWon;
+			status = JCSFlipGameStatusPlayerAWon;
 		} else if (_cellCountPlayerB > _cellCountPlayerA) {
-			_status = JCSFlipGameStatusPlayerBWon;
+			status = JCSFlipGameStatusPlayerBWon;
 		} else {
-			_status = JCSFlipGameStatusDraw;
+			status = JCSFlipGameStatusDraw;
 		}
-	}
+	} else {
+        status = JCSFlipGameStatusOpen;
+    }
+    return status;
 }
 
 - (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block {
@@ -234,7 +232,7 @@ typedef struct JCSFlipGameStateMoveInfo {
     NSAssert(move != nil, @"move must not be nil");
     
     // fail if the game is over
-    if (!(_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove)) {
+    if (JCSFlipGameStatusIsOver(self.status)) {
         return NO;
     }
     
@@ -247,7 +245,7 @@ typedef struct JCSFlipGameStateMoveInfo {
         JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
         
         // cell state of start cell must match player
-        if (startCellState != JCSFlipCellStateForGameStatus(_status)) {
+        if (startCellState != JCSFlipCellStateForPlayerToMove(_playerToMove)) {
             return NO;
         }
         
@@ -297,7 +295,6 @@ typedef struct JCSFlipGameStateMoveInfo {
         moveInfo->direction = move.direction;
     }
     moveInfo->flipCount = flipCount;
-    moveInfo->oldStatus = _status;
     moveInfo->oldSkipAllowed = _skipAllowed;
     
     // push move info on the stack
@@ -305,10 +302,7 @@ typedef struct JCSFlipGameStateMoveInfo {
     _moveInfoStackTop = moveInfo;
     
     // switch players
-    _status = JCSFlipGameStatusOtherPlayerToMove(_status);
-    
-    // update the status if the game is over
-    [self updateStatusIfGameOver];
+    _playerToMove = JCSFlipPlayerToMoveOther(_playerToMove);
     
     // "skip allowed" flag needs to be determined
     _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
@@ -345,8 +339,10 @@ typedef struct JCSFlipGameStateMoveInfo {
     }
     
     // put back old values
-    _status = moveInfo->oldStatus;
     _skipAllowed = moveInfo->oldSkipAllowed;
+    
+    // switch back players
+    _playerToMove = JCSFlipPlayerToMoveOther(_playerToMove);
     
     // release the move info
     free(moveInfo);
@@ -389,27 +385,15 @@ typedef struct JCSFlipGameStateMoveInfo {
     }
 }
 
-- (BOOL)resign {
-	if (_status == JCSFlipGameStatusPlayerAToMove) {
-		_status = JCSFlipGameStatusPlayerBWon;
-		return YES;
-    } else if (_status == JCSFlipGameStatusPlayerBToMove) {
-        _status = JCSFlipGameStatusPlayerAWon;
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block {
     NSAssert(block != nil, @"block must not be nil");
     
     // don't do anything if the game is over
-    if (!(_status == JCSFlipGameStatusPlayerAToMove || _status == JCSFlipGameStatusPlayerBToMove)) {
+    if (JCSFlipGameStatusIsOver(self.status)) {
         return;
     }
     
-    JCSFlipCellState playerCellState = JCSFlipCellStateForGameStatus(_status);
+    JCSFlipCellState playerCellState = JCSFlipCellStateForPlayerToMove(_playerToMove);
     
     __block BOOL hasValidMove = NO;
     
@@ -511,7 +495,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 #pragma mark NSCoding (serialization/deserialization)
 
 NSString *coderKey_size = @"a";
-NSString *coderKey_status = @"b";
+NSString *coderKey_playerToMove = @"b";
 NSString *coderKey_cellStates = @"c";
 NSString *coderKey_moveStackArray = @"d";
 
@@ -528,7 +512,6 @@ NSString *coderKey_moveStackArray = @"d";
         [array addObject:[NSNumber numberWithInteger:curEntry->startColumn]];
         [array addObject:[NSNumber numberWithInt:curEntry->direction]];
         [array addObject:[NSNumber numberWithInteger:curEntry->flipCount]];
-        [array addObject:[NSNumber numberWithInt:curEntry->oldStatus]];
         [array addObject:[NSNumber numberWithInt:curEntry->oldSkipAllowed]];
         
         curEntry = curEntry->next;
@@ -547,21 +530,21 @@ NSString *coderKey_moveStackArray = @"d";
     }
     
     JCSFlipGameStateMoveInfo *curEntry = malloc(sizeof(JCSFlipGameStateMoveInfo));
-    curEntry->skip = [[array objectAtIndex:startIndex] boolValue];
-    curEntry->startRow = [[array objectAtIndex:startIndex+1] integerValue];
-    curEntry->startColumn = [[array objectAtIndex:startIndex+2] integerValue];
-    curEntry->direction = [[array objectAtIndex:startIndex+3] intValue];
-    curEntry->flipCount = [[array objectAtIndex:startIndex+4] integerValue];
-    curEntry->oldStatus = [[array objectAtIndex:startIndex+5] intValue];
-    curEntry->oldSkipAllowed = [[array objectAtIndex:startIndex+6] intValue];
-    curEntry->next = [self convertArrayToMoveStack:array startIndex:startIndex+7];
+    NSUInteger index = startIndex;
+    curEntry->skip = [[array objectAtIndex:index++] boolValue];
+    curEntry->startRow = [[array objectAtIndex:index++] integerValue];
+    curEntry->startColumn = [[array objectAtIndex:index++] integerValue];
+    curEntry->direction = [[array objectAtIndex:index++] intValue];
+    curEntry->flipCount = [[array objectAtIndex:index++] integerValue];
+    curEntry->oldSkipAllowed = [[array objectAtIndex:index++] intValue];
+    curEntry->next = [self convertArrayToMoveStack:array startIndex:index++];
     
     return curEntry;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder maxMoves:(NSUInteger)maxMoves {
     [aCoder encodeInteger:_size forKey:coderKey_size];
-    [aCoder encodeInt:_status forKey:coderKey_status];
+    [aCoder encodeInt:_playerToMove forKey:coderKey_playerToMove];
     [aCoder encodeBytes:_cellStates length:(2*_size-1)*(2*_size-1) forKey:coderKey_cellStates];
     [aCoder encodeObject:[self convertMoveStackToArray:_moveInfoStackTop maxMoves:maxMoves] forKey:coderKey_moveStackArray];
 }
@@ -573,13 +556,13 @@ NSString *coderKey_moveStackArray = @"d";
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     NSInteger size = [aDecoder decodeIntegerForKey:coderKey_size];
-    JCSFlipGameStatus status = [aDecoder decodeIntForKey:coderKey_status];
+    JCSFlipPlayerToMove playerToMove = [aDecoder decodeIntForKey:coderKey_playerToMove];
     
     NSUInteger length;
     const JCSFlipCellState *cellStates = [aDecoder decodeBytesForKey:coderKey_cellStates returnedLength:&length];
     NSAssert(length == (2*size-1)*(2*size-1), @"invalid length");
     
-    self = [self initWithSize:size status:status cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+    self = [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         return cellStates[JCS_CELL_STATE_INDEX(row, column)];
     }];
     

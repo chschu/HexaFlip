@@ -7,11 +7,10 @@
 //
 
 typedef enum {
-	JCSFlipGameStatusPlayerAToMove = 0,
-	JCSFlipGameStatusPlayerBToMove = 1,
-	JCSFlipGameStatusPlayerAWon = 2,
-	JCSFlipGameStatusPlayerBWon = 3,
-	JCSFlipGameStatusDraw = 4,
+	JCSFlipGameStatusOpen = 0,
+	JCSFlipGameStatusPlayerAWon = 1,
+	JCSFlipGameStatusPlayerBWon = 2,
+	JCSFlipGameStatusDraw = 3,
 } JCSFlipGameStatus;
 
-#define JCSFlipGameStatusOtherPlayerToMove(status) (JCSFlipGameStatusPlayerAToMove + JCSFlipGameStatusPlayerBToMove - (status))
+#define JCSFlipGameStatusIsOver(status) ((status) != JCSFlipGameStatusOpen)

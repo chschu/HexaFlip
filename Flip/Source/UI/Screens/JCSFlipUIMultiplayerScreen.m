@@ -60,26 +60,15 @@
 
     // check if the local player can make his move
     BOOL localPlayerToMove = [match.currentParticipant.playerID isEqualToString:localPlayerID];
+
+    // determine if player A is local or remote
+    BOOL playerAIsLocal = (localPlayerToMove == (gameState.playerToMove == JCSFlipPlayerToMoveA));
     
     // initialize the players
     id<JCSFlipPlayer> localPlayer = [JCSFlipPlayerLocal playerWithName:@"dummy name"];
     id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
-    
-    id<JCSFlipPlayer> playerA;
-    id<JCSFlipPlayer> playerB;
-    if (gameState.status == JCSFlipGameStatusPlayerAToMove) {
-        // player A is to move, use corresponding players
-        playerA = localPlayerToMove ? localPlayer : remotePlayer;
-        playerB = localPlayerToMove ? remotePlayer : localPlayer;
-    } else if (gameState.status == JCSFlipGameStatusPlayerBToMove) {
-        // player B is to move, use corresponding players
-        playerA = localPlayerToMove ? remotePlayer : localPlayer;
-        playerB = localPlayerToMove ? localPlayer : remotePlayer;
-    } else {
-        // game is over, use nil players
-        playerA = nil;
-        playerB = nil;
-    }
+    id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
+    id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
 
     [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match fromMultiplayerScreen:self];
 }
@@ -97,9 +86,6 @@
 
     // extract the match data
     JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromData:match.matchData];
-    
-    // resign the game
-    [gameState resign];
     
     // build the match data to send
     NSData *data = [[JCSFlipGameCenterManager sharedInstance] buildDataFromGameState:gameState];

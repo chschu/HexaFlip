@@ -7,15 +7,17 @@
 //
 
 #import "JCSFlipGameState+GameNode.h"
+#import "JCSFlipGameStatus.h"
+#import "JCSFlipPlayerToMove.h"
 
 @implementation JCSFlipGameState (GameNode)
 
 - (BOOL)leaf {
-    return !(self.status == JCSFlipGameStatusPlayerAToMove || self.status == JCSFlipGameStatusPlayerBToMove);
+    return JCSFlipGameStatusIsOver(self.status);
 }
 
 - (BOOL)maximizing {
-    return self.status == JCSFlipGameStatusPlayerAToMove;
+    return self.playerToMove == JCSFlipPlayerToMoveA;
 }
 
 // the other protocol methods are already implemented in JCSFlipGameState

@@ -64,10 +64,10 @@
         }
     };
 
-    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size status:JCSFlipGameStatusPlayerAToMove cellStateAtBlock:cellStateAtBlock];
+    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
     
     while (true) {
-        id<JCSGameAlgorithm> algo = (state.status == JCSFlipGameStatusPlayerAToMove ? algoA : algoB);
+        id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerToMoveA ? algoA : algoB);
         
         JCSFlipMove *move = [algo moveAtNode:state];
         if (move == nil) {

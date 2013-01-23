@@ -92,17 +92,31 @@
     [self updateUI];
 }
 
+// notify current player that opponent did make a move
+- (void)tellPlayerOpponentDidMakeMove {
+    if (_state.playerToMove == JCSFlipPlayerToMoveA) {
+        [_playerA opponentDidMakeMove:_state];
+    } else {
+        [_playerB opponentDidMakeMove:_state];
+    }
+}
+
+// notify current player to make his move, unless game is over
+- (void)tellPlayerMakeMove {
+    if (!JCSFlipGameStatusIsOver(_state.status)) {
+        if (_state.playerToMove == JCSFlipPlayerToMoveA) {
+            [_playerA tellMakeMove:_state];
+        } else {
+            [_playerB tellMakeMove:_state];
+        }
+    }
+}
+
 - (void)startGame {
     NSAssert(_screenEnabled, @"screen must be enabled");
     
     [self updateUI];
-    
-    // notify next player
-    if (_state.status == JCSFlipGameStatusPlayerAToMove) {
-        [_playerA tellMakeMove:_state];
-    } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
-        [_playerB tellMakeMove:_state];
-    }
+    [self tellPlayerMakeMove];
 }
 
 - (void)setScreenEnabled:(BOOL)screenEnabled {
@@ -141,8 +155,8 @@
 
 // update UI according to the current game state
 - (void)updateUI {
-    BOOL playerAEnabled = (_state.status == JCSFlipGameStatusPlayerAToMove && _playerA.localControls);
-    BOOL playerBEnabled = (_state.status == JCSFlipGameStatusPlayerBToMove && _playerB.localControls);
+    BOOL playerAEnabled = (_state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls);
+    BOOL playerBEnabled = (_state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls);
     
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
@@ -155,7 +169,7 @@
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
-    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForGameStatus(_state.status)) {
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;
     }
@@ -207,9 +221,6 @@
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     NSLog(@"input: confirmed move %@", move);
     
-    // determine the waiting player (to be notified after the move)
-    id<JCSFlipPlayer> waitingPlayer = _state.status == JCSFlipGameStatusPlayerAToMove ? _playerB : _playerA;
-    
     // apply the move
     if ([_state pushMove:move]) {
         // block move input during animation
@@ -218,19 +229,9 @@
         [self updateScoreIndicatorAnimated:YES];
         [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
             // animation is done
-            
-            // notify waiting player
-            [waitingPlayer opponentDidMakeMove:_state];
-            
-            // update UI
             [self updateUI];
-            
-            // notify next player
-            if (_state.status == JCSFlipGameStatusPlayerAToMove) {
-                [_playerA tellMakeMove:_state];
-            } else if (_state.status == JCSFlipGameStatusPlayerBToMove) {
-                [_playerB tellMakeMove:_state];
-            }
+            [self tellPlayerOpponentDidMakeMove];
+            [self tellPlayerMakeMove];
         }];
     }
 }

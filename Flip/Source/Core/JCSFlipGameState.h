@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipGameStatus.h"
+#import "JCSFlipPlayerToMove.h"
 #import "JCSFlipCellState.h"
 
 @class JCSFlipMove;
@@ -16,6 +17,9 @@
 
 // the current game status
 @property (readonly, nonatomic) JCSFlipGameStatus status;
+
+// the current player to move (also set if the game is over)
+@property (readonly, nonatomic) JCSFlipPlayerToMove playerToMove;
 
 // number of cells owned by player A
 @property (readonly, nonatomic) NSInteger cellCountPlayerA;
@@ -33,11 +37,11 @@
 @property (readonly, nonatomic) JCSFlipMove *lastMove;
 
 // initialize with given size
-// status defines which player moves first
+// playerToMove defines which player moves first
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
 // the state of a cell is returned by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size status:(JCSFlipGameStatus)status cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
 
 // initialize a default board with the given size
 // the board is a hexagon, using the given size as edge length
@@ -67,11 +71,6 @@
 // iteration stops prematurely when the block sets *stop to YES
 // the internal move stack must be non-empty
 - (void)forAllCellsInvolvedInLastMoveInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block;
-
-// let the other player win
-// returns YES if successful
-// returns NO if the game has already been over
-- (BOOL)resign;
 
 // iterate over all valid moves for the receiving game state
 // each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver

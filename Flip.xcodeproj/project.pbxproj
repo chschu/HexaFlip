@@ -371,6 +371,7 @@
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
 		F31A895116B0A75B00847894 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		F31A895216B0A75B00847894 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		F31A895416B0A83200847894 /* JCSFlipPlayerToMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerToMove.h; sourceTree = "<group>"; };
 		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
 		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
 		F32758E01680FFD800869A23 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
@@ -877,6 +878,7 @@
 				F3A8B39A15EE9CC800FAD822 /* JCSFlipCellState.h */,
 				F3A8B39B15EE9CC800FAD822 /* JCSFlipGameState.h */,
 				F3A8B39C15EE9CC800FAD822 /* JCSFlipGameState.m */,
+				F31A895416B0A83200847894 /* JCSFlipPlayerToMove.h */,
 				F3A8B39D15EE9CC800FAD822 /* JCSFlipGameStatus.h */,
 				F3A8B39E15EE9CC800FAD822 /* JCSFlipMove.h */,
 				F3A8B39F15EE9CC800FAD822 /* JCSFlipMove.m */,

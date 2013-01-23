@@ -22,9 +22,11 @@
 @property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
 
 // notify the player that the opponent has taken a turn
+// used by the game center player to end the turn of the local opponent
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state;
 
 // tell the player it's their turn
+// initiates automatic move input for AI players
 - (void)tellMakeMove:(JCSFlipGameState *)state;
 
 @end
