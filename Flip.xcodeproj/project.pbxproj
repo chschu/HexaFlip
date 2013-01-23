@@ -369,6 +369,8 @@
 		F3107880164B12F000FE7FC2 /* button-play-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-normal.png"; sourceTree = "<group>"; };
 		F3107881164B12F000FE7FC2 /* button-play-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-pushed.png"; sourceTree = "<group>"; };
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
+		F31A895116B0A75B00847894 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		F31A895216B0A75B00847894 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
 		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
 		F32758E01680FFD800869A23 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
@@ -688,8 +690,6 @@
 		F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
 		F3A8B5B515EEA39400FAD822 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
 		F3A8B5B615EEA39400FAD822 /* JCSFlipMutableMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMutableMoveTest.m; sourceTree = "<group>"; };
-		F3A8B5B815EEA39400FAD822 /* FlipTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FlipTests-Info.plist"; sourceTree = "<group>"; };
-		F3A8B5B915EEA39400FAD822 /* FlipTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FlipTests-Prefix.pch"; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3CB110515EE9A030057309C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F3CB110615EE9A030057309C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -1252,8 +1252,8 @@
 		F3A8B5B715EEA39400FAD822 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				F3A8B5B815EEA39400FAD822 /* FlipTests-Info.plist */,
-				F3A8B5B915EEA39400FAD822 /* FlipTests-Prefix.pch */,
+				F31A895116B0A75B00847894 /* Tests-Info.plist */,
+				F31A895216B0A75B00847894 /* Tests-Prefix.pch */,
 			);
 			path = Support;
 			sourceTree = "<group>";
