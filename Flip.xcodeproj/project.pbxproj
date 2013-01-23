@@ -702,7 +702,7 @@
 		F3CB113F15EE9A030057309C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
-		F3EAE70715B5EBC9004827DB /* FlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = FlipTests.octest; path = HexaFlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3EAE70715B5EBC9004827DB /* HexaFlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HexaFlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRadioMenu.h; sourceTree = "<group>"; };
 		F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRadioMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -761,7 +761,7 @@
 			children = (
 				F300538515B0AC2700BAD89C /* HexaFlip.app */,
 				F300552515B0AF2400BAD89C /* libcocos2d-library.a */,
-				F3EAE70715B5EBC9004827DB /* FlipTests.octest */,
+				F3EAE70715B5EBC9004827DB /* HexaFlipTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1569,7 +1569,7 @@
 			);
 			name = HexaFlipTests;
 			productName = FlipTests2;
-			productReference = F3EAE70715B5EBC9004827DB /* FlipTests.octest */;
+			productReference = F3EAE70715B5EBC9004827DB /* HexaFlipTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -1985,7 +1985,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip.app/Flip";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HexaFlip.app/HexaFlip";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1994,13 +1994,13 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FlipTests/Support/FlipTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "FlipTests/Support/Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "FlipTests/Support/FlipTests-Info.plist";
+				INFOPLIST_FILE = "FlipTests/Support/Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2012,7 +2012,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip.app/Flip";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HexaFlip.app/HexaFlip";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2020,9 +2020,9 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FlipTests/Support/FlipTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "FlipTests/Support/Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "FlipTests/Support/FlipTests-Info.plist";
+				INFOPLIST_FILE = "FlipTests/Support/Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
