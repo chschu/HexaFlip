@@ -41,6 +41,8 @@
     }];
     GKTurnBasedParticipant *participant = [currentMatch.participants objectAtIndex:participantIndex];
     
+    // TODO set outcomes and invoke endMatchInTurnWithMatchData on the match
+    
     // end the turn, updating the match data
     [currentMatch endTurnWithNextParticipant:participant matchData:data completionHandler:^(NSError *error) {
         NSLog(@"%@", error);
