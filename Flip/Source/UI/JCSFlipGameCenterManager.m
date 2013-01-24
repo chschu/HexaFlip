@@ -62,9 +62,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
         if (error != nil) {
             // TODO handle error
-            NSDictionary *userInfo = error.userInfo;
             NSLog(@"%@", error);
-            NSLog(@"%@", userInfo);
         }
     }];
 }
