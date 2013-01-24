@@ -65,7 +65,7 @@
     BOOL playerAIsLocal = (localPlayerToMove == (gameState.playerToMove == JCSFlipPlayerToMoveA));
     
     // initialize the players
-    id<JCSFlipPlayer> localPlayer = [JCSFlipPlayerLocal playerWithName:@"dummy name"];
+    id<JCSFlipPlayer> localPlayer = [JCSFlipPlayerLocal player];
     id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
     id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;

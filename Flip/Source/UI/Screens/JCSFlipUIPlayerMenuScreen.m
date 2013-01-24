@@ -44,7 +44,7 @@
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        id<JCSFlipPlayer> player = [self playerLocalWithName:@"Player"];
+        id<JCSFlipPlayer> player = [JCSFlipPlayerLocal player];
         
         // create back button
         CCMenuItem *backItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
@@ -149,26 +149,22 @@
     return _opponent;
 }
 
-- (id<JCSFlipPlayer>)playerLocalWithName:(NSString *)name {
-    return [JCSFlipPlayerLocal playerWithName:name];
-}
-
 - (id<JCSFlipPlayer>)playerAIEasy {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithName:@"AI (easy)" algorithm:algorithm];
+    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 
 - (id<JCSFlipPlayer>)playerAIMedium {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithName:@"AI (medium)" algorithm:algorithm];
+    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 
 - (id<JCSFlipPlayer>)playerAIHard {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
     id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithName:@"AI (hard)" algorithm:algorithm];
+    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 
 @end

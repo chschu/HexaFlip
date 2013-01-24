@@ -11,9 +11,6 @@
 
 @protocol JCSFlipPlayer <NSObject>
 
-// display name of the player
-@property (readonly, nonatomic) NSString *name;
-
 // does the player have local controls?
 // YES for local human players, NO otherwise
 @property (readonly, nonatomic) BOOL localControls;

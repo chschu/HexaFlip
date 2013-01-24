@@ -14,7 +14,7 @@
 
 @property (readonly, nonatomic) id<JCSGameAlgorithm> algorithm;
 
-// create an AI player with name, and an algorithm
-+ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm;
+// create an AI player with an algorithm
++ (id)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm;
 
 @end

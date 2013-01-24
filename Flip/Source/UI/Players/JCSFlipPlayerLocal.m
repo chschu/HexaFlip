@@ -10,18 +10,10 @@
 
 @implementation JCSFlipPlayerLocal
 
-@synthesize name = _name;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
-+ (id)playerWithName:(NSString *)name {
-    return [[self alloc] initWithName:name];
-}
-
-- (id)initWithName:(NSString *)name {
-    if (self = [super init]) {
-        _name = name;
-    }
-    return self;
++ (id)player {
+    return [[self alloc] init];
 }
 
 - (BOOL)localControls {

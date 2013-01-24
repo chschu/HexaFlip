@@ -16,17 +16,15 @@
 
 @implementation JCSFlipPlayerAI
 
-@synthesize name = _name;
 @synthesize algorithm = _algorithm;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
-+ (id)playerWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm {
-    return [[self alloc] initWithName:name algorithm:algorithm];
++ (id)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
+    return [[self alloc] initWithAlgorithm:algorithm];
 }
 
-- (id)initWithName:(NSString *)name algorithm:(id<JCSGameAlgorithm>)algorithm {
+- (id)initWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
     if (self = [super init]) {
-        _name = name;
         _algorithm = algorithm;
         _moveInputDelegate = nil;
     }
@@ -36,7 +34,6 @@
 - (BOOL)localControls {
     return NO;
 }
-
 
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state {
     // do nothing, AI is not interested in that

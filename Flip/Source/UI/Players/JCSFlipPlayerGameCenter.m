@@ -16,7 +16,6 @@
 
 @implementation JCSFlipPlayerGameCenter
 
-@synthesize name = _name;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
 + (id)player {
