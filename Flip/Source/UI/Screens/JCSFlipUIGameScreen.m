@@ -171,8 +171,9 @@
 
 // enable move input according to the current game state
 - (void)enableMoveInput {
-    BOOL playerAEnabled = (_state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls);
-    BOOL playerBEnabled = (_state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls);
+    BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
+    BOOL playerAEnabled = (!gameOver && _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls);
+    BOOL playerBEnabled = (!gameOver && _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls);
     
     // enable/disable move input if any of the players has local controls
     _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
