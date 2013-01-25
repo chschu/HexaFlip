@@ -13,7 +13,7 @@
 @class JCSFlipMove;
 
 // state information for a running game
-@interface JCSFlipGameState : NSObject <NSCoding>
+@interface JCSFlipGameState : NSObject <NSCoding, NSCopying>
 
 // the current game status
 @property (readonly, nonatomic) JCSFlipGameStatus status;

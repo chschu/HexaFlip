@@ -571,4 +571,10 @@ NSString *coderKey_moveStackArray = @"d";
     return self;
 }
 
+#pragma mark NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
+}
+
 @end

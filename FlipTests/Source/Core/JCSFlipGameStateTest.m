@@ -1064,4 +1064,28 @@
     STAssertNil(lastMove, nil);
 }
 
+- (void)testCopying {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        uint32_t rand = arc4random_uniform(4);
+        if (rand == 0) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (rand == 1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else if (rand == 2) {
+            return JCSFlipCellStateEmpty;
+        } else {
+            return JCSFlipCellStateHole;
+        }
+	};
+    
+	JCSFlipGameState *original = [[JCSFlipGameState alloc] initWithSize:100 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+
+    // serialize
+    NSData *originalData = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSData *copyData = [NSKeyedArchiver archivedDataWithRootObject:[original copy]];
+    
+    // compare serialized data
+    NSAssert([originalData isEqualToData:copyData], @"serialized copy does not match serialized original");
+}
+
 @end
