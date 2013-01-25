@@ -388,8 +388,11 @@ typedef struct JCSFlipGameStateMoveInfo {
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block {
     NSAssert(block != nil, @"block must not be nil");
     
-    // don't do anything if the game is over
     if (JCSFlipGameStatusIsOver(self.status)) {
+        // skipping is not allowed
+        _skipAllowed = JCSFlipGameStateSkipAllowedNo;
+
+        // no need to try any moves
         return;
     }
     
