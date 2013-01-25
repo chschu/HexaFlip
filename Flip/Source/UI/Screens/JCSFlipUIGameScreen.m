@@ -21,7 +21,10 @@
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
     GKTurnBasedMatch *_match;
-    
+
+    // the last move, to be animated on game start (may be nil)
+    JCSFlipMove *_lastMove;
+
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_skipItem;
     JCSFlipScoreIndicator *_scoreIndicator;
@@ -72,9 +75,15 @@
     
     // remove old board
     [_boardLayer removeFromParentAndCleanup:YES];
-    
+
+    // copy the state, and pop its last move if present (will be animated it in -startGame)
+    _state = [state copy];
+    _lastMove = _state.lastMove;
+    if (_lastMove != nil) {
+        [_state popMove];
+    }
+
     // create new board, and center it vertically on the right border
-    _state = state;
     _boardLayer = [JCSFlipUIBoardLayer nodeWithState:_state];
     _boardLayer.anchorPoint = ccp(1,0);
     _boardLayer.position = ccp(winSize.width,winSize.height/2);
@@ -86,10 +95,10 @@
     
     // assign match
     _match = match;
-    
+
     // update UI
     [self updateScoreIndicatorAnimated:NO];
-    [self updateUI];
+    [self enableMoveInput];
 }
 
 // notify current player that opponent did make a move
@@ -114,20 +123,25 @@
 
 - (void)startGame {
     NSAssert(_screenEnabled, @"screen must be enabled");
-    
-    [self updateUI];
-    [self tellPlayerMakeMove];
+    if (_lastMove != nil) {
+        // apply the move, but don't tell the opponent that the move has been made ("replay")
+        BOOL success = [self applyMove:_lastMove replay:YES];
+        NSAssert(success, @"unable to apply last move");
+        _lastMove = nil;
+    } else {
+        [self tellPlayerMakeMove];
+    }
 }
 
 - (void)setScreenEnabled:(BOOL)screenEnabled {
     _screenEnabled = screenEnabled;
+    JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     if (_screenEnabled) {
         // enable automatic move input by players (e.g. for AI players)
         _playerA.moveInputDelegate = self;
         _playerB.moveInputDelegate = self;
         
         // connect to game center event handler
-        JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
         gameCenterManager.moveInputDelegate = self;
         gameCenterManager.currentMatch = _match;
         
@@ -139,7 +153,6 @@
         _playerB.moveInputDelegate = nil;
         
         // disconnect from game center event handler
-        JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
         gameCenterManager.currentMatch = nil;
         gameCenterManager.moveInputDelegate = nil;
         
@@ -148,13 +161,14 @@
     }
 }
 
+// disable move input completely
 - (void)disableMoveInput {
     _boardLayer.moveInputEnabled = NO;
     _skipItem.isEnabled = NO;
 }
 
-// update UI according to the current game state
-- (void)updateUI {
+// enable move input according to the current game state
+- (void)enableMoveInput {
     BOOL playerAEnabled = (_state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls);
     BOOL playerBEnabled = (_state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls);
     
@@ -165,6 +179,32 @@
 
 - (void)updateScoreIndicatorAnimated:(BOOL)animated {
     [_scoreIndicator setScoreA:_state.cellCountPlayerA scoreB:_state.cellCountPlayerB animated:animated];
+}
+
+// pushes the given move to the current game state, animates the move, updates the UI, and notifies the opponent
+// replay can be set to YES to "replay" a move, i.e. to not inform the opponent that a move has been made
+// the opponent is notified to take his turn afterward (unless the game is over), regardless of "replay"
+// returns YES if the game has been applied successfully
+- (BOOL)applyMove:(JCSFlipMove *)move replay:(BOOL)replay {
+    // push the move to the game state
+    BOOL success = [_state pushMove:move];
+    if (success) {
+        // block move input during animation
+        [self disableMoveInput];
+        // update score indicator while animating the move
+        [self updateScoreIndicatorAnimated:YES];
+        [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
+            // enable move input
+            [self enableMoveInput];
+            
+            // notify opponent (new current player)
+            if (!replay) {
+                [self tellPlayerOpponentDidMakeMove];
+            }
+            [self tellPlayerMakeMove];
+        }];
+    }
+    return success;
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
@@ -221,19 +261,8 @@
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move {
     NSLog(@"input: confirmed move %@", move);
     
-    // apply the move
-    if ([_state pushMove:move]) {
-        // block move input during animation
-        [self disableMoveInput];
-        // update score indicator while animating the move
-        [self updateScoreIndicatorAnimated:YES];
-        [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
-            // animation is done
-            [self updateUI];
-            [self tellPlayerOpponentDidMakeMove];
-            [self tellPlayerMakeMove];
-        }];
-    }
+    // apply the move and update UI
+    [self applyMove:move replay:NO];
 }
 
 @end
