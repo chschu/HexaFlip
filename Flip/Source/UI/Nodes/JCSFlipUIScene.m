@@ -28,7 +28,7 @@
     
     // game screen
     JCSFlipUIGameScreen *_gameScreen;
-        
+    
     // multiplayer pseudo-screen
     JCSFlipUIMultiplayerScreen *_multiplayerScreen;
     
@@ -98,14 +98,14 @@
         _activeScreen = nil;
     }];
     [actions addObject:disableOldScreen];
-
+    
     if ([screen conformsToProtocol:@protocol(JCSFlipUIScreenWithPoint)]) {
         id<JCSFlipUIScreenWithPoint> screenWithPoint = (id<JCSFlipUIScreenWithPoint>) screen;
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CGPoint winSizePoint = ccpFromSize(winSize);
         
         CGPoint targetPosition = ccpCompMult(screenWithPoint.screenPoint,ccpMult(winSizePoint,-1));
-
+        
         CCAction *moveToNewScreen;
         if (animated) {
             moveToNewScreen = [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:0.5 position:targetPosition]];
@@ -116,19 +116,19 @@
         }
         [actions addObject:moveToNewScreen];
     }
-
+    
     // action to enable the new screen
     CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
         screen.screenEnabled = YES;
         _activeScreen = screen;
     }];
     [actions addObject:enableNewScreen];
-
+    
     if (block != nil) {
         // action to call the given block
         [actions addObject:[CCCallBlock actionWithBlock:block]];
     }
-
+    
     // start the collected actions
     [_parallax runAction:[CCSequence actionWithArray:actions]];
 }
@@ -158,7 +158,7 @@
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB match:nil];
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB match:nil animateLastMove:NO];
         [self switchToScreen:_gameScreen animated:YES completionBlock:^{
             [_gameScreen startGame];
         }];
@@ -202,9 +202,9 @@
     }
 }
 
-- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
+- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match];
+        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove];
         [self switchToScreen:_gameScreen animated:YES completionBlock:^{
             [_gameScreen startGame];
         }];

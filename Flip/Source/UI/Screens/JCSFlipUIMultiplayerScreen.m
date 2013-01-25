@@ -70,7 +70,8 @@
     id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
 
-    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match fromMultiplayerScreen:self];
+    // animate the last move only if it's the local player's turn
+    [_delegate switchToGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:localPlayerToMove fromMultiplayerScreen:self];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.

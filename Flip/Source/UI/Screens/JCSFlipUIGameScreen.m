@@ -63,12 +63,12 @@
         [self addChild:_scoreIndicator z:2];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil animateLastMove:NO];
     }
     return self;
 }
 
-- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match {
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove {
     NSAssert(state != nil, @"state must not be nil");
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -76,11 +76,14 @@
     // remove old board
     [_boardLayer removeFromParentAndCleanup:YES];
 
-    // copy the state, and pop its last move if present (will be animated it in -startGame)
+    // copy the state
     _state = [state copy];
-    _lastMove = _state.lastMove;
-    if (_lastMove != nil) {
-        [_state popMove];
+    if (animateLastMove) {
+        // pop last move if present (will be animated it in -startGame)
+        _lastMove = _state.lastMove;
+        if (_lastMove != nil) {
+            [_state popMove];
+        }
     }
 
     // create new board, and center it vertically on the right border
