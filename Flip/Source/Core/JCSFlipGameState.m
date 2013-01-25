@@ -400,8 +400,8 @@ typedef struct JCSFlipGameStateMoveInfo {
     
     __block BOOL hasValidMove = NO;
     
-    // initialize dummy move;
-    __block JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
+    // initialize dummy move
+    JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
     
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells
