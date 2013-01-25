@@ -913,18 +913,18 @@
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
     
     JCSFlipGameState *reloaded = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-
+    
     // check properties
     STAssertEquals(reloaded.status, underTest.status, nil);
     STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
     STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
     STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
-
+    
     // check cell states (must be match original board)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
     }];
-
+    
     // undo moves
     [reloaded popMove];
     [reloaded popMove];
@@ -1051,7 +1051,7 @@
     STAssertEquals(lastMove.startRow, -1, nil);
     STAssertEquals(lastMove.startColumn, 0, nil);
     STAssertEquals(lastMove.direction, JCSHexDirectionW, nil);
-
+    
     [underTest popMove];
     lastMove = underTest.lastMove;
     STAssertFalse(lastMove.skip, nil);
@@ -1062,30 +1062,6 @@
     [underTest popMove];
     lastMove = underTest.lastMove;
     STAssertNil(lastMove, nil);
-}
-
-- (void)testCopying {
-	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
-        uint32_t rand = arc4random_uniform(4);
-        if (rand == 0) {
-            return JCSFlipCellStateOwnedByPlayerA;
-        } else if (rand == 1) {
-            return JCSFlipCellStateOwnedByPlayerB;
-        } else if (rand == 2) {
-            return JCSFlipCellStateEmpty;
-        } else {
-            return JCSFlipCellStateHole;
-        }
-	};
-    
-	JCSFlipGameState *original = [[JCSFlipGameState alloc] initWithSize:100 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
-
-    // serialize
-    NSData *originalData = [NSKeyedArchiver archivedDataWithRootObject:original];
-    NSData *copyData = [NSKeyedArchiver archivedDataWithRootObject:[original copy]];
-    
-    // compare serialized data
-    NSAssert([originalData isEqualToData:copyData], @"serialized copy does not match serialized original");
 }
 
 @end
