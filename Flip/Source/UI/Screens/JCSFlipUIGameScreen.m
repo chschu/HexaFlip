@@ -76,8 +76,7 @@
     // remove old board
     [_boardLayer removeFromParentAndCleanup:YES];
 
-    // copy the state
-    _state = [state copy];
+    _state = state;
     if (animateLastMove) {
         // pop last move if present (will be animated it in -startGame)
         _lastMove = _state.lastMove;
