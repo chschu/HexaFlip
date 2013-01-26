@@ -324,7 +324,7 @@
 			containerPortal = F300537C15B0AC2600BAD89C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F300538415B0AC2700BAD89C;
-			remoteInfo = Flip;
+			remoteInfo = HexaFlip;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -793,8 +793,7 @@
 				F3CB113C15EE9A030057309C /* Support */,
 				F3CB114015EE9A030057309C /* Tools */,
 			);
-			name = HexaFlip;
-			path = Flip;
+			path = HexaFlip;
 			sourceTree = "<group>";
 		};
 		F310784B1646D3E500FE7FC2 /* Players */ = {
@@ -1266,8 +1265,7 @@
 				F3A8B5B015EEA39400FAD822 /* Source */,
 				F3A8B5B715EEA39400FAD822 /* Support */,
 			);
-			name = HexaFlipTests;
-			path = FlipTests;
+			path = HexaFlipTests;
 			sourceTree = "<group>";
 		};
 		F3CB100E15EE9A030057309C /* Libraries */ = {
@@ -1534,7 +1532,7 @@
 				F3D9A6BA15E1877C00B2FF19 /* PBXTargetDependency */,
 			);
 			name = HexaFlip;
-			productName = Flip;
+			productName = HexaFlip;
 			productReference = F300538515B0AC2700BAD89C /* HexaFlip.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -1570,7 +1568,7 @@
 				F3EAE71B15B5ED01004827DB /* PBXTargetDependency */,
 			);
 			name = HexaFlipTests;
-			productName = FlipTests2;
+			productName = HexaFlipTests;
 			productReference = F3EAE70715B5EBC9004827DB /* HexaFlipTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -1583,7 +1581,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Christian Schuster";
 			};
-			buildConfigurationList = F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "Flip" */;
+			buildConfigurationList = F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "HexaFlip" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1645,7 +1643,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\ndescribe=$(/usr/bin/git describe --long --dirty=\"*\")\nversion=$(echo $describe | /usr/bin/sed -e 's/\\(.*\\)-\\(.*\\)-.*/\\1.\\2/')\nbuild=$(echo $describe | /usr/bin/sed -e 's/.*-\\(.*\\)/\\1/')\necho \"#define GIT_VERSION $version\" > Flip/Support/InfoPlist.h\necho \"#define GIT_BUILD $build\" >> Flip/Support/InfoPlist.h\ntouch Flip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\ndescribe=$(/usr/bin/git describe --long --dirty=\"*\")\nversion=$(echo $describe | /usr/bin/sed -e 's/\\(.*\\)-\\(.*\\)-.*/\\1.\\2/')\nbuild=$(echo $describe | /usr/bin/sed -e 's/.*-\\(.*\\)/\\1/')\necho \"#define GIT_VERSION $version\" > HexaFlip/Support/InfoPlist.h\necho \"#define GIT_BUILD $build\" >> HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1891,10 +1889,10 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Flip/Support/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"Flip/Libraries/kazmath/include\"";
-				INFOPLIST_FILE = Flip/Support/Info.plist;
-				INFOPLIST_PREFIX_HEADER = Flip/Support/InfoPlist.h;
+				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"HexaFlip/Libraries/kazmath/include\"";
+				INFOPLIST_FILE = HexaFlip/Support/Info.plist;
+				INFOPLIST_PREFIX_HEADER = HexaFlip/Support/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
@@ -1914,10 +1912,10 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Flip/Support/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"Flip/Libraries/kazmath/include\"";
-				INFOPLIST_FILE = Flip/Support/Info.plist;
-				INFOPLIST_PREFIX_HEADER = Flip/Support/InfoPlist.h;
+				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"HexaFlip/Libraries/kazmath/include\"";
+				INFOPLIST_FILE = HexaFlip/Support/Info.plist;
+				INFOPLIST_PREFIX_HEADER = HexaFlip/Support/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
@@ -1948,7 +1946,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "./Flip/Libraries/**";
+				USER_HEADER_SEARCH_PATHS = "./HexaFlip/Libraries/**";
 			};
 			name = Debug;
 		};
@@ -1964,7 +1962,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "./Flip/Libraries/**";
+				USER_HEADER_SEARCH_PATHS = "./HexaFlip/Libraries/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1996,13 +1994,13 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FlipTests/Support/Tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "HexaFlipTests/Support/Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "FlipTests/Support/Tests-Info.plist";
+				INFOPLIST_FILE = "HexaFlipTests/Support/Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2022,9 +2020,9 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "FlipTests/Support/Tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "HexaFlipTests/Support/Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "FlipTests/Support/Tests-Info.plist";
+				INFOPLIST_FILE = "HexaFlipTests/Support/Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -2036,7 +2034,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "Flip" */ = {
+		F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "HexaFlip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F300551C15B0AC2900BAD89C /* Debug */,
