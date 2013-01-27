@@ -102,45 +102,55 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     // TODO implement
 }
 
-// handleTurnEventForMatch is called when becomes this player's turn. It may also get called if the player's turn has a timeout and it is about to expire. Note this may also arise from the player accepting an invite from another player. Because of this the app needs to be prepared to handle this even while the player is taking a turn in an existing match.  The boolean indicates whether this event launched or brought to forground the app.
+- (void)inputMove:(JCSFlipMove *)move {
+    // perform move input
+    // TODO we have the exact same thing in the AI player class - refactor!
+    double delay = 0;
+    if (!move.skip) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            [_moveInputDelegate inputSelectedStartRow:move.startRow startColumn:move.startColumn];
+        });
+        delay += 0.25;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            [_moveInputDelegate inputSelectedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
+        });
+        delay += 0.25;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            [_moveInputDelegate inputClearedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
+            [_moveInputDelegate inputClearedStartRow:move.startRow startColumn:move.startColumn];
+        });
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        [_moveInputDelegate inputConfirmedWithMove:move];
+    });
+}
+
+// handleTurnEventForMatch is called when becomes this player's turn. It may also get called if the player's turn has a timeout and it is about to expire. Note this may also arise from the player accepting an invite from another player. Because of this the app needs to be prepared to handle this even while the player is taking a turn in an existing match.
 - (void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
+    // only react if the event is for the current match
     if ([match.matchID isEqualToString:_currentMatch.matchID]) {
-        // it's the current match, make the move
-        
         // update the current match ("match" is a new instance holding the updated data)
         _currentMatch = match;
         
-        // extract last move
+        // perform move input for last move of game state
         JCSFlipGameState *gameState = [self buildGameStateFromData:_currentMatch.matchData];
-        JCSFlipMove *move = gameState.lastMove;
-        
-        // notify in main thread
-        double delay = 0;
-        if (!move.skip) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [_moveInputDelegate inputSelectedStartRow:move.startRow startColumn:move.startColumn];
-            });
-            delay += 0.25;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [_moveInputDelegate inputSelectedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
-            });
-            delay += 0.25;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-                [_moveInputDelegate inputClearedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
-                [_moveInputDelegate inputClearedStartRow:move.startRow startColumn:move.startColumn];
-            });
-        }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            // tell the delegate to make that move
-            [_moveInputDelegate inputConfirmedWithMove:move];
-        });
-        
+        [self inputMove:gameState.lastMove];
     }
 }
 
 // handleMatchEnded is called when the match has ended.
 - (void)handleMatchEnded:(GKTurnBasedMatch *)match {
-    // TODO implement
+    // only react if the event is for the current match
+    if ([match.matchID isEqualToString:_currentMatch.matchID]) {
+        // update the current match ("match" is a new instance holding the updated data)
+        _currentMatch = match;
+        
+        // perform move input for last move of game state, except if the game ended "non-naturally" (opponent quit)
+        JCSFlipGameState *gameState = [self buildGameStateFromData:_currentMatch.matchData];
+        if (JCSFlipGameStatusIsOver(gameState.status)) {
+            [self inputMove:gameState.lastMove];
+        }
+    }
 }
 
 @end
