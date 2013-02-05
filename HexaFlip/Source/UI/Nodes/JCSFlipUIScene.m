@@ -89,17 +89,17 @@
 // for screens without point, the "animated" parameter is ignored, because no animation is required
 // the completion block is called after the new screen has been enabled
 - (void)switchToScreen:(id<JCSFlipUIScreen>)screen animated:(BOOL)animated completionBlock:(void(^)())block {
-    NSMutableArray *actions = [[NSMutableArray alloc] init];
-    
-    // action to disable the old screen
-    id<JCSFlipUIScreen> oldScreen = _activeScreen;
-    CCCallBlock *disableOldScreen = [CCCallBlock actionWithBlock:^{
-        oldScreen.screenEnabled = NO;
-        _activeScreen = nil;
-    }];
-    [actions addObject:disableOldScreen];
-    
     if ([screen conformsToProtocol:@protocol(JCSFlipUIScreenWithPoint)]) {
+        NSMutableArray *actions = [[NSMutableArray alloc] init];
+        
+        // action to disable the old screen
+        id<JCSFlipUIScreen> oldScreen = _activeScreen;
+        CCCallBlock *disableOldScreen = [CCCallBlock actionWithBlock:^{
+            oldScreen.screenEnabled = NO;
+            _activeScreen = nil;
+        }];
+        [actions addObject:disableOldScreen];
+
         id<JCSFlipUIScreenWithPoint> screenWithPoint = (id<JCSFlipUIScreenWithPoint>) screen;
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CGPoint winSizePoint = ccpFromSize(winSize);
@@ -115,22 +115,35 @@
             }];
         }
         [actions addObject:moveToNewScreen];
-    }
-    
-    // action to enable the new screen
-    CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
+
+        // action to enable the new screen
+        CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
+            screen.screenEnabled = YES;
+            _activeScreen = screen;
+        }];
+        [actions addObject:enableNewScreen];
+        
+        if (block != nil) {
+            // action to call the given block
+            [actions addObject:[CCCallBlock actionWithBlock:block]];
+        }
+
+        // start the collected actions
+        [_parallax runAction:[CCSequence actionWithArray:actions]];
+    } else {
+        // disable the old screen
+        _activeScreen.screenEnabled = NO;
+        _activeScreen = nil;
+        
+        // enable the new screen
         screen.screenEnabled = YES;
         _activeScreen = screen;
-    }];
-    [actions addObject:enableNewScreen];
-    
-    if (block != nil) {
-        // action to call the given block
-        [actions addObject:[CCCallBlock actionWithBlock:block]];
+        
+        if (block != nil) {
+            // call the given block
+            block();
+        }
     }
-    
-    // start the collected actions
-    [_parallax runAction:[CCSequence actionWithArray:actions]];
 }
 
 // convenience method to switch the screen without a completion block
