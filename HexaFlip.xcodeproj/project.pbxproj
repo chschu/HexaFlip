@@ -349,7 +349,6 @@
 		F31078541646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIPlayerMenuScreen.h; sourceTree = "<group>"; };
 		F31078551646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIPlayerMenuScreen.m; sourceTree = "<group>"; };
 		F31078561646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIPlayerMenuScreenDelegate.h; sourceTree = "<group>"; };
-		F31078571646D42E00FE7FC2 /* JCSFlipUIScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIScreen.h; sourceTree = "<group>"; };
 		F310785B1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBoardLayer.h; sourceTree = "<group>"; };
 		F310785C1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBoardLayer.m; sourceTree = "<group>"; };
 		F310785D1646D45D00FE7FC2 /* JCSFlipUICellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNode.h; sourceTree = "<group>"; };
@@ -813,7 +812,6 @@
 		F310784C1646D40300FE7FC2 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				F31078571646D42E00FE7FC2 /* JCSFlipUIScreen.h */,
 				F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */,
 				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
 				F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */,

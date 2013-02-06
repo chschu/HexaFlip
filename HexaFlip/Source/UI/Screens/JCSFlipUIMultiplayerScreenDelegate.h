@@ -19,7 +19,12 @@
 // match-making has failed
 - (void)matchMakingFailedWithError:(NSError *)error fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
 
-// match-making succeeded - switch to game
-- (void)switchToGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
+// match-making succeeded - prepare game (but don't start it yet)
+// can be used to initialize the board while it is not yet visible
+- (void)prepareGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
+
+// start the previously prepared game
+// can be used to start the game when the board has become visible
+- (void)startPreparedGameFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen;
 
 @end

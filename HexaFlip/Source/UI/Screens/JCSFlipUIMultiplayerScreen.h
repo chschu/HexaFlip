@@ -8,13 +8,13 @@
 
 #import <GameKit/GameKit.h>
 
-#import "JCSFlipUIScreen.h"
+#import "JCSFlipUIScreenWithPoint.h"
 
 #import "cocos2d.h"
 
 @protocol JCSFlipUIMultiplayerScreenDelegate;
 
-@interface JCSFlipUIMultiplayerScreen : CCNode <JCSFlipUIScreen, GKTurnBasedMatchmakerViewControllerDelegate>
+@interface JCSFlipUIMultiplayerScreen : CCNode <JCSFlipUIScreenWithPoint, GKTurnBasedMatchmakerViewControllerDelegate>
 
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIMultiplayerScreenDelegate> delegate;
