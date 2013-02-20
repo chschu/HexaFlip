@@ -21,17 +21,16 @@
 @synthesize screenEnabled = _screenEnabled;
 @synthesize screenPoint = _screenPoint;
 
-- (void)setScreenEnabled:(BOOL)screenEnabled {
-    _screenEnabled = screenEnabled;
-    if (_screenEnabled) {
-        GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
-        matchRequest.minPlayers = 2;
-        matchRequest.maxPlayers = 2;
-        
-        GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
-        mmvc.turnBasedMatchmakerDelegate = self;
-        [[CCDirector sharedDirector] presentViewController:mmvc animated:YES completion:nil];
-    }
+- (void)presentMatchMakerViewController {
+    NSAssert(_screenEnabled, @"screen must be enabled");
+    
+    GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
+    matchRequest.minPlayers = 2;
+    matchRequest.maxPlayers = 2;
+    
+    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
+    mmvc.turnBasedMatchmakerDelegate = self;
+    [[CCDirector sharedDirector] presentViewController:mmvc animated:YES completion:nil];
 }
 
 #pragma mark GKTurnBasedMatchmakerViewControllerDelegate methods

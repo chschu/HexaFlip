@@ -151,7 +151,9 @@
 - (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
         _multiplayer = YES;
-        [self switchToScreen:_multiplayerScreen animated:YES];
+        [self switchToScreen:_multiplayerScreen animated:YES completionBlock:^{
+            [_multiplayerScreen presentMatchMakerViewController];
+        }];
     }
 }
 
@@ -177,7 +179,9 @@
 - (void)exitFromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
         if (_multiplayer) {
-            [self switchToScreen:_multiplayerScreen animated:YES];
+            [self switchToScreen:_multiplayerScreen animated:YES completionBlock:^{
+                [_multiplayerScreen presentMatchMakerViewController];
+            }];
         } else {
             // TODO confirmation screen
             [self switchToScreen:_mainMenuScreen animated:YES];
