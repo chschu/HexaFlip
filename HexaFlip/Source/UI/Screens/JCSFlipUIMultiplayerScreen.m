@@ -21,12 +21,13 @@
 @synthesize screenEnabled = _screenEnabled;
 @synthesize screenPoint = _screenPoint;
 
-- (void)presentMatchMakerViewController {
+- (void)presentMatchMakerViewControllerWithPlayersToInvite:(NSArray *)playersToInvite {
     NSAssert(_screenEnabled, @"screen must be enabled");
     
     GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
     matchRequest.minPlayers = 2;
     matchRequest.maxPlayers = 2;
+    matchRequest.playersToInvite = playersToInvite;
     
     GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
     mmvc.turnBasedMatchmakerDelegate = self;

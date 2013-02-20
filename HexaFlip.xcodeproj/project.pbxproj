@@ -340,6 +340,7 @@
 		F300539715B0AC2700BAD89C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F300539915B0AC2700BAD89C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F300552515B0AF2400BAD89C /* libcocos2d-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2d-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3098D7E16B90ACF00476109 /* JCSFlipGameCenterInviteDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterInviteDelegate.h; sourceTree = "<group>"; };
 		F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScreen.h; sourceTree = "<group>"; };
 		F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameScreen.m; sourceTree = "<group>"; };
 		F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScreenDelegate.h; sourceTree = "<group>"; };
@@ -893,6 +894,7 @@
 				F310784C1646D40300FE7FC2 /* Screens */,
 				F310784B1646D3E500FE7FC2 /* Players */,
 				F344372116AF466D0026042D /* JCSFlipMoveInputDelegate.h */,
+				F3098D7E16B90ACF00476109 /* JCSFlipGameCenterInviteDelegate.h */,
 				F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */,
 				F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */,
 				F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */,

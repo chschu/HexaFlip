@@ -74,8 +74,18 @@
     
     [self addChild:_parallax];
     
+    // set this instance as delegate for game center invites
+    [JCSFlipGameCenterManager sharedInstance].gameCenterInviteDelegate = self;
+    
     // enable the main menu screen
     [self switchToScreen:_mainMenuScreen animated:NO];
+}
+
+- (void)onExit {
+    [super onExit];
+    
+    // remove delegate registration
+    [JCSFlipGameCenterManager sharedInstance].gameCenterInviteDelegate = nil;
 }
 
 - (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
@@ -152,7 +162,7 @@
     if (screen.screenEnabled) {
         _multiplayer = YES;
         [self switchToScreen:_multiplayerScreen animated:YES completionBlock:^{
-            [_multiplayerScreen presentMatchMakerViewController];
+            [_multiplayerScreen presentMatchMakerViewControllerWithPlayersToInvite:nil];
         }];
     }
 }
@@ -180,7 +190,7 @@
     if (screen.screenEnabled) {
         if (_multiplayer) {
             [self switchToScreen:_multiplayerScreen animated:YES completionBlock:^{
-                [_multiplayerScreen presentMatchMakerViewController];
+                [_multiplayerScreen presentMatchMakerViewControllerWithPlayersToInvite:nil];
             }];
         } else {
             // TODO confirmation screen
@@ -220,5 +230,15 @@
         }];
     }
 }
+
+#pragma mark JCSFlipGameCenterInviteDelegate methods
+
+- (void)presentInviteWithPlayers:(NSArray *)playersToInvite {
+    _multiplayer = YES;
+    [self switchToScreen:_multiplayerScreen animated:YES completionBlock:^{
+        [_multiplayerScreen presentMatchMakerViewControllerWithPlayersToInvite:playersToInvite];
+    }];
+}
+
 
 @end

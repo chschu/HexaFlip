@@ -19,7 +19,7 @@
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIMultiplayerScreenDelegate> delegate;
 
-// modally present the controller for matchmaking
-- (void)presentMatchMakerViewController;
+// modally present the controller for matchmaking, inviting the given players (may be nil)
+- (void)presentMatchMakerViewControllerWithPlayersToInvite:(NSArray *)playersToInvite;
 
 @end

@@ -10,11 +10,13 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipMoveInputDelegate.h"
+#import "JCSFlipGameCenterInviteDelegate.h"
 
 @implementation JCSFlipGameCenterManager
 
 @synthesize currentMatch = _currentMatch;
 @synthesize moveInputDelegate = _moveInputDelegate;
+@synthesize gameCenterInviteDelegate = _gameCenterInviteDelegate;
 
 static JCSFlipGameCenterManager *_sharedInstance = nil;
 
@@ -95,13 +97,6 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     return result;
 }
 
-#pragma mark GKTurnBasedEventHandlerDelegate methods
-
-// If Game Center initiates a match the developer should create a GKTurnBasedMatch from playersToInvite and present a GKTurnbasedMatchmakerViewController.
-- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-    // TODO implement
-}
-
 - (void)inputMove:(JCSFlipMove *)move {
     // perform move input
     // TODO we have the exact same thing in the AI player class - refactor!
@@ -123,6 +118,13 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
         [_moveInputDelegate inputConfirmedWithMove:move];
     });
+}
+
+#pragma mark GKTurnBasedEventHandlerDelegate methods
+
+// If Game Center initiates a match the developer should create a GKTurnBasedMatch from playersToInvite and present a GKTurnbasedMatchmakerViewController.
+- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
+    [_gameCenterInviteDelegate presentInviteWithPlayers:playersToInvite];
 }
 
 // handleTurnEventForMatch is called when becomes this player's turn. It may also get called if the player's turn has a timeout and it is about to expire. Note this may also arise from the player accepting an invite from another player. Because of this the app needs to be prepared to handle this even while the player is taking a turn in an existing match.
