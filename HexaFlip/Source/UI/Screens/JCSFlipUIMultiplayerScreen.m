@@ -31,6 +31,10 @@
     
     GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
     mmvc.turnBasedMatchmakerDelegate = self;
+    // don't show existing matches when inviting
+    if (playersToInvite != nil) {
+        mmvc.showExistingMatches = NO;
+    }
     [[CCDirector sharedDirector] presentViewController:mmvc animated:YES completion:nil];
 }
 
