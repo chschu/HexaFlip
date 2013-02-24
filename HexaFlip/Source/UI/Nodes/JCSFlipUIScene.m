@@ -74,6 +74,9 @@
     
     [self addChild:_parallax];
     
+    // register for the game center authentication
+    [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
+    
     // set this instance as delegate for game center invites
     [JCSFlipGameCenterManager sharedInstance].gameCenterInviteDelegate = self;
     
@@ -84,8 +87,18 @@
 - (void)onExit {
     [super onExit];
     
+    [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
+    
     // remove delegate registration
     [JCSFlipGameCenterManager sharedInstance].gameCenterInviteDelegate = nil;
+}
+
+- (void)playerAuthenticationDidChange:(NSNotification *)notification {
+    // if the authentication changed while we're in a multiplayer game, switch to game selection
+    if (_multiplayer) {
+        // TODO only switch if the player did authenticate (not de-authenticate)
+        [self switchToScreen:_mainMenuScreen animated:YES];
+    }
 }
 
 - (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
