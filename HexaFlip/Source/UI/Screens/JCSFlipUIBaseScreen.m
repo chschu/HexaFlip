@@ -13,14 +13,4 @@
 @synthesize screenPoint;
 @synthesize screenEnabled = _screenEnabled;
 
-// base implementation
-// override if more sophisticated handling is required
-// TODO this should not be implemented here - move to subclasses
-- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
-    _screenEnabled = screenEnabled;
-    if (completion != nil) {
-        completion();
-    }
-}
-
 @end

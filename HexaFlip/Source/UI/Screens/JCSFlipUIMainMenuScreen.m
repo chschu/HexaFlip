@@ -55,4 +55,11 @@
     [self syncUIState];
 }
 
+- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
+    _screenEnabled = screenEnabled;
+    if (completion != nil) {
+        completion();
+    }
+}
+
 @end

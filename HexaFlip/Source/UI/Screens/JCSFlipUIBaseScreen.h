@@ -10,10 +10,18 @@
 
 #import "cocos2d.h"
 
-@interface JCSFlipUIBaseScreen : CCNode <JCSFlipUIScreenWithPoint> {
+// partial implementation of JCSFlipUIScreenWithPoint
+@interface JCSFlipUIBaseScreen : CCNode {
     @protected
-    // variable 
+    // value of the "screenEnabled" property, so subclasses can set it
     BOOL _screenEnabled;
 }
+
+// "enabled" indicator of the screen
+@property (readonly, nonatomic) BOOL screenEnabled;
+
+// row and column where the screen is placed
+// both coordinates must be integers
+@property (nonatomic) CGPoint screenPoint;
 
 @end
