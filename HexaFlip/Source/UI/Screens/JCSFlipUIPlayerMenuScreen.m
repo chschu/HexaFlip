@@ -35,8 +35,6 @@
 }
 
 @synthesize delegate = _delegate;
-@synthesize screenEnabled = _screenEnabled;
-@synthesize screenPoint = _screenPoint;
 
 @synthesize opponent = _opponent;
 

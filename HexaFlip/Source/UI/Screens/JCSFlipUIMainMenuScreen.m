@@ -18,8 +18,6 @@
 }
 
 @synthesize delegate = _delegate;
-@synthesize screenEnabled = _screenEnabled;
-@synthesize screenPoint = _screenPoint;
 
 - (id)init {
     if (self = [super init]) {

@@ -8,18 +8,18 @@
 
 #import <GameKit/GameKit.h>
 
-#import "JCSFlipUIScreenWithPoint.h"
+#import "JCSFlipUIBaseScreen.h"
 
 #import "cocos2d.h"
 
 @protocol JCSFlipUIMultiplayerScreenDelegate;
 
-@interface JCSFlipUIMultiplayerScreen : CCNode <JCSFlipUIScreenWithPoint, GKTurnBasedMatchmakerViewControllerDelegate>
+@interface JCSFlipUIMultiplayerScreen : JCSFlipUIBaseScreen <GKTurnBasedMatchmakerViewControllerDelegate>
 
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIMultiplayerScreenDelegate> delegate;
 
-// modally present the controller for matchmaking, inviting the given players (may be nil)
-- (void)presentMatchMakerViewControllerWithPlayersToInvite:(NSArray *)playersToInvite;
+// the players to invite (when triggered from the game center app), or nil
+@property (nonatomic) NSArray *playersToInvite;
 
 @end

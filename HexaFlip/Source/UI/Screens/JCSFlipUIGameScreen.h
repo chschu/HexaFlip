@@ -9,7 +9,7 @@
 #import <GameKit/GameKit.h>
 
 #import "JCSFlipMoveInputDelegate.h"
-#import "JCSFlipUIScreenWithPoint.h"
+#import "JCSFlipUIBaseScreen.h"
 
 #import "cocos2d.h"
 
@@ -17,7 +17,7 @@
 @protocol JCSFlipPlayer;
 @protocol JCSFlipUIGameScreenDelegate;
 
-@interface JCSFlipUIGameScreen : CCNode <JCSFlipMoveInputDelegate, JCSFlipUIScreenWithPoint>
+@interface JCSFlipUIGameScreen : JCSFlipUIBaseScreen <JCSFlipMoveInputDelegate>
 
 // the screen delegate
 @property (weak, nonatomic) id<JCSFlipUIGameScreenDelegate> delegate;

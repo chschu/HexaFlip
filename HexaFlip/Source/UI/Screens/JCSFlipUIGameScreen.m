@@ -21,18 +21,16 @@
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
     GKTurnBasedMatch *_match;
-
+    
     // the last move, to be animated on game start (may be nil)
     JCSFlipMove *_lastMove;
-
+    
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_skipItem;
     JCSFlipScoreIndicator *_scoreIndicator;
 }
 
 @synthesize delegate = _delegate;
-@synthesize screenEnabled = _screenEnabled;
-@synthesize screenPoint = _screenPoint;
 
 - (id)init {
     if (self = [super init]) {
@@ -75,7 +73,7 @@
     
     // remove old board
     [_boardLayer removeFromParentAndCleanup:YES];
-
+    
     _state = state;
     if (animateLastMove) {
         // pop last move if present (will be animated it in -startGame)
@@ -84,7 +82,7 @@
             [_state popMove];
         }
     }
-
+    
     // create new board, and center it vertically on the right border
     _boardLayer = [JCSFlipUIBoardLayer nodeWithState:_state];
     _boardLayer.anchorPoint = ccp(1,0);
@@ -97,7 +95,7 @@
     
     // assign match
     _match = match;
-
+    
     // update UI
     [self updateScoreIndicatorAnimated:NO];
     [self enableMoveInput];
@@ -135,10 +133,10 @@
     }
 }
 
-- (void)setScreenEnabled:(BOOL)screenEnabled {
+- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
     _screenEnabled = screenEnabled;
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
-    if (_screenEnabled) {
+    if (screenEnabled) {
         // enable automatic move input by players (e.g. for AI players)
         _playerA.moveInputDelegate = self;
         _playerB.moveInputDelegate = self;
@@ -160,6 +158,9 @@
         
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
+    }
+    if (completion != nil) {
+        completion();
     }
 }
 

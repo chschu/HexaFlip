@@ -15,43 +15,44 @@
 #import "JCSFlipPlayerGameCenter.h"
 #import "JCSFlipGameCenterManager.h"
 
-@implementation JCSFlipUIMultiplayerScreen
+@implementation JCSFlipUIMultiplayerScreen {
+    GKTurnBasedMatchmakerViewController *_mmvc;
+}
 
 @synthesize delegate = _delegate;
-@synthesize screenEnabled = _screenEnabled;
-@synthesize screenPoint = _screenPoint;
+@synthesize playersToInvite = _playersToInvite;
 
-- (void)presentMatchMakerViewControllerWithPlayersToInvite:(NSArray *)playersToInvite {
-    NSAssert(_screenEnabled, @"screen must be enabled");
-    
-    GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
-    matchRequest.minPlayers = 2;
-    matchRequest.maxPlayers = 2;
-    matchRequest.playersToInvite = playersToInvite;
-    
-    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
-    mmvc.turnBasedMatchmakerDelegate = self;
-    // don't show existing matches when inviting
-    if (playersToInvite != nil) {
-        mmvc.showExistingMatches = NO;
+- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
+    _screenEnabled = screenEnabled;
+    if (screenEnabled) {
+        GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
+        matchRequest.minPlayers = 2;
+        matchRequest.maxPlayers = 2;
+        matchRequest.playersToInvite = _playersToInvite;
+        
+        _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
+        _mmvc.turnBasedMatchmakerDelegate = self;
+        // don't show existing matches when inviting
+        if (_playersToInvite != nil) {
+            _mmvc.showExistingMatches = NO;
+        }
+        [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:completion];
+    } else {
+        [_mmvc dismissViewControllerAnimated:YES completion:completion];
+        _mmvc = nil;
     }
-    [[CCDirector sharedDirector] presentViewController:mmvc animated:YES completion:nil];
 }
 
 #pragma mark GKTurnBasedMatchmakerViewControllerDelegate methods
 
 // The user has cancelled
 - (void)turnBasedMatchmakerViewControllerWasCancelled:(GKTurnBasedMatchmakerViewController *)viewController {
-    [viewController dismissViewControllerAnimated:YES completion:^{
-        [_delegate matchMakingCancelledFromMultiplayerScreen:self];
-    }];
+    [_delegate matchMakingCancelledFromMultiplayerScreen:self];
 }
 
 // Matchmaking has failed with an error
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFailWithError:(NSError *)error {
-    [viewController dismissViewControllerAnimated:YES completion:^{
-        [_delegate matchMakingFailedWithError:error fromMultiplayerScreen:self];
-    }];
+    [_delegate matchMakingFailedWithError:error fromMultiplayerScreen:self];
 }
 
 // A turned-based match has been found, the game should start
@@ -79,10 +80,8 @@
     // animate the last move only if it's the local player's turn
     [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:localPlayerToMove fromMultiplayerScreen:self];
 
-    [viewController dismissViewControllerAnimated:YES completion:^{
-        // start the game
-        [_delegate startPreparedGameFromMultiplayerScreen:self];
-    }];
+    // start the game
+    [_delegate startPreparedGameFromMultiplayerScreen:self];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.

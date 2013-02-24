@@ -52,6 +52,7 @@
 		F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */; };
 		F388F0B71607C897004CCF7D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B51607C897004CCF7D /* Default.png */; };
 		F388F0B81607C897004CCF7D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B61607C897004CCF7D /* Default@2x.png */; };
+		F3A475E916DA81A700A2FDD4 /* JCSFlipUIBaseScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */; };
 		F3A8B38115EE9C9800FAD822 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110515EE9A030057309C /* Icon.png */; };
 		F3A8B38215EE9C9800FAD822 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110615EE9A030057309C /* Icon@2x.png */; };
 		F3A8B38315EE9C9800FAD822 /* texture-atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110715EE9A030057309C /* texture-atlas-hd.plist */; };
@@ -430,6 +431,8 @@
 		F3A2607F163C91BD0035A0D1 /* cell-overlay.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cell-overlay.xcf"; sourceTree = "<group>"; };
 		F3A2609D1642D9EE0035A0D1 /* board.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = board.xcf; sourceTree = "<group>"; };
 		F3A260A01642DA2E0035A0D1 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
+		F3A475E716DA81A500A2FDD4 /* JCSFlipUIBaseScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBaseScreen.h; sourceTree = "<group>"; };
+		F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBaseScreen.m; sourceTree = "<group>"; };
 		F3A8B38A15EE9CC800FAD822 /* JCSFlipGameState+GameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCSFlipGameState+GameNode.h"; sourceTree = "<group>"; };
 		F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCSFlipGameState+GameNode.m"; sourceTree = "<group>"; };
 		F3A8B38C15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
@@ -815,6 +818,8 @@
 			children = (
 				F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */,
 				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
+				F3A475E716DA81A500A2FDD4 /* JCSFlipUIBaseScreen.h */,
+				F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */,
 				F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */,
 				F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */,
 				F31078531646D42E00FE7FC2 /* JCSFlipUIMainMenuScreenDelegate.h */,
@@ -1689,6 +1694,7 @@
 				F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */,
 				F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */,
 				F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */,
+				F3A475E916DA81A700A2FDD4 /* JCSFlipUIBaseScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
