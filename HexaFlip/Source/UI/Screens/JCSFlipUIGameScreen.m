@@ -37,7 +37,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // create the exit button
-        CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"stop" block:^(id sender) {
+        CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
             [_delegate exitFromGameScreen:self];
         }];
         exitItem.anchorPoint = ccp(0,1);
