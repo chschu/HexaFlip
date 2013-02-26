@@ -113,7 +113,7 @@
 // for screens with point (conforming to protocol JCSFlipUIScreenWithPoint), the screen is made visible
 // for screens without point, the "animated" parameter is ignored, because no animation is required
 // the completion block is called after the new screen has been enabled
-- (void)switchToScreen:(id<JCSFlipUIScreenWithPoint>)screen animated:(BOOL)animated completionBlock:(void(^)())block {
+- (void)switchToScreen:(id<JCSFlipUIScreenWithPoint>)screen animated:(BOOL)animated completion:(void(^)())completion {
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
     // create local references to avoid retaining self in the blocks below
@@ -141,7 +141,7 @@
         
         // action to enable the new screen
         CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
-            [scene setScreen:screen enabled:YES completion:block];
+            [scene setScreen:screen enabled:YES completion:completion];
         }];
         [actions addObject:enableNewScreen];
         
@@ -172,7 +172,7 @@
 
 // convenience method to switch the screen without a completion block
 - (void)switchToScreen:(id<JCSFlipUIScreenWithPoint>)screen animated:(BOOL)animated {
-    [self switchToScreen:screen animated:animated completionBlock:nil];
+    [self switchToScreen:screen animated:animated completion:nil];
 }
 
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
@@ -188,7 +188,7 @@
     if (screen.screenEnabled) {
         _multiplayer = YES;
         _multiplayerScreen.playersToInvite = nil;
-        [self switchToScreen:_multiplayerScreen animated:YES completionBlock:nil];
+        [self switchToScreen:_multiplayerScreen animated:YES];
     }
 }
 
@@ -197,7 +197,7 @@
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
         [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:playerA playerB:playerB match:nil animateLastMove:NO];
-        [self switchToScreen:_gameScreen animated:YES completionBlock:^{
+        [self switchToScreen:_gameScreen animated:YES completion:^{
             [_gameScreen startGame];
         }];
     }
@@ -215,7 +215,7 @@
     if (screen.screenEnabled) {
         if (_multiplayer) {
             _multiplayerScreen.playersToInvite = nil;
-            [self switchToScreen:_multiplayerScreen animated:YES completionBlock:nil];
+            [self switchToScreen:_multiplayerScreen animated:YES];
         } else {
             // TODO confirmation screen
             [self switchToScreen:_mainMenuScreen animated:YES];
@@ -249,7 +249,7 @@
 
 - (void)startPreparedGameFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        [self switchToScreen:_gameScreen animated:YES completionBlock:^{
+        [self switchToScreen:_gameScreen animated:YES completion:^{
             [_gameScreen startGame];
         }];
     }
@@ -260,8 +260,7 @@
 - (void)presentInviteWithPlayers:(NSArray *)playersToInvite {
     _multiplayer = YES;
     _multiplayerScreen.playersToInvite = playersToInvite;
-    [self switchToScreen:_multiplayerScreen animated:YES completionBlock:nil];
+    [self switchToScreen:_multiplayerScreen animated:YES];
 }
-
 
 @end
