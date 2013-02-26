@@ -116,9 +116,11 @@
 - (void)switchToScreen:(id<JCSFlipUIScreenWithPoint>)screen animated:(BOOL)animated completionBlock:(void(^)())block {
     NSMutableArray *actions = [[NSMutableArray alloc] init];
     
-    // disable old screen
+    // create local references to avoid retaining self in the blocks below
     CCParallaxNode *parallax = _parallax;
     JCSFlipUIScene *scene = self;
+    
+    // disable old screen
     [self setScreen:_activeScreen enabled:NO completion:^{
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CGPoint winSizePoint = ccpFromSize(winSize);
