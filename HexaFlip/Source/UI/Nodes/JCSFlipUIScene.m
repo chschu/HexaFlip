@@ -33,8 +33,6 @@
     // multiplayer pseudo-screen
     JCSFlipUIMultiplayerScreen *_multiplayerScreen;
     
-    BOOL _multiplayer;
-    
     // currently active screen
     // this is the only screen with screenEnabled == YES
     id<JCSFlipUIScreenWithPoint> _activeScreen;
@@ -95,10 +93,9 @@
 
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
     // if the authentication changed while we're in a multiplayer game, switch to game selection
-    if (_multiplayer) {
-        // TODO only switch if the player did authenticate (not de-authenticate)
-        [self switchToScreen:_mainMenuScreen animated:YES];
-    }
+    // TODO only switch if the player did authenticate (not de-authenticate)
+    // TODO only switch if not in single-player game
+    [self switchToScreen:_mainMenuScreen animated:YES];
 }
 
 - (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
@@ -179,14 +176,12 @@
 
 - (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
-        _multiplayer = NO;
         [self switchToScreen:_playerMenuScreen animated:YES];
     }
 }
 
 - (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
     if (screen.screenEnabled) {
-        _multiplayer = YES;
         _multiplayerScreen.playersToInvite = nil;
         [self switchToScreen:_multiplayerScreen animated:YES];
     }
@@ -211,9 +206,9 @@
 
 #pragma mark JCSFlipUIGameScreenDelegate methods
 
-- (void)exitFromGameScreen:(JCSFlipUIGameScreen *)screen {
+- (void)exitGameMultiplayer:(BOOL)multiplayer fromGameScreen:(JCSFlipUIGameScreen *)screen {
     if (screen.screenEnabled) {
-        if (_multiplayer) {
+        if (multiplayer) {
             _multiplayerScreen.playersToInvite = nil;
             [self switchToScreen:_multiplayerScreen animated:YES];
         } else {
@@ -258,7 +253,6 @@
 #pragma mark JCSFlipGameCenterInviteDelegate methods
 
 - (void)presentInviteWithPlayers:(NSArray *)playersToInvite {
-    _multiplayer = YES;
     _multiplayerScreen.playersToInvite = playersToInvite;
     [self switchToScreen:_multiplayerScreen animated:YES];
 }

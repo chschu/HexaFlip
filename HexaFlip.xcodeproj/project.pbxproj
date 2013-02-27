@@ -817,9 +817,9 @@
 			isa = PBXGroup;
 			children = (
 				F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */,
-				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
 				F3A475E716DA81A500A2FDD4 /* JCSFlipUIBaseScreen.h */,
 				F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */,
+				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
 				F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */,
 				F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */,
 				F31078531646D42E00FE7FC2 /* JCSFlipUIMainMenuScreenDelegate.h */,

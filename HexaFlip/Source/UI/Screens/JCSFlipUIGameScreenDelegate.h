@@ -13,6 +13,6 @@
 @protocol JCSFlipUIGameScreenDelegate <NSObject>
 
 // invoked when the game has been exited by using the exit button
-- (void)exitFromGameScreen:(JCSFlipUIGameScreen *)screen;
+- (void)exitGameMultiplayer:(BOOL)multiplayer fromGameScreen:(JCSFlipUIGameScreen *)screen;
 
 @end
