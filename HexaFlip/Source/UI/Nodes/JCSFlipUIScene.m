@@ -92,10 +92,11 @@
 }
 
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
-    // if the authentication changed while we're in a multiplayer game, switch to game selection
-    // TODO only switch if the player did authenticate (not de-authenticate)
-    // TODO only switch if not in single-player game
-    [self switchToScreen:_mainMenuScreen animated:YES];
+    // if the player de-authenticated, switch to main menu
+    if (![JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated) {
+        // TODO only switch if not in single-player game
+        [self switchToScreen:_mainMenuScreen animated:YES];
+    }
 }
 
 - (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {
