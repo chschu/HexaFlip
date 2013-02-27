@@ -13,19 +13,16 @@
 
 - (float)valueOfNode:(JCSFlipGameState *)node {
     float score;
-    switch (node.status) {
-		case JCSFlipGameStatusPlayerAWon:
-		case JCSFlipGameStatusPlayerBWon:
-		case JCSFlipGameStatusDraw:
-            if (node.cellCountPlayerA == 0) {
-                score = -INFINITY;
-            } else if (node.cellCountPlayerB == 0) {
-                score = INFINITY;
-            } else {
-                score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
-            }
-		default:
-            score = node.cellCountPlayerA-node.cellCountPlayerB;
+    if (JCSFlipGameStatusIsOver(node.status)) {
+        if (node.cellCountPlayerA == 0) {
+            score = -INFINITY;
+        } else if (node.cellCountPlayerB == 0) {
+            score = INFINITY;
+        } else {
+            score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
+        }
+    } else {
+        score = node.cellCountPlayerA-node.cellCountPlayerB;
     }
     return score;
 }
