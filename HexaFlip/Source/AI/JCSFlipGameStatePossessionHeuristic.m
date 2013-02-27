@@ -12,14 +12,22 @@
 @implementation JCSFlipGameStatePossessionHeuristic
 
 - (float)valueOfNode:(JCSFlipGameState *)node {
+    float score;
     switch (node.status) {
 		case JCSFlipGameStatusPlayerAWon:
 		case JCSFlipGameStatusPlayerBWon:
 		case JCSFlipGameStatusDraw:
-            return 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
+            if (node.cellCountPlayerA == 0) {
+                score = -INFINITY;
+            } else if (node.cellCountPlayerB == 0) {
+                score = INFINITY;
+            } else {
+                score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
+            }
 		default:
-            return node.cellCountPlayerA-node.cellCountPlayerB;
+            score = node.cellCountPlayerA-node.cellCountPlayerB;
     }
+    return score;
 }
 
 @end

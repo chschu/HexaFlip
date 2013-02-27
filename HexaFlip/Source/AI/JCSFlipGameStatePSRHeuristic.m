@@ -32,7 +32,13 @@
 		case JCSFlipGameStatusPlayerAWon:
 		case JCSFlipGameStatusPlayerBWon:
 		case JCSFlipGameStatusDraw:
-            score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
+            if (node.cellCountPlayerA == 0) {
+                score = -INFINITY;
+            } else if (node.cellCountPlayerB == 0) {
+                score = INFINITY;
+            } else {
+                score = 1e20 * (node.cellCountPlayerA-node.cellCountPlayerB);
+            }
             break;
 		default:
             // start out with the random part
