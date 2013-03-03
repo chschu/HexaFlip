@@ -68,7 +68,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 
 // index into the cell states array
 // parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
-#define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
+#define JCS_CELL_STATE_INDEX(size, row, column) ((2*(size)-1)*((row)+((size)-1)) + (column)+((size)-1))
 
 // total number of cells (including holes)
 #define JCS_CELL_COUNT(size) ((2*(size)-1)*(2*(size)-1))
@@ -178,13 +178,13 @@ typedef struct JCSFlipGameStateMoveInfo {
     if (row <= -_size || row >= _size || column <= -_size || column >= _size) {
         return JCSFlipCellStateHole;
     }
-    NSInteger index = JCS_CELL_STATE_INDEX(row, column);
+    NSInteger index = JCS_CELL_STATE_INDEX(_size, row, column);
     return _cellStates[index];
 }
 
 // private accessor to set a cell state (without range check)
 - (void)setCellState:(JCSFlipCellState)cellState atRow:(NSInteger)row column:(NSInteger)column {
-    NSInteger index = JCS_CELL_STATE_INDEX(row, column);
+    NSInteger index = JCS_CELL_STATE_INDEX(_size, row, column);
     
     // subtract one for old state
     switch (_cellStates[index]) {
@@ -569,7 +569,7 @@ NSString *coderKey_moveStackArray = @"d";
     NSAssert(length == JCS_CELL_COUNT(size), @"invalid length");
     
     self = [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
-        return cellStates[JCS_CELL_STATE_INDEX(row, column)];
+        return cellStates[JCS_CELL_STATE_INDEX(size, row, column)];
     }];
     
     _moveInfoStackTop = [self convertArrayToMoveStack:[aDecoder decodeObjectForKey:coderKey_moveStackArray] startIndex:0];
