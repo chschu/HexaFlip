@@ -659,6 +659,9 @@
         [expectedMoveStrings removeObject:moveString];
     }];
     
+    // check that all moves have been considered
+    STAssertTrue(expectedMoveStrings.count == 0, nil);
+    
     // check the next state for the moves from (1,3) southwest
     [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
         if (move.startRow == 1 && move.startColumn == 3 && move.direction == JCSHexDirectionSW) {
