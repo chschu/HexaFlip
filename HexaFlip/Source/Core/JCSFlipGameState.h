@@ -76,6 +76,7 @@
 // each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver
 // iteration stops prematurely when the block sets *stop to YES
 // a new move instance is passed to each invocation of the block
+// special case: if two or more moves lead to the same game state, only one of them is considered (no-flip moves with the same target cell)
 - (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block;
 
 // encode the receiver using the given NSCoder instance

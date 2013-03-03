@@ -405,7 +405,10 @@ typedef struct JCSFlipGameStateMoveInfo {
     
     // initialize dummy move
     JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
-    
+
+    // indexes of target cells that already were the target of a no-flip move
+    NSMutableSet *noFlipTargetCellIndexes = [NSMutableSet set];
+ 
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells
         if (cellState == playerCellState) {
@@ -416,6 +419,22 @@ typedef struct JCSFlipGameStateMoveInfo {
             // try all directions, but stop if the block says to do so
             for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
                 move.direction = direction;
+                
+                // determine neighbor cell to check for no-flip move
+                NSInteger nbrRow = row + JCSHexDirectionRowDelta(direction);
+                NSInteger nbrColumn = column + JCSHexDirectionColumnDelta(direction);
+                JCSFlipCellState nbrCellState = [self cellStateAtRow:nbrRow column:nbrColumn];
+                if (nbrCellState == JCSFlipCellStateEmpty) {
+                    // neighbor cell is empty, this is a no-flip move
+                    NSNumber *targetIndexNumber = [NSNumber numberWithInteger:JCS_CELL_STATE_INDEX(_size, nbrRow, nbrColumn)];
+                    if ([noFlipTargetCellIndexes member:targetIndexNumber]) {
+                        // this no-flip move is equivalent to another no-flip move that has already been scanned
+                        continue;
+                    }
+                    // remember target cell index, and continue with the move
+                    [noFlipTargetCellIndexes addObject:targetIndexNumber];
+                }
+                
                 // try the move
                 if ([self pushMove:move]) {
                     // move is valid - invoke block with immutable move copy

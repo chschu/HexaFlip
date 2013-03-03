@@ -691,6 +691,73 @@
     STAssertEquals(underTest.cellCountEmpty, 44, nil);
 }
 
+- (void)testApplyAllPossibleMovesAndInvokeBlockNoFlipOnlyOnce {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // B-A chain starting at (-1,0) and pointing NW, and B-A chain starting at (1,-3) and pointing SE
+        if ((row == 0 && column == -1) || (row == 0 && column == -2)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if ((row == -1 && column == 0) || (row == 1 && column == -3)) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    
+    // the possible moves for A are:
+    // start at (0,-2) and move in any direction except NW
+    // start at (0,-1) and move in any direction
+    
+    NSMutableSet *expectedMoveStrings = [NSMutableSet set];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionNE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionSE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionNE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionNW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionSE]];
+    
+    // check the expected moves
+    [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+        STAssertFalse(move.skip, nil);
+        NSString *moveString = [self stringForMoveWithStartRow:move.startRow column:move.startColumn direction:move.direction];
+        STAssertTrue([expectedMoveStrings containsObject:moveString], [NSString stringWithFormat:@"unexpected move string %@", moveString]);
+        [expectedMoveStrings removeObject:moveString];
+    }];
+    
+    // the possible no-flip moves for A are:
+    // start at (0,-2) and move SE (target (-1,-1))
+    // start at (0,-2) and move NE (target (1,-2))
+    // start at (0,-1) and move SW (target (-1,-1))
+    // start at (0,-1) and move NW (target (1,-2))
+    
+    // check that exactly one of the no-flip moves with the same target has been considered
+    BOOL noFlip1aRemoved = ![expectedMoveStrings containsObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionSE]];
+    BOOL noFlip1bRemoved = ![expectedMoveStrings containsObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionSW]];
+    STAssertTrue(noFlip1aRemoved ^ noFlip1bRemoved, nil);
+    
+    BOOL noFlip2aRemoved = ![expectedMoveStrings containsObject:[self stringForMoveWithStartRow:0 column:-2 direction:JCSHexDirectionNE]];
+    BOOL noFlip2bRemoved = ![expectedMoveStrings containsObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionNW]];
+    STAssertTrue(noFlip2aRemoved ^ noFlip2bRemoved, nil);
+    
+    // check that all other moves have been considered
+    STAssertTrue(expectedMoveStrings.count == 2, nil);
+    
+    // check that the state is changed back properly
+    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
+    }];
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.cellCountPlayerA, 2, nil);
+    STAssertEquals(underTest.cellCountPlayerB, 2, nil);
+    STAssertEquals(underTest.cellCountEmpty, 45, nil);
+}
+
 - (void)testApplyAllPossibleMovesAndInvokeBlockSkip {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // A at (-1,-1), B at remainder of row -1 and column -1
