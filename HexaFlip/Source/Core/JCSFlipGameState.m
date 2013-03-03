@@ -70,6 +70,9 @@ typedef struct JCSFlipGameStateMoveInfo {
 // parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
 #define JCS_CELL_STATE_INDEX(row, column) ((2*_size-1)*((row)+(_size-1)) + (column)+(_size-1))
 
+// total number of cells (including holes)
+#define JCS_CELL_COUNT(size) ((2*(size)-1)*(2*(size)-1))
+
 // designated initializer
 - (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
@@ -78,7 +81,7 @@ typedef struct JCSFlipGameStateMoveInfo {
     if (self = [super init]) {
         _size = size;
         _playerToMove = playerToMove;
-        _cellStates = malloc((2*_size-1)*(2*_size-1)*sizeof(JCSFlipCellState));
+        _cellStates = malloc(JCS_CELL_COUNT(_size)*sizeof(JCSFlipCellState));
         _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
         _cellCountPlayerA = 0;
         _cellCountPlayerB = 0;
@@ -548,7 +551,7 @@ NSString *coderKey_moveStackArray = @"d";
 - (void)encodeWithCoder:(NSCoder *)aCoder maxMoves:(NSUInteger)maxMoves {
     [aCoder encodeInteger:_size forKey:coderKey_size];
     [aCoder encodeInt:_playerToMove forKey:coderKey_playerToMove];
-    [aCoder encodeBytes:_cellStates length:(2*_size-1)*(2*_size-1) forKey:coderKey_cellStates];
+    [aCoder encodeBytes:_cellStates length:JCS_CELL_COUNT(_size) forKey:coderKey_cellStates];
     [aCoder encodeObject:[self convertMoveStackToArray:_moveInfoStackTop maxMoves:maxMoves] forKey:coderKey_moveStackArray];
 }
 
@@ -563,7 +566,7 @@ NSString *coderKey_moveStackArray = @"d";
     
     NSUInteger length;
     const JCSFlipCellState *cellStates = [aDecoder decodeBytesForKey:coderKey_cellStates returnedLength:&length];
-    NSAssert(length == (2*size-1)*(2*size-1), @"invalid length");
+    NSAssert(length == JCS_CELL_COUNT(size), @"invalid length");
     
     self = [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         return cellStates[JCS_CELL_STATE_INDEX(row, column)];
