@@ -621,6 +621,10 @@
     STAssertFalse(underTest.skipAllowed, nil);
 }
 
+- (NSString *)stringForMoveWithStartRow:(NSInteger)row column:(NSInteger)column direction:(JCSHexDirection)direction {
+    return [NSString stringWithFormat:@"%d,%d %d", row, column, direction];
+}
+
 - (void)testApplyAllPossibleMovesAndInvokeBlockOk {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // hole at (1,-2), A-B chain starting at (-1,0) and pointing NW, and A-B chain starting at (1,-3) and pointing SE
@@ -642,19 +646,19 @@
     // start at (1,-3) and move NE, SW, or SE
     
     NSMutableSet *expectedMoveStrings = [NSMutableSet set];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionNE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionW]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSW]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", -1, 0, JCSHexDirectionSE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionNE]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionSW]];
-    [expectedMoveStrings addObject:[NSString stringWithFormat:@"%d,%d %d", 1, -3, JCSHexDirectionSE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:-1 column:0 direction:JCSHexDirectionE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:-1 column:0 direction:JCSHexDirectionNE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:-1 column:0 direction:JCSHexDirectionW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:-1 column:0 direction:JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:-1 column:0 direction:JCSHexDirectionSE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:1 column:-3 direction:JCSHexDirectionNE]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:1 column:-3 direction:JCSHexDirectionSW]];
+    [expectedMoveStrings addObject:[self stringForMoveWithStartRow:1 column:-3 direction:JCSHexDirectionSE]];
     
     // check the expected moves
     [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
         STAssertFalse(move.skip, nil);
-        NSString *moveString = [NSString stringWithFormat:@"%d,%d %d", move.startRow, move.startColumn, move.direction];
+        NSString *moveString = [self stringForMoveWithStartRow:move.startRow column:move.startColumn direction:move.direction];
         STAssertTrue([expectedMoveStrings containsObject:moveString], [NSString stringWithFormat:@"unexpected move string %@", moveString]);
         [expectedMoveStrings removeObject:moveString];
     }];
