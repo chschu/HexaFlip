@@ -394,7 +394,7 @@ typedef struct JCSFlipGameStateMoveInfo {
     if (JCSFlipGameStatusIsOver(self.status)) {
         // skipping is not allowed
         _skipAllowed = JCSFlipGameStateSkipAllowedNo;
-
+        
         // no need to try any moves
         return;
     }
@@ -405,10 +405,10 @@ typedef struct JCSFlipGameStateMoveInfo {
     
     // initialize dummy move
     JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
-
+    
     // indexes of target cells that already were the target of a no-flip move
-    NSMutableSet *noFlipTargetCellIndexes = [NSMutableSet set];
- 
+    BOOL *isNoFlipTargetCellIndex = calloc(JCS_CELL_COUNT(_size), sizeof(BOOL));
+    
     [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         // try cells with the correct owner as starting cells
         if (cellState == playerCellState) {
@@ -426,13 +426,13 @@ typedef struct JCSFlipGameStateMoveInfo {
                 JCSFlipCellState nbrCellState = [self cellStateAtRow:nbrRow column:nbrColumn];
                 if (nbrCellState == JCSFlipCellStateEmpty) {
                     // neighbor cell is empty, this is a no-flip move
-                    NSNumber *targetIndexNumber = [NSNumber numberWithInteger:JCS_CELL_STATE_INDEX(_size, nbrRow, nbrColumn)];
-                    if ([noFlipTargetCellIndexes member:targetIndexNumber]) {
+                    NSInteger targetIndex = JCS_CELL_STATE_INDEX(_size, nbrRow, nbrColumn);
+                    if (isNoFlipTargetCellIndex[targetIndex]) {
                         // this no-flip move is equivalent to another no-flip move that has already been scanned
                         continue;
                     }
-                    // remember target cell index, and continue with the move
-                    [noFlipTargetCellIndexes addObject:targetIndexNumber];
+                    // mark target cell index, and continue with the move
+                    isNoFlipTargetCellIndex[targetIndex] = YES;
                 }
                 
                 // try the move
@@ -450,6 +450,9 @@ typedef struct JCSFlipGameStateMoveInfo {
             }
         }
     }];
+    
+    // release the no-flip move detection array
+    free(isNoFlipTargetCellIndex);
     
     if (!hasValidMove) {
         // skipping is allowed
