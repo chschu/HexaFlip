@@ -71,7 +71,6 @@
 - (float)maximizeWithDepth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder currentHeuristicValue:(float)heuristicValue {
     _count++;
 	id bestMove = nil;
-	float bestScore = -INFINITY;
     
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
@@ -82,35 +81,34 @@
                 float score = [self minimizeWithDepth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil currentHeuristicValue:entry->childHeuristicValue];
                 [_node popMove];
                 
-                if (score > bestScore || bestMove == nil) {
+                if (score > alpha) {
                     bestMove = entry->move;
-                    bestScore = score;
-                    if (score > alpha) {
-                        alpha = score;
-                    }
-                    if (score >= beta) {
+                    alpha = score;
+                    if (alpha >= beta) {
                         break;
                     }
+                } else if (bestMove == nil) {
+                    // keep first move, just in case there are only really bad moves
+                    bestMove = entry->move;
                 }
             }
         }
-        NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
-        bestScore = heuristicValue;
+        alpha = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
+        NSAssert(bestMove != nil, @"must have a best move");
         *bestMoveHolder = bestMove;
     }
     
-    return bestScore;
+    return alpha;
 }
 
 - (float)minimizeWithDepth:(NSInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id *)bestMoveHolder currentHeuristicValue:(float)heuristicValue {
     _count++;
 	id bestMove = nil;
-	float bestScore = INFINITY;
     
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
@@ -121,29 +119,29 @@
                 float score = [self maximizeWithDepth:depth-1 alpha:alpha beta:beta bestMoveHolder:nil currentHeuristicValue:entry->childHeuristicValue];
                 [_node popMove];
                 
-                if (score < bestScore || bestMove == nil) {
+                if (score < beta) {
                     bestMove = entry->move;
-                    bestScore = score;
-                    if (score < beta) {
-                        beta = score;
-                    }
-                    if (score <= alpha) {
+                    beta = score;
+                    if (alpha >= beta) {
                         break;
                     }
+                } else if (bestMove == nil) {
+                    // keep first move, just in case there are only really bad moves
+                    bestMove = entry->move;
                 }
             }
         }
-        NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
-        bestScore = heuristicValue;
+        beta = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
+        NSAssert(bestMove != nil, @"must have a best move");
         *bestMoveHolder = bestMove;
     }
     
-    return bestScore;
+    return beta;
 }
 
 - (NSArray *)sortedChildrenAscending:(BOOL)ascending {
