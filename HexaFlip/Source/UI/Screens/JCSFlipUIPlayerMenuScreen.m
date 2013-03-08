@@ -16,12 +16,6 @@
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
 
-@interface JCSFlipUIPlayerMenuScreen ()
-
-@property id<JCSFlipPlayer> opponent;
-
-@end
-
 @implementation JCSFlipUIPlayerMenuScreen {
     CCMenuItem *_playItem;
     JCSRadioMenu *_playerSideRadioMenu;
@@ -32,17 +26,15 @@
     CCMenuItem *_playerBItem;
     CCMenuItem *_opponentAItem;
     CCMenuItem *_opponentBItem;
+    
+    NSInteger _opponentLevel;
 }
 
 @synthesize delegate = _delegate;
 
-@synthesize opponent = _opponent;
-
 - (id)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
-        
-        id<JCSFlipPlayer> player = [JCSFlipPlayerLocal player];
         
         // create back button
         CCMenuItem *backItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
@@ -52,11 +44,27 @@
         backItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
         
         _playerIsPlayerA = YES;
+        _opponentLevel = 0;
         
         // create play button
         _playItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"play" block:^(id sender) {
-            id<JCSFlipPlayer> playerA = (_playerIsPlayerA ? player : _opponent);
-            id<JCSFlipPlayer> playerB = (_playerIsPlayerA ? _opponent : player);
+            id<JCSFlipPlayer> player = [JCSFlipPlayerLocal player];
+            id<JCSFlipPlayer> opponent;
+            switch (_opponentLevel) {
+                case 1:
+                    opponent = [self playerAIEasy];
+                    break;
+                case 2:
+                    opponent = [self playerAIMedium];
+                    break;
+                case 3:
+                    opponent = [self playerAIHard];
+                    break;
+                default:
+                    NSAssert(NO, @"invalid opponentLevel");
+            }
+            id<JCSFlipPlayer> playerA = (_playerIsPlayerA ? player : opponent);
+            id<JCSFlipPlayer> playerB = (_playerIsPlayerA ? opponent : player);
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
         _playItem.anchorPoint = ccp(1,1);
@@ -97,17 +105,20 @@
         _opponentBItem.position = ccp(xDistance+xOffset,-yDistance/2);
         
         CCMenuItem *opponentAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
-            self.opponent = [self playerAIEasy];
+            _opponentLevel = 1;
+            [self updateUIState];
         }];
         opponentAIEasyItem.position = ccp(-xDistance,-yDistance/2);
         
         CCMenuItem *opponentAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium"  block:^(id sender) {
-            self.opponent = [self playerAIMedium];
+            _opponentLevel = 2;
+            [self updateUIState];
         }];
         opponentAIMediumItem.position = ccp(0,-yDistance/2);
         
         CCMenuItem *opponentAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard"  block:^(id sender) {
-            self.opponent = [self playerAIHard];
+            _opponentLevel = 3;
+            [self updateUIState];
         }];
         opponentAIHardItem.position = ccp(xDistance,-yDistance/2);
         
@@ -133,18 +144,9 @@
 }
 
 - (void)updateUIState {
-    _playItem.isEnabled = (_opponent != nil);
+    _playItem.isEnabled = (_opponentLevel != 0);
     _playerSideRadioMenu.selectedItem = (_playerIsPlayerA ? _playerAItem : _playerBItem);
     _opponentSideRadioMenu.selectedItem = (_playerIsPlayerA ? _opponentBItem : _opponentAItem);
-}
-
-- (void)setOpponent:(id<JCSFlipPlayer>)opponent {
-    _opponent = opponent;
-    [self updateUIState];
-}
-
-- (id<JCSFlipPlayer>)opponent {
-    return _opponent;
 }
 
 - (id<JCSFlipPlayer>)playerAIEasy {
