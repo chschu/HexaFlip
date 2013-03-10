@@ -93,13 +93,13 @@
                 }
             }
         }
+        NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
         alpha = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
-        NSAssert(bestMove != nil, @"must have a best move");
         *bestMoveHolder = bestMove;
     }
     
@@ -131,13 +131,13 @@
                 }
             }
         }
+        NSAssert(bestMove != nil, @"must have a best move");
     } else {
         // maximum depth reached, or leaf node - take the node's heuristic value
         beta = heuristicValue;
     }
     
     if (bestMoveHolder != nil) {
-        NSAssert(bestMove != nil, @"must have a best move");
         *bestMoveHolder = bestMove;
     }
     
