@@ -9,7 +9,7 @@
 #import "JCSGameNode.h"
 #import "JCSFlipGameState.h"
 
-// Adapter category to make JCSFlipGameState usable with the Minimax algorithm
+// Adapter category to make JCSFlipGameState usable with game algorithms
 @interface JCSFlipGameState (GameNode) <JCSGameNode>
 
 @end

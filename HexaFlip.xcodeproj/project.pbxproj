@@ -62,7 +62,7 @@
 		F3A8B3B915EE9CC800FAD822 /* JCSFlipGameState+GameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */; };
 		F3A8B3BA15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38D15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m */; };
 		F3A8B3BB15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38F15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m */; };
-		F3A8B3BC15EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39415EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.m */; };
+		F3A8B3BC15EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39415EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m */; };
 		F3A8B3BD15EE9CC800FAD822 /* JCSRandomGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39615EE9CC800FAD822 /* JCSRandomGameAlgorithm.m */; };
 		F3A8B3BE15EE9CC800FAD822 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39815EE9CC800FAD822 /* AppDelegate.m */; };
 		F3A8B3BF15EE9CC800FAD822 /* JCSFlipGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39C15EE9CC800FAD822 /* JCSFlipGameState.m */; };
@@ -442,8 +442,8 @@
 		F3A8B39015EE9CC800FAD822 /* JCSGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSGameAlgorithm.h; sourceTree = "<group>"; };
 		F3A8B39115EE9CC800FAD822 /* JCSGameHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSGameHeuristic.h; sourceTree = "<group>"; };
 		F3A8B39215EE9CC800FAD822 /* JCSGameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSGameNode.h; sourceTree = "<group>"; };
-		F3A8B39315EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMinimaxGameAlgorithm.h; sourceTree = "<group>"; };
-		F3A8B39415EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSMinimaxGameAlgorithm.m; sourceTree = "<group>"; };
+		F3A8B39315EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSNegamaxGameAlgorithm.h; sourceTree = "<group>"; };
+		F3A8B39415EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSNegamaxGameAlgorithm.m; sourceTree = "<group>"; };
 		F3A8B39515EE9CC800FAD822 /* JCSRandomGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRandomGameAlgorithm.h; sourceTree = "<group>"; };
 		F3A8B39615EE9CC800FAD822 /* JCSRandomGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRandomGameAlgorithm.m; sourceTree = "<group>"; };
 		F3A8B39715EE9CC800FAD822 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -867,8 +867,8 @@
 				F3A8B39015EE9CC800FAD822 /* JCSGameAlgorithm.h */,
 				F3A8B39115EE9CC800FAD822 /* JCSGameHeuristic.h */,
 				F3A8B39215EE9CC800FAD822 /* JCSGameNode.h */,
-				F3A8B39315EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.h */,
-				F3A8B39415EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.m */,
+				F3A8B39315EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.h */,
+				F3A8B39415EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m */,
 				F3A8B39515EE9CC800FAD822 /* JCSRandomGameAlgorithm.h */,
 				F3A8B39615EE9CC800FAD822 /* JCSRandomGameAlgorithm.m */,
 			);
@@ -1673,7 +1673,7 @@
 				F3A8B3B915EE9CC800FAD822 /* JCSFlipGameState+GameNode.m in Sources */,
 				F3A8B3BA15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m in Sources */,
 				F3A8B3BB15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m in Sources */,
-				F3A8B3BC15EE9CC800FAD822 /* JCSMinimaxGameAlgorithm.m in Sources */,
+				F3A8B3BC15EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m in Sources */,
 				F3A8B3BD15EE9CC800FAD822 /* JCSRandomGameAlgorithm.m in Sources */,
 				F3A8B3BE15EE9CC800FAD822 /* AppDelegate.m in Sources */,
 				F3A8B3BF15EE9CC800FAD822 /* JCSFlipGameState.m in Sources */,

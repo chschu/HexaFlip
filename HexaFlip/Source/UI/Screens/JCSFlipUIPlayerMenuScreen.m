@@ -11,7 +11,7 @@
 #import "JCSFlipPlayerAI.h"
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
-#import "JCSMinimaxGameAlgorithm.h"
+#import "JCSNegamaxGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
@@ -151,19 +151,19 @@
 
 - (id<JCSFlipPlayer>)playerAIEasy {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-    id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
+    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 
 - (id<JCSFlipPlayer>)playerAIMedium {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
-    id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
+    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 
 - (id<JCSFlipPlayer>)playerAIHard {
     id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
-    id<JCSGameAlgorithm> algorithm = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
     return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
 }
 

@@ -7,7 +7,7 @@
 //
 
 #import "JCSGameAlgorithm.h"
-#import "JCSMinimaxGameAlgorithm.h"
+#import "JCSNegamaxGameAlgorithm.h"
 #import "JCSRandomGameAlgorithm.h"
 #import "JCSFlipCellState.h"
 #import "JCSFlipGameState.h"
@@ -22,27 +22,27 @@
 
 #define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
 
-- (void)testMinimax2VsMinimax1 {
+- (void)testNegamax2VsNegamax1 {
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:3 randomness:0];
-    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
-    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:1 heuristic:paranoid];
+    id<JCSGameAlgorithm> algoA = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
+    id<JCSGameAlgorithm> algoB = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:paranoid];
     NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
 
-- (void)testMinimax3VsMinimax2 {
+- (void)testNegamax3VsNegamax2 {
     id<JCSGameHeuristic> careless = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0 randomness:2];
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:3 randomness:0];
-    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:careless];
-    id<JCSGameAlgorithm> algoB = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
+    id<JCSGameAlgorithm> algoA = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:3 heuristic:careless];
+    id<JCSGameAlgorithm> algoB = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
     NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
-- (void)testMinimax3VsRandom {
+- (void)testNegamax3VsRandom {
     id<JCSGameHeuristic> safe = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.5 randomness:0.25];
-    id<JCSGameAlgorithm> algoA = [[JCSMinimaxGameAlgorithm alloc] initWithDepth:3 heuristic:safe];
+    id<JCSGameAlgorithm> algoA = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:3 heuristic:safe];
     id<JCSGameAlgorithm> algoB = [[JCSRandomGameAlgorithm alloc] initWithSeed:9391829];
     NSInteger size = 4;
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];

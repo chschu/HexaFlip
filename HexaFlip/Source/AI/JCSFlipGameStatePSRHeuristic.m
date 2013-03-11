@@ -88,7 +88,8 @@
             }
         }];
     }
-    return score;
+    // change sign if it is player B's turn
+    return node.playerToMove == JCSFlipPlayerToMoveA ? score : -score;
 }
 
 @end

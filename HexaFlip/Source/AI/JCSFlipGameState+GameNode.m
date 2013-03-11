@@ -16,10 +16,6 @@
     return JCSFlipGameStatusIsOver(self.status);
 }
 
-- (BOOL)maximizing {
-    return self.playerToMove == JCSFlipPlayerToMoveA;
-}
-
 // the other protocol methods are already implemented in JCSFlipGameState
 
 @end
