@@ -66,15 +66,13 @@
 }
 
 - (id)moveAtNode:(id<JCSGameNode>)node {
-    float score;
     id bestMove = nil;
-    
     _node = node;
     
     _count = 0;
     NSDate *start = [NSDate date];
     
-    score = -[self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove currentHeuristicValue:[_heuristic valueOfNode:node]];
+    float score = [self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove currentHeuristicValue:[_heuristic valueOfNode:node]];
     
     NSLog(@"analyzed %u nodes in %.3f seconds, got best move %@ with score %.3f", _count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score);
     
