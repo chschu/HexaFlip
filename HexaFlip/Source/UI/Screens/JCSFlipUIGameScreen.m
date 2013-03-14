@@ -38,6 +38,8 @@
         
         // create the exit button
         CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
+            [_playerA cancel];
+            [_playerB cancel];
             [_delegate exitGameMultiplayer:(_match != nil) fromGameScreen:self];
         }];
         exitItem.anchorPoint = ccp(0,1);

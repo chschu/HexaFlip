@@ -29,4 +29,8 @@
     // TODO visual notification
 }
 
+- (void)cancel {
+    // do nothing, there is nothing asynchronous
+}
+
 @end

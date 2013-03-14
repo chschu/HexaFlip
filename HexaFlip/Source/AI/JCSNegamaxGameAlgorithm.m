@@ -52,6 +52,9 @@
     
     // search depth
     NSUInteger _depth;
+    
+    // the indicator for cancellation
+    volatile BOOL _canceled;
 }
 
 - (id)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
@@ -61,6 +64,7 @@
     if (self = [super init]) {
         _depth = depth;
         _heuristic = heuristic;
+        _canceled = NO;
     }
     return self;
 }
@@ -74,7 +78,8 @@
     
     float score = [self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove currentHeuristicValue:[_heuristic valueOfNode:node]];
     
-    NSLog(@"analyzed %u nodes in %.3f seconds, got best move %@ with score %.3f", _count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score);
+    NSLog(@"analyzed %u nodes in %.3f seconds, got best move %@ with score %.3f%@",
+          _count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score, _canceled ? @" (canceled)" : @"");
     
     return bestMove;
 }
@@ -102,6 +107,11 @@
                     // keep first move, just in case there are only really bad moves
                     bestMove = entry->move;
                 }
+                
+                // check for cancellation
+                if (_canceled) {
+                    break;
+                }
             }
         }
         NSAssert(bestMove != nil, @"must have a best move");
@@ -128,6 +138,10 @@
     }];
     
     return [result sortedArrayUsingSelector:@selector(compareTo:)];
+}
+
+- (void)cancel {
+    _canceled = YES;
 }
 
 @end

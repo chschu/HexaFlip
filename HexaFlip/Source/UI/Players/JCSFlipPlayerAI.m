@@ -66,4 +66,8 @@
     });
 }
 
+- (void)cancel {
+    [_algorithm cancel];
+}
+
 @end

@@ -83,4 +83,8 @@
     // do nothing, player will be notified by game center
 }
 
+- (void)cancel {
+    // do nothing, there is nothing asynchronous
+}
+
 @end

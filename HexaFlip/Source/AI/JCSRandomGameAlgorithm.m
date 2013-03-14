@@ -36,4 +36,8 @@
     return [moves objectAtIndex:index];
 }
 
+- (void)cancel {
+    // nothing to cancel
+}
+
 @end

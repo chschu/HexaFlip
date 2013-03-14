@@ -26,4 +26,8 @@
 // initiates automatic move input for AI players
 - (void)tellMakeMove:(JCSFlipGameState *)state;
 
+// tell the player instance to stop all currently running asynchronous tasks as soon as possible
+// e.g. stop the "thinking" of an AI player
+- (void)cancel;
+
 @end

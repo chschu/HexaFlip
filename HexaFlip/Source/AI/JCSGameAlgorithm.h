@@ -14,4 +14,8 @@
 // returns nil if there is no possible move
 - (id)moveAtNode:(id<JCSGameNode>)node;
 
+// make the current invocation (if any) and future invocations of moveAtNode: return as soon as possible
+// this makes the algorithm instance practically useless, and is intended to be used when a game is terminated
+- (void)cancel;
+
 @end
