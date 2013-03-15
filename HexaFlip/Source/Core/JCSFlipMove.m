@@ -74,9 +74,9 @@
 
 - (NSString *)description {
     if (_skip) {
-        return [NSString stringWithFormat:@"%@:skip", [self class]];
+        return @"skip";
     }
-    return [NSString stringWithFormat:@"%@:(%d,%d)-%@", [self class], _startRow, _startColumn, JCSHexDirectionName(_direction)];
+    return [NSString stringWithFormat:@"(%d,%d)-%@", _startRow, _startColumn, JCSHexDirectionName(_direction)];
 }
 
 @end
