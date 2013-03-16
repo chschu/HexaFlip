@@ -7,9 +7,10 @@
 //
 
 #import "JCSHexDirection.h"
+#import "JCSMove.h"
 
 // immutable move (see JCSFlipMutableMove for mutable variant)
-@interface JCSFlipMove : NSObject <NSCopying, NSMutableCopying> {
+@interface JCSFlipMove : NSObject <NSCopying, NSMutableCopying, JCSMove> {
     // declare property ivars here, because we also need them in the mutable variant
     BOOL _skip;
     NSInteger _startRow;

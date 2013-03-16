@@ -9,36 +9,7 @@
 #import "JCSNegamaxGameAlgorithm.h"
 #import "JCSGameHeuristic.h"
 #import "JCSGameNode.h"
-
-// simple container class for move ordering
-@interface JCSNegamaxChildData : NSObject {
-    @package
-    // the move
-    id move;
-    
-    // the sort criterion for move ordering
-    float criterion;
-}
-
-- (NSComparisonResult)compareTo:(JCSNegamaxChildData *)other;
-
-@end
-
-@implementation JCSNegamaxChildData
-
-- (NSComparisonResult)compareTo:(JCSNegamaxChildData *)other {
-    float v1 = self->criterion;
-    float v2 = other->criterion;
-    if (v1 < v2) {
-        return NSOrderedAscending;
-    }
-    if (v1 > v2) {
-        return NSOrderedDescending;
-    }
-    return NSOrderedSame;
-}
-
-@end
+#import "JCSMove.h"
 
 @implementation JCSNegamaxGameAlgorithm {
     // the heuristic evaluation to be used
@@ -99,19 +70,19 @@
     
     if (depth > 0 && !_node.leaf) {
         @autoreleasepool {
-            NSArray *entries = [self sortedChildrenAscending];
+            NSArray *moves = [self possibleMoves];
             NSMutableArray *pv = [[NSMutableArray alloc] initWithCapacity:depth-1];
             BOOL first = YES;
-            for (JCSNegamaxChildData *entry in entries) {
+            for (id<JCSMove> move in moves) {
                 
-                [_node pushMove:entry->move];
+                [_node pushMove:move];
                 float score = -[self negamaxWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
                 [_node popMove];
                 
                 if (score > alpha) {
                     first = NO;
                     [principalVariation setArray:pv];
-                    [principalVariation insertObject:entry->move atIndex:0];
+                    [principalVariation insertObject:move atIndex:0];
                     alpha = score;
                     if (alpha >= beta) {
                         break;
@@ -120,7 +91,7 @@
                     // keep first move, just in case there are only really bad moves
                     first = NO;
                     [principalVariation setArray:pv];
-                    [principalVariation insertObject:entry->move atIndex:0];
+                    [principalVariation insertObject:move atIndex:0];
                 }
                 
                 // check for cancellation
@@ -137,17 +108,28 @@
     return alpha;
 }
 
-- (NSArray *)sortedChildrenAscending {
+- (NSArray *)possibleMoves {
     NSMutableArray *result = [NSMutableArray array];
     
-    [_node applyAllPossibleMovesAndInvokeBlock:^(id move, BOOL *stop) {
-        JCSNegamaxChildData *entry = [[JCSNegamaxChildData alloc] init];
-        entry->move = move;
-        entry->criterion = [_heuristic valueOfNode:_node];
-        [result addObject:entry];
+    // determine possible moves and set their value for sorting
+    [_node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move, BOOL *stop) {
+        move.value = [_heuristic valueOfNode:_node];
+        [result addObject:move];
     }];
     
-    return [result sortedArrayUsingSelector:@selector(compareTo:)];
+    // sort by move value
+    // TODO move comparator to JCSMove protocol
+    return [result sortedArrayUsingComparator:^NSComparisonResult(id<JCSMove> obj1, id<JCSMove> obj2) {
+        float v1 = obj1.value;
+        float v2 = obj2.value;
+        if (v1 < v2) {
+            return NSOrderedAscending;
+        }
+        if (v1 > v2) {
+            return NSOrderedDescending;
+        }
+        return NSOrderedSame;
+    }];
 }
 
 - (void)cancel {
