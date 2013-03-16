@@ -7,7 +7,7 @@
 //
 
 #import "JCSFlipPlayerAI.h"
-#import "JCSFlipGameState+GameNode.h"
+#import "JCSFlipGameState.h"
 #import "JCSGameAlgorithm.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipMoveInputDelegate.h"

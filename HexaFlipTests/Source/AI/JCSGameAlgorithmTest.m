@@ -12,7 +12,6 @@
 #import "JCSFlipCellState.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
-#import "JCSFlipGameState+GameNode.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
 
 @interface JCSFlipAlgoTest : SenTestCase

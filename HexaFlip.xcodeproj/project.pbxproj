@@ -59,7 +59,6 @@
 		F3A8B38415EE9C9800FAD822 /* texture-atlas-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110815EE9A030057309C /* texture-atlas-hd.png */; };
 		F3A8B38515EE9C9800FAD822 /* texture-atlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110915EE9A030057309C /* texture-atlas.plist */; };
 		F3A8B38615EE9C9800FAD822 /* texture-atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110A15EE9A030057309C /* texture-atlas.png */; };
-		F3A8B3B915EE9CC800FAD822 /* JCSFlipGameState+GameNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */; };
 		F3A8B3BA15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38D15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m */; };
 		F3A8B3BB15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B38F15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m */; };
 		F3A8B3BC15EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39415EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m */; };
@@ -431,8 +430,6 @@
 		F3A260A01642DA2E0035A0D1 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
 		F3A475E716DA81A500A2FDD4 /* JCSFlipUIBaseScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBaseScreen.h; sourceTree = "<group>"; };
 		F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBaseScreen.m; sourceTree = "<group>"; };
-		F3A8B38A15EE9CC800FAD822 /* JCSFlipGameState+GameNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCSFlipGameState+GameNode.h"; sourceTree = "<group>"; };
-		F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JCSFlipGameState+GameNode.m"; sourceTree = "<group>"; };
 		F3A8B38C15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePossessionHeuristic.h; sourceTree = "<group>"; };
 		F3A8B38D15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionHeuristic.m; sourceTree = "<group>"; };
 		F3A8B38E15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatePSRHeuristic.h; sourceTree = "<group>"; };
@@ -854,8 +851,6 @@
 		F3A8B38915EE9CC800FAD822 /* AI */ = {
 			isa = PBXGroup;
 			children = (
-				F3A8B38A15EE9CC800FAD822 /* JCSFlipGameState+GameNode.h */,
-				F3A8B38B15EE9CC800FAD822 /* JCSFlipGameState+GameNode.m */,
 				F3A8B38C15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.h */,
 				F3A8B38D15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m */,
 				F3A8B38E15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.h */,
@@ -1664,7 +1659,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3A8B3B915EE9CC800FAD822 /* JCSFlipGameState+GameNode.m in Sources */,
 				F3A8B3BA15EE9CC800FAD822 /* JCSFlipGameStatePossessionHeuristic.m in Sources */,
 				F3A8B3BB15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m in Sources */,
 				F3A8B3BC15EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m in Sources */,

@@ -9,11 +9,12 @@
 #import "JCSFlipGameStatus.h"
 #import "JCSFlipPlayerToMove.h"
 #import "JCSFlipCellState.h"
+#import "JCSGameNode.h"
 
 @class JCSFlipMove;
 
 // state information for a running game
-@interface JCSFlipGameState : NSObject <NSCoding>
+@interface JCSFlipGameState : NSObject <NSCoding, JCSGameNode>
 
 // the current game status
 @property (readonly, nonatomic) JCSFlipGameStatus status;
@@ -56,28 +57,11 @@
 // determines the state of the cell at the given coordinate
 - (JCSFlipCellState)cellStateAtRow:(NSInteger)row column:(NSInteger)column;
 
-// applies the move, switches players, and returns YES if the move is legal
-// returns NO if the move is illegal
-// for legal moves, the move is pushed onto an internal stack and can be undone with -popMove
-- (BOOL)pushMove:(JCSFlipMove *)move;
-
-// un-applies the last successfully applied move
-// the move is removed from the internal stack
-// the internal move stack must be non-empty
-- (void)popMove;
-
 // invoke the block for cells who were involved in the last move applied with -pushMove: and not undone with -popMove
 // the block is invoked for the starting cell, the flipped cells (in move direction) and the target cell, in that order
 // iteration stops prematurely when the block sets *stop to YES
 // the internal move stack must be non-empty
 - (void)forAllCellsInvolvedInLastMoveInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block;
-
-// iterate over all valid moves for the receiving game state
-// each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver
-// iteration stops prematurely when the block sets *stop to YES
-// a new move instance is passed to each invocation of the block
-// special case: if two or more moves lead to the same game state, only one of them is considered (no-flip moves with the same target cell)
-- (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(JCSFlipMove *move, BOOL *stop))block;
 
 // encode the receiver using the given NSCoder instance
 // the maximum number of moves is defined by the "maxMoves" parameter
