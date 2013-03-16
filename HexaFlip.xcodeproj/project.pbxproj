@@ -67,7 +67,6 @@
 		F3A8B3BE15EE9CC800FAD822 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39815EE9CC800FAD822 /* AppDelegate.m */; };
 		F3A8B3BF15EE9CC800FAD822 /* JCSFlipGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39C15EE9CC800FAD822 /* JCSFlipGameState.m */; };
 		F3A8B3C015EE9CC800FAD822 /* JCSFlipMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B39F15EE9CC800FAD822 /* JCSFlipMove.m */; };
-		F3A8B3C115EE9CC800FAD822 /* JCSFlipMutableMove.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3A115EE9CC800FAD822 /* JCSFlipMutableMove.m */; };
 		F3A8B3C215EE9CC800FAD822 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3A315EE9CC800FAD822 /* main.m */; };
 		F3A8B4BE15EE9E6B00FAD822 /* CCAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B3CC15EE9E6B00FAD822 /* CCAction.h */; };
 		F3A8B4BF15EE9E6B00FAD822 /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B3CD15EE9E6B00FAD822 /* CCAction.m */; };
@@ -297,8 +296,7 @@
 		F3A8B59F15EE9E6C00FAD822 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4BA15EE9E6B00FAD822 /* vec4.c */; };
 		F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */; };
 		F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */; };
-		F3A8B5BC15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B515EEA39400FAD822 /* JCSFlipMoveTest.m */; };
-		F3A8B5BD15EEA39400FAD822 /* JCSFlipMutableMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B615EEA39400FAD822 /* JCSFlipMutableMoveTest.m */; };
+		F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -454,8 +452,6 @@
 		F3A8B39D15EE9CC800FAD822 /* JCSFlipGameStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameStatus.h; sourceTree = "<group>"; };
 		F3A8B39E15EE9CC800FAD822 /* JCSFlipMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMove.h; sourceTree = "<group>"; };
 		F3A8B39F15EE9CC800FAD822 /* JCSFlipMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMove.m; sourceTree = "<group>"; };
-		F3A8B3A015EE9CC800FAD822 /* JCSFlipMutableMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMutableMove.h; sourceTree = "<group>"; };
-		F3A8B3A115EE9CC800FAD822 /* JCSFlipMutableMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMutableMove.m; sourceTree = "<group>"; };
 		F3A8B3A215EE9CC800FAD822 /* JCSHexDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSHexDirection.h; sourceTree = "<group>"; };
 		F3A8B3A315EE9CC800FAD822 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIConstants.h; sourceTree = "<group>"; };
@@ -692,8 +688,7 @@
 		F3A8B4BD15EE9E6B00FAD822 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
 		F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSGameAlgorithmTest.m; sourceTree = "<group>"; };
 		F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
-		F3A8B5B515EEA39400FAD822 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
-		F3A8B5B615EEA39400FAD822 /* JCSFlipMutableMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMutableMoveTest.m; sourceTree = "<group>"; };
+		F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		F3C7946416F4F1AC00342FAE /* JCSMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMove.h; sourceTree = "<group>"; };
 		F3CB110515EE9A030057309C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -887,8 +882,6 @@
 				F3A8B39D15EE9CC800FAD822 /* JCSFlipGameStatus.h */,
 				F3A8B39E15EE9CC800FAD822 /* JCSFlipMove.h */,
 				F3A8B39F15EE9CC800FAD822 /* JCSFlipMove.m */,
-				F3A8B3A015EE9CC800FAD822 /* JCSFlipMutableMove.h */,
-				F3A8B3A115EE9CC800FAD822 /* JCSFlipMutableMove.m */,
 				F3A8B3A215EE9CC800FAD822 /* JCSHexDirection.h */,
 			);
 			path = Core;
@@ -1251,8 +1244,7 @@
 			isa = PBXGroup;
 			children = (
 				F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */,
-				F3A8B5B515EEA39400FAD822 /* JCSFlipMoveTest.m */,
-				F3A8B5B615EEA39400FAD822 /* JCSFlipMutableMoveTest.m */,
+				F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1680,7 +1672,6 @@
 				F3A8B3BE15EE9CC800FAD822 /* AppDelegate.m in Sources */,
 				F3A8B3BF15EE9CC800FAD822 /* JCSFlipGameState.m in Sources */,
 				F3A8B3C015EE9CC800FAD822 /* JCSFlipMove.m in Sources */,
-				F3A8B3C115EE9CC800FAD822 /* JCSFlipMutableMove.m in Sources */,
 				F3A8B3C215EE9CC800FAD822 /* main.m in Sources */,
 				F31078581646D42E00FE7FC2 /* JCSFlipUIGameScreen.m in Sources */,
 				F31078591646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.m in Sources */,
@@ -1813,8 +1804,7 @@
 			files = (
 				F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */,
 				F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */,
-				F3A8B5BC15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */,
-				F3A8B5BD15EEA39400FAD822 /* JCSFlipMutableMoveTest.m in Sources */,
+				F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

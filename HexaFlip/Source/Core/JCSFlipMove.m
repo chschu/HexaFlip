@@ -7,7 +7,6 @@
 //
 
 #import "JCSFlipMove.h"
-#import "JCSFlipMutableMove.h"
 
 @implementation JCSFlipMove
 
@@ -67,10 +66,6 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     return [[JCSFlipMove allocWithZone:zone] initWithSkip:_skip startRow:_startRow startColumn:_startColumn direction:_direction];
-}
-
-- (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[JCSFlipMutableMove allocWithZone:zone] initWithSkip:_skip startRow:_startRow startColumn:_startColumn direction:_direction];
 }
 
 - (NSString *)description {

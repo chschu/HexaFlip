@@ -8,7 +8,7 @@
 
 #import "JCSFlipGameState.h"
 #import "JCSFlipCellState.h"
-#import "JCSFlipMutableMove.h"
+#import "JCSFlipMove.h"
 
 // enumeration for the "skip allowed" flag
 typedef enum {
@@ -403,7 +403,7 @@ typedef struct JCSFlipGameStateMoveInfo {
     __block BOOL hasValidMove = NO;
     
     // initialize dummy move
-    JCSFlipMutableMove *move = [JCSFlipMutableMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
+    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
     
     // indexes of target cells that already were the target of a no-flip move
     BOOL *isNoFlipTargetCellIndex = calloc(JCS_CELL_COUNT(_size), sizeof(BOOL));
@@ -436,9 +436,8 @@ typedef struct JCSFlipGameStateMoveInfo {
                 
                 // try the move
                 if ([self pushMove:move]) {
-                    // move is valid - invoke block with immutable move copy
-                    JCSFlipMove *moveCopy = [move copy];
-                    block(moveCopy, stop);
+                    // move is valid - invoke block with move copy
+                    block([move copy], stop);
                     
                     // undo the move
                     [self popMove];
@@ -462,10 +461,9 @@ typedef struct JCSFlipGameStateMoveInfo {
         
         // apply skip move
         if ([self pushMove:move]) {
-            // move is valid - invoke block with immutable move copy and dummy stop flag
-            JCSFlipMove *moveCopy = [move copy];
+            // move is valid - invoke block with dummy stop flag (no need to copy the move here)
             BOOL stop = NO;
-            block(moveCopy, &stop);
+            block(move, &stop);
             
             // undo the move
             [self popMove];
