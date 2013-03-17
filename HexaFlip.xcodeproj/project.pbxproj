@@ -377,6 +377,7 @@
 		F32758E71681212300869A23 /* button-play-single-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-pushed.png"; sourceTree = "<group>"; };
 		F32758E81681220A00869A23 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
 		F32758E91681220A00869A23 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
+		F32BBFB716F670C600B0E0B7 /* button-rewind-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-disabled.png"; sourceTree = "<group>"; };
 		F330E1601651CCBF004BB32E /* center-of-mass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "center-of-mass.py"; sourceTree = "<group>"; };
 		F330E17416545354004BB32E /* button-rewind-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-normal.png"; sourceTree = "<group>"; };
 		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
@@ -450,7 +451,7 @@
 		F3A8B39E15EE9CC800FAD822 /* JCSFlipMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMove.h; sourceTree = "<group>"; };
 		F3A8B39F15EE9CC800FAD822 /* JCSFlipMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMove.m; sourceTree = "<group>"; };
 		F3A8B3A215EE9CC800FAD822 /* JCSHexDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSHexDirection.h; sourceTree = "<group>"; };
-		F3A8B3A315EE9CC800FAD822 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F3A8B3A315EE9CC800FAD822 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; wrapsLines = 0; };
 		F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIConstants.h; sourceTree = "<group>"; };
 		F3A8B3CC15EE9E6B00FAD822 /* CCAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAction.h; sourceTree = "<group>"; };
 		F3A8B3CD15EE9E6B00FAD822 /* CCAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAction.m; sourceTree = "<group>"; };
@@ -1344,6 +1345,7 @@
 				F3535337169F73CB0027192D /* button-play-multi-pushed.png */,
 				F3574A9616696EF0005B9BD4 /* button-back-normal.png */,
 				F3574A9716696EF0005B9BD4 /* button-back-pushed.png */,
+				F32BBFB716F670C600B0E0B7 /* button-rewind-disabled.png */,
 				F330E17416545354004BB32E /* button-rewind-normal.png */,
 				F330E17516545354004BB32E /* button-rewind-pushed.png */,
 				F3574AD1166ABF02005B9BD4 /* button-skip-disabled.png */,
