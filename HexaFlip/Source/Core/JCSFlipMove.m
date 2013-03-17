@@ -68,6 +68,18 @@
     return [[JCSFlipMove allocWithZone:zone] initWithSkip:_skip startRow:_startRow startColumn:_startColumn direction:_direction];
 }
 
+- (NSComparisonResult)compareByValueTo:(id<JCSMove>)other {
+    float v1 = _value;
+    float v2 = other.value;
+    if (v1 < v2) {
+        return NSOrderedAscending;
+    }
+    if (v1 > v2) {
+        return NSOrderedDescending;
+    }
+    return NSOrderedSame;
+}
+
 - (NSString *)description {
     if (_skip) {
         return @"skip";

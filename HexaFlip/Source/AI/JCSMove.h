@@ -12,4 +12,7 @@
 // the move's value
 @property (nonatomic) float value;
 
+// comparator method to sort moves by value
+- (NSComparisonResult)compareByValueTo:(id<JCSMove>)other;
+
 @end

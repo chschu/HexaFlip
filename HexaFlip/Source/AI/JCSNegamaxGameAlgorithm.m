@@ -118,18 +118,7 @@
     }];
     
     // sort by move value
-    // TODO move comparator to JCSMove protocol
-    return [result sortedArrayUsingComparator:^NSComparisonResult(id<JCSMove> obj1, id<JCSMove> obj2) {
-        float v1 = obj1.value;
-        float v2 = obj2.value;
-        if (v1 < v2) {
-            return NSOrderedAscending;
-        }
-        if (v1 > v2) {
-            return NSOrderedDescending;
-        }
-        return NSOrderedSame;
-    }];
+    return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
 }
 
 - (void)cancel {
