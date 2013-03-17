@@ -587,6 +587,17 @@
     STAssertTrue(underTest.skipAllowed, nil);
 }
 
+- (void)testMoveStackEmpty {
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initDefaultWithSize:4];
+    STAssertTrue(underTest.moveStackEmpty, nil);
+
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
+    STAssertFalse(underTest.moveStackEmpty, nil);
+    
+    [underTest popMove];
+    STAssertTrue(underTest.moveStackEmpty, nil);
+}
+
 - (void)skipNotAllowedMoveExists {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // A at (-1,-1), empty at (-1,1), B at remainder of row -1 and column -1

@@ -267,6 +267,10 @@ typedef struct JCSFlipGameStateMoveInfo {
     }
 }
 
+- (BOOL)moveStackEmpty {
+    return _moveInfoStackTop == 0;
+}
+
 #pragma mark JCSGameNode
 
 - (BOOL)leaf {
