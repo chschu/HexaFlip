@@ -536,12 +536,13 @@ NSString *coderKey_cellStates = @"c";
 NSString *coderKey_moveStackArray = @"d";
 
 // converts the move stack to an array, converting no more than the given number of moves
-// stack top comes first in array
+// stack top comes last in array
 - (NSArray *)createArrayFromMoveStackWithMaxMoves:(NSUInteger)maxMoves {
     NSMutableArray *array = [NSMutableArray array];
     
-    for (NSUInteger i = 0; i < maxMoves && i < _moveInfoStackTop; i++) {
-        JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop-1 - i;
+    NSUInteger moves = MIN(maxMoves, _moveInfoStackTop);
+    for (NSUInteger i = 0; i < moves; i++) {
+        JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop - moves + i;
         [array addObject:[NSNumber numberWithBool:moveInfo->skip]];
         [array addObject:[NSNumber numberWithInteger:moveInfo->startRow]];
         [array addObject:[NSNumber numberWithInteger:moveInfo->startColumn]];
@@ -555,7 +556,7 @@ NSString *coderKey_moveStackArray = @"d";
 }
 
 // converts the array to a move stack, starting at the specified index
-// stack top comes first in array
+// stack top comes last in array
 - (void)populateMoveStackFromArray:(NSArray *)array {
     NSUInteger index = 0;
     

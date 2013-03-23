@@ -991,9 +991,9 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
     
     // push some moves
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNW]];
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-1 direction:JCSHexDirectionW]];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
     
@@ -1011,9 +1011,15 @@
     }];
     
     // undo moves
-    [reloaded popMove];
-    [reloaded popMove];
-    [reloaded popMove];
+    while (!underTest.moveStackEmpty) {
+        [reloaded popMove];
+        [underTest popMove];
+
+        // check cell states (must match)
+        [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
+        }];
+    }
     
     // check cell states (must be back to original)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
