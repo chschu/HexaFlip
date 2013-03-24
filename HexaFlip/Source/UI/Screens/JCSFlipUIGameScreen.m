@@ -26,6 +26,7 @@
     JCSFlipMove *_lastMove;
     
     JCSFlipUIBoardLayer *_boardLayer;
+    CCMenuItem *_undoItem;
     CCMenuItem *_skipItem;
     JCSFlipScoreIndicator *_scoreIndicator;
 }
@@ -40,10 +41,17 @@
         CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
             [_playerA cancel];
             [_playerB cancel];
-            [_delegate exitGameMultiplayer:(_match != nil) fromGameScreen:self];
+            [_delegate exitGameMultiplayer:[self isMultiplayerGame] fromGameScreen:self];
         }];
         exitItem.anchorPoint = ccp(0,1);
         exitItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
+        
+        // create the undo button
+        _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
+            [self undoMovesUntilPlayerHasLocalInput];
+        }];
+        _undoItem.anchorPoint = ccp(0,0);
+        _undoItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall+15, -winSize.height/2+10);
         
         // create the skip button
         _skipItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"skip" block:^(id sender) {
@@ -54,13 +62,13 @@
         _skipItem.anchorPoint = ccp(0,0);
         _skipItem.position = ccp(-winSize.width/2+10, -winSize.height/2+10);
         
-        CCMenu *menu = [CCMenu menuWithItems:exitItem, _skipItem, nil];
-        [self addChild:menu z:1];
+        CCMenu *menu = [CCMenu menuWithItems:exitItem, _undoItem, _skipItem, nil];
+        [self addChild:menu z:2];
         
         _scoreIndicator = [JCSFlipScoreIndicator node];
         _scoreIndicator.anchorPoint = ccp(0.5,0.5);
         _scoreIndicator.position = ccp(10+JCSButtonSizeSmall/2.0,winSize.height/2.0);
-        [self addChild:_scoreIndicator z:2];
+        [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
         [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil animateLastMove:NO];
@@ -135,6 +143,11 @@
     }
 }
 
+// returns YES if the current (prepared or started) game is a multiplayer game
+- (BOOL)isMultiplayerGame {
+    return _match != nil;
+}
+
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
     _screenEnabled = screenEnabled;
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
@@ -170,17 +183,20 @@
 - (void)disableMoveInput {
     _boardLayer.moveInputEnabled = NO;
     _skipItem.isEnabled = NO;
+    _undoItem.isEnabled = NO;
 }
 
 // enable move input according to the current game state
 - (void)enableMoveInput {
     BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
-    BOOL playerAEnabled = (!gameOver && _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls);
-    BOOL playerBEnabled = (!gameOver && _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls);
+    BOOL playerAEnabled = _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
+    BOOL playerBEnabled = _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
     
     // enable/disable move input if any of the players has local controls
-    _boardLayer.moveInputEnabled = playerAEnabled || playerBEnabled;
+    _boardLayer.moveInputEnabled = !gameOver && (playerAEnabled || playerBEnabled);
     _skipItem.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
+    _undoItem.visible = ![self isMultiplayerGame];
+    _undoItem.isEnabled = !_state.moveStackEmpty && (playerAEnabled || playerBEnabled);
 }
 
 - (void)updateScoreIndicatorAnimated:(BOOL)animated {
@@ -199,7 +215,7 @@
         [self disableMoveInput];
         // update score indicator while animating the move
         [self updateScoreIndicatorAnimated:YES];
-        [_boardLayer animateLastMoveOfGameState:_state afterAnimationInvokeBlock:^{
+        [_boardLayer animateLastMoveOfGameState:_state undo:NO afterAnimationInvokeBlock:^{
             // enable move input
             [self enableMoveInput];
             
@@ -211,6 +227,47 @@
         }];
     }
     return success;
+}
+
+// animates the last move of the current game state in reverse, and pops the moves from the game state
+// the process is repeated until the current player has local inputs
+// not allowed for multi-player games
+- (void)undoMovesUntilPlayerHasLocalInput {
+    [self undoInternal:YES];
+}
+
+// helper method used by undoMovesUntilPlayerHasLocalInput
+- (void)undoInternal:(BOOL)first {
+    NSAssert(![self isMultiplayerGame], @"undo not allowed for multiplayer games");
+    
+    id<JCSFlipPlayer> currentPlayer = (_state.playerToMove == JCSFlipPlayerToMoveA ? _playerA : _playerB);
+    
+    // undo the move if this is the first invocation, or
+    if (first || !currentPlayer.localControls) {
+        // block move input during animation
+        [self disableMoveInput];
+        
+        // temporarily pop move to update score indicator while undo is animated
+        // TODO check if this could be done without modifying the state
+        JCSFlipMove *lastMove = _state.lastMove;
+        [_state popMove];
+        [self updateScoreIndicatorAnimated:YES];
+        [_state pushMove:lastMove];
+        
+        // animate undo of last move
+        [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
+            // pop the move from the game state
+            [_state popMove];
+            // repeat undo
+            [self undoInternal:NO];
+        }];
+    } else {
+        // enable move input
+        [self enableMoveInput];
+        
+        // notify opponent (new current player)
+        [self tellPlayerMakeMove];
+    }
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {

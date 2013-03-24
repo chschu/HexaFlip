@@ -27,8 +27,10 @@
 + (id)nodeWithState:(JCSFlipGameState *)state;
 
 // asynchronously start an animation for the last move applied to the given game state
+// if "undo" is set to NO, the move is applied to the board
+// if "undo" is set to YES, the reverse move is applied to the board
 // after the animation is done, the block is invoked (asnychronously!)
-- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState afterAnimationInvokeBlock:(void(^)())block;
+- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState undo:(BOOL)undo afterAnimationInvokeBlock:(void(^)())block;
 
 // repeatedly flash a cell
 // restarts flashing if the cell is already flashing

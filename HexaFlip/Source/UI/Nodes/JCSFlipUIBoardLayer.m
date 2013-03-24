@@ -105,7 +105,7 @@ typedef enum {
     return self;
 }
 
-- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState afterAnimationInvokeBlock:(void(^)())block {
+- (void)animateLastMoveOfGameState:(JCSFlipGameState *)gameState undo:(BOOL)undo afterAnimationInvokeBlock:(void(^)())block {
     
     NSMutableArray *actions = [NSMutableArray array];
     
@@ -114,7 +114,8 @@ typedef enum {
     // create animations for involved cells
     [gameState forAllCellsInvolvedInLastMoveInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
         JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
-        CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:newCellState];
+        JCSFlipCellState targetCellState = undo ? oldCellState : newCellState;
+        CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:targetCellState];
         CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
         [actions addObject:cellAnimationWithDelay];
         delay += 0.05;

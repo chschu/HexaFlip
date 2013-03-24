@@ -378,6 +378,9 @@
 		F32758E81681220A00869A23 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
 		F32758E91681220A00869A23 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
 		F32BBFB716F670C600B0E0B7 /* button-rewind-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-disabled.png"; sourceTree = "<group>"; };
+		F32BBFB816F9199800B0E0B7 /* button-undo-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-disabled.png"; sourceTree = "<group>"; };
+		F32BBFB916F9199800B0E0B7 /* button-undo-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-normal.png"; sourceTree = "<group>"; };
+		F32BBFBA16F9199800B0E0B7 /* button-undo-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-pushed.png"; sourceTree = "<group>"; };
 		F330E1601651CCBF004BB32E /* center-of-mass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "center-of-mass.py"; sourceTree = "<group>"; };
 		F330E17416545354004BB32E /* button-rewind-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-normal.png"; sourceTree = "<group>"; };
 		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
@@ -1335,6 +1338,9 @@
 				F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */,
 				F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */,
 				F3474C9E16695BEA0054493C /* button-background.png */,
+				F32BBFB816F9199800B0E0B7 /* button-undo-disabled.png */,
+				F32BBFB916F9199800B0E0B7 /* button-undo-normal.png */,
+				F32BBFBA16F9199800B0E0B7 /* button-undo-pushed.png */,
 				F3107880164B12F000FE7FC2 /* button-play-normal.png */,
 				F3107881164B12F000FE7FC2 /* button-play-pushed.png */,
 				F3452D12166181D4000AA83D /* button-play-disabled.png */,
