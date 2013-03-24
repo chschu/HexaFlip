@@ -34,6 +34,14 @@
         CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
         
+        NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+        NSString *version = [infoDict objectForKey:@"CFBundleVersion"];
+        NSString *versionString = [NSString stringWithFormat:@"Build %@", version];
+        CCLabelTTF *versionLabel = [CCLabelTTF labelWithString:versionString fontName:@"Verdana" fontSize:8];
+        versionLabel.anchorPoint = ccp(0,0);
+        versionLabel.position = ccp(10,10);
+        [self addChild:versionLabel];
+        
         // register for the game center authentication
         [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
         
