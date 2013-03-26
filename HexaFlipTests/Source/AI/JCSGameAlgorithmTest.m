@@ -19,7 +19,13 @@
 
 @implementation JCSFlipAlgoTest
 
-#define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
+#define JCS_HEX_DISTANCE(r1, c1, r2, c2) ({ \
+__typeof__(r1) _r1 = (r1); \
+__typeof__(c1) _c1 = (c1); \
+__typeof__(r2) _r2 = (r2); \
+__typeof__(c2) _c2 = (c2); \
+MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
+})
 
 - (void)testNegamax2VsNegamax1 {
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:3 randomness:0];
@@ -62,7 +68,7 @@
             return JCSFlipCellStateEmpty;
         }
     };
-
+    
     JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
     
     while (true) {
@@ -72,13 +78,13 @@
         if (move == nil) {
             break;
         }
-
+        
         [state pushMove:move];
         
         NSLog(@"\n%@", state);
     }
     NSLog(@"done, final scores %d:%d", state.cellCountPlayerA, state.cellCountPlayerB);
-
+    
     STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw, nil);
 }
 

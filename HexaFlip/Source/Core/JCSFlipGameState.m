@@ -69,10 +69,18 @@ typedef struct JCSFlipGameStateMoveInfo {
 
 // index into the cell states array
 // parameters: row in [-(size-1),(size-1)], column in [-(size-1),(size-1)]
-#define JCS_CELL_STATE_INDEX(size, row, column) ((2*(size)-1)*((row)+((size)-1)) + (column)+((size)-1))
+#define JCS_CELL_STATE_INDEX(size, row, column) ({ \
+__typeof__(size) _s = (size); \
+__typeof__(row) _r = (row); \
+__typeof__(column) _c = (column); \
+(2*_s-1)*(_r+(_s-1)) + (_c+(_s-1)); \
+})
 
 // total number of cells (including holes)
-#define JCS_CELL_COUNT(size) ((2*(size)-1)*(2*(size)-1))
+#define JCS_CELL_COUNT(size) ({ \
+__typeof__(size) _s = (size); \
+(2*_s-1)*(2*_s-1); \
+})
 
 // designated initializer
 - (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
@@ -118,7 +126,13 @@ typedef struct JCSFlipGameStateMoveInfo {
 	return self;
 }
 
-#define JCS_HEX_DISTANCE(r1, c1, r2, c2) (MAX(MAX(abs((r1)-(r2)), abs((c1)-(c2))), abs((0-(r1)-(c1))-(0-(r2)-(c2)))))
+#define JCS_HEX_DISTANCE(r1, c1, r2, c2) ({ \
+__typeof__(r1) _r1 = (r1); \
+__typeof__(c1) _c1 = (c1); \
+__typeof__(r2) _r2 = (r2); \
+__typeof__(c2) _c2 = (c2); \
+MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
+})
 
 - (id)initDefaultWithSize:(NSInteger)size {
     return [self initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {

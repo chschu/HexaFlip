@@ -18,16 +18,26 @@ typedef enum {
 #define JCSHexDirectionMin JCSHexDirectionE
 #define JCSHexDirectionMax JCSHexDirectionSE
 
-#define JCSHexDirectionRowDelta(direction) ((direction) == JCSHexDirectionNE || (direction) == JCSHexDirectionNW) - ((direction) == JCSHexDirectionSW || (direction) == JCSHexDirectionSE)
-#define JCSHexDirectionColumnDelta(direction) ((direction) == JCSHexDirectionE || (direction) == JCSHexDirectionSE) - ((direction) == JCSHexDirectionW || (direction) == JCSHexDirectionNW)
+#define JCSHexDirectionRowDelta(direction) ({ \
+__typeof__(direction) _d = (direction); \
+(_d == JCSHexDirectionNE || _d == JCSHexDirectionNW) - (_d == JCSHexDirectionSW || _d == JCSHexDirectionSE); \
+})
+
+#define JCSHexDirectionColumnDelta(direction) ({ \
+__typeof__(direction) _d = (direction); \
+(_d == JCSHexDirectionE || _d == JCSHexDirectionSE) - (_d == JCSHexDirectionW || _d == JCSHexDirectionNW); \
+})
 
 // direction for a given angle (in radians)
 // 0 is East, Pi/3 is Northeast, etc.
 #define JCSHexDirectionForAngle(angle) ((JCSHexDirection) (fmod(fmod((angle),2.0*M_PI)+2.0*M_PI+M_PI/6,2.0*M_PI) / (M_PI/3)))
 
 // string representation of the direction
-#define JCSHexDirectionName(direction) ((direction) == JCSHexDirectionE ? @"E" : \
-                                        (direction) == JCSHexDirectionNE ? @"NE" : \
-                                        (direction) == JCSHexDirectionNW ? @"NW" : \
-                                        (direction) == JCSHexDirectionW ? @"W" : \
-                                        (direction) == JCSHexDirectionSW ? @"SW" : @"SE")
+#define JCSHexDirectionName(direction) ({ \
+__typeof__(direction) _d = (direction); \
+_d == JCSHexDirectionE ? @"E" : \
+_d == JCSHexDirectionNE ? @"NE" : \
+_d == JCSHexDirectionNW ? @"NW" : \
+_d == JCSHexDirectionW ? @"W" : \
+_d == JCSHexDirectionSW ? @"SW" : @"SE"; \
+})
