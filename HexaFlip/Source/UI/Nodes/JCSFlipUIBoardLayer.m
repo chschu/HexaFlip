@@ -112,7 +112,7 @@ typedef enum {
     __block ccTime delay = 0;
     
     // create animations for involved cells
-    [gameState forAllCellsInvolvedInLastMoveInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    [gameState forAllCellsInvolvedInLastMoveReverse:undo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
         JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
         JCSFlipCellState targetCellState = undo ? oldCellState : newCellState;
         CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:targetCellState];

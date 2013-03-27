@@ -874,7 +874,63 @@
         }
     };
     
-    [underTest forAllCellsInvolvedInLastMoveInvokeBlock:block];
+    [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
+}
+
+- (void)testForAllCellsInvolvedInLastMoveInvokeBlockReverseOk {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+    NSInteger size = 4;
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    
+    // push move
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    
+    // create invocation checker
+    __block NSInteger invocation = 0;
+    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+        JCSFlipCellState expectedState;
+        switch (++invocation) {
+            case 1:
+                STAssertEquals(row, -2, nil);
+                STAssertEquals(column, 1, nil);
+                expectedState = JCSFlipCellStateOwnedByPlayerA;
+                STAssertEquals(newCellState, expectedState, nil);
+                break;
+            case 2:
+                STAssertEquals(row, -1, nil);
+                STAssertEquals(column, 0, nil);
+                expectedState = JCSFlipCellStateOwnedByPlayerB;
+                STAssertEquals(newCellState, expectedState, nil);
+                break;
+            case 3:
+                STAssertEquals(row, 0, nil);
+                STAssertEquals(column, -1, nil);
+                expectedState = JCSFlipCellStateOwnedByPlayerA;
+                STAssertEquals(newCellState, expectedState, nil);
+                break;
+            case 4:
+                STAssertEquals(row, 1, nil);
+                STAssertEquals(column, -2, nil);
+                expectedState = JCSFlipCellStateOwnedByPlayerA;
+                STAssertEquals(newCellState, expectedState, nil);
+                break;
+            default:
+                STFail(@"unexpected invocation");
+        }
+    };
+    
+    [underTest forAllCellsInvolvedInLastMoveReverse:YES invokeBlock:block];
 }
 
 - (void)testForAllCellsInvolvedInLastMoveInvokeBlockSkip {
@@ -900,7 +956,7 @@
         STFail(@"unexpected invocation");
     };
     
-    [underTest forAllCellsInvolvedInLastMoveInvokeBlock:block];
+    [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
 }
 
 - (void)testForAllCellsInvolvedInLastMoveInvokeBlockStop {
@@ -944,7 +1000,7 @@
         }
     };
     
-    [underTest forAllCellsInvolvedInLastMoveInvokeBlock:block];
+    [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
 }
 
 - (void)testForAllCellsInvolvedInLastMoveInvokeBlockBlockNil {
@@ -961,7 +1017,7 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
     
-    STAssertThrows([underTest forAllCellsInvolvedInLastMoveInvokeBlock:nil], nil);
+    STAssertThrows([underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:nil], nil);
 }
 
 - (void)testForAllCellsInvolvedInLastMoveInvokeBlockStackEmpty {
@@ -982,7 +1038,7 @@
         STFail(@"unexpected invocation");
     };
     
-    STAssertThrows([underTest forAllCellsInvolvedInLastMoveInvokeBlock:block], nil);
+    STAssertThrows([underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block], nil);
 }
 
 - (void)testCoding {

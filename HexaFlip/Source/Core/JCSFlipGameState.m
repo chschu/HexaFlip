@@ -245,7 +245,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     return _skipAllowed == JCSFlipGameStateSkipAllowedYes;
 }
 
-- (void)forAllCellsInvolvedInLastMoveInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
+- (void)forAllCellsInvolvedInLastMoveReverse:(BOOL)reverse invokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
     // peek at the move info from the stack
     NSAssert(_moveInfoStackTop != 0, @"move stack is empty");
     JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop-1;
@@ -259,16 +259,19 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         
         BOOL stop = NO;
         
-        // invoke block for start cell, flipped cells, and target cell (total: modCount+1 cells)
-        NSInteger curRow = moveInfo->startRow;
-        NSInteger curColumn = moveInfo->startColumn;
-        for (NSInteger i = flipCount + 1; i >= 0 && !stop; i--) {
+        // invoke block for start cell, flipped cells, and target cell (total: flipCount+2 cells)
+        NSInteger startRow = moveInfo->startRow;
+        NSInteger startColumn = moveInfo->startColumn;
+        for (NSInteger j = 0; j <= flipCount+1 && !stop; j++) {
+            NSInteger i = (reverse ? (flipCount+1-j) : j);
+            NSInteger curRow = startRow + i * rowDelta;
+            NSInteger curColumn = startColumn + i * columnDelta;
             JCSFlipCellState newCellState = [self cellStateAtRow:curRow column:curColumn];
             JCSFlipCellState oldCellState;
-            if (i == flipCount + 1) {
+            if (i == 0) {
                 // start cell
                 oldCellState = newCellState;
-            } else if (i == 0) {
+            } else if (i == flipCount+1) {
                 // target cell
                 oldCellState = JCSFlipCellStateEmpty;
             } else {
@@ -276,8 +279,6 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
                 oldCellState = JCSFlipCellStateOther(newCellState);
             }
             block(curRow, curColumn, oldCellState, newCellState, &stop);
-            curRow += rowDelta;
-            curColumn += columnDelta;
         }
     }
 }
