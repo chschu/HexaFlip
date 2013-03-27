@@ -67,62 +67,61 @@ typedef enum {
         _playItem.position = ccp(0,0);
         _playItem.isEnabled = NO;
 
-        float xCenter = 140; // horizontal center ordinate of right player selection diamond (left is at -xCenter)
+        float xCenter = 100; // horizontal center ordinate of right player selection arc (left is at -xCenter)
         float yCenter = 0; // vertical center ordinate of player selection diamonds
-        float xDelta = 50; // horizontal offset between adjacent icons of player selection diamonds
-        float yDelta = 50; // vertical offset between adjacent icons of player selection diamonds
+        float distance = 80; // distance between adjacent player selection buttons on the same side
 
         // create player a buttons
 
-        _playerAHumanItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"human" block:^(id sender) {
+        _playerAHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeHuman;
             [self updateUIState];
         }];
-        _playerAHumanItem.position = ccp(-xCenter,yCenter+yDelta);
+        _playerAHumanItem.position = ccp(-xCenter,yCenter+distance);
 
-        _playerAAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-easy" block:^(id sender) {
+        _playerAAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIEasy;
             [self updateUIState];
         }];
-        _playerAAIEasyItem.position = ccp(-xCenter-xDelta,yCenter);
+        _playerAAIEasyItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter+distance/2);
 
-        _playerAAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-medium" block:^(id sender) {
+        _playerAAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIMedium;
             [self updateUIState];
         }];
-        _playerAAIMediumItem.position = ccp(-xCenter+xDelta,yCenter);
+        _playerAAIMediumItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter-distance/2);
 
-        _playerAAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-hard" block:^(id sender) {
+        _playerAAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIHard;
             [self updateUIState];
         }];
-        _playerAAIHardItem.position = ccp(-xCenter,yCenter-yDelta);
+        _playerAAIHardItem.position = ccp(-xCenter,yCenter-distance);
 
         // create player b buttons
         
-        _playerBHumanItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"human" block:^(id sender) {
+        _playerBHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeHuman;
             [self updateUIState];
         }];
-        _playerBHumanItem.position = ccp(xCenter,yCenter+yDelta);
+        _playerBHumanItem.position = ccp(xCenter,yCenter+distance);
         
-        _playerBAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-easy" block:^(id sender) {
+        _playerBAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIEasy;
             [self updateUIState];
         }];
-        _playerBAIEasyItem.position = ccp(xCenter-xDelta,yCenter);
+        _playerBAIEasyItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter+distance/2);
         
-        _playerBAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-medium" block:^(id sender) {
+        _playerBAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIMedium;
             [self updateUIState];
         }];
-        _playerBAIMediumItem.position = ccp(xCenter+xDelta,yCenter);
+        _playerBAIMediumItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter-distance/2);
         
-        _playerBAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-hard" block:^(id sender) {
+        _playerBAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIHard;
             [self updateUIState];
         }];
-        _playerBAIHardItem.position = ccp(xCenter,yCenter-yDelta);
+        _playerBAIHardItem.position = ccp(xCenter,yCenter-distance);
 
         // create legend cells
         
