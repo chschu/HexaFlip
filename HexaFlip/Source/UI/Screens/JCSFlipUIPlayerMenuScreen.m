@@ -15,19 +15,31 @@
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
+#import "JCSFlipUICellNode.h"
+
+typedef enum {
+    JCSFlipPlayerTypeNone,
+    JCSFlipPlayerTypeHuman,
+    JCSFlipPlayerTypeAIEasy,
+    JCSFlipPlayerTypeAIMedium,
+    JCSFlipPlayerTypeAIHard,
+} JCSFlipPlayerType;
 
 @implementation JCSFlipUIPlayerMenuScreen {
     CCMenuItem *_playItem;
-    JCSRadioMenu *_playerSideRadioMenu;
-    JCSRadioMenu *_opponentSideRadioMenu;
     
-    BOOL _playerIsPlayerA;
-    CCMenuItem *_playerAItem;
-    CCMenuItem *_playerBItem;
-    CCMenuItem *_opponentAItem;
-    CCMenuItem *_opponentBItem;
+    JCSFlipPlayerType _playerAType;
+    JCSFlipPlayerType _playerBType;
     
-    NSInteger _opponentLevel;
+    CCMenuItem *_playerAHumanItem;
+    CCMenuItem *_playerAAIEasyItem;
+    CCMenuItem *_playerAAIMediumItem;
+    CCMenuItem *_playerAAIHardItem;
+
+    CCMenuItem *_playerBHumanItem;
+    CCMenuItem *_playerBAIEasyItem;
+    CCMenuItem *_playerBAIMediumItem;
+    CCMenuItem *_playerBAIHardItem;
 }
 
 @synthesize delegate = _delegate;
@@ -43,99 +55,94 @@
         backItem.anchorPoint = ccp(0,1);
         backItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
         
-        _playerIsPlayerA = YES;
-        _opponentLevel = 0;
-        
+        _playerAType = JCSFlipPlayerTypeNone;
+        _playerBType = JCSFlipPlayerTypeNone;
+
         // create play button
-        _playItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"play" block:^(id sender) {
-            id<JCSFlipPlayer> player = [JCSFlipPlayerLocal player];
-            id<JCSFlipPlayer> opponent;
-            switch (_opponentLevel) {
-                case 1:
-                    opponent = [self playerAIEasy];
-                    break;
-                case 2:
-                    opponent = [self playerAIMedium];
-                    break;
-                case 3:
-                    opponent = [self playerAIHard];
-                    break;
-                default:
-                    NSAssert(NO, @"invalid opponentLevel");
-            }
-            id<JCSFlipPlayer> playerA = (_playerIsPlayerA ? player : opponent);
-            id<JCSFlipPlayer> playerB = (_playerIsPlayerA ? opponent : player);
+        _playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
+            id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerAType];
+            id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBType];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        _playItem.anchorPoint = ccp(1,1);
-        _playItem.position = ccp(winSize.width/2-10, winSize.height/2-10);
+        _playItem.position = ccp(0,0);
         _playItem.isEnabled = NO;
-        
-        CGFloat xDistance = 100; // horizontal distance between the centers of button columns
-        CGFloat yDistance = 100; // vertical distance between the centers of button rows
-        CGFloat xOffset = JCSButtonSizeSmall*1.2; // horizontal distance for the color chooser
-        
-        _playerAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
-            _playerIsPlayerA = YES;
-            [self updateUIState];
-        }];
-        _playerAItem.position = ccp(-xOffset,yDistance/2);
-        _playerBItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-b" block:^(id sender) {
-            _playerIsPlayerA = NO;
-            [self updateUIState];
-        }];
-        _playerBItem.position = ccp(xOffset,yDistance/2);
 
-        // create (always-on) player button
-        
-        CCMenuItem *playerItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:nil];
-        playerItem.position = ccp(0,yDistance/2);
-        
-        // create opponent buttons
+        float xCenter = 140; // horizontal center ordinate of right player selection diamond (left is at -xCenter)
+        float yCenter = 0; // vertical center ordinate of player selection diamonds
+        float xDelta = 50; // horizontal offset between adjacent icons of player selection diamonds
+        float yDelta = 50; // vertical offset between adjacent icons of player selection diamonds
 
-        _opponentAItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-a" block:^(id sender) {
-            _playerIsPlayerA = NO;
+        // create player a buttons
+
+        _playerAHumanItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"human" block:^(id sender) {
+            _playerAType = JCSFlipPlayerTypeHuman;
             [self updateUIState];
         }];
-        _opponentAItem.position = ccp(-xDistance-xOffset,-yDistance/2);
-        _opponentBItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"player-b" block:^(id sender) {
-            _playerIsPlayerA = YES;
+        _playerAHumanItem.position = ccp(-xCenter,yCenter+yDelta);
+
+        _playerAAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-easy" block:^(id sender) {
+            _playerAType = JCSFlipPlayerTypeAIEasy;
             [self updateUIState];
         }];
-        _opponentBItem.position = ccp(xDistance+xOffset,-yDistance/2);
+        _playerAAIEasyItem.position = ccp(-xCenter-xDelta,yCenter);
+
+        _playerAAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-medium" block:^(id sender) {
+            _playerAType = JCSFlipPlayerTypeAIMedium;
+            [self updateUIState];
+        }];
+        _playerAAIMediumItem.position = ccp(-xCenter+xDelta,yCenter);
+
+        _playerAAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-hard" block:^(id sender) {
+            _playerAType = JCSFlipPlayerTypeAIHard;
+            [self updateUIState];
+        }];
+        _playerAAIHardItem.position = ccp(-xCenter,yCenter-yDelta);
+
+        // create player b buttons
         
-        CCMenuItem *opponentAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
-            _opponentLevel = 1;
+        _playerBHumanItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"human" block:^(id sender) {
+            _playerBType = JCSFlipPlayerTypeHuman;
             [self updateUIState];
         }];
-        opponentAIEasyItem.position = ccp(-xDistance,-yDistance/2);
+        _playerBHumanItem.position = ccp(xCenter,yCenter+yDelta);
         
-        CCMenuItem *opponentAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium"  block:^(id sender) {
-            _opponentLevel = 2;
+        _playerBAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-easy" block:^(id sender) {
+            _playerBType = JCSFlipPlayerTypeAIEasy;
             [self updateUIState];
         }];
-        opponentAIMediumItem.position = ccp(0,-yDistance/2);
+        _playerBAIEasyItem.position = ccp(xCenter-xDelta,yCenter);
         
-        CCMenuItem *opponentAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard"  block:^(id sender) {
-            _opponentLevel = 3;
+        _playerBAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-medium" block:^(id sender) {
+            _playerBType = JCSFlipPlayerTypeAIMedium;
             [self updateUIState];
         }];
-        opponentAIHardItem.position = ccp(xDistance,-yDistance/2);
+        _playerBAIMediumItem.position = ccp(xCenter+xDelta,yCenter);
+        
+        _playerBAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"ai-hard" block:^(id sender) {
+            _playerBType = JCSFlipPlayerTypeAIHard;
+            [self updateUIState];
+        }];
+        _playerBAIHardItem.position = ccp(xCenter,yCenter-yDelta);
+
+        // create legend cells
+        
+        JCSFlipUICellNode *playerACell = [JCSFlipUICellNode nodeWithRow:0 column:0 cellState:JCSFlipCellStateOwnedByPlayerA];
+        playerACell.position = ccpAdd(ccp(-xCenter,yCenter),ccpMult(ccpFromSize(winSize), 0.5));
+        playerACell.rotation = -15;
+        
+        JCSFlipUICellNode *playerBCell = [JCSFlipUICellNode nodeWithRow:0 column:0 cellState:JCSFlipCellStateOwnedByPlayerB];
+        playerBCell.position = ccpAdd(ccp(xCenter,yCenter),ccpMult(ccpFromSize(winSize), 0.5));
+        playerBCell.rotation = -15;
         
         CCMenu *menu = [CCMenu menuWithItems:backItem, _playItem, nil];
-        JCSRadioMenu *playerRadioMenu = [JCSRadioMenu menuWithItems:playerItem, nil];
-        JCSRadioMenu *opponentRadioMenu = [JCSRadioMenu menuWithItems:opponentAIEasyItem, opponentAIMediumItem, opponentAIHardItem, nil];
-        _playerSideRadioMenu = [JCSRadioMenu menuWithItems:_playerAItem, _playerBItem, nil];
-        _opponentSideRadioMenu = [JCSRadioMenu menuWithItems:_opponentAItem, _opponentBItem, nil];
-        
-        // select the always-on player item
-        playerRadioMenu.selectedItem = playerItem;
+        JCSRadioMenu *playerARadioMenu = [JCSRadioMenu menuWithItems:_playerAHumanItem, _playerAAIEasyItem, _playerAAIMediumItem, _playerAAIHardItem, nil];
+        JCSRadioMenu *playerBRadioMenu = [JCSRadioMenu menuWithItems:_playerBHumanItem, _playerBAIEasyItem, _playerBAIMediumItem, _playerBAIHardItem, nil];
         
         [self addChild:menu z:1];
-        [self addChild:playerRadioMenu z:1];
-        [self addChild:opponentRadioMenu z:1];
-        [self addChild:_playerSideRadioMenu z:2];
-        [self addChild:_opponentSideRadioMenu z:2];
+        [self addChild:playerARadioMenu z:2];
+        [self addChild:playerBRadioMenu z:2];
+        [self addChild:playerACell z:1];
+        [self addChild:playerBCell z:1];
         
         // initialize the UI state
         [self updateUIState];
@@ -143,28 +150,37 @@
     return self;
 }
 
+- (id<JCSFlipPlayer>)createPlayerOfType:(JCSFlipPlayerType)playerType {
+    id<JCSFlipPlayer> player;
+    id<JCSGameHeuristic> heuristic;
+    id<JCSGameAlgorithm> algorithm;
+    switch (playerType) {
+        case JCSFlipPlayerTypeHuman:
+            player = [JCSFlipPlayerLocal player];
+            break;
+        case JCSFlipPlayerTypeAIEasy:
+            heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
+            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
+            player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
+            break;
+        case JCSFlipPlayerTypeAIMedium:
+            heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
+            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
+            player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
+            break;
+        case JCSFlipPlayerTypeAIHard:
+            heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
+            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+            player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
+            break;
+        default:
+            NSAssert(NO, @"invalid playerType %d", playerType);
+    }
+    return player;
+}
+
 - (void)updateUIState {
-    _playItem.isEnabled = (_opponentLevel != 0);
-    _playerSideRadioMenu.selectedItem = (_playerIsPlayerA ? _playerAItem : _playerBItem);
-    _opponentSideRadioMenu.selectedItem = (_playerIsPlayerA ? _opponentBItem : _opponentAItem);
-}
-
-- (id<JCSFlipPlayer>)playerAIEasy {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
-}
-
-- (id<JCSFlipPlayer>)playerAIMedium {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
-    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
-}
-
-- (id<JCSFlipPlayer>)playerAIHard {
-    id<JCSGameHeuristic> heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
-    id<JCSGameAlgorithm> algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
-    return [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
+    _playItem.isEnabled = (_playerAType != JCSFlipPlayerTypeNone && _playerBType != JCSFlipPlayerTypeNone);
 }
 
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
