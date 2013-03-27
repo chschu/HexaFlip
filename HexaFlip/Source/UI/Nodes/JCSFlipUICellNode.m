@@ -20,6 +20,7 @@
 @synthesize row = _row;
 @synthesize column = _column;
 @synthesize touchDelegate = _touchDelegate;
+@synthesize backgroundSprite = _backgroundSprite;
 
 + (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     return [[self alloc] initWithRow:row column:column cellState:cellState];
@@ -28,13 +29,18 @@
 - (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     NSAssert(cellState != JCSFlipCellStateHole, @"cell cannot be initialized to display a hole");
 
-    if (self = [super initWithSpriteFrameName:@"cell-empty.png"]) {
+    if (self = [super initWithSpriteFrameName:@"empty.png"]) {
         // initialize child sprites
+        _backgroundSprite = [CCSprite spriteWithSpriteFrameName:@"cell-empty.png"];
         _playerAOverlaySprite = [CCSprite spriteWithSpriteFrameName:@"cell-overlay-a.png"];
         _playerBOverlaySprite = [CCSprite spriteWithSpriteFrameName:@"cell-overlay-b.png"];
         
+        // use background's content size
+        self.contentSize = _backgroundSprite.contentSize;
+        
         // move child sprites' to center of cell sprite
         CGPoint center = ccp(self.contentSize.width/2.0,self.contentSize.height/2.0);
+        _backgroundSprite.position = center;
         _playerAOverlaySprite.position = center;
         _playerBOverlaySprite.position = center;
         
@@ -42,6 +48,7 @@
         _column = column;
         
         // add child sprites
+        [self addChild:_backgroundSprite z:0];
         [self addChild:_playerAOverlaySprite z:1];
         [self addChild:_playerBOverlaySprite z:1];
         
@@ -100,7 +107,7 @@
 }
 
 - (void)startFlash {
-    [self stopAllActions];
+    [_backgroundSprite stopAllActions];
     
     CCEaseInOut *tint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:192 green:192 blue:192] rate:2];
     CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
@@ -108,14 +115,14 @@
     
     CCAction *flashAction = [CCRepeatForever actionWithAction:flashOnce];
     
-    [self runAction:flashAction];
+    [_backgroundSprite runAction:flashAction];
 }
 
 - (void)stopFlash {
-    [self stopAllActions];
+    [_backgroundSprite stopAllActions];
     
     CCEaseInOut *untint = [CCEaseInOut actionWithAction:[CCTintTo actionWithDuration:0.2 red:255 green:255 blue:255] rate:2];
-    [self runAction:untint];
+    [_backgroundSprite runAction:untint];
 }
 
 - (CCFiniteTimeAction *)createAnimationForChangeToCellState:(JCSFlipCellState)newCellState {

@@ -381,6 +381,7 @@
 		F32BBFB816F9199800B0E0B7 /* button-undo-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-disabled.png"; sourceTree = "<group>"; };
 		F32BBFB916F9199800B0E0B7 /* button-undo-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-normal.png"; sourceTree = "<group>"; };
 		F32BBFBA16F9199800B0E0B7 /* button-undo-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-pushed.png"; sourceTree = "<group>"; };
+		F32BBFBB1703B2CA00B0E0B7 /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
 		F330E1601651CCBF004BB32E /* center-of-mass.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "center-of-mass.py"; sourceTree = "<group>"; };
 		F330E17416545354004BB32E /* button-rewind-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-normal.png"; sourceTree = "<group>"; };
 		F330E17516545354004BB32E /* button-rewind-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-pushed.png"; sourceTree = "<group>"; };
@@ -1334,6 +1335,7 @@
 				F3A2609D1642D9EE0035A0D1 /* board.xcf */,
 				F3A2607F163C91BD0035A0D1 /* cell-overlay.xcf */,
 				F3A260A01642DA2E0035A0D1 /* board.png */,
+				F32BBFBB1703B2CA00B0E0B7 /* empty.png */,
 				F3A2607C163C91BC0035A0D1 /* cell-empty.png */,
 				F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */,
 				F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */,

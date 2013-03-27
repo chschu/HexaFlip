@@ -21,6 +21,9 @@
 // the delegate to report touches to
 @property (weak, nonatomic) id<JCSFlipUICellNodeTouchDelegate> touchDelegate;
 
+// the background sprite (can be used for individual rotation)
+@property (readonly, nonatomic) CCSprite *backgroundSprite;
+
 + (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
 // repeatedly flash the cell
