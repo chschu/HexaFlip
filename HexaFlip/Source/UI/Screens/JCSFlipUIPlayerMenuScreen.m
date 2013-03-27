@@ -128,11 +128,11 @@ typedef enum {
         
         JCSFlipUICellNode *playerACell = [JCSFlipUICellNode nodeWithRow:0 column:0 cellState:JCSFlipCellStateOwnedByPlayerA];
         playerACell.position = ccpAdd(ccp(-xCenter,yCenter),ccpMult(ccpFromSize(winSize), 0.5));
-        playerACell.rotation = -15;
+        playerACell.backgroundSprite.rotation = -15;
         
         JCSFlipUICellNode *playerBCell = [JCSFlipUICellNode nodeWithRow:0 column:0 cellState:JCSFlipCellStateOwnedByPlayerB];
         playerBCell.position = ccpAdd(ccp(xCenter,yCenter),ccpMult(ccpFromSize(winSize), 0.5));
-        playerBCell.rotation = -15;
+        playerBCell.backgroundSprite.rotation = -15;
         
         CCMenu *menu = [CCMenu menuWithItems:backItem, _playItem, nil];
         JCSRadioMenu *playerARadioMenu = [JCSRadioMenu menuWithItems:_playerAHumanItem, _playerAAIEasyItem, _playerAAIMediumItem, _playerAAIHardItem, nil];
