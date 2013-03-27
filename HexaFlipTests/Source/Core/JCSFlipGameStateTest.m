@@ -263,6 +263,7 @@
     
     // verify that move is valid
     STAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]], nil);
+    STAssertEquals(underTest.moveStackSize, 1u, nil);
     
     // check that the player has been switched
     STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
@@ -286,6 +287,7 @@
     
     // verify that move is valid
     STAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]], nil);
+    STAssertEquals(underTest.moveStackSize, 2u, nil);
     
     // check that the player has been switched
     STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
@@ -334,6 +336,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 2: cell empty, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
@@ -345,6 +349,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 3: cell hole, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
@@ -356,6 +362,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 4: cell owned by A, player B to move
 	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
@@ -367,6 +375,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 5: cell empty, player B to move
 	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
@@ -378,6 +388,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 6: cell hole, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
@@ -389,6 +401,8 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
+    // check that move stack is still empty
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
 }
 
 - (void)testPushMoveGameOverAfterLastMove {
@@ -529,7 +543,9 @@
     // push two moves, pop the last one
     [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]];
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionW]];
+    STAssertEquals(underTest.moveStackSize, 2u, nil);
     [underTest popMove];
+    STAssertEquals(underTest.moveStackSize, 1u, nil);
     
     // check that the player has been switched back
     STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
@@ -585,17 +601,6 @@
     
     // verify that skip is valid
     STAssertTrue(underTest.skipAllowed, nil);
-}
-
-- (void)testMoveStackEmpty {
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initDefaultWithSize:4];
-    STAssertTrue(underTest.moveStackEmpty, nil);
-
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
-    STAssertFalse(underTest.moveStackEmpty, nil);
-    
-    [underTest popMove];
-    STAssertTrue(underTest.moveStackEmpty, nil);
 }
 
 - (void)skipNotAllowedMoveExists {
@@ -672,8 +677,12 @@
         NSString *moveString = [self stringForMoveWithStartRow:move.startRow column:move.startColumn direction:move.direction];
         STAssertTrue([expectedMoveStrings containsObject:moveString], [NSString stringWithFormat:@"unexpected move string %@", moveString]);
         [expectedMoveStrings removeObject:moveString];
+        STAssertEquals(underTest.moveStackSize, 1u, nil);
     }];
-    
+
+    // check that move stack is empty again
+    STAssertEquals(underTest.moveStackSize, 0u, nil);
+
     // check that all moves have been considered
     STAssertTrue(expectedMoveStrings.count == 0, nil);
     
@@ -1011,7 +1020,7 @@
     }];
     
     // undo moves
-    while (!underTest.moveStackEmpty) {
+    for (NSInteger i = 0; i < 3; i++) {
         [reloaded popMove];
         [underTest popMove];
 
@@ -1048,6 +1057,7 @@
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
     [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
+    STAssertEquals(underTest.moveStackSize, 3u, nil);
     
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -1062,6 +1072,7 @@
     STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
     STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
     STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    STAssertEquals(reloaded.moveStackSize, 2u, nil);
     
     // check cell states (must be match original board)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {

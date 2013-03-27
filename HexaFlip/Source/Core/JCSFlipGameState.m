@@ -64,6 +64,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 @synthesize cellCountPlayerB = _cellCountPlayerB;
 @synthesize cellCountEmpty = _cellCountEmpty;
 @synthesize playerToMove = _playerToMove;
+@synthesize moveStackSize = _moveInfoStackTop;
 
 #pragma mark instance methods
 
@@ -279,10 +280,6 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
             curColumn += columnDelta;
         }
     }
-}
-
-- (BOOL)moveStackEmpty {
-    return _moveInfoStackTop == 0;
 }
 
 #pragma mark JCSGameNode

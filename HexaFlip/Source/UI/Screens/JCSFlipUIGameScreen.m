@@ -48,7 +48,8 @@
         
         // create the undo button
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
-            [self undoMovesUntilPlayerHasLocalInput];
+            NSUInteger movesToUndo = (_playerA.localControls && _playerB.localControls ? 1 : 2);
+            [self undoMoves:movesToUndo];
         }];
         _undoItem.anchorPoint = ccp(0,0);
         _undoItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall+15, -winSize.height/2+10);
@@ -191,12 +192,21 @@
     BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
     BOOL playerAEnabled = _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
     BOOL playerBEnabled = _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
+    BOOL anyPlayerEnabled = playerAEnabled || playerBEnabled;
     
     // enable/disable move input if any of the players has local controls
-    _boardLayer.moveInputEnabled = !gameOver && (playerAEnabled || playerBEnabled);
-    _skipItem.isEnabled = _state.skipAllowed && (playerAEnabled || playerBEnabled);
+    _boardLayer.moveInputEnabled = !gameOver && anyPlayerEnabled;
+    _skipItem.isEnabled = _state.skipAllowed && anyPlayerEnabled;
     _undoItem.visible = ![self isMultiplayerGame];
-    _undoItem.isEnabled = !_state.moveStackEmpty && (playerAEnabled || playerBEnabled);
+    
+    if (anyPlayerEnabled) {
+        // determine how many moves need to be undone
+        NSUInteger movesToUndo = (_playerA.localControls && _playerB.localControls ? 1 : 2);
+        _undoItem.isEnabled = (_state.moveStackSize >= movesToUndo);
+    } else {
+        // undo is impossible if no player has local controls
+        _undoItem.isEnabled = NO;
+    }
 }
 
 - (void)updateScoreIndicatorAnimated:(BOOL)animated {
@@ -230,20 +240,13 @@
 }
 
 // animates the last move of the current game state in reverse, and pops the moves from the game state
-// the process is repeated until the current player has local inputs
+// the process is repeated recursively until count is zero
 // not allowed for multi-player games
-- (void)undoMovesUntilPlayerHasLocalInput {
-    [self undoInternal:YES];
-}
-
-// helper method used by undoMovesUntilPlayerHasLocalInput
-- (void)undoInternal:(BOOL)first {
+- (void)undoMoves:(NSUInteger)count {
     NSAssert(![self isMultiplayerGame], @"undo not allowed for multiplayer games");
     
-    id<JCSFlipPlayer> currentPlayer = (_state.playerToMove == JCSFlipPlayerToMoveA ? _playerA : _playerB);
-    
-    // undo the move if this is the first invocation, or
-    if (first || !currentPlayer.localControls) {
+    if (count > 0) {
+        // undo the move if this is the first invocation, or
         // block move input during animation
         [self disableMoveInput];
         
@@ -258,8 +261,8 @@
         [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
             // pop the move from the game state
             [_state popMove];
-            // repeat undo
-            [self undoInternal:NO];
+            // undo the remaining moves
+            [self undoMoves:count-1];
         }];
     } else {
         // enable move input
