@@ -33,9 +33,7 @@
         _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
         _mmvc.turnBasedMatchmakerDelegate = self;
         // don't show existing matches when inviting
-        if (_playersToInvite != nil) {
-            _mmvc.showExistingMatches = NO;
-        }
+        _mmvc.showExistingMatches = (_playersToInvite == nil);
         [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:completion];
     } else {
         [_mmvc dismissViewControllerAnimated:YES completion:completion];
@@ -75,11 +73,11 @@
     id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
     id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
-
+    
     // prepare the game, but don't start it yet (to avoid animation overlap)
     // animate the last move only if it's the local player's turn
     [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:localPlayerToMove fromMultiplayerScreen:self];
-
+    
     // start the game
     [_delegate startPreparedGameFromMultiplayerScreen:self];
 }
@@ -90,11 +88,11 @@
     NSUInteger currentParticipantIndex = [match.participants indexOfObject:match.currentParticipant];
     NSUInteger nextParticipantIndex = 1-currentParticipantIndex;
     GKTurnBasedParticipant *nextParticipant = [match.participants objectAtIndex:nextParticipantIndex];
-
+    
     // if the participant quits in turn, the other participant wins
     match.currentParticipant.matchOutcome = GKTurnBasedMatchOutcomeQuit;
     nextParticipant.matchOutcome = GKTurnBasedMatchOutcomeWon;
-
+    
     // extract the match data
     JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromData:match.matchData];
     
