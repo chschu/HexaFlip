@@ -48,7 +48,11 @@
         
         // create the undo button
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
-            NSUInteger movesToUndo = (_playerA.localControls && _playerB.localControls ? 1 : 2);
+            // undo at most 1 move if two players are local
+            // undo at most 2 moves if one player is local
+            // if no player is local, the button is disabled elsewhere
+            // the move stack size imposes another upper bound on the number of moves
+            NSUInteger movesToUndo = MIN(_playerA.localControls && _playerB.localControls ? 1 : 2, _state.moveStackSize);
             [self undoMoves:movesToUndo];
         }];
         _undoItem.anchorPoint = ccp(0,0);
@@ -200,9 +204,8 @@
     _undoItem.visible = ![self isMultiplayerGame];
     
     if (anyPlayerEnabled) {
-        // determine how many moves need to be undone
-        NSUInteger movesToUndo = (_playerA.localControls && _playerB.localControls ? 1 : 2);
-        _undoItem.isEnabled = (_state.moveStackSize >= movesToUndo);
+        // undo is possible if the move stack is not empty
+        _undoItem.isEnabled = (_state.moveStackSize > 0);
     } else {
         // undo is impossible if no player has local controls
         _undoItem.isEnabled = NO;
