@@ -26,8 +26,6 @@ typedef enum {
 } JCSFlipPlayerType;
 
 @implementation JCSFlipUIPlayerMenuScreen {
-    CCMenuItem *_playItem;
-    
     JCSFlipPlayerType _playerAType;
     JCSFlipPlayerType _playerBType;
     
@@ -59,13 +57,12 @@ typedef enum {
         _playerBType = JCSFlipPlayerTypeNone;
 
         // create play button
-        _playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
+        CCMenuItem *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
             id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerAType];
             id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBType];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
-        _playItem.position = ccp(0,0);
-        _playItem.isEnabled = NO;
+        playItem.position = ccp(0,0);
 
         float xCenter = 100; // horizontal center ordinate of right player selection arc (left is at -xCenter)
         float yCenter = 0; // vertical center ordinate of player selection diamonds
@@ -75,25 +72,21 @@ typedef enum {
 
         _playerAHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeHuman;
-            [self updateUIState];
         }];
         _playerAHumanItem.position = ccp(-xCenter,yCenter+distance);
 
         _playerAAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIEasy;
-            [self updateUIState];
         }];
         _playerAAIEasyItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter+distance/2);
 
         _playerAAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIMedium;
-            [self updateUIState];
         }];
         _playerAAIMediumItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter-distance/2);
 
         _playerAAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
             _playerAType = JCSFlipPlayerTypeAIHard;
-            [self updateUIState];
         }];
         _playerAAIHardItem.position = ccp(-xCenter,yCenter-distance);
 
@@ -101,25 +94,21 @@ typedef enum {
         
         _playerBHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeHuman;
-            [self updateUIState];
         }];
         _playerBHumanItem.position = ccp(xCenter,yCenter+distance);
         
         _playerBAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIEasy;
-            [self updateUIState];
         }];
         _playerBAIEasyItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter+distance/2);
         
         _playerBAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIMedium;
-            [self updateUIState];
         }];
         _playerBAIMediumItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter-distance/2);
         
         _playerBAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
             _playerBType = JCSFlipPlayerTypeAIHard;
-            [self updateUIState];
         }];
         _playerBAIHardItem.position = ccp(xCenter,yCenter-distance);
 
@@ -133,18 +122,19 @@ typedef enum {
         playerBCell.position = ccpAdd(ccp(xCenter,yCenter),ccpMult(ccpFromSize(winSize), 0.5));
         playerBCell.backgroundSprite.rotation = -15;
         
-        CCMenu *menu = [CCMenu menuWithItems:backItem, _playItem, nil];
+        CCMenu *menu = [CCMenu menuWithItems:backItem, playItem, nil];
         JCSRadioMenu *playerARadioMenu = [JCSRadioMenu menuWithItems:_playerAHumanItem, _playerAAIEasyItem, _playerAAIMediumItem, _playerAAIHardItem, nil];
         JCSRadioMenu *playerBRadioMenu = [JCSRadioMenu menuWithItems:_playerBHumanItem, _playerBAIEasyItem, _playerBAIMediumItem, _playerBAIHardItem, nil];
+        
+        // pre-select radio items
+        playerARadioMenu.selectedItem = _playerAHumanItem;
+        playerBRadioMenu.selectedItem = _playerBAIMediumItem;
         
         [self addChild:menu z:1];
         [self addChild:playerARadioMenu z:2];
         [self addChild:playerBRadioMenu z:2];
         [self addChild:playerACell z:1];
         [self addChild:playerBCell z:1];
-        
-        // initialize the UI state
-        [self updateUIState];
     }
     return self;
 }
@@ -163,23 +153,19 @@ typedef enum {
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerTypeAIMedium:
-            heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.3 randomness:0.4];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:heuristic];
+            heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
+            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerTypeAIHard:
-            heuristic = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:0.8 randomness:0.1];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+            heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
+            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:
             NSAssert(NO, @"invalid playerType %d", playerType);
     }
     return player;
-}
-
-- (void)updateUIState {
-    _playItem.isEnabled = (_playerAType != JCSFlipPlayerTypeNone && _playerBType != JCSFlipPlayerTypeNone);
 }
 
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
