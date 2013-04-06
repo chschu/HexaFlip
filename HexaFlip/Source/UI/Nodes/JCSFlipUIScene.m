@@ -94,7 +94,6 @@
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
     // if the player de-authenticated, switch to main menu
     if (![JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated) {
-        // TODO only switch if not in single-player game
         [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
