@@ -74,7 +74,7 @@ typedef enum {
                 
                 // register as touch delegate of every cell
                 uiCell.touchDelegate = self;
-                                
+                
                 // place cells with defined spacing
                 float x = JCS_FLIP_UI_CELL_SPACING_POINTS * (row/2.0+column);
                 float y = JCS_FLIP_UI_CELL_SPACING_POINTS * (sqrt(3.0)*row/2.0);
@@ -94,7 +94,7 @@ typedef enum {
         // add some borders to get a reasonable content size (for positioning in the parent node)
         self.contentSize = CGSizeMake(maxAbsX + JCS_FLIP_UI_CELL_SPACING_POINTS/2.0 + JCS_FLIP_UI_BOARD_BORDER,
                                       maxAbsY + JCS_FLIP_UI_CELL_SPACING_POINTS/sqrt(3.0) + JCS_FLIP_UI_BOARD_BORDER);
-
+        
         // create immutable dictionary
         _uiCellNodes = [_uiCellNodes copy];
         
@@ -111,35 +111,33 @@ typedef enum {
     
     __block ccTime delay = 0;
     
-    // create animations for involved cells
-    [gameState forAllCellsInvolvedInLastMoveReverse:undo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
-        JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
-        JCSFlipCellState targetCellState = undo ? oldCellState : newCellState;
-        CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:targetCellState];
-        CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
-        [actions addObject:cellAnimationWithDelay];
-        delay += 0.05;
-    }];
-    
-    id finalBlockAction = [CCCallBlock actionWithBlock:^{
-        block();
-    }];
-    
-    NSArray *sequenceActions;
-    
-    // create sequence of animation and notification
-    if ([actions count] == 0) {
-        // TODO: animate skip
-        sequenceActions = [NSArray arrayWithObjects:
-                           finalBlockAction,
-                           nil];
+    if (!gameState.lastMove.skip) {
+        // create animations for regular move: all involved cells, including the unmodified start cell
+        [gameState forAllCellsInvolvedInLastMoveReverse:undo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+            JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
+            JCSFlipCellState targetCellState = undo ? oldCellState : newCellState;
+            CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:targetCellState];
+            CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
+            [actions addObject:cellAnimationWithDelay];
+            delay += 0.05;
+        }];
     } else {
-        sequenceActions = [NSArray arrayWithObjects:
-                           [CCSpawn actionWithArray:actions],
-                           finalBlockAction,
-                           nil];
+        // create animations for skip move: all cells of player that has made the move
+        [gameState forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            if (cellState == JCSFlipCellStateForPlayerToMove(JCSFlipPlayerToMoveOther(gameState.playerToMove))) {
+                JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
+                CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:cellState];
+                CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
+                [actions addObject:cellAnimationWithDelay];
+            }
+        }];
     }
     
+    // create sequence of animation and notification
+    NSArray *sequenceActions = [NSArray arrayWithObjects:
+                        [CCSpawn actionWithArray:actions],
+                        [CCCallBlock actionWithBlock:block],
+                        nil];
     
     // if the scene is no longer running, the actions won't start anymore
     [self runAction:[CCSequence actionWithArray:sequenceActions]];
