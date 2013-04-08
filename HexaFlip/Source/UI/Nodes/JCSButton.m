@@ -48,8 +48,8 @@
         // add background sprite centered, but keep content size
 		[self addChild:backgroundSprite z:-1];
         backgroundSprite.anchorPoint = ccp(0.5,0.5);
-        backgroundSprite.position = ccp(JCSButtonSizeLarge/2.0, JCSButtonSizeLarge/2.0);
-        self.contentSize = CGSizeMake(JCSButtonSizeLarge,JCSButtonSizeLarge);
+        backgroundSprite.position = ccp(normalSprite.contentSize.width/2.0, normalSprite.contentSize.height/2.0);
+        self.contentSize = normalSprite.contentSize;
         
         self.scale = 1.0 * size / JCSButtonSizeLarge;
     }

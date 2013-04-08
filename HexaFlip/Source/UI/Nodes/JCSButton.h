@@ -9,9 +9,9 @@
 #import "cocos2d.h"
 
 typedef enum {
-    JCSButtonSizeSmall = 44,
-    JCSButtonSizeMedium = 61,
-    JCSButtonSizeLarge = 84,
+    JCSButtonSizeSmall = 53,
+    JCSButtonSizeMedium = 73,
+    JCSButtonSizeLarge = 100,
 } JCSButtonSize;
 
 @interface JCSButton : CCMenuItemSprite

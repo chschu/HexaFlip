@@ -43,8 +43,8 @@
             [_playerB cancel];
             [_delegate exitGameMultiplayer:[self isMultiplayerGame] fromGameScreen:self];
         }];
-        exitItem.anchorPoint = ccp(0,1);
-        exitItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
+        exitItem.anchorPoint = ccp(0.5,0.5);
+        exitItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);
         
         // create the undo button
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
@@ -55,8 +55,8 @@
             NSUInteger movesToUndo = MIN(_playerA.localControls && _playerB.localControls ? 1 : 2, _state.moveStackSize);
             [self undoMoves:movesToUndo];
         }];
-        _undoItem.anchorPoint = ccp(0,0);
-        _undoItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall+15, -winSize.height/2+10);
+        _undoItem.anchorPoint = ccp(0.5,0.5);
+        _undoItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall+10+JCSButtonSizeSmall/2.0, -winSize.height/2+10+JCSButtonSizeSmall/2.0);
         
         // create the skip button
         _skipItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"skip" block:^(id sender) {
@@ -64,8 +64,8 @@
                 [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
             }
         }];
-        _skipItem.anchorPoint = ccp(0,0);
-        _skipItem.position = ccp(-winSize.width/2+10, -winSize.height/2+10);
+        _skipItem.anchorPoint = ccp(0.5,0.5);
+        _skipItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, -winSize.height/2+10+JCSButtonSizeSmall/2.0);
         
         CCMenu *menu = [CCMenu menuWithItems:exitItem, _undoItem, _skipItem, nil];
         [self addChild:menu z:2];

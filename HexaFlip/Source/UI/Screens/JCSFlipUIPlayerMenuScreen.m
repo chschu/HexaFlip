@@ -50,8 +50,8 @@ typedef enum {
         CCMenuItem *backItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
             [_delegate backFromPlayerMenuScreen:self];
         }];
-        backItem.anchorPoint = ccp(0,1);
-        backItem.position = ccp(-winSize.width/2+10, winSize.height/2-10);
+        backItem.anchorPoint = ccp(0.5,0.5);
+        backItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);
         
         _playerAType = JCSFlipPlayerTypeNone;
         _playerBType = JCSFlipPlayerTypeNone;
@@ -66,7 +66,7 @@ typedef enum {
 
         float xCenter = 100; // horizontal center ordinate of right player selection arc (left is at -xCenter)
         float yCenter = 0; // vertical center ordinate of player selection diamonds
-        float distance = 80; // distance between adjacent player selection buttons on the same side
+        float distance = 85; // distance between adjacent player selection buttons on the same side
 
         // create player a buttons
 
