@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="cell-empty.svg">
+   sodipodi:docname="vectors.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -138,16 +138,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="87.848077"
-     inkscape:cy="31.965543"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-90.438081"
+     inkscape:cy="30.025963"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="959"
-     inkscape:window-x="-5"
-     inkscape:window-y="2"
+     inkscape:window-x="47"
+     inkscape:window-y="59"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -175,6 +175,10 @@
        orientation="1,0"
        position="38.499996,60.155932"
        id="guide3075" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="328.09754,222.03152"
+       id="guide4082" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -184,7 +188,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -247,5 +251,24 @@
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:53.0853157;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
          sodipodi:type="star" />
     </g>
+    <path
+       sodipodi:type="star"
+       style="fill:#ffffff;fill-opacity:0.49803922000000000;stroke:#000000;stroke-width:9.96705245999999967;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;"
+       id="path3811"
+       sodipodi:sides="6"
+       sodipodi:cx="-374.76657"
+       sodipodi:cy="-61.592926"
+       sodipodi:r1="166.87869"
+       sodipodi:r2="144.52119"
+       sodipodi:arg1="0"
+       sodipodi:arg2="0.52359878"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -207.88788,-61.592926 -83.43934,144.521187 -166.8787,0 -83.43934,-144.521187 83.43934,-144.521184 166.8787,0 z"
+       transform="matrix(1.0032983,0,0,1.0033131,762.3502,298.8151)"
+       inkscape:export-filename="/Users/chschu/Documents/Workspace/HexaFlip/HexaFlip/Tools/outcome-raw.png"
+       inkscape:export-xdpi="180"
+       inkscape:export-ydpi="180" />
   </g>
 </svg>

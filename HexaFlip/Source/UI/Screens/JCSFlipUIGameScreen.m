@@ -15,6 +15,7 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipGameCenterManager.h"
+#import "JCSFlipUIConstants.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;
@@ -29,6 +30,10 @@
     CCMenuItem *_undoItem;
     CCMenuItem *_skipItem;
     JCSFlipScoreIndicator *_scoreIndicator;
+    
+    CCSprite *_outcomeSpriteBackground;
+    CCSprite *_outcomeSpriteOverlayWon;
+    CCSprite *_outcomeSpriteOverlayDraw;
 }
 
 @synthesize delegate = _delegate;
@@ -48,6 +53,9 @@
         
         // create the undo button
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
+            // remove outcome sprite
+            [self removeOutcomeSprite];
+            
             // undo at most 1 move if two players are local
             // undo at most 2 moves if one player is local
             // if no player is local, the button is disabled elsewhere
@@ -77,6 +85,23 @@
         
         // prepare a "dummy" game to initialize the board and UI state
         [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil animateLastMove:NO];
+        
+        // create hidden outcome sprites, centered over board
+        _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];
+        _outcomeSpriteBackground.anchorPoint = ccp(0.5,0.5);
+        _outcomeSpriteBackground.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:ccp(0,0)]];
+        _outcomeSpriteBackground.visible = NO;
+        [self addChild:_outcomeSpriteBackground z:4];
+        _outcomeSpriteOverlayWon = [CCSprite spriteWithSpriteFrameName:@"outcome-overlay-won.png"];
+        _outcomeSpriteOverlayWon.anchorPoint = ccp(0.5,0.5);
+        _outcomeSpriteOverlayWon.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:ccp(0,0)]];
+        _outcomeSpriteOverlayWon.visible = NO;
+        [self addChild:_outcomeSpriteOverlayWon z:5];
+        _outcomeSpriteOverlayDraw = [CCSprite spriteWithSpriteFrameName:@"outcome-overlay-draw.png"];
+        _outcomeSpriteOverlayDraw.anchorPoint = ccp(0.5,0.5);
+        _outcomeSpriteOverlayDraw.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:ccp(0,0)]];
+        _outcomeSpriteOverlayDraw.visible = NO;
+        [self addChild:_outcomeSpriteOverlayDraw z:5];
     }
     return self;
 }
@@ -112,8 +137,16 @@
     _match = match;
     
     // update UI
+    [self removeOutcomeSprite];
     [self updateScoreIndicatorAnimated:NO];
     [self enableMoveInput];
+}
+
+- (void)removeOutcomeSprite {
+    // TODO animation for undo?
+    _outcomeSpriteBackground.visible = NO;
+    _outcomeSpriteOverlayWon.visible = NO;
+    _outcomeSpriteOverlayDraw.visible = NO;
 }
 
 // notify current player that opponent did make a move
@@ -126,14 +159,50 @@
 }
 
 // notify current player to make his move, unless game is over
+// show game over animation, if game is over
 - (void)tellPlayerMakeMove {
-    if (!JCSFlipGameStatusIsOver(_state.status)) {
+    JCSFlipGameStatus status = _state.status;
+    if (!JCSFlipGameStatusIsOver(status)) {
         if (_state.playerToMove == JCSFlipPlayerToMoveA) {
             [_playerA tellMakeMove:_state];
         } else {
             [_playerB tellMakeMove:_state];
         }
+    } else {
+        NSLog(@"game is over, showing animation");
+        _outcomeSpriteBackground.visible = YES;
+        _outcomeSpriteBackground.color = [self outcomeSpriteBackgroundColorForGameStatus:status];
+        _outcomeSpriteBackground.scale = 0;
+        _outcomeSpriteBackground.rotation = 0;
+        
+        CCSprite *outcomeSpriteOverlay = (status == JCSFlipGameStatusDraw ? _outcomeSpriteOverlayDraw : _outcomeSpriteOverlayWon);
+        outcomeSpriteOverlay.visible = YES;
+        outcomeSpriteOverlay.scale = 0;
+        
+        CCFiniteTimeAction *scale = [CCScaleTo actionWithDuration:JCS_FLIP_UI_OUTCOME_ANIMATION_DURATION scale:0.8];
+        CCFiniteTimeAction *rotate = [CCRotateTo actionWithDuration:JCS_FLIP_UI_OUTCOME_ANIMATION_DURATION angle:90+15];
+        CCActionInterval *scaleRotate = [CCSpawn actionOne:scale two:rotate];
+        CCFiniteTimeAction *backgroundAction = [CCTargetedAction actionWithTarget:_outcomeSpriteBackground action:scaleRotate];
+        CCFiniteTimeAction *overlayAction = [CCTargetedAction actionWithTarget:outcomeSpriteOverlay action:[scale copy]];
+        CCActionInterval *spawn = [CCSpawn actionOne:backgroundAction two:overlayAction];
+        CCAction *easedAction = [CCEaseElasticOut actionWithAction:spawn];
+        
+        [self runAction:easedAction];
     }
+}
+
+- (ccColor3B)outcomeSpriteBackgroundColorForGameStatus:(JCSFlipGameStatus)status {
+    ccColor3B result;
+    if (status == JCSFlipGameStatusPlayerAWon) {
+        result = ccRED;
+    } else if (status == JCSFlipGameStatusPlayerBWon) {
+        result = ccBLUE;
+    } else if (status == JCSFlipGameStatusDraw) {
+        result = ccWHITE;
+    } else {
+        NSAssert(NO, @"invalid status");
+    }
+    return result;
 }
 
 - (void)startGame {

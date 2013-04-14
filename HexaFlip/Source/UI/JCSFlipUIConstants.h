@@ -22,3 +22,6 @@ static const float JCS_FLIP_UI_DRAG_OUTSIDE_THRESHOLD = JCS_FLIP_UI_CELL_SPACING
 
 // duration of the animated score update in seconds
 static const ccTime JCS_FLIP_UI_SCORE_INDICATOR_ANIMATION_DURATION = 0.5;
+
+// duration of the outcome animation in seconds
+static const ccTime JCS_FLIP_UI_OUTCOME_ANIMATION_DURATION = 1.0;

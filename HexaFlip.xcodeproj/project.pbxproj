@@ -372,6 +372,10 @@
 		F31A895416B0A83200847894 /* JCSFlipPlayerToMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerToMove.h; sourceTree = "<group>"; };
 		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
 		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
+		F323DA4E171B50CA008E58A1 /* outcome-overlay-draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-draw.png"; sourceTree = "<group>"; };
+		F323DA4F171B50CB008E58A1 /* outcome-overlay-won.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-won.png"; sourceTree = "<group>"; };
+		F323DA50171B50CB008E58A1 /* outcome-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-background.png"; sourceTree = "<group>"; };
+		F323DA51171B50CC008E58A1 /* outcome.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = outcome.xcf; sourceTree = "<group>"; };
 		F32758E01680FFD800869A23 /* icon1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon1024.png; sourceTree = "<group>"; };
 		F32758E61681212300869A23 /* button-play-single-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-normal.png"; sourceTree = "<group>"; };
 		F32758E71681212300869A23 /* button-play-single-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-pushed.png"; sourceTree = "<group>"; };
@@ -1334,11 +1338,15 @@
 				F3A2607B163C91BC0035A0D1 /* background.xcf */,
 				F3A2609D1642D9EE0035A0D1 /* board.xcf */,
 				F3A2607F163C91BD0035A0D1 /* cell-overlay.xcf */,
+				F323DA51171B50CC008E58A1 /* outcome.xcf */,
 				F3A260A01642DA2E0035A0D1 /* board.png */,
 				F32BBFBB1703B2CA00B0E0B7 /* empty.png */,
 				F3A2607C163C91BC0035A0D1 /* cell-empty.png */,
 				F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */,
 				F3A2607E163C91BC0035A0D1 /* cell-overlay-b.png */,
+				F323DA4E171B50CA008E58A1 /* outcome-overlay-draw.png */,
+				F323DA4F171B50CB008E58A1 /* outcome-overlay-won.png */,
+				F323DA50171B50CB008E58A1 /* outcome-background.png */,
 				F3474C9E16695BEA0054493C /* button-background.png */,
 				F32BBFB816F9199800B0E0B7 /* button-undo-disabled.png */,
 				F32BBFB916F9199800B0E0B7 /* button-undo-normal.png */,
