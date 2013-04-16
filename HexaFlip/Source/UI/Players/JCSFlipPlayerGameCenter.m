@@ -30,7 +30,7 @@
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     
     // generate data for game center
-    NSData *data = [gameCenterManager buildDataFromGameState:state];;
+    NSData *data = [gameCenterManager buildDataFromGameState:state];
     
     // find participant corresponding to this player (non-local) and opponent (local)
     NSString *localPlayerID = gameCenterManager.localPlayerID;
