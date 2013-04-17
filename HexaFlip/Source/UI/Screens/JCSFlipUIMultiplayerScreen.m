@@ -57,7 +57,7 @@
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match {
     // extract the game state from the match, or create a new one
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
-    JCSFlipGameState *gameState = [gameCenterManager buildGameStateFromData:match.matchData];
+    JCSFlipGameState *gameState = [gameCenterManager buildGameStateFromMatch:match];
     
     // determine playerID of remote participant
     NSString *localPlayerID = [gameCenterManager localPlayerID];
@@ -94,7 +94,7 @@
     nextParticipant.matchOutcome = GKTurnBasedMatchOutcomeWon;
     
     // extract the match data
-    JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromData:match.matchData];
+    JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromMatch:match];
     
     // build the match data to send
     NSData *data = [[JCSFlipGameCenterManager sharedInstance] buildDataFromGameState:gameState];

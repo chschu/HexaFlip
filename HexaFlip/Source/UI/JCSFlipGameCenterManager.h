@@ -37,10 +37,12 @@
 
 - (void)removePlayerAuthenticationObserver:(id)notificationObserver;
 
-// build a game state instance from the given match data
+// build a game state instance from the given match
 // if the match data is nil or empty, a fresh default game state is created
-- (JCSFlipGameState *)buildGameStateFromData:(NSData *)data;
+// otherwise, the match data is deserialized
+- (JCSFlipGameState *)buildGameStateFromMatch:(GKTurnBasedMatch *)match;
 
+// serialize the match data
 - (NSData *)buildDataFromGameState:(JCSFlipGameState *)gameState;
 
 

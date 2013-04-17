@@ -86,11 +86,16 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     return [data copy];
 }
 
-- (JCSFlipGameState *)buildGameStateFromData:(NSData *)data {
+- (JCSFlipGameState *)buildGameStateFromMatch:(GKTurnBasedMatch *)match {
     JCSFlipGameState *result;
+    NSData *data = match.matchData;
     if (data == nil || data.length == 0) {
-        result = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA];
+        // determine which player should make the first move (should be player A/index 0, but don't rely on that)
+        JCSFlipPlayerToMove playerToMove = [match.participants indexOfObject:match.currentParticipant] == 0 ? JCSFlipPlayerToMoveA : JCSFlipPlayerToMoveB;
+        // create new game state
+        result = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:playerToMove];
     } else {
+        // deserialize existing game state
         NSKeyedUnarchiver *coder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         result = [[JCSFlipGameState alloc] initWithCoder:coder];
     }
@@ -135,7 +140,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
         _currentMatch = match;
         
         // perform move input for last move of game state
-        JCSFlipGameState *gameState = [self buildGameStateFromData:_currentMatch.matchData];
+        JCSFlipGameState *gameState = [self buildGameStateFromMatch:_currentMatch];
         [self inputMove:gameState.lastMove];
     }
 }
@@ -148,7 +153,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
         _currentMatch = match;
         
         // perform move input for last move of game state, except if the game ended "non-naturally" (opponent quit)
-        JCSFlipGameState *gameState = [self buildGameStateFromData:_currentMatch.matchData];
+        JCSFlipGameState *gameState = [self buildGameStateFromMatch:_currentMatch];
         if (JCSFlipGameStatusIsOver(gameState.status)) {
             [self inputMove:gameState.lastMove];
         }
