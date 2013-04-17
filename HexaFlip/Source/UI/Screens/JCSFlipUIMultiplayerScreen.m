@@ -59,14 +59,18 @@
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     JCSFlipGameState *gameState = [gameCenterManager buildGameStateFromMatch:match];
     
-    // determine playerID of remote participant
-    NSString *localPlayerID = [gameCenterManager localPlayerID];
+    // determine playerId of local participant
+    NSString *localPlayerId = [gameCenterManager localPlayerID];
+   
+    // determine if player A is local
+    GKTurnBasedParticipant *participantA = [match.participants objectAtIndex:0];
+    BOOL playerAIsLocal = [localPlayerId isEqualToString:participantA.playerID];
     
-    // check if the local player can make his move
-    BOOL localPlayerToMove = [match.currentParticipant.playerID isEqualToString:localPlayerID];
+    // determine if it's player A's turn
+    BOOL playerAIsToMove = (gameState.playerToMove == JCSFlipPlayerToMoveA);
     
-    // determine if player A is local or remote
-    BOOL playerAIsLocal = (localPlayerToMove == (gameState.playerToMove == JCSFlipPlayerToMoveA));
+    // determine if the last move has been taken by the remote player
+    BOOL lastMoveByRemotePlayer = (playerAIsToMove == playerAIsLocal);
     
     // initialize the players
     id<JCSFlipPlayer> localPlayer = [JCSFlipPlayerLocal player];
@@ -75,8 +79,8 @@
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
     
     // prepare the game, but don't start it yet (to avoid animation overlap)
-    // animate the last move only if it's the local player's turn
-    [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:localPlayerToMove fromMultiplayerScreen:self];
+    // animate the last move only if it has been taken by the remote player
+    [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:lastMoveByRemotePlayer fromMultiplayerScreen:self];
     
     // start the game
     [_delegate startPreparedGameFromMultiplayerScreen:self];
