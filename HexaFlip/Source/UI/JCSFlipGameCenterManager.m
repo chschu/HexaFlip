@@ -89,7 +89,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
 - (JCSFlipGameState *)buildGameStateFromData:(NSData *)data {
     JCSFlipGameState *result;
     if (data == nil || data.length == 0) {
-        result = [[JCSFlipGameState alloc] initDefaultWithSize:5];
+        result = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA];
     } else {
         NSKeyedUnarchiver *coder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
         result = [[JCSFlipGameState alloc] initWithCoder:coder];

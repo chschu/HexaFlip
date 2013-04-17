@@ -84,7 +84,7 @@
         [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5] playerA:nil playerB:nil match:nil animateLastMove:NO];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:nil playerB:nil match:nil animateLastMove:NO];
         
         // create hidden outcome sprites, centered over board
         _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];

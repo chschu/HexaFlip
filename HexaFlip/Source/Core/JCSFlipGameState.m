@@ -135,8 +135,8 @@ __typeof__(c2) _c2 = (c2); \
 MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 })
 
-- (id)initDefaultWithSize:(NSInteger)size {
-    return [self initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
+- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove {
+    return [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
         if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
             return JCSFlipCellStateHole;

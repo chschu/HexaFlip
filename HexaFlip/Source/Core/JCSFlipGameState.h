@@ -49,9 +49,8 @@
 
 // initialize a default board with the given size
 // the board is a hexagon, using the given size as edge length
-// it is player A's turn
 // there is a hole at (0,0), player A owns (-1,0), (0,-1), and (1,-1), while player B owns (-1,1), (0,1), and (1,0)
-- (id)initDefaultWithSize:(NSInteger)size;
+- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove;
 
 // invoke the block for all cells, including holes
 // iteration stops prematurely when the block sets *stop to YES
