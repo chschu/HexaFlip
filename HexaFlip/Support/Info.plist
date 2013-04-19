@@ -35,13 +35,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>GIT_VERSION</string>
+	<string>VERSION</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>GIT_BUILD</string>
+	<string>GAMECENTER</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>Revision</key>
+	<string>REVISION</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
 		<key>gamekit</key>

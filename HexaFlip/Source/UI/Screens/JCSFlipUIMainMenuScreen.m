@@ -35,12 +35,12 @@
         [self addChild:menu];
         
         NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-        NSString *version = [infoDict objectForKey:@"CFBundleVersion"];
-        NSString *versionString = [NSString stringWithFormat:@"Build %@", version];
-        CCLabelTTF *versionLabel = [CCLabelTTF labelWithString:versionString fontName:@"Verdana" fontSize:8];
-        versionLabel.anchorPoint = ccp(0,0);
-        versionLabel.position = ccp(10,10);
-        [self addChild:versionLabel];
+        NSString *revision = [infoDict objectForKey:@"Revision"];
+        NSString *revisionString = [NSString stringWithFormat:@"Revision %@", revision];
+        CCLabelTTF *revisionLabel = [CCLabelTTF labelWithString:revisionString fontName:@"Verdana" fontSize:8];
+        revisionLabel.anchorPoint = ccp(0,0);
+        revisionLabel.position = ccp(10,10);
+        [self addChild:revisionLabel];
         
         // register for the game center authentication
         [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
