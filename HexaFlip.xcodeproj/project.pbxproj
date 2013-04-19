@@ -1655,7 +1655,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\ndescribe=$(/usr/bin/git describe --long --dirty=\"*\")\nversion=$(git for-each-ref --format '%(refname:short)' --sort=-committerdate --count 1 'refs/tags/Version-*.*.*' | sed -e 's/^Version-//')\ngamecenter=$(git for-each-ref --format '%(refname:short)' --sort=-committerdate --count 1 'refs/tags/GameCenter-*' | sed -e 's/^GameCenter-//')\nrevision=$(git rev-parse --verify HEAD)\necho \"#define VERSION $version\" > HexaFlip/Support/InfoPlist.h\necho \"#define GAMECENTER $gamecenter\" >> HexaFlip/Support/InfoPlist.h\necho \"#define REVISION $revision\" >> HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\nversion=$(git describe --tags --match 'Version-*' | cut -d- -f2)\ngamecenter=$(git describe --tags --match 'GameCenter-*' | cut -d- -f2)\nrevision=$(git describe --tags --match 'Version-*' --always --dirty='*' | sed -e 's/Version-//')\necho \"#define VERSION $version\" > HexaFlip/Support/InfoPlist.h\necho \"#define GAMECENTER $gamecenter\" >> HexaFlip/Support/InfoPlist.h\necho \"#define REVISION $revision\" >> HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
