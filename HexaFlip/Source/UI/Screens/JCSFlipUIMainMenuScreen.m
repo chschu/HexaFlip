@@ -35,12 +35,15 @@
         [self addChild:menu];
         
         NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-        NSString *revision = [infoDict objectForKey:@"Revision"];
-        NSString *revisionString = [NSString stringWithFormat:@"Revision %@", revision];
-        CCLabelTTF *revisionLabel = [CCLabelTTF labelWithString:revisionString fontName:@"Verdana" fontSize:8];
-        revisionLabel.anchorPoint = ccp(0,0);
-        revisionLabel.position = ccp(10,10);
-        [self addChild:revisionLabel];
+        
+        NSString *version = [infoDict objectForKey:@"CFBundleShortVersionString"];
+        NSString *build = [infoDict objectForKey:@"CFBundleVersion"];
+        NSString *revision = [infoDict objectForKey:@"JCSRevision"];
+        NSString *infoString = [NSString stringWithFormat:@"%@ (%@) :: %@", version, revision, build];
+        CCLabelTTF *infoLabel = [CCLabelTTF labelWithString:infoString fontName:@"Verdana" fontSize:8];
+        infoLabel.anchorPoint = ccp(0,0);
+        infoLabel.position = ccp(10,10);
+        [self addChild:infoLabel];
         
         // register for the game center authentication
         [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
@@ -58,7 +61,7 @@
 - (void)syncUIState {
     _playMultiItem.isEnabled = [JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated;
 }
-    
+
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
     [self syncUIState];
 }

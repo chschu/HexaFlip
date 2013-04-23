@@ -42,7 +42,7 @@
 	<string>GAMECENTER</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>Revision</key>
+	<key>JCSRevision</key>
 	<string>REVISION</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
