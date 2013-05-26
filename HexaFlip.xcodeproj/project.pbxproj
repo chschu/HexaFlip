@@ -430,6 +430,7 @@
 		F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F388F0B51607C897004CCF7D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F388F0B61607C897004CCF7D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		F39D5CEC1752AE0B00AAFC1D /* InfoPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPlist.h; sourceTree = "<group>"; };
 		F3A2607B163C91BC0035A0D1 /* background.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = background.xcf; sourceTree = "<group>"; };
 		F3A2607C163C91BC0035A0D1 /* cell-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-empty.png"; sourceTree = "<group>"; };
 		F3A2607D163C91BC0035A0D1 /* cell-overlay-a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell-overlay-a.png"; sourceTree = "<group>"; };
@@ -704,7 +705,7 @@
 		F3CB110915EE9A030057309C /* texture-atlas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "texture-atlas.plist"; sourceTree = "<group>"; };
 		F3CB110A15EE9A030057309C /* texture-atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "texture-atlas.png"; sourceTree = "<group>"; };
 		F3CB113D15EE9A030057309C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F3CB113E15EE9A030057309C /* InfoPlist.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoPlist.h; sourceTree = "<group>"; };
+		F3CB113E15EE9A030057309C /* InfoPlist-template.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InfoPlist-template.h"; sourceTree = "<group>"; };
 		F3CB113F15EE9A030057309C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
@@ -1321,7 +1322,8 @@
 			isa = PBXGroup;
 			children = (
 				F3CB113D15EE9A030057309C /* Info.plist */,
-				F3CB113E15EE9A030057309C /* InfoPlist.h */,
+				F3CB113E15EE9A030057309C /* InfoPlist-template.h */,
+				F39D5CEC1752AE0B00AAFC1D /* InfoPlist.h */,
 				F3CB113F15EE9A030057309C /* Prefix.pch */,
 			);
 			path = Support;
@@ -1655,7 +1657,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nversion=$(git describe --long --tags --match 'Version-*' | cut -d- -f2)\ngamecenter=$(git describe --long --tags --match 'GameCenter-*' | cut -d- -f2)\nrevision=$(git describe --long --tags --match 'Version-*' --dirty='*' | cut -d- -f3-)\necho \"#define VERSION $version\" > HexaFlip/Support/InfoPlist.h\necho \"#define GAMECENTER $gamecenter\" >> HexaFlip/Support/InfoPlist.h\necho \"#define REVISION $revision\" >> HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\nset -e\nversion=$(git describe --long --tags --match 'Version-*' | cut -d- -f2)\nrevision=$(git describe --long --tags --match 'Version-*' --dirty='*' | cut -d- -f3-)\nsed -e \"s/@VERSION@/${version}/g;s/@REVISION@/${revision}/g\" < HexaFlip/Support/InfoPlist-template.h > HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
