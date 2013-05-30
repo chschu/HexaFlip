@@ -9,6 +9,8 @@
 #import "JCSHexDirection.h"
 #import "JCSMove.h"
 
+@protocol JCSFlipMoveInputDelegate;
+
 @interface JCSFlipMove : NSObject <NSCopying, JCSMove>
 
 // property indicating that this is a "skip" move
@@ -31,5 +33,7 @@
 // initialize new instances
 - (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
 - (id)initSkip;
+
+- (void)performInputWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;
 
 @end

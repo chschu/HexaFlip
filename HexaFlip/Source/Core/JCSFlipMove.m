@@ -7,6 +7,7 @@
 //
 
 #import "JCSFlipMove.h"
+#import "JCSFlipMoveInputDelegate.h"
 
 @implementation JCSFlipMove
 
@@ -62,6 +63,27 @@
 - (JCSHexDirection)direction {
     NSAssert(!_skip, @"may not be invoked for skip move");
     return _direction;
+}
+
+- (void)performInputWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
+    double delay = 0;
+    if (!_skip) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+            [moveInputDelegate inputSelectedStartRow:_startRow startColumn:_startColumn];
+        });
+        delay += 0.25;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+            [moveInputDelegate inputSelectedDirection:_direction startRow:_startRow startColumn:_startColumn];
+        });
+        delay += 0.25;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+            [moveInputDelegate inputClearedDirection:_direction startRow:_startRow startColumn:_startColumn];
+            [moveInputDelegate inputClearedStartRow:_startRow startColumn:_startColumn];
+        });
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+        [moveInputDelegate inputConfirmedWithMove:self];
+    });
 }
 
 - (id)copyWithZone:(NSZone *)zone {

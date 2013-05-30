@@ -53,3 +53,4 @@
 - (void)inputConfirmedWithMove:(JCSFlipMove *)move;
 
 @end
+
