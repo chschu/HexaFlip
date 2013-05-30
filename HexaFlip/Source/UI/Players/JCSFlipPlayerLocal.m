@@ -26,7 +26,6 @@
 
 - (void)tellMakeMove:(JCSFlipGameState *)state {
     // do nothing, the player will make a move
-    // TODO visual notification
 }
 
 - (void)cancel {

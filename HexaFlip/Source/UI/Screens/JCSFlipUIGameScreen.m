@@ -143,7 +143,6 @@
 }
 
 - (void)removeOutcomeSprite {
-    // TODO animation for undo?
     _outcomeSpriteBackground.visible = NO;
     _outcomeSpriteOverlayWon.visible = NO;
     _outcomeSpriteOverlayDraw.visible = NO;
@@ -323,7 +322,6 @@
         [self disableMoveInput];
         
         // temporarily pop move to update score indicator while undo is animated
-        // TODO check if this could be done without modifying the state
         JCSFlipMove *lastMove = _state.lastMove;
         [_state popMove];
         [self updateScoreIndicatorAnimated:YES];

@@ -212,7 +212,6 @@
             _multiplayerScreen.playersToInvite = nil;
             [self switchToScreen:_multiplayerScreen animated:YES];
         } else {
-            // TODO confirmation screen
             [self switchToScreen:_mainMenuScreen animated:YES];
         }
     }
