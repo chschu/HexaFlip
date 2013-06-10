@@ -115,6 +115,18 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
         JCSFlipGameState *gameState = [self buildGameStateFromMatch:_currentMatch];
         [gameState.lastMove performInputWithMoveInputDelegate:_moveInputDelegate];
     }
+    
+    // handle quitting out of turn
+    for (GKTurnBasedParticipant *participant in match.participants) {
+        if (![participant.playerID isEqualToString:self.localPlayerID] && participant.matchOutcome == GKTurnBasedMatchOutcomeQuit) {
+            // opponent quit out of turn, end the match (local participant wins)
+            match.currentParticipant.matchOutcome = GKTurnBasedMatchOutcomeWon;
+            [match endMatchInTurnWithMatchData:match.matchData completionHandler:^(NSError *error) {
+                // TODO show outcome (local player won) and block move input
+                // TODO handle error?
+            }];
+        }
+    }
 }
 
 // handleMatchEnded is called when the match has ended.
