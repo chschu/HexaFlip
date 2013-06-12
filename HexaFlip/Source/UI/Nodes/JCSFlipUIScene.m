@@ -191,7 +191,7 @@
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:playerA playerB:playerB match:nil animateLastMove:NO];
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
         [self switchToScreen:_gameScreen animated:YES completion:^{
             [_gameScreen startGame];
         }];
@@ -235,9 +235,9 @@
     }
 }
 
-- (void)prepareGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
+- (void)prepareGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove];
+        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove moveInputDisabled:moveInputDisabled];
     }
 }
 

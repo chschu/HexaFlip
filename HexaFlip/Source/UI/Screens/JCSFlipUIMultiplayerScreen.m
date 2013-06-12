@@ -77,10 +77,14 @@
     id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
     id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
+
+    // check if match is open (i.e. has not ended yet)
+    BOOL matchOpen = (match.status == GKTurnBasedMatchStatusOpen);
     
     // prepare the game, but don't start it yet (to avoid animation overlap)
     // animate the last move only if it has been taken by the remote player
-    [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:lastMoveByRemotePlayer fromMultiplayerScreen:self];
+    // disable move input if match is not open
+    [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen fromMultiplayerScreen:self];
     
     // start the game
     [_delegate startPreparedGameFromMultiplayerScreen:self];

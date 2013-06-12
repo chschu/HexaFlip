@@ -28,7 +28,8 @@
 // the players might be both nil to show a read-only game
 // the match might be nil for local games
 // if animateLastMove is set to YES, the last move of the game state is replayed when the game is started
-- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove;
+// if moveInputDisabled is set to YES, move input will be disabled completely
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled;
 
 // start a previously prepared game
 // the screen must be enabled when this method is invoked

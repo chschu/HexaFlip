@@ -26,6 +26,9 @@
     // the last move, to be animated on game start (may be nil)
     JCSFlipMove *_lastMove;
     
+    // flag to globally disable move input
+    BOOL _moveInputDisabled;
+    
     JCSFlipUIBoardLayer *_boardLayer;
     CCMenuItem *_undoItem;
     CCMenuItem *_skipItem;
@@ -84,7 +87,7 @@
         [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:nil playerB:nil match:nil animateLastMove:NO];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
         
         // create hidden outcome sprites, centered over board
         _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];
@@ -106,7 +109,7 @@
     return self;
 }
 
-- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove {
+- (void)prepareGameWithState:(JCSFlipGameState *)state playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled {
     NSAssert(state != nil, @"state must not be nil");
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -135,6 +138,9 @@
     
     // assign match
     _match = match;
+    
+    // store move input disabling flag
+    _moveInputDisabled = moveInputDisabled;
     
     // update UI
     [self removeOutcomeSprite];
@@ -262,8 +268,8 @@
 // enable move input according to the current game state
 - (void)enableMoveInput {
     BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
-    BOOL playerAEnabled = _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
-    BOOL playerBEnabled = _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
+    BOOL playerAEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
+    BOOL playerBEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
     BOOL anyPlayerEnabled = playerAEnabled || playerBEnabled;
     
     // enable/disable move input if any of the players has local controls
