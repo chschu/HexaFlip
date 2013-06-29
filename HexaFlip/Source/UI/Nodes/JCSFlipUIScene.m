@@ -124,26 +124,25 @@
         
         CGPoint targetPosition = ccpCompMult(screen.screenPoint,ccpMult(winSizePoint,-1));
         
-        if (!CGPointEqualToPoint(targetPosition, parallax.position)) {
-            CCAction *moveToNewScreen;
-            if (animated) {
-                moveToNewScreen = [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:0.5 position:targetPosition]];
-            } else {
-                moveToNewScreen = [CCCallBlockN actionWithBlock:^(CCNode *node) {
-                    node.position = targetPosition;
-                }];
+        if (animated) {
+            if (!CGPointEqualToPoint(targetPosition, parallax.position)) {
+                CCAction *moveToNewScreen = [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:0.5 position:targetPosition]];
+                [actions addObject:moveToNewScreen];
             }
-            [actions addObject:moveToNewScreen];
-        }
         
-        // action to enable the new screen
-        CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
+            // action to enable the new screen
+            CCCallBlock *enableNewScreen = [CCCallBlock actionWithBlock:^{
+                [scene setScreen:screen enabled:YES completion:completion];
+            }];
+            [actions addObject:enableNewScreen];
+        
+            // start the collected actions
+            [parallax runAction:[CCSequence actionWithArray:actions]];
+        } else {
+            // apply immediately
+            parallax.position = targetPosition;
             [scene setScreen:screen enabled:YES completion:completion];
-        }];
-        [actions addObject:enableNewScreen];
-        
-        // start the collected actions
-        [parallax runAction:[CCSequence actionWithArray:actions]];
+        }
     }];
 }
 
