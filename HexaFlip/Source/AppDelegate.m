@@ -93,6 +93,13 @@
     // initialize texture atlas
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"texture-atlas.plist"];
     
+    // enable mipmapping for donwscaled texture atlas
+    CCSprite *sprite = [CCSprite spriteWithSpriteFrameName:@"board.png"];
+    CCTexture2D *texture = sprite.texture;
+    [texture generateMipmap];
+    ccTexParams texParams = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
+    [texture setTexParameters:&texParams];
+    
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director pushScene:[JCSFlipUIScene node]];
     
@@ -101,7 +108,7 @@
     
 	// make main window visible
 	[_window makeKeyAndVisible];
-
+    
     // authenticate with game center
     [[JCSFlipGameCenterManager sharedInstance] authenticateLocalPlayer];
     
