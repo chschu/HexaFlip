@@ -258,6 +258,11 @@
     }
 }
 
+- (BOOL)leaveScreenWhenPlayerLoggedOut {
+    // don't care about Game Center authentication for local matches
+    return _match != nil;
+}
+
 // disable move input completely
 - (void)disableMoveInput {
     _boardLayer.moveInputEnabled = NO;

@@ -16,6 +16,9 @@
 // both coordinates must be integers
 @property (nonatomic) CGPoint screenPoint;
 
+// leave the screen when the Game Center player logged out or changed?
+@property (readonly, nonatomic) BOOL leaveScreenWhenPlayerLoggedOut;
+
 // enable/disable the screen and invoke the completion handler asynchronously when everything is done
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion;
 

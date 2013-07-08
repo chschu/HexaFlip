@@ -73,4 +73,8 @@
     }
 }
 
+- (BOOL)leaveScreenWhenPlayerLoggedOut {
+    return NO;
+}
+
 @end

@@ -36,6 +36,9 @@
     // currently active screen
     // this is the only screen with screenEnabled == YES
     id<JCSFlipUIScreenWithPoint> _activeScreen;
+    
+    // the local player's playerId, used to detect when the local player has logged out or changed
+    NSString *_playerId;
 }
 
 // this could be done in -init, but then the scene is rendered in portrait mode, which breaks the layout
@@ -92,10 +95,15 @@
 }
 
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
-    // if the player de-authenticated, switch to main menu
-    if (![JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated) {
+    JCSFlipGameCenterManager *manager = [JCSFlipGameCenterManager sharedInstance];
+    // leave the active screen if it wants to, and the previous player has logged out or changed
+    if (_activeScreen.leaveScreenWhenPlayerLoggedOut && _playerId != nil && !(manager.isLocalPlayerAuthenticated && [_playerId isEqualToString:manager.localPlayerID])) {
+        NSLog(@"local player has logged out or changed, switching back to main menu screen");
         [self switchToScreen:_mainMenuScreen animated:YES];
     }
+
+    // update the stored player id
+    _playerId = manager.localPlayerID;
 }
 
 - (void)addScreen:(id<JCSFlipUIScreenWithPoint>)screen atScreenPoint:(CGPoint)screenPoint z:(NSInteger)z {

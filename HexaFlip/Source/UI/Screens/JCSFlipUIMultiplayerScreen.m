@@ -111,4 +111,8 @@
     [match endMatchInTurnWithMatchData:data completionHandler:nil];
 }
 
+- (BOOL)leaveScreenWhenPlayerLoggedOut {
+    return YES;
+}
+
 @end

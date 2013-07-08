@@ -175,4 +175,8 @@ typedef enum {
     }
 }
 
+- (BOOL)leaveScreenWhenPlayerLoggedOut {
+    return NO;
+}
+
 @end
