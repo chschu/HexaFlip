@@ -1594,6 +1594,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Christian Schuster";
+				TargetAttributes = {
+					F300538415B0AC2700BAD89C = {
+						DevelopmentTeam = 6H8WJXWZWW;
+					};
+				};
 			};
 			buildConfigurationList = F300537F15B0AC2600BAD89C /* Build configuration list for PBXProject "HexaFlip" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1897,6 +1902,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1920,6 +1926,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
