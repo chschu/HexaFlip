@@ -29,7 +29,6 @@
 		F300539415B0AC2700BAD89C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F300539615B0AC2700BAD89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
 		F300539815B0AC2700BAD89C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539715B0AC2700BAD89C /* CoreGraphics.framework */; };
-		F300539A15B0AC2700BAD89C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539915B0AC2700BAD89C /* GameKit.framework */; };
 		F300552615B0AF2400BAD89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
 		F300553015B0B00200BAD89C /* libcocos2d-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F300552515B0AF2400BAD89C /* libcocos2d-library.a */; };
 		F31078581646D42E00FE7FC2 /* JCSFlipUIGameScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */; };
@@ -296,6 +295,7 @@
 		F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */; };
 		F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */; };
 		F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */; };
+		F3C512A6178F690500DA64DB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C512A5178F690500DA64DB /* GameKit.framework */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -336,7 +336,6 @@
 		F300539315B0AC2700BAD89C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F300539515B0AC2700BAD89C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F300539715B0AC2700BAD89C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		F300539915B0AC2700BAD89C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F300552515B0AF2400BAD89C /* libcocos2d-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libcocos2d-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3098D7E16B90ACF00476109 /* JCSFlipGameCenterInviteDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterInviteDelegate.h; sourceTree = "<group>"; };
 		F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScreen.h; sourceTree = "<group>"; };
@@ -697,6 +696,7 @@
 		F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
 		F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
 		F3B9DED515B4BE900078507F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F3C512A5178F690500DA64DB /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F3C7946416F4F1AC00342FAE /* JCSMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMove.h; sourceTree = "<group>"; };
 		F3CB110515EE9A030057309C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F3CB110615EE9A030057309C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
@@ -728,7 +728,7 @@
 				F300539415B0AC2700BAD89C /* UIKit.framework in Frameworks */,
 				F300539615B0AC2700BAD89C /* Foundation.framework in Frameworks */,
 				F300539815B0AC2700BAD89C /* CoreGraphics.framework in Frameworks */,
-				F300539A15B0AC2700BAD89C /* GameKit.framework in Frameworks */,
+				F3C512A6178F690500DA64DB /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +776,7 @@
 		F300538815B0AC2700BAD89C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3C512A5178F690500DA64DB /* GameKit.framework */,
 				F300538915B0AC2700BAD89C /* QuartzCore.framework */,
 				F300538B15B0AC2700BAD89C /* OpenGLES.framework */,
 				F300538D15B0AC2700BAD89C /* OpenAL.framework */,
@@ -784,7 +785,6 @@
 				F300539315B0AC2700BAD89C /* UIKit.framework */,
 				F300539515B0AC2700BAD89C /* Foundation.framework */,
 				F300539715B0AC2700BAD89C /* CoreGraphics.framework */,
-				F300539915B0AC2700BAD89C /* GameKit.framework */,
 				F3B9DED515B4BE900078507F /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
@@ -1597,6 +1597,11 @@
 				TargetAttributes = {
 					F300538415B0AC2700BAD89C = {
 						DevelopmentTeam = 6H8WJXWZWW;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
