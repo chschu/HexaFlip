@@ -37,13 +37,6 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     }
 }
 
-- (id)init {
-    if (self = [super init]) {
-        [GKTurnBasedEventHandler sharedTurnBasedEventHandler].delegate = self;
-    }
-    return self;
-}
-
 - (void)addPlayerAuthenticationObserver:(id)notificationObserver selector:(SEL)notificationSelector {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:notificationObserver
@@ -61,7 +54,11 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
 }
 
 - (void)authenticateLocalPlayer {
-    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:nil];
+    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
+        if (error == nil) {
+            [GKTurnBasedEventHandler sharedTurnBasedEventHandler].delegate = self;
+        }
+    }];
 }
 
 - (BOOL)isLocalPlayerAuthenticated {
