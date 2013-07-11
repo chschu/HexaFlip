@@ -368,6 +368,16 @@
     [_boardLayer stopFlashForCellAtRow:startRow column:startColumn];
 }
 
+- (BOOL)inputModifiedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn previousStartRow:(NSInteger)previousStartRow previousStartColumn:(NSInteger)previousStartColumn {
+    NSLog(@"input: modified start cell (%d,%d)", startRow, startColumn);
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
+        [_boardLayer stopFlashForCellAtRow:previousStartRow column:previousStartColumn];
+        [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
+        return YES;
+    }
+    return NO;
+}
+
 - (void)inputSelectedDirection:(JCSHexDirection)direction startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected direction %d", direction);
     

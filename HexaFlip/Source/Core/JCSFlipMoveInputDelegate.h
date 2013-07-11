@@ -20,8 +20,10 @@
 //
 // example invocation order:
 // -inputSelectedStartRow:startColumn:
+// -inputModifiedStartRow:startColumn:
 // -inputSelectedDirection:startRow:startColumn: (after first direction choice)
 // -inputClearedDirection:startRow:startColumn: (before second direction choice)
+// -inputSelectedDirection:startRow:startColumn: (after second direction choice)
 // -inputClearedDirection:startRow:startColumn: (clear for final selected direction)
 // -inputClearedStartRow:startColumn: (clear for start cell)
 // -inputConfirmedWithMove:
@@ -34,6 +36,11 @@
 // the start cell selection has been cleared
 // the previously selected start cell coordinated are given
 - (void)inputClearedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn;
+
+// the player has modified the start cell selection
+// combines -inputClearedStartRow:startColumn: and -inputSelectedStartRow:startColumn:, but keeps the previous start cell if the new one is invalid
+// the delegate must return YES if the selection is valid, NO if it is not
+- (BOOL)inputModifiedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn previousStartRow:(NSInteger)previousStartRow previousStartColumn:(NSInteger)previousStartColumn;
 
 // the player has selected a direction (might be invoked multiple times)
 // the startRow and startColumn are always the values passed to -inputSelectedStartRow:startColumn:

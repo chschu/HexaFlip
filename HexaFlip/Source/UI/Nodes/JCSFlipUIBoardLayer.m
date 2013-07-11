@@ -176,7 +176,14 @@ typedef enum {
                 if (cell.cellState != JCSFlipCellStateEmpty) {
                     // second tap cell is not empty
                     
-                    // discard touch
+                    // try to modify start cell selection
+                    if ([_inputDelegate inputModifiedStartRow:cell.row startColumn:cell.column previousStartRow:_moveStartCell.row previousStartColumn:_moveStartCell.column]) {
+                        _moveStartCell = cell;
+                        _moveInputState = JCSFlipUIMoveInputStateFirstTapInside;
+                        return YES;
+                    }
+                    
+                    // stay with previous selection, discard touch
                     return NO;
                 }
                 
