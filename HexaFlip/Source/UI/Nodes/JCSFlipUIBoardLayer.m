@@ -217,18 +217,18 @@ typedef enum {
                     }
                 }
                 
-                // check that the second tap is on the first empty cell in that direction
+                // check that the second tap is on the first empty cell in that direction, and there are no holes in between
                 NSInteger curRow = _moveStartCell.row;
                 NSInteger curColumn = _moveStartCell.column;
                 NSInteger rowDelta = JCSHexDirectionRowDelta(_moveDirection);
                 NSInteger columnDelta = JCSHexDirectionColumnDelta(_moveDirection);
                 JCSFlipCellState curState;
-                while ((curState = [self cellNodeAtRow:curRow column:curColumn].cellState) != JCSFlipCellStateEmpty) {
+                while ((curState = [self cellNodeAtRow:curRow column:curColumn].cellState) != JCSFlipCellStateEmpty && curState != JCSFlipCellStateHole) {
                     curRow += rowDelta;
                     curColumn += columnDelta;
                 }
                 if (curRow != cell.row || curColumn != cell.column) {
-                    // not the first empty cell in that direction
+                    // not the first empty cell in that direction, or hit a hole
                     
                     // discard touch
                     return NO;
