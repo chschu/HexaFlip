@@ -1675,7 +1675,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nset -e\nversion=$(git describe --long --tags --match 'Version-*' | cut -d- -f2)\nrevision=$(git describe --long --tags --match 'Version-*' --dirty='*' | cut -d- -f3-)\nsed -e \"s/@VERSION@/${version}/g;s/@REVISION@/${revision}/g\" < HexaFlip/Support/InfoPlist-template.h > HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\nset -e\nversion=$(git describe --long --tags --match 'v*.*.*' | cut -d- -f1 | cut -c2-)\nrevision=$(git describe --long --tags --match 'v*.*.*' --dirty='*' | cut -d- -f2-)\nsed -e \"s/@VERSION@/${version}/g;s/@REVISION@/${revision}/g\" < HexaFlip/Support/InfoPlist-template.h > HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1939,7 +1939,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
