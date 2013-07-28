@@ -34,6 +34,7 @@
         CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
         
+#ifdef DEBUG
         NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
         
         NSString *version = [infoDict objectForKey:@"CFBundleShortVersionString"];
@@ -44,6 +45,7 @@
         infoLabel.anchorPoint = ccp(0,0);
         infoLabel.position = ccp(10,10);
         [self addChild:infoLabel];
+#endif
         
         // register for the game center authentication
         [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
