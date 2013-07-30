@@ -98,7 +98,7 @@
 // overridden to perform custom rendering
 - (void)visit {
 	// quick return if not visible
-	if (!visible_) {
+	if (!_visible) {
 		return;
     }
     

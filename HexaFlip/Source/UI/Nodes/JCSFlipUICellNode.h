@@ -12,7 +12,7 @@
 
 @protocol JCSFlipUICellNodeTouchDelegate;
 
-@interface JCSFlipUICellNode : CCSprite <CCTargetedTouchDelegate>
+@interface JCSFlipUICellNode : CCSprite <CCTouchOneByOneDelegate>
 
 @property (readonly, nonatomic) NSInteger row;
 @property (readonly, nonatomic) NSInteger column;
