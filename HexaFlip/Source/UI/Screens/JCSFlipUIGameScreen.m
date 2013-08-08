@@ -154,13 +154,13 @@
     _outcomeSpriteOverlayDraw.visible = NO;
 }
 
+- (id<JCSFlipPlayer>)playerToMove {
+    return (_state.playerToMove == JCSFlipPlayerToMoveA) ? _playerA : _playerB;
+}
+
 // notify current player that opponent did make a move
 - (void)tellPlayerOpponentDidMakeMove {
-    if (_state.playerToMove == JCSFlipPlayerToMoveA) {
-        [_playerA opponentDidMakeMove:_state];
-    } else {
-        [_playerB opponentDidMakeMove:_state];
-    }
+    [[self playerToMove] opponentDidMakeMove:_state];
 }
 
 // notify current player to make his move, unless game is over
@@ -168,11 +168,7 @@
 - (void)tellPlayerMakeMove {
     JCSFlipGameStatus status = _state.status;
     if (!JCSFlipGameStatusIsOver(status)) {
-        if (_state.playerToMove == JCSFlipPlayerToMoveA) {
-            [_playerA tellMakeMove:_state];
-        } else {
-            [_playerB tellMakeMove:_state];
-        }
+        [[self playerToMove] tellMakeMove:_state];
     } else {
         NSLog(@"game is over, showing animation");
         _outcomeSpriteBackground.visible = YES;
