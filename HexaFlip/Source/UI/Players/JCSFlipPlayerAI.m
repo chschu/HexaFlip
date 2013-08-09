@@ -35,6 +35,24 @@
     return NO;
 }
 
+- (NSString *)activityIndicatorSpriteFrameNameFormat {
+    return @"indicator-ai-frame-%d.png";
+}
+
+- (NSUInteger)activityIndicatorSpriteFrameCount {
+    return 3;
+}
+
+- (CGPoint)activityIndicatorAnchorPoint {
+    // center of gravity of the "cloud"
+    return ccp(74.0/131.0,1.0-46.0/131.0);
+}
+
+- (CGPoint)activityIndicatorPosition {
+    // somewhere in the empty space on the left of the board
+    return ccp(-170,74);
+}
+
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state {
     // do nothing, AI is not interested in that
 }

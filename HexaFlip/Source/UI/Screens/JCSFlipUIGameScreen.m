@@ -168,6 +168,10 @@
 - (void)tellPlayerMakeMove {
     JCSFlipGameStatus status = _state.status;
     if (!JCSFlipGameStatusIsOver(status)) {
+        // show thinking indicator BEFORE telling the player to make a move (might otherwise modify state too early)
+        [self startThinkingIndicatorAnimation];
+        
+        // now activate the player
         [[self playerToMove] tellMakeMove:_state];
     } else {
         NSLog(@"game is over, showing animation");
@@ -189,6 +193,75 @@
         CCAction *easedAction = [CCEaseElasticOut actionWithAction:spawn];
         
         [self runAction:easedAction];
+    }
+}
+
+#define TAG_THINKING_INDICATOR 5
+
+- (void)startThinkingIndicatorAnimation {
+    // don't show indicator if screen is already disabled
+    if (_screenEnabled) {
+        // collect animation frames
+        CCSpriteFrameCache *cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+        id<JCSFlipPlayer> player = [self playerToMove];
+        NSUInteger frameCount = player.activityIndicatorSpriteFrameCount;
+        
+        // start animation if there are any frames
+        if (frameCount > 0) {
+            NSMutableArray *animFrames = [NSMutableArray array];
+            NSString *format = player.activityIndicatorSpriteFrameNameFormat;
+            for (int i = 1; i <= frameCount; i++) {
+                [animFrames addObject:[cache spriteFrameByName:[NSString stringWithFormat:format, i]]];
+            }
+
+            // create animation without delay after showing the last frame
+            CCSprite *sprite = [CCSprite spriteWithSpriteFrame:animFrames.lastObject];
+            sprite.color = (_state.playerToMove == JCSFlipPlayerSideA ? ccRED : ccBLUE);
+            CCAnimation *animation = [CCAnimation animationWithSpriteFrames:[animFrames subarrayWithRange:NSMakeRange(0, frameCount-1)] delay:0.25];
+            animation.restoreOriginalFrame = YES;
+
+            // set sprite position and anchor point defined by the player implementation
+            sprite.anchorPoint = player.activityIndicatorAnchorPoint;
+            sprite.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:player.activityIndicatorPosition]];
+            
+            // start animation
+            CCAnimate *animate = [CCAnimate actionWithAnimation:animation];
+            [sprite runAction:animate];
+            
+            // slightly scale up and down to create a "wobble" effect
+            CCScaleTo *scaleDown = [CCScaleTo actionWithDuration:0.75 scale:0.95];
+            CCScaleTo *scaleUp = [CCScaleTo actionWithDuration:0.75 scale:1.0];
+            CCEaseSineInOut *easedScaleDown = [CCEaseSineInOut actionWithAction:scaleDown];
+            CCEaseSineInOut *easedScaleUp = [CCEaseSineInOut actionWithAction:scaleUp];
+            CCSequence *wobble = [CCSequence actionOne:easedScaleDown two:easedScaleUp];
+            CCRepeatForever *wobbleForever = [CCRepeatForever actionWithAction:wobble];
+            [sprite runAction:wobbleForever];
+
+            // fade in
+            sprite.opacity = 0;
+            [sprite runAction:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:255]];
+            
+            [self addChild:sprite z:5 tag:TAG_THINKING_INDICATOR];
+        }
+    }
+}
+
+- (void)stopThinkingIndicatorAnimationWithCompletion:(void(^)())completion {
+    CCNode *indicator = [self getChildByTag:TAG_THINKING_INDICATOR];
+    if (indicator != nil) {
+        // fade out, remove indicator and invoke completion
+        CCSequence *sequence = [CCSequence actionOne:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:0] two:[CCCallBlock actionWithBlock:^{
+            [self removeChild:indicator];
+            if (completion != nil) {
+                completion();
+            }
+        }]];
+        [indicator runAction:sequence];
+    } else {
+        // invoke completion immediately
+        if (completion != nil) {
+            completion();
+        }
     }
 }
 
@@ -237,6 +310,10 @@
         
         // connect to board layer for move input
         _boardLayer.inputDelegate = self;
+
+        if (completion != nil) {
+            completion();
+        }
     } else {
         // disable automatic move input by players
         _playerA.moveInputDelegate = nil;
@@ -248,9 +325,9 @@
         
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
-    }
-    if (completion != nil) {
-        completion();
+        
+        // fade-out and remove indicator
+        [self stopThinkingIndicatorAnimationWithCompletion:completion];
     }
 }
 
@@ -303,15 +380,19 @@
         [self disableMoveInput];
         // update score indicator while animating the move
         [self updateScoreIndicatorAnimated:YES];
+        // animate the move
         [_boardLayer animateLastMoveOfGameState:_state undo:NO afterAnimationInvokeBlock:^{
-            // enable move input
-            [self enableMoveInput];
-            
-            // notify opponent (new current player)
-            if (!replay) {
-                [self tellPlayerOpponentDidMakeMove];
-            }
-            [self tellPlayerMakeMove];
+            // remove thinking indicator
+            [self stopThinkingIndicatorAnimationWithCompletion:^{
+                // enable move input
+                [self enableMoveInput];
+                
+                // notify opponent (new current player)
+                if (!replay) {
+                    [self tellPlayerOpponentDidMakeMove];
+                }
+                [self tellPlayerMakeMove];
+            }];
         }];
     }
     return success;
@@ -325,21 +406,25 @@
     
     if (count > 0) {
         // undo the move if this is the first invocation, or
+        
         // block move input during animation
         [self disableMoveInput];
         
-        // temporarily pop move to update score indicator while undo is animated
-        JCSFlipMove *lastMove = _state.lastMove;
-        [_state popMove];
-        [self updateScoreIndicatorAnimated:YES];
-        [_state pushMove:lastMove];
-        
-        // animate undo of last move
-        [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
-            // pop the move from the game state
+        // remove thinking indicator
+        [self stopThinkingIndicatorAnimationWithCompletion:^{
+            // temporarily pop move to update score indicator while undo is animated
+            JCSFlipMove *lastMove = _state.lastMove;
             [_state popMove];
-            // undo the remaining moves
-            [self undoMoves:count-1];
+            [self updateScoreIndicatorAnimated:YES];
+            [_state pushMove:lastMove];
+            
+            // animate undo of last move
+            [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
+                // pop the move from the game state
+                [_state popMove];
+                // undo the remaining moves
+                [self undoMoves:count-1];
+            }];
         }];
     } else {
         // enable move input

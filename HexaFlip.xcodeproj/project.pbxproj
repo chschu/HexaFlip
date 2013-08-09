@@ -97,6 +97,7 @@
 		F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */; };
 		F36CF3BD181A3DB400B6275F /* JCSTranspositionTable.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */; };
 		F36CF3C6181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3C5181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m */; };
+		F36D57171855143800B3FB09 /* indicator-game-center-frame-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F36D57161855143800B3FB09 /* indicator-game-center-frame-1.png */; };
 		F371829117A7899E005C9AFD /* CCClippingNode.h in Headers */ = {isa = PBXBuildFile; fileRef = F371828317A7899E005C9AFD /* CCClippingNode.h */; };
 		F371829217A7899E005C9AFD /* CCClippingNode.m in Sources */ = {isa = PBXBuildFile; fileRef = F371828417A7899E005C9AFD /* CCClippingNode.m */; };
 		F371829317A7899E005C9AFD /* CCDrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = F371828517A7899E005C9AFD /* CCDrawNode.h */; };
@@ -450,6 +451,9 @@
 		F3107880164B12F000FE7FC2 /* button-play-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-normal.png"; sourceTree = "<group>"; };
 		F3107881164B12F000FE7FC2 /* button-play-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-pushed.png"; sourceTree = "<group>"; };
 		F3107884164B17D200FE7FC2 /* button.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button.xcf; sourceTree = "<group>"; };
+		F3159BCB17CBBAAB00A2A89F /* indicator-ai.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "indicator-ai.svg"; sourceTree = "<group>"; };
+		F3159BCC17CBBC8200A2A89F /* indicator-local-frame-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-local-frame-1.png"; sourceTree = "<group>"; };
+		F3159BCD17CBBC8200A2A89F /* indicator-human.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "indicator-human.xcf"; sourceTree = "<group>"; };
 		F31A895116B0A75B00847894 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		F31A895216B0A75B00847894 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		F31A895416B0A83200847894 /* JCSFlipPlayerSide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerSide.h; sourceTree = "<group>"; };
@@ -557,6 +561,7 @@
 		F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSTranspositionTable.m; sourceTree = "<group>"; };
 		F36CF3C4181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSNegaScoutTTGameAlgorithm.h; sourceTree = "<group>"; };
 		F36CF3C5181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSNegaScoutTTGameAlgorithm.m; sourceTree = "<group>"; };
+		F36D57161855143800B3FB09 /* indicator-game-center-frame-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-game-center-frame-1.png"; sourceTree = "<group>"; };
 		F3708B14167141BE0023354D /* score-overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "score-overlay.png"; sourceTree = "<group>"; };
 		F3708B15167141BE0023354D /* score-mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "score-mask.png"; sourceTree = "<group>"; };
 		F371828317A7899E005C9AFD /* CCClippingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCClippingNode.h; sourceTree = "<group>"; };
@@ -584,6 +589,10 @@
 		F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F388F0B51607C897004CCF7D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F388F0B61607C897004CCF7D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		F390880017BCFCC800D804AB /* indicator-ai-frame-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-ai-frame-1.png"; sourceTree = "<group>"; };
+		F390880117BCFCC800D804AB /* indicator-ai-frame-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-ai-frame-2.png"; sourceTree = "<group>"; };
+		F390880217BCFCC800D804AB /* indicator-ai-frame-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-ai-frame-3.png"; sourceTree = "<group>"; };
+		F390880417BCFCC800D804AB /* indicator-ai.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "indicator-ai.xcf"; sourceTree = "<group>"; };
 		F39D5CEC1752AE0B00AAFC1D /* InfoPlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoPlist.h; sourceTree = "<group>"; };
 		F39D5CFB1758090600AAFC1D /* JCSFlipMoveInputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipMoveInputDelegate.h; sourceTree = "<group>"; };
 		F3A2607B163C91BC0035A0D1 /* background.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = background.xcf; sourceTree = "<group>"; };
@@ -1544,6 +1553,7 @@
 				F3107884164B17D200FE7FC2 /* button.xcf */,
 				F3574ADA166BDDFE005B9BD4 /* score.xcf */,
 				F3CB114115EE9A030057309C /* vectors.svg */,
+				F3159BCB17CBBAAB00A2A89F /* indicator-ai.svg */,
 				F330E1601651CCBF004BB32E /* center-of-mass.py */,
 				F3A2607B163C91BC0035A0D1 /* background.xcf */,
 				F3A2609D1642D9EE0035A0D1 /* board.xcf */,
@@ -1591,6 +1601,13 @@
 				F3574AAD16697425005B9BD4 /* button-player-a-pushed.png */,
 				F3574AAE16697425005B9BD4 /* button-player-b-normal.png */,
 				F3574AAF16697425005B9BD4 /* button-player-b-pushed.png */,
+				F390880017BCFCC800D804AB /* indicator-ai-frame-1.png */,
+				F390880117BCFCC800D804AB /* indicator-ai-frame-2.png */,
+				F390880217BCFCC800D804AB /* indicator-ai-frame-3.png */,
+				F390880417BCFCC800D804AB /* indicator-ai.xcf */,
+				F36D57161855143800B3FB09 /* indicator-game-center-frame-1.png */,
+				F3159BCC17CBBC8200A2A89F /* indicator-local-frame-1.png */,
+				F3159BCD17CBBC8200A2A89F /* indicator-human.xcf */,
 				F3708B14167141BE0023354D /* score-overlay.png */,
 				F3708B15167141BE0023354D /* score-mask.png */,
 				F3574AD8166BDDFD005B9BD4 /* score-player-a.png */,
@@ -1966,6 +1983,7 @@
 				F388F0B71607C897004CCF7D /* Default.png in Resources */,
 				F388F0B81607C897004CCF7D /* Default@2x.png in Resources */,
 				F31078791648515800FE7FC2 /* background.tmx in Resources */,
+				F36D57171855143800B3FB09 /* indicator-game-center-frame-1.png in Resources */,
 				F310787B164851E500FE7FC2 /* background-hd.png in Resources */,
 				F310787D1648686200FE7FC2 /* background.png in Resources */,
 				F310787F164874F300FE7FC2 /* background-hd.tmx in Resources */,
