@@ -1,6 +1,6 @@
 //
 //  JCSFlipPlayerToMove.h
-//  Flip
+//  HexaFlip
 //
 //  Created by Christian Schuster on 23.01.13.
 //  Copyright (c) 2013 Christian Schuster. All rights reserved.
