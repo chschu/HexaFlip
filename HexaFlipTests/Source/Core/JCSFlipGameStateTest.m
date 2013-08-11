@@ -23,12 +23,12 @@
 	};
     
     JCSFlipGameState *underTest;
-    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:-1 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock], nil);
+    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:-1 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock], nil);
 }
 
 - (void)testInitCellStateAtBlockNil {
 	JCSFlipGameState *underTest;
-    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:nil], nil);
+    STAssertThrows(underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:nil], nil);
 }
 
 - (void)testInitSetsStateNormal {
@@ -44,10 +44,10 @@
     
 	JCSFlipGameState *underTest;
     
-    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     STAssertEquals(underTest.status, JCSFlipGameStatusOpen, nil);
     
-    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     STAssertEquals(underTest.status, JCSFlipGameStatusOpen, nil);
 }
 
@@ -80,13 +80,13 @@
     
 	JCSFlipGameState *underTest;
     
-    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlockA];
+    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlockA];
     STAssertEquals(underTest.status, JCSFlipGameStatusPlayerAWon, nil);
     
-    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlockB];
+    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlockB];
     STAssertEquals(underTest.status, JCSFlipGameStatusPlayerBWon, nil);
     
-    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlockDraw];
+    underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlockDraw];
     STAssertEquals(underTest.status, JCSFlipGameStatusDraw, nil);
 }
 
@@ -103,7 +103,7 @@
     
 	NSInteger size = 14;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
 #pragma unused(underTest)
     
 	// check that cellStateAtBlock is called for every coordinate
@@ -128,7 +128,7 @@
     
 	NSInteger size = 10;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     for (int row = -size+1; row < size; row++) {
         for (int column = -size+1; column < size; column++) {
@@ -158,7 +158,7 @@
 		return JCSFlipCellStateEmpty;
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:3 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:3 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     JCSFlipCellState expectedState = JCSFlipCellStateHole;
     STAssertEquals([underTest cellStateAtRow:-3 column:0], expectedState, nil);
     STAssertEquals([underTest cellStateAtRow:3 column:0], expectedState, nil);
@@ -180,7 +180,7 @@
     
     NSInteger size = 3;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     NSMutableSet *visitorBlockCalledFor = [NSMutableSet set];
     
@@ -215,7 +215,7 @@
 		return JCSFlipCellStateEmpty;
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     void(^visitorBlock)(NSInteger row, NSInteger column, JCSFlipCellState, BOOL *);
     __block NSInteger visitorBlockCalledCount;
@@ -259,14 +259,14 @@
     
     NSInteger size = 4;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is valid
     STAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]], nil);
     STAssertEquals(underTest.moveStackSize, 1u, nil);
     
     // check that the player has been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     
     // check that cells states are modified correctly
     for (int row = -size+1; row < size; row++) {
@@ -290,7 +290,7 @@
     STAssertEquals(underTest.moveStackSize, 2u, nil);
     
     // check that the player has been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     
     // check that cells states are modified correctly
     for (int row = -size+1; row < size; row++) {
@@ -327,11 +327,11 @@
     JCSFlipGameState *underTest;
     
     // case 1: cell owned by B, player A to move
-	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:1 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -340,11 +340,11 @@
     STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 2: cell empty, player A to move
-    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:0 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -353,11 +353,11 @@
     STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 3: cell hole, player A to move
-    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -366,11 +366,11 @@
     STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 4: cell owned by A, player B to move
-	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -379,11 +379,11 @@
     STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 5: cell empty, player B to move
-	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -392,11 +392,11 @@
     STAssertEquals(underTest.moveStackSize, 0u, nil);
     
     // case 6: cell hole, player A to move
-    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+    underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]], nil);
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
@@ -416,7 +416,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
     STAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:1 direction:JCSHexDirectionW]], nil);
@@ -439,13 +439,13 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveB cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]], nil);
     
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -458,7 +458,7 @@
         return JCSFlipCellStateOwnedByPlayerA;
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]], nil);
@@ -484,13 +484,13 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is valid
     STAssertTrue([underTest pushMove:[JCSFlipMove moveSkip]], nil);
     
     // check that the player has been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -510,13 +510,13 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is invalid
     STAssertFalse([underTest pushMove:[JCSFlipMove moveSkip]], nil);
     
     // check that the player has not been switched
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     
     // check that cell states are unmodified
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -538,7 +538,7 @@
     
     NSInteger size = 4;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push two moves, pop the last one
     [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]];
@@ -548,7 +548,7 @@
     STAssertEquals(underTest.moveStackSize, 1u, nil);
     
     // check that the player has been switched back
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     
     // check that cells states are modified back correctly
     for (int row = -size+1; row < size; row++) {
@@ -580,7 +580,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     STAssertThrows([underTest popMove], nil);
 }
@@ -597,7 +597,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is valid
     STAssertTrue(underTest.skipAllowed, nil);
@@ -615,7 +615,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is invalid
     STAssertFalse(underTest.skipAllowed, nil);
@@ -631,7 +631,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is invalid
     STAssertFalse(underTest.skipAllowed, nil);
@@ -655,7 +655,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // the possible moves for A are:
     // start at (-1,0) and move in any direction except NW
@@ -705,7 +705,7 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     STAssertEquals(underTest.cellCountPlayerA, 2, nil);
     STAssertEquals(underTest.cellCountPlayerB, 2, nil);
     STAssertEquals(underTest.cellCountEmpty, 44, nil);
@@ -723,7 +723,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // the possible moves for A are:
     // start at (0,-2) and move in any direction except NW
@@ -772,7 +772,7 @@
     [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
         STAssertEquals(cellState, cellStateAtBlock(row, column), nil);
     }];
-    STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveA, nil);
+    STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideA, nil);
     STAssertEquals(underTest.cellCountPlayerA, 2, nil);
     STAssertEquals(underTest.cellCountPlayerB, 2, nil);
     STAssertEquals(underTest.cellCountEmpty, 45, nil);
@@ -790,7 +790,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // check that only skipping is possible for A
     __block NSInteger moveCount = 0;
@@ -807,7 +807,7 @@
         }];
         
         // check that the player has been switched
-        STAssertEquals(underTest.playerToMove, JCSFlipPlayerToMoveB, nil);
+        STAssertEquals(underTest.playerToMove, JCSFlipPlayerSideB, nil);
     }];
 }
 
@@ -816,7 +816,7 @@
         return JCSFlipCellStateEmpty;
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     STAssertThrows([underTest applyAllPossibleMovesAndInvokeBlock:nil], nil);
 }
@@ -835,7 +835,7 @@
     
     NSInteger size = 4;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
@@ -891,7 +891,7 @@
     
     NSInteger size = 4;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
@@ -945,7 +945,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     
     // push skip
@@ -973,7 +973,7 @@
     
     NSInteger size = 4;
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
@@ -1015,7 +1015,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     STAssertThrows([underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:nil], nil);
 }
@@ -1032,7 +1032,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
         STFail(@"unexpected invocation");
@@ -1053,7 +1053,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push some moves
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]];
@@ -1107,7 +1107,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push some moves
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
@@ -1155,7 +1155,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
     
@@ -1188,7 +1188,7 @@
         }
 	};
     
-	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push/pop some moves and check the last move
     JCSFlipMove *lastMove;

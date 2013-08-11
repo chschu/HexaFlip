@@ -67,7 +67,7 @@
     BOOL playerAIsLocal = [localPlayerId isEqualToString:participantA.playerID];
     
     // determine if it's player A's turn
-    BOOL playerAIsToMove = (gameState.playerToMove == JCSFlipPlayerToMoveA);
+    BOOL playerAIsToMove = (gameState.playerToMove == JCSFlipPlayerSideA);
     
     // determine if the last move has been taken by the remote player
     BOOL lastMoveByRemotePlayer = (playerAIsToMove == playerAIsLocal);

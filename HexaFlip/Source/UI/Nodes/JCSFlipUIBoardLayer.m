@@ -124,7 +124,7 @@ typedef enum {
     } else {
         // create animations for skip move: all cells of player that has made the move
         [gameState forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-            if (cellState == JCSFlipCellStateForPlayerToMove(JCSFlipPlayerToMoveOther(gameState.playerToMove))) {
+            if (cellState == JCSFlipCellStateForPlayerSide(JCSFlipPlayerSideOther(gameState.playerToMove))) {
                 JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
                 CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:cellState];
                 CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];

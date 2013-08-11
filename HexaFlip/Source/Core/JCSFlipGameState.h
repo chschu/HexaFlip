@@ -7,7 +7,7 @@
 //
 
 #import "JCSFlipGameStatus.h"
-#import "JCSFlipPlayerToMove.h"
+#import "JCSFlipPlayerSide.h"
 #import "JCSFlipCellState.h"
 #import "JCSGameNode.h"
 
@@ -20,7 +20,7 @@
 @property (readonly, nonatomic) JCSFlipGameStatus status;
 
 // the current player to move (also set if the game is over)
-@property (readonly, nonatomic) JCSFlipPlayerToMove playerToMove;
+@property (readonly, nonatomic) JCSFlipPlayerSide playerToMove;
 
 // number of cells owned by player A
 @property (readonly, nonatomic) NSInteger cellCountPlayerA;
@@ -45,12 +45,12 @@
 // the cellStateAtBlock is invoked for all pairs of rows and columns between -(size-1) and (size-1), both inclusive
 // the state of a cell is returned by the cellStateAtBlock
 // size must be non-negative, and none of the blocks may be nil
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock;
 
 // initialize a default board with the given size
 // the board is a hexagon, using the given size as edge length
 // there is a hole at (0,0), player A owns (-1,0), (0,-1), and (1,-1), while player B owns (-1,1), (0,1), and (1,0)
-- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove;
+- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove;
 
 // invoke the block for all cells, including holes
 // iteration stops prematurely when the block sets *stop to YES

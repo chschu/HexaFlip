@@ -48,7 +48,7 @@
             opponent.matchOutcome = GKTurnBasedMatchOutcomeTied;
         } else {
             // check if this player (non-local) is player A
-            BOOL isPlayerA = state.playerToMove == JCSFlipPlayerToMoveA;
+            BOOL isPlayerA = state.playerToMove == JCSFlipPlayerSideA;
             if (state.status == JCSFlipGameStatusPlayerAWon) {
                 // if we're player A, we won
                 participant.matchOutcome = isPlayerA ? GKTurnBasedMatchOutcomeWon : GKTurnBasedMatchOutcomeLost;

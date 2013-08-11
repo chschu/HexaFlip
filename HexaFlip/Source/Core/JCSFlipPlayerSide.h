@@ -1,5 +1,5 @@
 //
-//  JCSFlipPlayerToMove.h
+//  JCSFlipPlayerSide.h
 //  HexaFlip
 //
 //  Created by Christian Schuster on 23.01.13.
@@ -7,8 +7,8 @@
 //
 
 typedef enum {
-	JCSFlipPlayerToMoveA = 0,
-	JCSFlipPlayerToMoveB = 1,
-} JCSFlipPlayerToMove;
+	JCSFlipPlayerSideA = 0,
+	JCSFlipPlayerSideB = 1,
+} JCSFlipPlayerSide;
 
-#define JCSFlipPlayerToMoveOther(playerToMove) (JCSFlipPlayerToMoveA + JCSFlipPlayerToMoveB - (playerToMove))
+#define JCSFlipPlayerSideOther(playerSide) (JCSFlipPlayerSideA + JCSFlipPlayerSideB - (playerSide))

@@ -87,7 +87,7 @@
         [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
         
         // create hidden outcome sprites, centered over board
         _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];
@@ -155,7 +155,7 @@
 }
 
 - (id<JCSFlipPlayer>)playerToMove {
-    return (_state.playerToMove == JCSFlipPlayerToMoveA) ? _playerA : _playerB;
+    return (_state.playerToMove == JCSFlipPlayerSideA) ? _playerA : _playerB;
 }
 
 // notify current player that opponent did make a move
@@ -269,8 +269,8 @@
 // enable move input according to the current game state
 - (void)enableMoveInput {
     BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
-    BOOL playerAEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
-    BOOL playerBEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
+    BOOL playerAEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerSideA && _playerA.localControls;
+    BOOL playerBEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerSideB && _playerB.localControls;
     BOOL anyPlayerEnabled = playerAEnabled || playerBEnabled;
     
     // enable/disable move input if any of the players has local controls
@@ -352,7 +352,7 @@
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
-    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;
     }
@@ -366,7 +366,7 @@
 
 - (BOOL)inputModifiedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn previousStartRow:(NSInteger)previousStartRow previousStartColumn:(NSInteger)previousStartColumn {
     NSLog(@"input: modified start cell (%d,%d)", startRow, startColumn);
-    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer stopFlashForCellAtRow:previousStartRow column:previousStartColumn];
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;

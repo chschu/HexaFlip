@@ -69,10 +69,10 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         }
     };
     
-    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerToMoveA cellStateAtBlock:cellStateAtBlock];
+    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     while (true) {
-        id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerToMoveA ? algoA : algoB);
+        id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerSideA ? algoA : algoB);
         
         JCSFlipMove *move = [algo moveAtNode:state];
         if (move == nil) {
