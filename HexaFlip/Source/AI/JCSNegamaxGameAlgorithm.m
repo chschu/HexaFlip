@@ -107,6 +107,7 @@
     }];
     
     // sort by move value
+    // the "best" move is the one with the lowest value, because it indicates the other player's advantage on the modified board
     return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
 }
 
