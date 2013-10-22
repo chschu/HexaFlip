@@ -8,11 +8,13 @@
 
 #import "JCSGameAlgorithm.h"
 #import "JCSNegamaxGameAlgorithm.h"
+#import "JCSNegaScoutGameAlgorithm.h"
 #import "JCSRandomGameAlgorithm.h"
 #import "JCSFlipCellState.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
+#import "JCSFlipGameStatePossessionHeuristic.h"
 
 @interface JCSFlipAlgoTest : SenTestCase
 @end
@@ -53,6 +55,14 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
 }
 
+- (void)testNegaScoutVsNegaScout {
+    id<JCSGameHeuristic> possessive = [[JCSFlipGameStatePossessionHeuristic alloc] init];
+    id<JCSGameAlgorithm> algoA = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:4 heuristic:possessive];
+    id<JCSGameAlgorithm> algoB = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:4 heuristic:possessive];
+    NSInteger size = 4;
+    [self testAlgorithm:algoA againstAlgorithm:algoB withBoardSize:size];
+}
+
 - (void)testAlgorithm:(id<JCSGameAlgorithm>)algoA againstAlgorithm:(id<JCSGameAlgorithm>)algoB withBoardSize:(NSInteger)size {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
@@ -71,16 +81,11 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     
     JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
-    while (true) {
+    while (!state.leaf) {
         id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerSideA ? algoA : algoB);
-        
         JCSFlipMove *move = [algo moveAtNode:state];
-        if (move == nil) {
-            break;
-        }
-        
+        STAssertNotNil(move, @"move returned by algorithm must not be nil for non-leaf node");
         [state pushMove:move];
-        
         NSLog(@"\n%@", state);
     }
     NSLog(@"done, final scores %d:%d", state.cellCountPlayerA, state.cellCountPlayerB);

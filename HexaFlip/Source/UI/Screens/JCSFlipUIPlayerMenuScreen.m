@@ -11,7 +11,7 @@
 #import "JCSFlipPlayerAI.h"
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
-#import "JCSNegamaxGameAlgorithm.h"
+#import "JCSNegaScoutGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
@@ -149,17 +149,17 @@ typedef enum {
             break;
         case JCSFlipPlayerSelectionAIEasy:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIMedium:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIHard:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:

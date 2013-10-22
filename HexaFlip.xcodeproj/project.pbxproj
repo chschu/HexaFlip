@@ -67,6 +67,7 @@
 		F37182A617A789D3005C9AFD /* CDXPropertyModifierAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F37182A117A789D3005C9AFD /* CDXPropertyModifierAction.h */; };
 		F37182A717A789D3005C9AFD /* CDXPropertyModifierAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F37182A217A789D3005C9AFD /* CDXPropertyModifierAction.m */; };
 		F37182AA17A79134005C9AFD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37182A817A7911B005C9AFD /* CoreText.framework */; };
+		F3800F6218172503009287F6 /* JCSNegaScoutGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3800F6118172503009287F6 /* JCSNegaScoutGameAlgorithm.m */; };
 		F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */; };
 		F388F0B71607C897004CCF7D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B51607C897004CCF7D /* Default.png */; };
 		F388F0B81607C897004CCF7D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F388F0B61607C897004CCF7D /* Default@2x.png */; };
@@ -464,6 +465,8 @@
 		F37182A217A789D3005C9AFD /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
 		F37182A317A789D3005C9AFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F37182A817A7911B005C9AFD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		F3800F6018172503009287F6 /* JCSNegaScoutGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSNegaScoutGameAlgorithm.h; sourceTree = "<group>"; };
+		F3800F6118172503009287F6 /* JCSNegaScoutGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSNegaScoutGameAlgorithm.m; sourceTree = "<group>"; };
 		F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F388F0B51607C897004CCF7D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F388F0B61607C897004CCF7D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -914,6 +917,8 @@
 				F3A8B39415EE9CC800FAD822 /* JCSNegamaxGameAlgorithm.m */,
 				F3A8B39515EE9CC800FAD822 /* JCSRandomGameAlgorithm.h */,
 				F3A8B39615EE9CC800FAD822 /* JCSRandomGameAlgorithm.m */,
+				F3800F6018172503009287F6 /* JCSNegaScoutGameAlgorithm.h */,
+				F3800F6118172503009287F6 /* JCSNegaScoutGameAlgorithm.m */,
 			);
 			path = AI;
 			sourceTree = "<group>";
@@ -1769,6 +1774,7 @@
 				F3A8B3C215EE9CC800FAD822 /* main.m in Sources */,
 				F31078581646D42E00FE7FC2 /* JCSFlipUIGameScreen.m in Sources */,
 				F31078591646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.m in Sources */,
+				F3800F6218172503009287F6 /* JCSNegaScoutGameAlgorithm.m in Sources */,
 				F310785A1646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.m in Sources */,
 				F310785F1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.m in Sources */,
 				F31078601646D45D00FE7FC2 /* JCSFlipUICellNode.m in Sources */,
