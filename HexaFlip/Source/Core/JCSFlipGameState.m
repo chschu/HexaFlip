@@ -58,6 +58,27 @@ typedef struct JCSFlipGameStateMoveInfo {
     
     // number of entries allocated for the stack (increased on demand)
     NSUInteger _moveInfoStackCapacity;
+    
+    // the parts of the Zobrist hash for cells owned by player A
+    NSUInteger *_zobristHashPartA;
+
+    // the parts of the Zobrist hash for cells owned by player B
+    NSUInteger *_zobristHashPartB;
+
+    // the parts of the Zobrist hash for empty cells
+    NSUInteger *_zobristHashPartEmpty;
+
+    // the parts of the Zobrist hash for hole cells
+    NSUInteger *_zobristHashPartHole;
+
+    // the part of the Zobrist hash indicating that it's player A's turn
+    NSUInteger _zobristHashPartPlayerAToMove;
+
+    // the part of the Zobrist hash indicating that it's player B's turn
+    NSUInteger _zobristHashPartPlayerBToMove;
+    
+    // the current Zobrist hash (updated whenever the state changes)
+    NSUInteger _zobristHash;
 }
 
 @synthesize cellCountPlayerA = _cellCountPlayerA;
@@ -65,6 +86,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 @synthesize cellCountEmpty = _cellCountEmpty;
 @synthesize playerToMove = _playerToMove;
 @synthesize moveStackSize = _moveInfoStackTop;
+@synthesize zobristHash = _zobristHash;
 
 #pragma mark instance methods
 
@@ -90,12 +112,32 @@ __typeof__(size) _s = (size); \
     
     if (self = [super init]) {
         _size = size;
+        NSUInteger cellCount = JCS_CELL_COUNT(_size);
         _playerToMove = playerToMove;
-        _cellStates = malloc(JCS_CELL_COUNT(_size)*sizeof(JCSFlipCellState));
+        _cellStates = malloc(cellCount*sizeof(JCSFlipCellState));
+        _zobristHashPartA = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartB = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartEmpty = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartHole = malloc(cellCount*sizeof(NSUInteger));
         _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
         _cellCountPlayerA = 0;
         _cellCountPlayerB = 0;
         _cellCountEmpty = 0;
+        _zobristHash = 0;
+
+        // compute pseudo-random Zobrist hash parts (using 31-bit pseudo-random numbers is sufficient)
+        // this sequence must be deterministic, in order to reliably map equivalent states to the same Zobrist hash
+        NSUInteger seed = 1;
+        _zobristHashPartPlayerAToMove = rand_r(&seed);
+        _zobristHashPartPlayerBToMove = rand_r(&seed);
+        for (NSUInteger i = 0; i < cellCount; i++) {
+            _zobristHashPartA[i] = rand_r(&seed);
+            _zobristHashPartB[i] = rand_r(&seed);
+            _zobristHashPartEmpty[i] = rand_r(&seed);
+            _zobristHashPartHole[i] = rand_r(&seed);
+        }
+        
+        // initialize cell states, XOR into Zobrist hash
         NSInteger index = 0;
         for (NSInteger row = -size+1; row < size; row++) {
             for (NSInteger column = -size+1; column < size; column++) {
@@ -104,19 +146,26 @@ __typeof__(size) _s = (size); \
                 switch (_cellStates[index]) {
                     case JCSFlipCellStateOwnedByPlayerA:
                         _cellCountPlayerA++;
+                        _zobristHash ^= _zobristHashPartA[index];
                         break;
                     case JCSFlipCellStateOwnedByPlayerB:
                         _cellCountPlayerB++;
+                        _zobristHash ^= _zobristHashPartB[index];
                         break;
                     case JCSFlipCellStateEmpty:
                         _cellCountEmpty++;
+                        _zobristHash ^= _zobristHashPartEmpty[index];
                         break;
                     default:
+                        _zobristHash ^= _zobristHashPartHole[index];
                         break;
                 }
                 index++;
             }
         }
+        
+        // XOR player into Zobrist hash
+        _zobristHash ^= (_playerToMove == JCSFlipPlayerSideA ? _zobristHashPartPlayerAToMove : _zobristHashPartPlayerBToMove);
         
         // initialize the move stack (empty)
         _moveInfoStackCapacity = 8;
@@ -158,6 +207,12 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     
     // free the cell states array
     free(_cellStates);
+    
+    // free the Zobrist hash part arrays
+    free(_zobristHashPartA);
+    free(_zobristHashPartB);
+    free(_zobristHashPartEmpty);
+    free(_zobristHashPartHole);
 }
 
 // getter for the current game status
@@ -200,35 +255,43 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 - (void)setCellState:(JCSFlipCellState)cellState atRow:(NSInteger)row column:(NSInteger)column {
     NSInteger index = JCS_CELL_STATE_INDEX(_size, row, column);
     
-    // subtract one for old state
+    // subtract one for old state, XOR out of Zobrist hash
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
             _cellCountPlayerA--;
+            _zobristHash ^= _zobristHashPartA[index];
             break;
         case  JCSFlipCellStateOwnedByPlayerB:
             _cellCountPlayerB--;
+            _zobristHash ^= _zobristHashPartB[index];
             break;
         case  JCSFlipCellStateEmpty:
             _cellCountEmpty--;
+            _zobristHash ^= _zobristHashPartEmpty[index];
             break;
         default:
+            _zobristHash ^= _zobristHashPartHole[index];
             break;
     }
     
     _cellStates[index] = cellState;
     
-    // add one for new state
+    // add one for new state, XOR into Zobrist hash
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
             _cellCountPlayerA++;
+            _zobristHash ^= _zobristHashPartA[index];
             break;
         case  JCSFlipCellStateOwnedByPlayerB:
             _cellCountPlayerB++;
+            _zobristHash ^= _zobristHashPartB[index];
             break;
         case  JCSFlipCellStateEmpty:
             _cellCountEmpty++;
+            _zobristHash ^= _zobristHashPartEmpty[index];
             break;
         default:
+            _zobristHash ^= _zobristHashPartHole[index];
             break;
     }
 }
@@ -455,8 +518,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     moveInfo->flipCount = flipCount;
     moveInfo->oldSkipAllowed = _skipAllowed;
     
-    // switch players
+    // switch players, XOR out of and into Zobrist hash
     _playerToMove = JCSFlipPlayerSideOther(_playerToMove);
+    _zobristHash ^= _zobristHashPartPlayerAToMove ^ _zobristHashPartPlayerBToMove;
     
     // "skip allowed" flag needs to be determined
     _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
@@ -494,8 +558,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     // put back old values
     _skipAllowed = moveInfo->oldSkipAllowed;
     
-    // switch back players
+    // switch back players, XOR out of and into Zobrist hash
     _playerToMove = JCSFlipPlayerSideOther(_playerToMove);
+    _zobristHash ^= _zobristHashPartPlayerAToMove ^ _zobristHashPartPlayerBToMove;
 }
 
 #pragma mark Debugging helper methods

@@ -1069,6 +1069,7 @@
     STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
     STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
     STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    STAssertEquals(reloaded.zobristHash, underTest.zobristHash, nil);
     
     // check cell states (must be match original board)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -1128,6 +1129,7 @@
     STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
     STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
     STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    STAssertEquals(reloaded.zobristHash, underTest.zobristHash, nil);
     STAssertEquals(reloaded.moveStackSize, 2u, nil);
     
     // check cell states (must be match original board)
@@ -1166,6 +1168,7 @@
     STAssertEquals(reloaded.cellCountPlayerA, underTest.cellCountPlayerA, nil);
     STAssertEquals(reloaded.cellCountPlayerB, underTest.cellCountPlayerB, nil);
     STAssertEquals(reloaded.cellCountEmpty, underTest.cellCountEmpty, nil);
+    STAssertEquals(reloaded.zobristHash, underTest.zobristHash, nil);
     
     // check cell states (must be match original board)
     [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
@@ -1220,6 +1223,64 @@
     [underTest popMove];
     lastMove = underTest.lastMove;
     STAssertNil(lastMove, nil);
+}
+
+- (void)testZobristHashChangedByPushMoveNormal {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
+
+    NSUInteger zobristBefore = underTest.zobristHash;
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    STAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
+}
+
+- (void)testZobristHashChangedByPushMoveSkip {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A at (-1,-1), B at remainder of row -1 and column -1
+        if (row == -1 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == -1 || column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
+
+    NSUInteger zobristBefore = underTest.zobristHash;
+    [underTest pushMove:[JCSFlipMove moveSkip]];
+    STAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
+}
+
+- (void)testZobristHashRevertedByPopMove {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        // A-B-A chain starting at (1,-2) and pointing SE
+        if ((row == 1 && column == -2) || (row == -1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else {
+            return JCSFlipCellStateEmpty;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
+    
+    NSUInteger zobristBefore = underTest.zobristHash;
+    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest popMove];
+    STAssertEquals(underTest.zobristHash, zobristBefore, nil);
 }
 
 @end
