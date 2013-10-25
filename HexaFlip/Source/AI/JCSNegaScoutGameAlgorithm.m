@@ -65,50 +65,16 @@
     @autoreleasepool {
         NSArray *moves = [self possibleMoves];
         NSMutableArray *pv = [NSMutableArray arrayWithCapacity:depth-1];
-        
-        // first move always exists (node is not a leaf)
-        id<JCSMove> move = [moves objectAtIndex:0];
-        
-        [_node pushMove:move];
-        float bestScore = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
-        [_node popMove];
-        
-        // always initialize principal variation with first move, in case there are only bad moves or the search is cancelled
-        [principalVariation setArray:pv];
-        [principalVariation insertObject:move atIndex:0];
-        
-        if (bestScore >= beta) {
-            // no further improvement necessary
-            return bestScore;
-        }
-        if (bestScore > alpha) {
-            // new lower bound
-            alpha = bestScore;
-        }
-        
-        for (move in [moves subarrayWithRange:NSMakeRange(1, [moves count]-1)]) {
-            // check for cancellation
-            if (_canceled) {
-                break;
-            }
-            
+        float bestScore;
+        BOOL first = YES;
+        for (id<JCSMove> move in moves) {
             @try {
+                float score;
                 [_node pushMove:move];
-                // search with minimal window
-                float score = -[self negaScoutWithDepth:depth-1 alpha:-alpha-1 beta:-alpha principalVariation:pv];
-                if (score > bestScore) {
-                    // improved
-                    [principalVariation setArray:pv];
-                    [principalVariation insertObject:move atIndex:0];
-                    bestScore = score;
-                }
-                if (score >= beta) {
-                    // no further improvement necessary
-                    return score;
-                }
-                if (score > alpha) {
-                    // need to repeat search with full window
-                    score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
+                // skip minimal-window search for first move
+                if (!first) {
+                    // search with minimal window
+                    score = -[self negaScoutWithDepth:depth-1 alpha:-alpha-1 beta:-alpha principalVariation:pv];
                     if (score > bestScore) {
                         // improved
                         [principalVariation setArray:pv];
@@ -117,7 +83,22 @@
                     }
                     if (score >= beta) {
                         // no further improvement necessary
-                        return score;
+                        break;
+                    }
+                }
+                if (first || score > alpha) {
+                    // perform full-window search (the only search for first move)
+                    score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
+                    if (first || score > bestScore) {
+                        // improved (or first move)
+                        [principalVariation setArray:pv];
+                        [principalVariation insertObject:move atIndex:0];
+                        bestScore = score;
+                        first = NO;
+                    }
+                    if (score >= beta) {
+                        // no further improvement necessary
+                        break;
                     }
                     if (score > alpha) {
                         // new lower bound
@@ -126,6 +107,11 @@
                 }
             } @finally {
                 [_node popMove];
+            }
+
+            // check for cancellation
+            if (_canceled) {
+                break;
             }
         }
         
