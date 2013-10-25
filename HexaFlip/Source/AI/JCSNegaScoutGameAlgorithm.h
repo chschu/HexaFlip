@@ -1,5 +1,5 @@
 //
-//  JCSNegaScoutAlgorithm.h
+//  JCSNegaScoutGameAlgorithm.h
 //  HexaFlip
 //
 //  Created by Christian Schuster on 22.10.13.
