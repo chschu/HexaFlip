@@ -128,19 +128,15 @@ __typeof__(size) _s = (size); \
         // compute pseudo-random Zobrist hash parts (using 31-bit pseudo-random numbers is sufficient)
         // this sequence must be deterministic, in order to reliably map equivalent states to the same Zobrist hash
         NSUInteger seed = 1;
-        _zobristHashPartPlayerAToMove = rand_r(&seed);
-        _zobristHashPartPlayerBToMove = rand_r(&seed);
-        for (NSUInteger i = 0; i < cellCount; i++) {
-            _zobristHashPartA[i] = rand_r(&seed);
-            _zobristHashPartB[i] = rand_r(&seed);
-            _zobristHashPartEmpty[i] = rand_r(&seed);
-            _zobristHashPartHole[i] = rand_r(&seed);
-        }
         
         // initialize cell states, XOR into Zobrist hash
         NSInteger index = 0;
         for (NSInteger row = -size+1; row < size; row++) {
             for (NSInteger column = -size+1; column < size; column++) {
+                _zobristHashPartA[index] = rand_r(&seed);
+                _zobristHashPartB[index] = rand_r(&seed);
+                _zobristHashPartEmpty[index] = rand_r(&seed);
+                _zobristHashPartHole[index] = rand_r(&seed);
                 _cellStates[index] = cellStateAtBlock(row, column);
                 // count initial cell states
                 switch (_cellStates[index]) {
@@ -165,6 +161,8 @@ __typeof__(size) _s = (size); \
         }
         
         // XOR player into Zobrist hash
+        _zobristHashPartPlayerAToMove = rand_r(&seed);
+        _zobristHashPartPlayerBToMove = rand_r(&seed);
         _zobristHash ^= (_playerToMove == JCSFlipPlayerSideA ? _zobristHashPartPlayerAToMove : _zobristHashPartPlayerBToMove);
         
         // initialize the move stack (empty)
