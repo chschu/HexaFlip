@@ -67,12 +67,9 @@
         return [_heuristic valueOfNode:_node];
     }
     
+    // check the transposition table only if the best move is not relevant
     float value;
-    id<JCSMove> transpositionTableMove = [_transpositionTable probeWithNode:_node depth:depth alpha:alpha beta:beta valueHolder:&value];
-    if (transpositionTableMove != nil) {
-        if (bestMoveHolder != nil) {
-            *bestMoveHolder = transpositionTableMove;
-        }
+    if (bestMoveHolder == nil && [_transpositionTable probeWithNode:_node depth:depth alpha:alpha beta:beta valueHolder:&value]) {
         return value;
     }
     
@@ -142,7 +139,7 @@
         
         // update transposition table only if computation is complete
         if (!_canceled) {
-            [_transpositionTable storeWithNode:_node depth:depth type:transpositionTableEntryType value:bestScore bestMove:bestMove];
+            [_transpositionTable storeWithNode:_node depth:depth type:transpositionTableEntryType value:bestScore];
         }
         
         return bestScore;
