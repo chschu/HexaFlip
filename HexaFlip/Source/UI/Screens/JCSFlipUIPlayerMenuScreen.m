@@ -11,11 +11,12 @@
 #import "JCSFlipPlayerAI.h"
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
-#import "JCSNegaScoutGameAlgorithm.h"
+#import "JCSNegaScoutTTGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
 #import "JCSFlipUICellNode.h"
+#import "JCSFlipUIConstants.h"
 
 typedef enum {
     JCSFlipPlayerSelectionNone,
@@ -149,17 +150,17 @@ typedef enum {
             break;
         case JCSFlipPlayerSelectionAIEasy:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIMedium:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIHard:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:

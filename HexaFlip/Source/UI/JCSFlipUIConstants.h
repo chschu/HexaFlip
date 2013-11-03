@@ -25,3 +25,6 @@ static const ccTime JCS_FLIP_UI_SCORE_INDICATOR_ANIMATION_DURATION = 0.5;
 
 // duration of the outcome animation in seconds
 static const ccTime JCS_FLIP_UI_OUTCOME_ANIMATION_DURATION = 1.0;
+
+// number of entries of the transposition table
+static const NSUInteger JCS_TRANSPOSITION_TABLE_SIZE = 1000000;
