@@ -638,7 +638,7 @@
 }
 
 - (NSString *)stringForMoveWithStartRow:(NSInteger)row column:(NSInteger)column direction:(JCSHexDirection)direction {
-    return [NSString stringWithFormat:@"%d,%d %d", row, column, direction];
+    return [NSString stringWithFormat:@"(%d,%d)-%@", row, column, JCSHexDirectionName(direction)];
 }
 
 - (void)testApplyAllPossibleMovesAndInvokeBlockOk {
