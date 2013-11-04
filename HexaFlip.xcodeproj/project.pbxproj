@@ -1973,6 +1973,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = HexaFlip/Libraries/kazmath/include;
 			};
 			name = Debug;
 		};
@@ -1995,6 +1996,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = HexaFlip/Libraries/kazmath/include;
 			};
 			name = Release;
 		};
@@ -2008,7 +2010,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"HexaFlip/Libraries/kazmath/include\"";
 				INFOPLIST_FILE = HexaFlip/Support/Info.plist;
 				INFOPLIST_PREFIX_HEADER = HexaFlip/Support/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -2031,7 +2032,6 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HexaFlip/Support/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"HexaFlip/Libraries/kazmath/include\"";
 				INFOPLIST_FILE = HexaFlip/Support/Info.plist;
 				INFOPLIST_PREFIX_HEADER = HexaFlip/Support/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
@@ -2062,7 +2062,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "./HexaFlip/Libraries/**";
 			};
 			name = Debug;
 		};
@@ -2077,7 +2076,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "./HexaFlip/Libraries/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
