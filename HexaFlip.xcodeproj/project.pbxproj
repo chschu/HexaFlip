@@ -807,6 +807,7 @@
 			children = (
 				F300539B15B0AC2700BAD89C /* HexaFlip */,
 				F3B9DED915B4BE900078507F /* HexaFlipTests */,
+				F3CB100E15EE9A030057309C /* Libraries */,
 				F300538815B0AC2700BAD89C /* Frameworks */,
 				F300538615B0AC2700BAD89C /* Products */,
 			);
@@ -845,7 +846,6 @@
 			children = (
 				F3CB110B15EE9A030057309C /* Source */,
 				F3CB110415EE9A030057309C /* Resources */,
-				F3CB100E15EE9A030057309C /* Libraries */,
 				F3CB113C15EE9A030057309C /* Support */,
 				F3CB114015EE9A030057309C /* Tools */,
 			);
@@ -1973,7 +1973,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = HexaFlip/Libraries/kazmath/include;
+				USER_HEADER_SEARCH_PATHS = Libraries/kazmath/include;
 			};
 			name = Debug;
 		};
@@ -1996,7 +1996,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = HexaFlip/Libraries/kazmath/include;
+				USER_HEADER_SEARCH_PATHS = Libraries/kazmath/include;
 			};
 			name = Release;
 		};
