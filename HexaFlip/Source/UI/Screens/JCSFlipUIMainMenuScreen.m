@@ -46,18 +46,8 @@
         infoLabel.position = ccp(10,10);
         [self addChild:infoLabel];
 #endif
-        
-        // register for the game center authentication
-        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
-        
-        // synchronize the UI state
-        [self syncUIState];
     }
     return self;
-}
-
-- (void)dealloc {
-    [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
 }
 
 - (void)syncUIState {
@@ -70,6 +60,17 @@
 
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
     _screenEnabled = screenEnabled;
+    if (screenEnabled ) {
+        // register for game center authentication notification
+        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
+    } else {
+        // unregister from game center authentication notification
+        [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
+    }
+    
+    // synchronize the UI state
+    [self syncUIState];
+
     if (completion != nil) {
         completion();
     }
