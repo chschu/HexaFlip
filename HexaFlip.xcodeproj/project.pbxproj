@@ -44,6 +44,7 @@
 		F310787D1648686200FE7FC2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F310787C1648686200FE7FC2 /* background.png */; };
 		F310787F164874F300FE7FC2 /* background-hd.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F310787E164874F300FE7FC2 /* background-hd.tmx */; };
 		F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */; };
+		F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */; };
 		F33E9ED118286CB700CB13CC /* NSInvocation+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F33E9EA518286CB700CB13CC /* NSInvocation+OCMAdditions.h */; };
 		F33E9ED218286CB700CB13CC /* NSInvocation+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33E9EA618286CB700CB13CC /* NSInvocation+OCMAdditions.m */; };
 		F33E9ED318286CB700CB13CC /* NSMethodSignature+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F33E9EA718286CB700CB13CC /* NSMethodSignature+OCMAdditions.h */; };
@@ -454,6 +455,7 @@
 		F31A895416B0A83200847894 /* JCSFlipPlayerSide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerSide.h; sourceTree = "<group>"; };
 		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
 		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
+		F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionHeuristicTest.m; sourceTree = "<group>"; };
 		F323DA4E171B50CA008E58A1 /* outcome-overlay-draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-draw.png"; sourceTree = "<group>"; };
 		F323DA4F171B50CB008E58A1 /* outcome-overlay-won.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-won.png"; sourceTree = "<group>"; };
 		F323DA50171B50CB008E58A1 /* outcome-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-background.png"; sourceTree = "<group>"; };
@@ -1444,6 +1446,7 @@
 			isa = PBXGroup;
 			children = (
 				F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */,
+				F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */,
 			);
 			path = AI;
 			sourceTree = "<group>";
@@ -2190,6 +2193,7 @@
 			files = (
 				F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */,
 				F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */,
+				F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */,
 				F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */,
 				F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */,
 			);
