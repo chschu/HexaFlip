@@ -11,11 +11,13 @@
 #import "JCSFlipMove.h"
 
 // enumeration for the "skip allowed" flag
-typedef enum {
+enum {
     JCSFlipGameStateSkipAllowedUnknown = -1,
     JCSFlipGameStateSkipAllowedNo = 0,
     JCSFlipGameStateSkipAllowedYes = 1,
-} JCSFlipGameStateSkipAllowed;
+};
+
+typedef int JCSFlipGameStateSkipAllowed;
 
 // simple container structure holding move information
 typedef struct JCSFlipGameStateMoveInfo {
@@ -618,12 +620,12 @@ NSString *coderKey_moveStackArray = @"d";
     NSUInteger moves = MIN(maxMoves, _moveInfoStackTop);
     for (NSUInteger i = 0; i < moves; i++) {
         JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop - moves + i;
-        [array addObject:[NSNumber numberWithBool:moveInfo->skip]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->startRow]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->startColumn]];
-        [array addObject:[NSNumber numberWithInt:moveInfo->direction]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->flipCount]];
-        [array addObject:[NSNumber numberWithInt:moveInfo->oldSkipAllowed]];
+        [array addObject:@(moveInfo->skip)];
+        [array addObject:@(moveInfo->startRow)];
+        [array addObject:@(moveInfo->startColumn)];
+        [array addObject:@(moveInfo->direction)];
+        [array addObject:@(moveInfo->flipCount)];
+        [array addObject:@(moveInfo->oldSkipAllowed)];
     }
     
     // return immutable copy
@@ -646,12 +648,12 @@ NSString *coderKey_moveStackArray = @"d";
         JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop++;
         
         // populate stack entry from array
-        moveInfo->skip = [[array objectAtIndex:index++] boolValue];
-        moveInfo->startRow = [[array objectAtIndex:index++] integerValue];
-        moveInfo->startColumn = [[array objectAtIndex:index++] integerValue];
-        moveInfo->direction = [[array objectAtIndex:index++] intValue];
-        moveInfo->flipCount = [[array objectAtIndex:index++] integerValue];
-        moveInfo->oldSkipAllowed = [[array objectAtIndex:index++] intValue];
+        moveInfo->skip = [array[index++] boolValue];
+        moveInfo->startRow = [array[index++] integerValue];
+        moveInfo->startColumn = [array[index++] integerValue];
+        moveInfo->direction = [array[index++] intValue];
+        moveInfo->flipCount = [array[index++] integerValue];
+        moveInfo->oldSkipAllowed = [array[index++] intValue];
     }
 }
 

@@ -95,7 +95,7 @@
 	NSMutableSet *cellStateAtBlockCalledFor = [NSMutableSet set];
     
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
-        NSNumber *coordinate = [NSNumber numberWithInt:1000*row+column];
+        NSNumber *coordinate = @(1000*row+column);
         STAssertFalse([cellStateAtBlockCalledFor containsObject:coordinate], nil);
 		[cellStateAtBlockCalledFor addObject:coordinate];
 		return JCSFlipCellStateEmpty;
@@ -185,7 +185,7 @@
     NSMutableSet *visitorBlockCalledFor = [NSMutableSet set];
     
     void(^visitorBlock)(NSInteger, NSInteger, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
-        NSNumber *coordinate = [NSNumber numberWithInt:1000*row+column];
+        NSNumber *coordinate = @(1000*row+column);
         STAssertFalse([visitorBlockCalledFor containsObject:coordinate], nil);
         [visitorBlockCalledFor addObject:coordinate];
         

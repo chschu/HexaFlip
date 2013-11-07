@@ -51,7 +51,7 @@
     NSLog(@"analyzed %u nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
           _count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
     
-    return [pv count] > 0 ? [pv objectAtIndex:0] : nil;
+    return [pv count] > 0 ? pv[0] : nil;
 }
 
 - (float)negamaxWithDepth:(NSUInteger)depth alpha:(float)alpha beta:(float)beta principalVariation:(NSMutableArray *)principalVariation {

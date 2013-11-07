@@ -134,10 +134,7 @@ typedef enum {
     }
     
     // create sequence of animation and notification
-    NSArray *sequenceActions = [NSArray arrayWithObjects:
-                        [CCSpawn actionWithArray:actions],
-                        [CCCallBlock actionWithBlock:block],
-                        nil];
+    NSArray *sequenceActions = @[[CCSpawn actionWithArray:actions], [CCCallBlock actionWithBlock:block]];
     
     // if the scene is no longer running, the actions won't start anymore
     [self runAction:[CCSequence actionWithArray:sequenceActions]];

@@ -38,8 +38,8 @@
     NSUInteger participantIndex = [currentMatch.participants indexOfObjectPassingTest:^BOOL(GKTurnBasedParticipant *obj, NSUInteger idx, BOOL *stop) {
         return ![localPlayerID isEqualToString:obj.playerID];
     }];
-    GKTurnBasedParticipant *participant = [currentMatch.participants objectAtIndex:participantIndex];
-    GKTurnBasedParticipant *opponent = [currentMatch.participants objectAtIndex:1-participantIndex];
+    GKTurnBasedParticipant *participant = currentMatch.participants[participantIndex];
+    GKTurnBasedParticipant *opponent = currentMatch.participants[1-participantIndex];
     
     if (JCSFlipGameStatusIsOver(state.status)) {
         // set outcomes before ending the match
