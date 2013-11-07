@@ -34,7 +34,7 @@
         CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
         
-#ifdef DEBUG
+#if DEBUG
         NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
         
         NSString *version = infoDict[@"CFBundleShortVersionString"];
