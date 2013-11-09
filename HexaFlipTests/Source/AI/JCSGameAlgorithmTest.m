@@ -21,14 +21,6 @@
 
 @implementation JCSFlipAlgoTest
 
-#define JCS_HEX_DISTANCE(r1, c1, r2, c2) ({ \
-__typeof__(r1) _r1 = (r1); \
-__typeof__(c1) _c1 = (c1); \
-__typeof__(r2) _r2 = (r2); \
-__typeof__(c2) _c2 = (c2); \
-MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
-})
-
 - (void)testNegamax2VsNegamax1 {
     id<JCSGameHeuristic> paranoid = [[JCSFlipGameStatePSRHeuristic alloc] initWithPossession:1 safety:3 randomness:0];
     id<JCSGameAlgorithm> algoA = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:2 heuristic:paranoid];
@@ -64,22 +56,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 }
 
 - (void)testAlgorithm:(id<JCSGameAlgorithm>)algoA againstAlgorithm:(id<JCSGameAlgorithm>)algoB withBoardSize:(NSInteger)size {
-	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
-        NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
-        if (distanceFromOrigin == 0 || distanceFromOrigin >= size) {
-            return JCSFlipCellStateHole;
-        } else if (distanceFromOrigin == 1) {
-            if (row + 2*column < 0) {
-                return JCSFlipCellStateOwnedByPlayerA;
-            } else {
-                return JCSFlipCellStateOwnedByPlayerB;
-            }
-        } else {
-            return JCSFlipCellStateEmpty;
-        }
-    };
-    
-    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
+    JCSFlipGameState *state = [[JCSFlipGameState alloc] initDefaultWithSize:size playerToMove:JCSFlipPlayerSideA];
     
     while (!state.leaf) {
         id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerSideA ? algoA : algoB);
