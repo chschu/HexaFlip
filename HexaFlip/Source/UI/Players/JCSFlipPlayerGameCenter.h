@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import <GameKit/GameKit.h>
-
 #import "JCSFlipPlayer.h"
 
 @interface JCSFlipPlayerGameCenter : NSObject <JCSFlipPlayer>

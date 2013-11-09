@@ -11,7 +11,6 @@
 #import "JCSFlipMove.h"
 #import "JCSFlipGameCenterManager.h"
 
-
 #import "cocos2d.h"
 
 @implementation JCSFlipPlayerGameCenter

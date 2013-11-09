@@ -6,8 +6,6 @@
 //  Copyright Christian Schuster 2012. All rights reserved.
 //
 
-#import <GameKit/GameKit.h>
-
 #import "AppDelegate.h"
 #import "JCSFlipUIScene.h"
 #import "JCSFlipGameCenterManager.h"

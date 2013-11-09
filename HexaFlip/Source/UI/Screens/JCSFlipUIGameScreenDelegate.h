@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-#import "JCSFlipGameStatus.h"
-
 @class JCSFlipUIGameScreen;
 
 @protocol JCSFlipUIGameScreenDelegate <NSObject>
