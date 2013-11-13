@@ -32,14 +32,15 @@
     volatile BOOL _canceled;
 }
 
-- (id)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic transpositionTableSize:(NSUInteger)transpositionTableSize {
+- (id)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic transpositionTable:(JCSTranspositionTable *)transpositionTable {
 	NSAssert(depth > 0, @"depth must be positive");
 	NSAssert(heuristic != nil, @"heuristic must not be nil");
+	NSAssert(transpositionTable != nil, @"transposition table not be nil");
     
     if (self = [super init]) {
         _depth = depth;
         _heuristic = heuristic;
-        _transpositionTable = [[JCSTranspositionTable alloc] initWithSize:transpositionTableSize];
+        _transpositionTable = transpositionTable;
         _canceled = NO;
     }
     return self;

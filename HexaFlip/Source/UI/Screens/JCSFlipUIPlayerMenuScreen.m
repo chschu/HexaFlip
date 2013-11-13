@@ -143,6 +143,7 @@ typedef enum {
 - (id<JCSFlipPlayer>)createPlayerOfType:(JCSFlipPlayerSelection)playerSelection {
     id<JCSFlipPlayer> player;
     id<JCSGameHeuristic> heuristic;
+    JCSTranspositionTable *transpositionTable;
     id<JCSGameAlgorithm> algorithm;
     switch (playerSelection) {
         case JCSFlipPlayerSelectionHuman:
@@ -150,17 +151,20 @@ typedef enum {
             break;
         case JCSFlipPlayerSelectionAIEasy:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIMedium:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         case JCSFlipPlayerSelectionAIHard:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic transpositionTableSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:
