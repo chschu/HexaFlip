@@ -366,6 +366,7 @@
 		F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */; };
 		F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */; };
 		F3C512A6178F690500DA64DB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C512A5178F690500DA64DB /* GameKit.framework */; };
+		F3CDDD9E18552FD10063F57D /* Icon-60h@120.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CDDD9D18552FD10063F57D /* Icon-60h@120.png */; };
 		F3DA2FB9182865EF006A3B96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
 		F3EAE70815B5EBC9004827DB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B9DED515B4BE900078507F /* SenTestingKit.framework */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
@@ -874,6 +875,7 @@
 		F3CB113F15EE9A030057309C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
+		F3CDDD9D18552FD10063F57D /* Icon-60h@120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60h@120.png"; sourceTree = "<group>"; };
 		F3DA2EB7182864B1006A3B96 /* LICENSE_OCMock.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_OCMock.txt; sourceTree = "<group>"; };
 		F3DA3046182865EF006A3B96 /* libocmock-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libocmock-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3EAE70715B5EBC9004827DB /* HexaFlipTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HexaFlipTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1510,6 +1512,7 @@
 				F388F0B31607C7B7004CCF7D /* Default-568h@2x.png */,
 				F3CB110515EE9A030057309C /* Icon.png */,
 				F3CB110615EE9A030057309C /* Icon@2x.png */,
+				F3CDDD9D18552FD10063F57D /* Icon-60h@120.png */,
 				F310787E164874F300FE7FC2 /* background-hd.tmx */,
 				F310787A164851E500FE7FC2 /* background-hd.png */,
 				F3CB110715EE9A030057309C /* texture-atlas-hd.plist */,
@@ -1981,6 +1984,7 @@
 				F3A8B38615EE9C9800FAD822 /* texture-atlas.png in Resources */,
 				F388F0B41607C7B7004CCF7D /* Default-568h@2x.png in Resources */,
 				F388F0B71607C897004CCF7D /* Default.png in Resources */,
+				F3CDDD9E18552FD10063F57D /* Icon-60h@120.png in Resources */,
 				F388F0B81607C897004CCF7D /* Default@2x.png in Resources */,
 				F31078791648515800FE7FC2 /* background.tmx in Resources */,
 				F36D57171855143800B3FB09 /* indicator-game-center-frame-1.png in Resources */,

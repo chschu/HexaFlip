@@ -8,21 +8,14 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon@2x.png</string>
-		<string>Icon.png</string>
-	</array>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>Icon@2x.png</string>
-				<string>Icon.png</string>
+				<string>Icon-60h@120</string>
+				<string>Icon</string>
 			</array>
 		</dict>
 	</dict>
@@ -40,10 +33,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>GAMECENTER</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>JCSRevision</key>
 	<string>REVISION</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<dict>
 		<key>gamekit</key>
