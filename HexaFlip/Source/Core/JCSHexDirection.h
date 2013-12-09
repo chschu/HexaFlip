@@ -6,14 +6,16 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-typedef enum {
+enum {
     JCSHexDirectionE = 0,
     JCSHexDirectionNE = 1,
     JCSHexDirectionNW = 2,
     JCSHexDirectionW = 3,
     JCSHexDirectionSW = 4,
     JCSHexDirectionSE = 5,
-} JCSHexDirection;
+};
+
+typedef int JCSHexDirection;
 
 #define JCSHexDirectionMin JCSHexDirectionE
 #define JCSHexDirectionMax JCSHexDirectionSE

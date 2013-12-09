@@ -198,7 +198,7 @@
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
     if (screen.screenEnabled) {
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
+        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
         [self switchToScreen:_gameScreen animated:YES completion:^{
             [_gameScreen startGame];
         }];

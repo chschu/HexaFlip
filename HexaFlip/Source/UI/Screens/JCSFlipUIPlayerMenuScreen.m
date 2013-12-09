@@ -11,23 +11,24 @@
 #import "JCSFlipPlayerAI.h"
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSFlipGameStatePSRHeuristic.h"
-#import "JCSNegamaxGameAlgorithm.h"
+#import "JCSNegaScoutTTGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
 #import "JCSFlipUIPlayerMenuScreenDelegate.h"
 #import "JCSFlipUICellNode.h"
+#import "JCSFlipUIConstants.h"
 
 typedef enum {
-    JCSFlipPlayerTypeNone,
-    JCSFlipPlayerTypeHuman,
-    JCSFlipPlayerTypeAIEasy,
-    JCSFlipPlayerTypeAIMedium,
-    JCSFlipPlayerTypeAIHard,
-} JCSFlipPlayerType;
+    JCSFlipPlayerSelectionNone,
+    JCSFlipPlayerSelectionHuman,
+    JCSFlipPlayerSelectionAIEasy,
+    JCSFlipPlayerSelectionAIMedium,
+    JCSFlipPlayerSelectionAIHard,
+} JCSFlipPlayerSelection;
 
 @implementation JCSFlipUIPlayerMenuScreen {
-    JCSFlipPlayerType _playerAType;
-    JCSFlipPlayerType _playerBType;
+    JCSFlipPlayerSelection _playerASelection;
+    JCSFlipPlayerSelection _playerBSelection;
     
     CCMenuItem *_playerAHumanItem;
     CCMenuItem *_playerAAIEasyItem;
@@ -53,13 +54,13 @@ typedef enum {
         backItem.anchorPoint = ccp(0.5,0.5);
         backItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);
         
-        _playerAType = JCSFlipPlayerTypeNone;
-        _playerBType = JCSFlipPlayerTypeNone;
+        _playerASelection = JCSFlipPlayerSelectionNone;
+        _playerBSelection = JCSFlipPlayerSelectionNone;
 
         // create play button
         CCMenuItem *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerAType];
-            id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBType];
+            id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerASelection];
+            id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBSelection];
             [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
         }];
         playItem.position = ccp(0,0);
@@ -71,44 +72,44 @@ typedef enum {
         // create player a buttons
 
         _playerAHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
-            _playerAType = JCSFlipPlayerTypeHuman;
+            _playerASelection = JCSFlipPlayerSelectionHuman;
         }];
         _playerAHumanItem.position = ccp(-xCenter,yCenter+distance);
 
         _playerAAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
-            _playerAType = JCSFlipPlayerTypeAIEasy;
+            _playerASelection = JCSFlipPlayerSelectionAIEasy;
         }];
         _playerAAIEasyItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter+distance/2);
 
         _playerAAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
-            _playerAType = JCSFlipPlayerTypeAIMedium;
+            _playerASelection = JCSFlipPlayerSelectionAIMedium;
         }];
         _playerAAIMediumItem.position = ccp(-xCenter-distance/2*sqrt(3),yCenter-distance/2);
 
         _playerAAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
-            _playerAType = JCSFlipPlayerTypeAIHard;
+            _playerASelection = JCSFlipPlayerSelectionAIHard;
         }];
         _playerAAIHardItem.position = ccp(-xCenter,yCenter-distance);
 
         // create player b buttons
         
         _playerBHumanItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"human" block:^(id sender) {
-            _playerBType = JCSFlipPlayerTypeHuman;
+            _playerBSelection = JCSFlipPlayerSelectionHuman;
         }];
         _playerBHumanItem.position = ccp(xCenter,yCenter+distance);
         
         _playerBAIEasyItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-easy" block:^(id sender) {
-            _playerBType = JCSFlipPlayerTypeAIEasy;
+            _playerBSelection = JCSFlipPlayerSelectionAIEasy;
         }];
         _playerBAIEasyItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter+distance/2);
         
         _playerBAIMediumItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-medium" block:^(id sender) {
-            _playerBType = JCSFlipPlayerTypeAIMedium;
+            _playerBSelection = JCSFlipPlayerSelectionAIMedium;
         }];
         _playerBAIMediumItem.position = ccp(xCenter+distance/2*sqrt(3),yCenter-distance/2);
         
         _playerBAIHardItem = [JCSButton buttonWithSize:JCSButtonSizeMedium name:@"ai-hard" block:^(id sender) {
-            _playerBType = JCSFlipPlayerTypeAIHard;
+            _playerBSelection = JCSFlipPlayerSelectionAIHard;
         }];
         _playerBAIHardItem.position = ccp(xCenter,yCenter-distance);
 
@@ -139,31 +140,35 @@ typedef enum {
     return self;
 }
 
-- (id<JCSFlipPlayer>)createPlayerOfType:(JCSFlipPlayerType)playerType {
+- (id<JCSFlipPlayer>)createPlayerOfType:(JCSFlipPlayerSelection)playerSelection {
     id<JCSFlipPlayer> player;
     id<JCSGameHeuristic> heuristic;
+    JCSTranspositionTable *transpositionTable;
     id<JCSGameAlgorithm> algorithm;
-    switch (playerType) {
-        case JCSFlipPlayerTypeHuman:
+    switch (playerSelection) {
+        case JCSFlipPlayerSelectionHuman:
             player = [JCSFlipPlayerLocal player];
             break;
-        case JCSFlipPlayerTypeAIEasy:
+        case JCSFlipPlayerSelectionAIEasy:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:1 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
-        case JCSFlipPlayerTypeAIMedium:
+        case JCSFlipPlayerSelectionAIMedium:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:4 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
-        case JCSFlipPlayerTypeAIHard:
+        case JCSFlipPlayerSelectionAIHard:
             heuristic = [[JCSFlipGameStatePossessionHeuristic alloc] init];
-            algorithm = [[JCSNegamaxGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic];
+            transpositionTable = [[JCSTranspositionTable alloc] initWithSize:JCS_TRANSPOSITION_TABLE_SIZE];
+            algorithm = [[JCSNegaScoutTTGameAlgorithm alloc] initWithDepth:6 heuristic:heuristic transpositionTable:transpositionTable];
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:
-            NSAssert(NO, @"invalid playerType %d", playerType);
+            NSAssert(NO, @"invalid playerSelection %d", playerSelection);
     }
     return player;
 }

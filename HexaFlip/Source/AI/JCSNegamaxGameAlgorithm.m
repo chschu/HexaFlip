@@ -49,20 +49,9 @@
     float score = [self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY principalVariation:pv];
     
     NSLog(@"analyzed %u nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
-          _count, [[NSDate date] timeIntervalSinceDate:start], [self stringForPrincipalVariation:pv], score, _canceled ? @" (canceled)" : @"");
+          _count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
     
-    return [pv count] > 0 ? [pv objectAtIndex:0] : nil;
-}
-
-- (NSString *)stringForPrincipalVariation:(NSArray *)principalVariation {
-    NSMutableString *result = [[NSMutableString alloc] init];
-    for (id move in principalVariation) {
-        if (result.length > 0) {
-            [result appendString:@", "];
-        }
-        [result appendString:[move description]];
-    }
-    return result;
+    return [pv count] > 0 ? pv[0] : nil;
 }
 
 - (float)negamaxWithDepth:(NSUInteger)depth alpha:(float)alpha beta:(float)beta principalVariation:(NSMutableArray *)principalVariation {
@@ -118,6 +107,7 @@
     }];
     
     // sort by move value
+    // the "best" move is the one with the lowest value, because it indicates the other player's advantage on the modified board
     return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
 }
 

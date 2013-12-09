@@ -6,8 +6,6 @@
 //  Copyright Christian Schuster 2012. All rights reserved.
 //
 
-#import <GameKit/GameKit.h>
-
 #import "AppDelegate.h"
 #import "JCSFlipUIScene.h"
 #import "JCSFlipGameCenterManager.h"
@@ -99,6 +97,13 @@
     [texture generateMipmap];
     ccTexParams texParams = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
     [texture setTexParameters:&texParams];
+    
+#if DEBUG
+    // keep everything invisible when testing (see "Test" environment variables in the Xcode scheme)
+    if (getenv("JCSTesting")) {
+        return YES;
+    }
+#endif
     
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director pushScene:[JCSFlipUIScene node]];

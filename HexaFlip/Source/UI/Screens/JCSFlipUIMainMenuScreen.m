@@ -34,30 +34,20 @@
         CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
         
-#ifdef DEBUG
+#if DEBUG
         NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
         
-        NSString *version = [infoDict objectForKey:@"CFBundleShortVersionString"];
-        NSString *build = [infoDict objectForKey:@"CFBundleVersion"];
-        NSString *revision = [infoDict objectForKey:@"JCSRevision"];
+        NSString *version = infoDict[@"CFBundleShortVersionString"];
+        NSString *build = infoDict[@"CFBundleVersion"];
+        NSString *revision = infoDict[@"JCSRevision"];
         NSString *infoString = [NSString stringWithFormat:@"%@ (%@) :: %@", version, revision, build];
         CCLabelTTF *infoLabel = [CCLabelTTF labelWithString:infoString fontName:@"Verdana" fontSize:8];
         infoLabel.anchorPoint = ccp(0,0);
         infoLabel.position = ccp(10,10);
         [self addChild:infoLabel];
 #endif
-        
-        // register for the game center authentication
-        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
-        
-        // synchronize the UI state
-        [self syncUIState];
     }
     return self;
-}
-
-- (void)dealloc {
-    [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
 }
 
 - (void)syncUIState {
@@ -70,6 +60,17 @@
 
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
     _screenEnabled = screenEnabled;
+    if (screenEnabled ) {
+        // register for game center authentication notification
+        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
+    } else {
+        // unregister from game center authentication notification
+        [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
+    }
+    
+    // synchronize the UI state
+    [self syncUIState];
+
     if (completion != nil) {
         completion();
     }

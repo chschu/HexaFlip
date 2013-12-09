@@ -13,8 +13,7 @@
 @interface JCSNegamaxGameAlgorithm : NSObject <JCSGameAlgorithm>
 
 // initialize with the given search depth and a heuristic evaluation function
-// the heuristic is assumed to return larger values if there is an advantage for player A
-// the heuristic is assumed to return smaller values if there is an advantage for player B
+// the heuristic is assumed to return larger values if there is an advantage for the player about to move
 - (id)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic;
 
 @end

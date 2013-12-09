@@ -63,11 +63,11 @@
     NSString *localPlayerId = [gameCenterManager localPlayerID];
    
     // determine if player A is local
-    GKTurnBasedParticipant *participantA = [match.participants objectAtIndex:0];
+    GKTurnBasedParticipant *participantA = match.participants[0];
     BOOL playerAIsLocal = [localPlayerId isEqualToString:participantA.playerID];
     
     // determine if it's player A's turn
-    BOOL playerAIsToMove = (gameState.playerToMove == JCSFlipPlayerToMoveA);
+    BOOL playerAIsToMove = (gameState.playerToMove == JCSFlipPlayerSideA);
     
     // determine if the last move has been taken by the remote player
     BOOL lastMoveByRemotePlayer = (playerAIsToMove == playerAIsLocal);
@@ -95,14 +95,14 @@
     // determine next participant
     NSUInteger currentParticipantIndex = [match.participants indexOfObject:match.currentParticipant];
     NSUInteger nextParticipantIndex = 1-currentParticipantIndex;
-    GKTurnBasedParticipant *nextParticipant = [match.participants objectAtIndex:nextParticipantIndex];
+    GKTurnBasedParticipant *nextParticipant = match.participants[nextParticipantIndex];
     
     // if the participant quits in turn, the other participant wins
     match.currentParticipant.matchOutcome = GKTurnBasedMatchOutcomeQuit;
     nextParticipant.matchOutcome = GKTurnBasedMatchOutcomeWon;
     
     // extract the match data
-    JCSFlipGameState *gameState =[[JCSFlipGameCenterManager sharedInstance] buildGameStateFromMatch:match];
+    JCSFlipGameState *gameState = [[JCSFlipGameCenterManager sharedInstance] buildGameStateFromMatch:match];
     
     // build the match data to send
     NSData *data = [[JCSFlipGameCenterManager sharedInstance] buildDataFromGameState:gameState];

@@ -87,7 +87,7 @@
         [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerToMoveA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
         
         // create hidden outcome sprites, centered over board
         _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];
@@ -154,13 +154,13 @@
     _outcomeSpriteOverlayDraw.visible = NO;
 }
 
+- (id<JCSFlipPlayer>)playerToMove {
+    return (_state.playerToMove == JCSFlipPlayerSideA) ? _playerA : _playerB;
+}
+
 // notify current player that opponent did make a move
 - (void)tellPlayerOpponentDidMakeMove {
-    if (_state.playerToMove == JCSFlipPlayerToMoveA) {
-        [_playerA opponentDidMakeMove:_state];
-    } else {
-        [_playerB opponentDidMakeMove:_state];
-    }
+    [[self playerToMove] opponentDidMakeMove:_state];
 }
 
 // notify current player to make his move, unless game is over
@@ -168,11 +168,11 @@
 - (void)tellPlayerMakeMove {
     JCSFlipGameStatus status = _state.status;
     if (!JCSFlipGameStatusIsOver(status)) {
-        if (_state.playerToMove == JCSFlipPlayerToMoveA) {
-            [_playerA tellMakeMove:_state];
-        } else {
-            [_playerB tellMakeMove:_state];
-        }
+        // show thinking indicator BEFORE telling the player to make a move (might otherwise modify state too early)
+        [self startThinkingIndicatorAnimation];
+        
+        // now activate the player
+        [[self playerToMove] tellMakeMove:_state];
     } else {
         NSLog(@"game is over, showing animation");
         _outcomeSpriteBackground.visible = YES;
@@ -193,6 +193,75 @@
         CCAction *easedAction = [CCEaseElasticOut actionWithAction:spawn];
         
         [self runAction:easedAction];
+    }
+}
+
+#define TAG_THINKING_INDICATOR 5
+
+- (void)startThinkingIndicatorAnimation {
+    // don't show indicator if screen is already disabled
+    if (_screenEnabled) {
+        // collect animation frames
+        CCSpriteFrameCache *cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+        id<JCSFlipPlayer> player = [self playerToMove];
+        NSUInteger frameCount = player.activityIndicatorSpriteFrameCount;
+        
+        // start animation if there are any frames
+        if (frameCount > 0) {
+            NSMutableArray *animFrames = [NSMutableArray array];
+            NSString *format = player.activityIndicatorSpriteFrameNameFormat;
+            for (int i = 1; i <= frameCount; i++) {
+                [animFrames addObject:[cache spriteFrameByName:[NSString stringWithFormat:format, i]]];
+            }
+
+            // create animation without delay after showing the last frame
+            CCSprite *sprite = [CCSprite spriteWithSpriteFrame:animFrames.lastObject];
+            sprite.color = (_state.playerToMove == JCSFlipPlayerSideA ? ccRED : ccBLUE);
+            CCAnimation *animation = [CCAnimation animationWithSpriteFrames:[animFrames subarrayWithRange:NSMakeRange(0, frameCount-1)] delay:0.25];
+            animation.restoreOriginalFrame = YES;
+
+            // set sprite position and anchor point defined by the player implementation
+            sprite.anchorPoint = player.activityIndicatorAnchorPoint;
+            sprite.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:player.activityIndicatorPosition]];
+            
+            // start animation
+            CCAnimate *animate = [CCAnimate actionWithAnimation:animation];
+            [sprite runAction:animate];
+            
+            // slightly scale up and down to create a "wobble" effect
+            CCScaleTo *scaleDown = [CCScaleTo actionWithDuration:0.75 scale:0.95];
+            CCScaleTo *scaleUp = [CCScaleTo actionWithDuration:0.75 scale:1.0];
+            CCEaseSineInOut *easedScaleDown = [CCEaseSineInOut actionWithAction:scaleDown];
+            CCEaseSineInOut *easedScaleUp = [CCEaseSineInOut actionWithAction:scaleUp];
+            CCSequence *wobble = [CCSequence actionOne:easedScaleDown two:easedScaleUp];
+            CCRepeatForever *wobbleForever = [CCRepeatForever actionWithAction:wobble];
+            [sprite runAction:wobbleForever];
+
+            // fade in
+            sprite.opacity = 0;
+            [sprite runAction:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:255]];
+            
+            [self addChild:sprite z:5 tag:TAG_THINKING_INDICATOR];
+        }
+    }
+}
+
+- (void)stopThinkingIndicatorAnimationWithCompletion:(void(^)())completion {
+    CCNode *indicator = [self getChildByTag:TAG_THINKING_INDICATOR];
+    if (indicator != nil) {
+        // fade out, remove indicator and invoke completion
+        CCSequence *sequence = [CCSequence actionOne:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:0] two:[CCCallBlock actionWithBlock:^{
+            [self removeChild:indicator];
+            if (completion != nil) {
+                completion();
+            }
+        }]];
+        [indicator runAction:sequence];
+    } else {
+        // invoke completion immediately
+        if (completion != nil) {
+            completion();
+        }
     }
 }
 
@@ -241,6 +310,10 @@
         
         // connect to board layer for move input
         _boardLayer.inputDelegate = self;
+
+        if (completion != nil) {
+            completion();
+        }
     } else {
         // disable automatic move input by players
         _playerA.moveInputDelegate = nil;
@@ -252,9 +325,9 @@
         
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
-    }
-    if (completion != nil) {
-        completion();
+        
+        // fade-out and remove indicator
+        [self stopThinkingIndicatorAnimationWithCompletion:completion];
     }
 }
 
@@ -273,8 +346,8 @@
 // enable move input according to the current game state
 - (void)enableMoveInput {
     BOOL gameOver = JCSFlipGameStatusIsOver(_state.status);
-    BOOL playerAEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveA && _playerA.localControls;
-    BOOL playerBEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerToMoveB && _playerB.localControls;
+    BOOL playerAEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerSideA && _playerA.localControls;
+    BOOL playerBEnabled = !_moveInputDisabled && _state.playerToMove == JCSFlipPlayerSideB && _playerB.localControls;
     BOOL anyPlayerEnabled = playerAEnabled || playerBEnabled;
     
     // enable/disable move input if any of the players has local controls
@@ -307,15 +380,19 @@
         [self disableMoveInput];
         // update score indicator while animating the move
         [self updateScoreIndicatorAnimated:YES];
+        // animate the move
         [_boardLayer animateLastMoveOfGameState:_state undo:NO afterAnimationInvokeBlock:^{
-            // enable move input
-            [self enableMoveInput];
-            
-            // notify opponent (new current player)
-            if (!replay) {
-                [self tellPlayerOpponentDidMakeMove];
-            }
-            [self tellPlayerMakeMove];
+            // remove thinking indicator
+            [self stopThinkingIndicatorAnimationWithCompletion:^{
+                // enable move input
+                [self enableMoveInput];
+                
+                // notify opponent (new current player)
+                if (!replay) {
+                    [self tellPlayerOpponentDidMakeMove];
+                }
+                [self tellPlayerMakeMove];
+            }];
         }];
     }
     return success;
@@ -329,21 +406,25 @@
     
     if (count > 0) {
         // undo the move if this is the first invocation, or
+        
         // block move input during animation
         [self disableMoveInput];
         
-        // temporarily pop move to update score indicator while undo is animated
-        JCSFlipMove *lastMove = _state.lastMove;
-        [_state popMove];
-        [self updateScoreIndicatorAnimated:YES];
-        [_state pushMove:lastMove];
-        
-        // animate undo of last move
-        [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
-            // pop the move from the game state
+        // remove thinking indicator
+        [self stopThinkingIndicatorAnimationWithCompletion:^{
+            // temporarily pop move to update score indicator while undo is animated
+            JCSFlipMove *lastMove = _state.lastMove;
             [_state popMove];
-            // undo the remaining moves
-            [self undoMoves:count-1];
+            [self updateScoreIndicatorAnimated:YES];
+            [_state pushMove:lastMove];
+            
+            // animate undo of last move
+            [_boardLayer animateLastMoveOfGameState:_state undo:YES afterAnimationInvokeBlock:^{
+                // pop the move from the game state
+                [_state popMove];
+                // undo the remaining moves
+                [self undoMoves:count-1];
+            }];
         }];
     } else {
         // enable move input
@@ -356,7 +437,7 @@
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
     NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
-    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;
     }
@@ -370,7 +451,7 @@
 
 - (BOOL)inputModifiedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn previousStartRow:(NSInteger)previousStartRow previousStartColumn:(NSInteger)previousStartColumn {
     NSLog(@"input: modified start cell (%d,%d)", startRow, startColumn);
-    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerToMove(_state.playerToMove)) {
+    if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer stopFlashForCellAtRow:previousStartRow column:previousStartColumn];
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;

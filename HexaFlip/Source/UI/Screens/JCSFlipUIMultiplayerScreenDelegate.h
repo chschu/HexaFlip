@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Christian Schuster. All rights reserved.
 //
 
+#import <GameKit/GameKit.h>
+
 @class JCSFlipUIMultiplayerScreen;
 @class JCSFlipGameState;
 

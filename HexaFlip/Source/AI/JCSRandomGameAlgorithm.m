@@ -34,7 +34,7 @@
     }
     
     NSUInteger index = (NSUInteger) (count * rand_r(&_seed) / RAND_MAX);
-    return [moves objectAtIndex:index];
+    return moves[index];
 }
 
 - (void)cancel {

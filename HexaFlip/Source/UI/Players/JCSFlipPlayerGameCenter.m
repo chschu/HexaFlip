@@ -11,7 +11,6 @@
 #import "JCSFlipMove.h"
 #import "JCSFlipGameCenterManager.h"
 
-
 #import "cocos2d.h"
 
 @implementation JCSFlipPlayerGameCenter
@@ -26,6 +25,22 @@
     return NO;
 }
 
+- (NSString *)activityIndicatorSpriteFrameNameFormat {
+    return @"indicator-game-center-frame-%d.png";
+}
+
+- (NSUInteger)activityIndicatorSpriteFrameCount {
+    return 1;
+}
+
+- (CGPoint)activityIndicatorAnchorPoint {
+    return ccp(0.5,0.5);
+}
+
+- (CGPoint)activityIndicatorPosition {
+    return ccp(-180,60);
+}
+
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state {
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     
@@ -38,8 +53,8 @@
     NSUInteger participantIndex = [currentMatch.participants indexOfObjectPassingTest:^BOOL(GKTurnBasedParticipant *obj, NSUInteger idx, BOOL *stop) {
         return ![localPlayerID isEqualToString:obj.playerID];
     }];
-    GKTurnBasedParticipant *participant = [currentMatch.participants objectAtIndex:participantIndex];
-    GKTurnBasedParticipant *opponent = [currentMatch.participants objectAtIndex:1-participantIndex];
+    GKTurnBasedParticipant *participant = currentMatch.participants[participantIndex];
+    GKTurnBasedParticipant *opponent = currentMatch.participants[1-participantIndex];
     
     if (JCSFlipGameStatusIsOver(state.status)) {
         // set outcomes before ending the match
@@ -48,7 +63,7 @@
             opponent.matchOutcome = GKTurnBasedMatchOutcomeTied;
         } else {
             // check if this player (non-local) is player A
-            BOOL isPlayerA = state.playerToMove == JCSFlipPlayerToMoveA;
+            BOOL isPlayerA = state.playerToMove == JCSFlipPlayerSideA;
             if (state.status == JCSFlipGameStatusPlayerAWon) {
                 // if we're player A, we won
                 participant.matchOutcome = isPlayerA ? GKTurnBasedMatchOutcomeWon : GKTurnBasedMatchOutcomeLost;

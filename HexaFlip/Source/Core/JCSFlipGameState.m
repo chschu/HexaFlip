@@ -11,11 +11,13 @@
 #import "JCSFlipMove.h"
 
 // enumeration for the "skip allowed" flag
-typedef enum {
+enum {
     JCSFlipGameStateSkipAllowedUnknown = -1,
     JCSFlipGameStateSkipAllowedNo = 0,
     JCSFlipGameStateSkipAllowedYes = 1,
-} JCSFlipGameStateSkipAllowed;
+};
+
+typedef int JCSFlipGameStateSkipAllowed;
 
 // simple container structure holding move information
 typedef struct JCSFlipGameStateMoveInfo {
@@ -58,6 +60,27 @@ typedef struct JCSFlipGameStateMoveInfo {
     
     // number of entries allocated for the stack (increased on demand)
     NSUInteger _moveInfoStackCapacity;
+    
+    // the parts of the Zobrist hash for cells owned by player A
+    NSUInteger *_zobristHashPartA;
+
+    // the parts of the Zobrist hash for cells owned by player B
+    NSUInteger *_zobristHashPartB;
+
+    // the parts of the Zobrist hash for empty cells
+    NSUInteger *_zobristHashPartEmpty;
+
+    // the parts of the Zobrist hash for hole cells
+    NSUInteger *_zobristHashPartHole;
+
+    // the part of the Zobrist hash indicating that it's player A's turn
+    NSUInteger _zobristHashPartPlayerAToMove;
+
+    // the part of the Zobrist hash indicating that it's player B's turn
+    NSUInteger _zobristHashPartPlayerBToMove;
+    
+    // the current Zobrist hash (updated whenever the state changes)
+    NSUInteger _zobristHash;
 }
 
 @synthesize cellCountPlayerA = _cellCountPlayerA;
@@ -65,6 +88,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 @synthesize cellCountEmpty = _cellCountEmpty;
 @synthesize playerToMove = _playerToMove;
 @synthesize moveStackSize = _moveInfoStackTop;
+@synthesize zobristHash = _zobristHash;
 
 #pragma mark instance methods
 
@@ -84,39 +108,64 @@ __typeof__(size) _s = (size); \
 })
 
 // designated initializer
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
+- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
     
     if (self = [super init]) {
         _size = size;
+        NSUInteger cellCount = JCS_CELL_COUNT(_size);
         _playerToMove = playerToMove;
-        _cellStates = malloc(JCS_CELL_COUNT(_size)*sizeof(JCSFlipCellState));
+        _cellStates = malloc(cellCount*sizeof(JCSFlipCellState));
+        _zobristHashPartA = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartB = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartEmpty = malloc(cellCount*sizeof(NSUInteger));
+        _zobristHashPartHole = malloc(cellCount*sizeof(NSUInteger));
         _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
         _cellCountPlayerA = 0;
         _cellCountPlayerB = 0;
         _cellCountEmpty = 0;
+        _zobristHash = 0;
+
+        // compute pseudo-random Zobrist hash parts (using 31-bit pseudo-random numbers is sufficient)
+        // this sequence must be deterministic, in order to reliably map equivalent states to the same Zobrist hash
+        NSUInteger seed = 1;
+        
+        // initialize cell states, XOR into Zobrist hash
         NSInteger index = 0;
         for (NSInteger row = -size+1; row < size; row++) {
             for (NSInteger column = -size+1; column < size; column++) {
+                _zobristHashPartA[index] = rand_r(&seed);
+                _zobristHashPartB[index] = rand_r(&seed);
+                _zobristHashPartEmpty[index] = rand_r(&seed);
+                _zobristHashPartHole[index] = rand_r(&seed);
                 _cellStates[index] = cellStateAtBlock(row, column);
                 // count initial cell states
                 switch (_cellStates[index]) {
                     case JCSFlipCellStateOwnedByPlayerA:
                         _cellCountPlayerA++;
+                        _zobristHash ^= _zobristHashPartA[index];
                         break;
                     case JCSFlipCellStateOwnedByPlayerB:
                         _cellCountPlayerB++;
+                        _zobristHash ^= _zobristHashPartB[index];
                         break;
                     case JCSFlipCellStateEmpty:
                         _cellCountEmpty++;
+                        _zobristHash ^= _zobristHashPartEmpty[index];
                         break;
                     default:
+                        _zobristHash ^= _zobristHashPartHole[index];
                         break;
                 }
                 index++;
             }
         }
+        
+        // XOR player into Zobrist hash
+        _zobristHashPartPlayerAToMove = rand_r(&seed);
+        _zobristHashPartPlayerBToMove = rand_r(&seed);
+        _zobristHash ^= (_playerToMove == JCSFlipPlayerSideA ? _zobristHashPartPlayerAToMove : _zobristHashPartPlayerBToMove);
         
         // initialize the move stack (empty)
         _moveInfoStackCapacity = 8;
@@ -135,7 +184,7 @@ __typeof__(c2) _c2 = (c2); \
 MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 })
 
-- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerToMove)playerToMove {
+- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
     return [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
         if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
@@ -158,6 +207,12 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     
     // free the cell states array
     free(_cellStates);
+    
+    // free the Zobrist hash part arrays
+    free(_zobristHashPartA);
+    free(_zobristHashPartB);
+    free(_zobristHashPartEmpty);
+    free(_zobristHashPartHole);
 }
 
 // getter for the current game status
@@ -200,35 +255,43 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 - (void)setCellState:(JCSFlipCellState)cellState atRow:(NSInteger)row column:(NSInteger)column {
     NSInteger index = JCS_CELL_STATE_INDEX(_size, row, column);
     
-    // subtract one for old state
+    // subtract one for old state, XOR out of Zobrist hash
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
             _cellCountPlayerA--;
+            _zobristHash ^= _zobristHashPartA[index];
             break;
         case  JCSFlipCellStateOwnedByPlayerB:
             _cellCountPlayerB--;
+            _zobristHash ^= _zobristHashPartB[index];
             break;
         case  JCSFlipCellStateEmpty:
             _cellCountEmpty--;
+            _zobristHash ^= _zobristHashPartEmpty[index];
             break;
         default:
+            _zobristHash ^= _zobristHashPartHole[index];
             break;
     }
     
     _cellStates[index] = cellState;
     
-    // add one for new state
+    // add one for new state, XOR into Zobrist hash
     switch (_cellStates[index]) {
         case  JCSFlipCellStateOwnedByPlayerA:
             _cellCountPlayerA++;
+            _zobristHash ^= _zobristHashPartA[index];
             break;
         case  JCSFlipCellStateOwnedByPlayerB:
             _cellCountPlayerB++;
+            _zobristHash ^= _zobristHashPartB[index];
             break;
         case  JCSFlipCellStateEmpty:
             _cellCountEmpty++;
+            _zobristHash ^= _zobristHashPartEmpty[index];
             break;
         default:
+            _zobristHash ^= _zobristHashPartHole[index];
             break;
     }
 }
@@ -300,7 +363,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         return;
     }
     
-    JCSFlipCellState playerCellState = JCSFlipCellStateForPlayerToMove(_playerToMove);
+    JCSFlipCellState playerCellState = JCSFlipCellStateForPlayerSide(_playerToMove);
     
     __block BOOL hasValidMove = NO;
     
@@ -395,7 +458,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         JCSFlipCellState startCellState = [self cellStateAtRow:startRow column:startColumn];
         
         // cell state of start cell must match player
-        if (startCellState != JCSFlipCellStateForPlayerToMove(_playerToMove)) {
+        if (startCellState != JCSFlipCellStateForPlayerSide(_playerToMove)) {
             return NO;
         }
         
@@ -455,8 +518,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     moveInfo->flipCount = flipCount;
     moveInfo->oldSkipAllowed = _skipAllowed;
     
-    // switch players
-    _playerToMove = JCSFlipPlayerToMoveOther(_playerToMove);
+    // switch players, XOR out of and into Zobrist hash
+    _playerToMove = JCSFlipPlayerSideOther(_playerToMove);
+    _zobristHash ^= _zobristHashPartPlayerAToMove ^ _zobristHashPartPlayerBToMove;
     
     // "skip allowed" flag needs to be determined
     _skipAllowed = JCSFlipGameStateSkipAllowedUnknown;
@@ -494,8 +558,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     // put back old values
     _skipAllowed = moveInfo->oldSkipAllowed;
     
-    // switch back players
-    _playerToMove = JCSFlipPlayerToMoveOther(_playerToMove);
+    // switch back players, XOR out of and into Zobrist hash
+    _playerToMove = JCSFlipPlayerSideOther(_playerToMove);
+    _zobristHash ^= _zobristHashPartPlayerAToMove ^ _zobristHashPartPlayerBToMove;
 }
 
 #pragma mark Debugging helper methods
@@ -555,12 +620,12 @@ NSString *coderKey_moveStackArray = @"d";
     NSUInteger moves = MIN(maxMoves, _moveInfoStackTop);
     for (NSUInteger i = 0; i < moves; i++) {
         JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop - moves + i;
-        [array addObject:[NSNumber numberWithBool:moveInfo->skip]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->startRow]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->startColumn]];
-        [array addObject:[NSNumber numberWithInt:moveInfo->direction]];
-        [array addObject:[NSNumber numberWithInteger:moveInfo->flipCount]];
-        [array addObject:[NSNumber numberWithInt:moveInfo->oldSkipAllowed]];
+        [array addObject:@(moveInfo->skip)];
+        [array addObject:@(moveInfo->startRow)];
+        [array addObject:@(moveInfo->startColumn)];
+        [array addObject:@(moveInfo->direction)];
+        [array addObject:@(moveInfo->flipCount)];
+        [array addObject:@(moveInfo->oldSkipAllowed)];
     }
     
     // return immutable copy
@@ -583,12 +648,12 @@ NSString *coderKey_moveStackArray = @"d";
         JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop++;
         
         // populate stack entry from array
-        moveInfo->skip = [[array objectAtIndex:index++] boolValue];
-        moveInfo->startRow = [[array objectAtIndex:index++] integerValue];
-        moveInfo->startColumn = [[array objectAtIndex:index++] integerValue];
-        moveInfo->direction = [[array objectAtIndex:index++] intValue];
-        moveInfo->flipCount = [[array objectAtIndex:index++] integerValue];
-        moveInfo->oldSkipAllowed = [[array objectAtIndex:index++] intValue];
+        moveInfo->skip = [array[index++] boolValue];
+        moveInfo->startRow = [array[index++] integerValue];
+        moveInfo->startColumn = [array[index++] integerValue];
+        moveInfo->direction = [array[index++] intValue];
+        moveInfo->flipCount = [array[index++] integerValue];
+        moveInfo->oldSkipAllowed = [array[index++] intValue];
     }
 }
 
@@ -606,7 +671,7 @@ NSString *coderKey_moveStackArray = @"d";
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     NSInteger size = [aDecoder decodeIntegerForKey:coderKey_size];
-    JCSFlipPlayerToMove playerToMove = [aDecoder decodeIntForKey:coderKey_playerToMove];
+    JCSFlipPlayerSide playerToMove = [aDecoder decodeIntForKey:coderKey_playerToMove];
     
     NSUInteger length;
     const JCSFlipCellState *cellStates = [aDecoder decodeBytesForKey:coderKey_cellStates returnedLength:&length];

@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'FlipTests' target in the 'FlipTests' project
+// Prefix header for all source files of the 'HexaFlipTests' target in the 'HexaFlipTests' project
 //
 
 #ifdef __OBJC__

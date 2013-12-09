@@ -14,6 +14,10 @@
 // whether the receiver is a leaf node
 @property (readonly, nonatomic) BOOL leaf;
 
+// Zobrist hash value of the receiver
+// can be used as key for transposition tables
+@property (readonly, nonatomic) NSUInteger zobristHash;
+
 // iterate over all valid moves for the receiving game state
 // each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver
 // iteration stops prematurely when the block sets *stop to YES

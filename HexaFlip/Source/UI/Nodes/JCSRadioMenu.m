@@ -25,8 +25,8 @@
 @implementation CCMenuItem (InvokeBlock)
 
 - (void)invokeBlock:(id)sender {
-    if (block_ != nil) {
-        block_(sender);
+    if (_block != nil) {
+        _block(sender);
     }
 }
 
@@ -42,43 +42,43 @@
 @synthesize allSelectedMode = _allSelectedMode;
 
 - (void)setSelectedItem:(CCMenuItem *)item {
-    if (selectedItem_ != item) {
+    if (_selectedItem != item) {
         // mark the currently selected item as "unselected" if it is not the highlighted item
-        if (!_allSelectedMode && selectedItem_ != _highlightedItem) {
-            [selectedItem_ unselected];
+        if (!_allSelectedMode && _selectedItem != _highlightedItem) {
+            [_selectedItem unselected];
         }
         
         // update the selected item
-        selectedItem_ = item;
+        _selectedItem = item;
 
         // mark the newly selected item as "selected" if it is not the highlighted item
-        if (!_allSelectedMode && selectedItem_ != _highlightedItem) {
-            [selectedItem_ selected];
+        if (!_allSelectedMode && _selectedItem != _highlightedItem) {
+            [_selectedItem selected];
         }
         
         // trigger the item's block
         // cannot use -activate here, because this resizes CCMenuItemLabel back to normal
-        [selectedItem_ invokeBlock:selectedItem_];
+        [_selectedItem invokeBlock:_selectedItem];
     }
 }
 
 - (CCMenuItem *)selectedItem {
-    return selectedItem_;
+    return _selectedItem;
 }
 
 - (void)setAllSelectedMode:(BOOL)allSelectedMode {
     _allSelectedMode = allSelectedMode;
     if (_allSelectedMode) {
         // select all items
-        for (CCMenuItem *item in children_) {
+        for (CCMenuItem *item in _children) {
             if (!item.isSelected) {
                 [item selected];
             }
         }
     } else {
         // unselect all items except selected and highlighted item
-        for (CCMenuItem *item in children_) {
-            if (item.isSelected && item != selectedItem_ && item != _highlightedItem) {
+        for (CCMenuItem *item in _children) {
+            if (item.isSelected && item != _selectedItem && item != _highlightedItem) {
                 [item unselected];
             }
         }
@@ -88,7 +88,7 @@
 - (void)setHighlightedItem:(CCMenuItem *)item {
     if (_highlightedItem != item) {
         // mark the currently highlighted item as "unselected" if it is not the selected item
-        if (!_allSelectedMode && _highlightedItem != selectedItem_) {
+        if (!_allSelectedMode && _highlightedItem != _selectedItem) {
             [_highlightedItem unselected];
         }
         
@@ -96,7 +96,7 @@
         _highlightedItem = item;
         
         // mark the newly highlighted item as "selected" if it is not the selected item
-        if (!_allSelectedMode && _highlightedItem != selectedItem_) {
+        if (!_allSelectedMode && _highlightedItem != _selectedItem) {
             [_highlightedItem selected];
         }
     }
@@ -107,11 +107,11 @@
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    if (state_ == kCCMenuStateWaiting && !_allSelectedMode && visible_ && enabled_) {
+    if (_state == kCCMenuStateWaiting && !_allSelectedMode && _visible && _enabled) {
         CCMenuItem *touchItem = [self itemForTouch:touch];
         if (touchItem != nil) {
             self.highlightedItem = touchItem;
-            state_ = kCCMenuStateTrackingTouch;
+            _state = kCCMenuStateTrackingTouch;
             return YES;
         }
     }
@@ -120,7 +120,7 @@
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-    NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
+    NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
     
     self.highlightedItem = nil;
     
@@ -129,19 +129,19 @@
         self.selectedItem = touchItem;
     }
     
-    state_ = kCCMenuStateWaiting;
+    _state = kCCMenuStateWaiting;
 }
 
 - (void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
-    NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
+    NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
     
     self.highlightedItem = nil;
     
-	state_ = kCCMenuStateWaiting;
+	_state = kCCMenuStateWaiting;
 }
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
-	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
+	NSAssert(_state == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
 	
 	self.highlightedItem = [self itemForTouch:touch];
 }
@@ -150,10 +150,10 @@
 	CGPoint touchLocation = [touch locationInView:[touch view]];
 	touchLocation = [[CCDirector sharedDirector] convertToGL:touchLocation];
     
-    for (CCMenuItem *item in children_) {
+    for (CCMenuItem *item in _children) {
 		if (item.visible && item.isEnabled) {
 			CGPoint local = [item convertToNodeSpace:touchLocation];
-			CGRect r = [item rect];
+			CGRect r = [item activeArea];
 			r.origin = CGPointZero;
 			if (CGRectContainsPoint(r, local)) {
 				return item;

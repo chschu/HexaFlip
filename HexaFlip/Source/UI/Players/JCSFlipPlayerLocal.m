@@ -8,6 +8,8 @@
 
 #import "JCSFlipPlayerLocal.h"
 
+#import "cocos2d.h"
+
 @implementation JCSFlipPlayerLocal
 
 @synthesize moveInputDelegate = _moveInputDelegate;
@@ -18,6 +20,22 @@
 
 - (BOOL)localControls {
     return YES;
+}
+
+- (NSString *)activityIndicatorSpriteFrameNameFormat {
+    return @"indicator-local-frame-%d.png";
+}
+
+- (NSUInteger)activityIndicatorSpriteFrameCount {
+    return 1;
+}
+
+- (CGPoint)activityIndicatorAnchorPoint {
+    return ccp(0.5,0.5);
+}
+
+- (CGPoint)activityIndicatorPosition {
+    return ccp(-180,60);
 }
 
 - (void)opponentDidMakeMove:(JCSFlipGameState *)state {
