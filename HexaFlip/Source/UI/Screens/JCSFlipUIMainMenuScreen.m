@@ -33,19 +33,6 @@
         
         CCMenu *menu = [CCMenu menuWithItems:playSingleItem, _playMultiItem, nil];
         [self addChild:menu];
-        
-#if DEBUG
-        NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
-        
-        NSString *version = infoDict[@"CFBundleShortVersionString"];
-        NSString *build = infoDict[@"CFBundleVersion"];
-        NSString *revision = infoDict[@"JCSRevision"];
-        NSString *infoString = [NSString stringWithFormat:@"%@ (%@) :: %@", version, revision, build];
-        CCLabelTTF *infoLabel = [CCLabelTTF labelWithString:infoString fontName:@"Verdana" fontSize:8];
-        infoLabel.anchorPoint = ccp(0,0);
-        infoLabel.position = ccp(10,10);
-        [self addChild:infoLabel];
-#endif
     }
     return self;
 }

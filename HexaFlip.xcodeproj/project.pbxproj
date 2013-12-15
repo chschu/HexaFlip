@@ -1995,7 +1995,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nset -e\nversion=$(git describe --long --tags --match 'v*.*.*' | cut -d- -f1 | cut -c2-)\nrevision=$(git describe --long --tags --match 'v*.*.*' --dirty='*' | cut -d- -f2-)\nsed -e \"s/@VERSION@/${version}/g;s/@REVISION@/${revision}/g\" < HexaFlip/Support/InfoPlist-template.h > HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
+			shellScript = "#!/bin/bash\nset -e\nversion=$((git tag --points-at HEAD | cut -c2- && echo -n '0.0.0') | head -1)\nsed -e \"s/@VERSION@/${version}/g\" < HexaFlip/Support/InfoPlist-template.h > HexaFlip/Support/InfoPlist.h\ntouch HexaFlip/Support/Info.plist\n";
 		};
 		F3EAE70515B5EBC9004827DB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

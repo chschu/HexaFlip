@@ -4,6 +4,3 @@
 
 // App version; used as CFBundleShortVersionString
 #define VERSION @VERSION@
-
-// Revision; used for display in the app
-#define REVISION @REVISION@
