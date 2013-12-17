@@ -39,5 +39,8 @@
 // stops the cell's flashing
 // no-op if the cell is not flashing
 - (void)stopFlashForCellAtRow:(NSInteger)row column:(NSInteger)column;
-    
+
+// properly cancel any move input that might be in progress
+- (void)cancelMoveInput;
+
 @end

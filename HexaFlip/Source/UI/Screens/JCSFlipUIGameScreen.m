@@ -47,8 +47,14 @@
         
         // create the exit button
         CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
+            // notify players (cancels AI)
             [_playerA cancel];
             [_playerB cancel];
+
+            // cancel potential move input
+            [_boardLayer cancelMoveInput];
+            
+            // leave
             [_delegate exitGameMultiplayer:[self isMultiplayerGame] fromGameScreen:self];
         }];
         exitItem.anchorPoint = ccp(0.5,0.5);
@@ -58,6 +64,9 @@
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
             // remove outcome sprite
             [self removeOutcomeSprite];
+
+            // cancel potential move input
+            [_boardLayer cancelMoveInput];
             
             // undo at most 1 move if two players are local
             // undo at most 2 moves if one player is local
@@ -72,6 +81,10 @@
         // create the skip button
         _skipItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"skip" block:^(id sender) {
             if (_screenEnabled) {
+                // cancel potential move input
+                [_boardLayer cancelMoveInput];
+
+                // perform move input
                 [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
             }
         }];

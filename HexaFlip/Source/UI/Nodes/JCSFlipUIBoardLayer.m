@@ -377,4 +377,25 @@ typedef enum {
     [[self cellNodeAtRow:row column:column] stopFlash];
 }
 
+- (void)cancelMoveInput {
+    switch (_moveInputState) {
+        case JCSFlipUIMoveInputStateFirstTapOutside:
+        case JCSFlipUIMoveInputStateSecondTapInside:
+            [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            // case fall-through intended
+        case JCSFlipUIMoveInputStateFirstTapInside:
+        case JCSFlipUIMoveInputStateFirstTapSelected:
+        case JCSFlipUIMoveInputStateSecondTapOutside:
+            [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
+            [_inputDelegate inputCancelled];
+            // case fall-through intended
+        case JCSFlipUIMoveInputStateReady:
+            break;
+        default:
+            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            break;
+    }
+    _moveInputState = JCSFlipUIMoveInputStateReady;
+}
+
 @end
