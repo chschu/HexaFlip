@@ -9,11 +9,11 @@
 @protocol JCSMove;
 @protocol JCSGameNode;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, JCSTranspositionTableEntryType) {
     JCSTranspositionTableEntryTypeExact,
     JCSTranspositionTableEntryTypeAlpha,
     JCSTranspositionTableEntryTypeBeta,
-} JCSTranspositionTableEntryType;
+};
 
 @interface JCSTranspositionTable : NSObject
 

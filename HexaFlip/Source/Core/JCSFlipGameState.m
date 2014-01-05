@@ -11,13 +11,11 @@
 #import "JCSFlipMove.h"
 
 // enumeration for the "skip allowed" flag
-enum {
+typedef NS_ENUM(int, JCSFlipGameStateSkipAllowed) {
     JCSFlipGameStateSkipAllowedUnknown = -1,
     JCSFlipGameStateSkipAllowedNo = 0,
     JCSFlipGameStateSkipAllowedYes = 1,
 };
-
-typedef int JCSFlipGameStateSkipAllowed;
 
 // simple container structure holding move information
 typedef struct JCSFlipGameStateMoveInfo {

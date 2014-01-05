@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-enum {
+typedef NS_ENUM(int, JCSHexDirection) {
     JCSHexDirectionE = 0,
     JCSHexDirectionNE = 1,
     JCSHexDirectionNW = 2,
@@ -14,8 +14,6 @@ enum {
     JCSHexDirectionSW = 4,
     JCSHexDirectionSE = 5,
 };
-
-typedef int JCSHexDirection;
 
 #define JCSHexDirectionMin JCSHexDirectionE
 #define JCSHexDirectionMax JCSHexDirectionSE

@@ -18,13 +18,13 @@
 #import "JCSFlipUICellNode.h"
 #import "JCSFlipUIConstants.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
     JCSFlipPlayerSelectionNone,
     JCSFlipPlayerSelectionHuman,
     JCSFlipPlayerSelectionAIEasy,
     JCSFlipPlayerSelectionAIMedium,
     JCSFlipPlayerSelectionAIHard,
-} JCSFlipPlayerSelection;
+};
 
 @implementation JCSFlipUIPlayerMenuScreen {
     JCSFlipPlayerSelection _playerASelection;
