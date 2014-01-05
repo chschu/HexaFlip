@@ -27,8 +27,8 @@
 @property (nonatomic) JCSHexDirection direction; 
 
 // convenience methods
-+ (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
-+ (id)moveSkip;
++ (instancetype)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
++ (instancetype)moveSkip;
 
 // initialize new instances
 - (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;

@@ -18,6 +18,6 @@ typedef NS_ENUM(NSInteger, JCSButtonSize) {
 
 - (id)initWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
 
-+ (id)buttonWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
++ (instancetype)buttonWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
 
 @end

@@ -22,7 +22,7 @@
 @synthesize touchDelegate = _touchDelegate;
 @synthesize backgroundSprite = _backgroundSprite;
 
-+ (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
++ (instancetype)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     return [[self alloc] initWithRow:row column:column cellState:cellState];
 }
 

@@ -24,7 +24,7 @@
 // the background sprite (can be used for individual rotation)
 @property (readonly, nonatomic) CCSprite *backgroundSprite;
 
-+ (id)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
++ (instancetype)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState;
 
 // repeatedly flash the cell
 // restarts flashing if the cell is already flashing

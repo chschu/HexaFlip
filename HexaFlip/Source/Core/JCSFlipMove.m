@@ -21,11 +21,11 @@
 
 #pragma mark class methods
 
-+ (id)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
++ (instancetype)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
     return [[self alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
 }
 
-+ (id)moveSkip {
++ (instancetype)moveSkip {
     return [[self alloc] initSkip];
 }
 

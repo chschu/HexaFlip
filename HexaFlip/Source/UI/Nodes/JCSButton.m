@@ -57,7 +57,7 @@
     return self;
 }
 
-+ (id)buttonWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block {
++ (instancetype)buttonWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block {
     return [[self alloc] initWithSize:size name:name block:block];
 }
 
