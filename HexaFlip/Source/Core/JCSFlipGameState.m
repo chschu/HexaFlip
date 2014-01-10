@@ -51,13 +51,13 @@ typedef struct JCSFlipGameStateMoveInfo {
     JCSFlipGameStateSkipAllowed _skipAllowed;
     
     // base pointer of the move stack used by -pushMove:
-    JCSFlipGameStateMoveInfo *_moveInfoStack;
+    JCSFlipGameStateMoveInfo *_moveStack;
     
     // index of the element behind the last pushed
-    NSUInteger _moveInfoStackTop;
+    NSUInteger _moveStackSize;
     
     // number of entries allocated for the stack (increased on demand)
-    NSUInteger _moveInfoStackCapacity;
+    NSUInteger _moveStackCapacity;
     
     // the parts of the Zobrist hash for cells owned by player A
     NSUInteger *_zobristHashPartA;
@@ -85,7 +85,7 @@ typedef struct JCSFlipGameStateMoveInfo {
 @synthesize cellCountPlayerB = _cellCountPlayerB;
 @synthesize cellCountEmpty = _cellCountEmpty;
 @synthesize playerToMove = _playerToMove;
-@synthesize moveStackSize = _moveInfoStackTop;
+@synthesize moveStackSize = _moveStackSize;
 @synthesize zobristHash = _zobristHash;
 
 #pragma mark instance methods
@@ -166,9 +166,9 @@ __typeof__(size) _s = (size); \
         _zobristHash ^= (_playerToMove == JCSFlipPlayerSideA ? _zobristHashPartPlayerAToMove : _zobristHashPartPlayerBToMove);
         
         // initialize the move stack (empty)
-        _moveInfoStackCapacity = 8;
-        _moveInfoStackTop = 0;
-        _moveInfoStack = malloc(_moveInfoStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
+        _moveStackCapacity = 8;
+        _moveStackSize = 0;
+        _moveStack = malloc(_moveStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
     }
     
 	return self;
@@ -201,7 +201,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 
 - (void)dealloc {
     // free the move stack
-    free(_moveInfoStack);
+    free(_moveStack);
     
     // free the cell states array
     free(_cellStates);
@@ -308,8 +308,8 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 
 - (void)forAllCellsInvolvedInLastMoveReverse:(BOOL)reverse invokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
     // peek at the move info from the stack
-    NSAssert(_moveInfoStackTop != 0, @"move stack is empty");
-    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop-1;
+    NSAssert(_moveStackSize != 0, @"move stack is empty");
+    JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize-1;
     
     if (!moveInfo->skip) {
         NSInteger flipCount = moveInfo->flipCount;
@@ -498,13 +498,13 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     }
     
     // duplicate stack capacity if stack is full
-    if (_moveInfoStackTop == _moveInfoStackCapacity) {
-        _moveInfoStackCapacity *= 2;
-        _moveInfoStack = realloc(_moveInfoStack, _moveInfoStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
+    if (_moveStackSize == _moveStackCapacity) {
+        _moveStackCapacity *= 2;
+        _moveStack = realloc(_moveStack, _moveStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
     }
     
     // reserve next free stack entry
-    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop++;
+    JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize++;
     
     // populate move info
     moveInfo->skip = move.skip;
@@ -529,8 +529,8 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 
 - (void)popMove {
     // pop the move info from the stack
-    NSAssert(_moveInfoStackTop != 0, @"move stack is empty");
-    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + --_moveInfoStackTop;
+    NSAssert(_moveStackSize != 0, @"move stack is empty");
+    JCSFlipGameStateMoveInfo *moveInfo = _moveStack + --_moveStackSize;
     
     if (!moveInfo->skip) {
         NSInteger flipCount = moveInfo->flipCount;
@@ -593,10 +593,10 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 }
 
 - (JCSFlipMove *)lastMove {
-    if (_moveInfoStackTop == 0) {
+    if (_moveStackSize == 0) {
         return nil;
     }
-    JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop-1;
+    JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize-1;
     if (moveInfo->skip == YES) {
         return [JCSFlipMove moveSkip];
     }
@@ -615,9 +615,9 @@ NSString *coderKey_moveStackArray = @"d";
 - (NSArray *)createArrayFromMoveStackWithMaxMoves:(NSUInteger)maxMoves {
     NSMutableArray *array = [NSMutableArray array];
     
-    NSUInteger moves = MIN(maxMoves, _moveInfoStackTop);
+    NSUInteger moves = MIN(maxMoves, _moveStackSize);
     for (NSUInteger i = 0; i < moves; i++) {
-        JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop - moves + i;
+        JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize - moves + i;
         [array addObject:@(moveInfo->skip)];
         [array addObject:@(moveInfo->startRow)];
         [array addObject:@(moveInfo->startColumn)];
@@ -637,13 +637,13 @@ NSString *coderKey_moveStackArray = @"d";
     
     while (index < array.count) {
         // duplicate stack capacity if stack is full
-        if (_moveInfoStackTop == _moveInfoStackCapacity) {
-            _moveInfoStackCapacity *= 2;
-            _moveInfoStack = realloc(_moveInfoStack, _moveInfoStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
+        if (_moveStackSize == _moveStackCapacity) {
+            _moveStackCapacity *= 2;
+            _moveStack = realloc(_moveStack, _moveStackCapacity*sizeof(JCSFlipGameStateMoveInfo));
         }
         
         // reserve next free stack entry
-        JCSFlipGameStateMoveInfo *moveInfo = _moveInfoStack + _moveInfoStackTop++;
+        JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize++;
         
         // populate stack entry from array
         moveInfo->skip = [array[index++] boolValue];
