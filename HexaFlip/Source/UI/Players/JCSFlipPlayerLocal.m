@@ -12,8 +12,6 @@
 
 @implementation JCSFlipPlayerLocal
 
-@synthesize moveInputDelegate = _moveInputDelegate;
-
 + (id)player {
     return [[self alloc] init];
 }

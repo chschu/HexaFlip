@@ -312,8 +312,12 @@
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
     if (screenEnabled) {
         // enable automatic move input by players (e.g. for AI players)
-        _playerA.moveInputDelegate = self;
-        _playerB.moveInputDelegate = self;
+        if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
+            _playerA.moveInputDelegate = self;
+        }
+        if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
+            _playerB.moveInputDelegate = self;
+        }
         
         // connect to game center event handler
         gameCenterManager.moveInputDelegate = self;
@@ -327,8 +331,12 @@
         }
     } else {
         // disable automatic move input by players
-        _playerA.moveInputDelegate = nil;
-        _playerB.moveInputDelegate = nil;
+        if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
+            _playerA.moveInputDelegate = nil;
+        }
+        if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
+            _playerB.moveInputDelegate = nil;
+        }
         
         // disconnect from game center event handler
         gameCenterManager.currentMatch = nil;

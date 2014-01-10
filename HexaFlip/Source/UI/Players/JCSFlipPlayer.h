@@ -15,9 +15,6 @@
 // YES for local human players, NO otherwise
 @property (readonly, nonatomic) BOOL localControls;
 
-// the delegate to be used if the player implementation requires automatic move input
-@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
-
 // format for animation frame names for the activity indicator, containing a single %d as a placeholder for the frame number (1-based)
 @property (readonly, nonatomic) NSString *activityIndicatorSpriteFrameNameFormat;
 
@@ -41,5 +38,10 @@
 // tell the player instance to stop all currently running asynchronous tasks as soon as possible
 // e.g. stop the "thinking" of an AI player
 - (void)cancel;
+
+@optional
+
+// the delegate to be used if the player implementation requires automatic move input
+@property (weak, nonatomic) id<JCSFlipMoveInputDelegate> moveInputDelegate;
 
 @end
