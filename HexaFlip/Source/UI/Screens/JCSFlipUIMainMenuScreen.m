@@ -17,8 +17,6 @@
     JCSButton *_playMultiItem;
 }
 
-@synthesize delegate = _delegate;
-
 - (id)init {
     if (self = [super init]) {
         JCSButton *playSingleItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-single" block:^(id sender) {

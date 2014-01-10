@@ -14,10 +14,6 @@
 
 @implementation JCSFlipGameCenterManager
 
-@synthesize currentMatch = _currentMatch;
-@synthesize moveInputDelegate = _moveInputDelegate;
-@synthesize gameCenterInviteDelegate = _gameCenterInviteDelegate;
-
 static JCSFlipGameCenterManager *_sharedInstance = nil;
 
 + (JCSFlipGameCenterManager *)sharedInstance {

@@ -40,9 +40,6 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     JCSHexDirection _moveDirection;
 }
 
-@synthesize inputDelegate = _inputDelegate;
-@synthesize moveInputEnabled = _moveInputEnabled;
-
 + (id)nodeWithState:(JCSFlipGameState *)state {
     return [[self alloc] initWithState:state];
 }

@@ -39,8 +39,6 @@
     // the ivar state_ of CCMenu is used to hold the menu's state ("waiting" or "tracking touch")
 }
 
-@synthesize allSelectedMode = _allSelectedMode;
-
 - (void)setSelectedItem:(CCMenuItem *)item {
     if (_selectedItem != item) {
         // mark the currently selected item as "unselected" if it is not the highlighted item

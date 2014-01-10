@@ -81,11 +81,6 @@ typedef struct JCSFlipGameStateMoveInfo {
     NSUInteger _zobristHash;
 }
 
-@synthesize cellCountPlayerA = _cellCountPlayerA;
-@synthesize cellCountPlayerB = _cellCountPlayerB;
-@synthesize cellCountEmpty = _cellCountEmpty;
-@synthesize playerToMove = _playerToMove;
-@synthesize moveStackSize = _moveStackSize;
 @synthesize zobristHash = _zobristHash;
 
 #pragma mark instance methods

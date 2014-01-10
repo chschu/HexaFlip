@@ -13,10 +13,6 @@
 
 #pragma mark properties
 
-@synthesize skip = _skip;
-@synthesize startRow = _startRow;
-@synthesize startColumn = _startColumn;
-@synthesize direction = _direction;
 @synthesize value = _value;
 
 #pragma mark class methods

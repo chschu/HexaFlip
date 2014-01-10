@@ -16,7 +16,6 @@
 
 @implementation JCSFlipPlayerAI
 
-@synthesize algorithm = _algorithm;
 @synthesize moveInputDelegate = _moveInputDelegate;
 
 + (id)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {

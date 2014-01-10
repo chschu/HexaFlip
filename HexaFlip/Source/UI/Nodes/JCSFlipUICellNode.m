@@ -16,12 +16,6 @@
     CCSprite *_playerBOverlaySprite;
 }
 
-@synthesize cellState = _cellState;
-@synthesize row = _row;
-@synthesize column = _column;
-@synthesize touchDelegate = _touchDelegate;
-@synthesize backgroundSprite = _backgroundSprite;
-
 + (instancetype)nodeWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     return [[self alloc] initWithRow:row column:column cellState:cellState];
 }

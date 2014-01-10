@@ -10,9 +10,6 @@
 
 @implementation JCSFlipUIBaseScreen
 
-@synthesize screenPoint;
-@synthesize screenEnabled = _screenEnabled;
-
 - (void)visit {
     CGSize winSize = [CCDirector sharedDirector].winSize;
     

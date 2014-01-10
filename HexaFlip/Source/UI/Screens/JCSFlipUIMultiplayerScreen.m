@@ -19,9 +19,6 @@
     GKTurnBasedMatchmakerViewController *_mmvc;
 }
 
-@synthesize delegate = _delegate;
-@synthesize playersToInvite = _playersToInvite;
-
 - (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
     _screenEnabled = screenEnabled;
     if (screenEnabled) {

@@ -41,8 +41,6 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
     CCMenuItem *_playerBAIHardItem;
 }
 
-@synthesize delegate = _delegate;
-
 - (id)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
