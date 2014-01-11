@@ -128,6 +128,9 @@
     // remove old board
     [_boardLayer removeFromParentAndCleanup:YES];
     
+    // remove thinking indicator (might still be present from previous game)
+    [self removeThinkingIndicator];
+
     _state = state;
     if (animateLastMove) {
         // pop last move if present (will be animated it in -startGame)
@@ -257,12 +260,16 @@
     }
 }
 
+- (void)removeThinkingIndicator {
+    [self removeChildByTag:TAG_THINKING_INDICATOR];
+}
+
 - (void)stopThinkingIndicatorAnimationWithCompletion:(void(^)())completion {
     CCNode *indicator = [self getChildByTag:TAG_THINKING_INDICATOR];
     if (indicator != nil) {
         // fade out, remove indicator and invoke completion
         CCSequence *sequence = [CCSequence actionOne:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:0] two:[CCCallBlock actionWithBlock:^{
-            [self removeChild:indicator];
+            [self removeThinkingIndicator];
             if (completion != nil) {
                 completion();
             }
@@ -325,10 +332,6 @@
         
         // connect to board layer for move input
         _boardLayer.inputDelegate = self;
-
-        if (completion != nil) {
-            completion();
-        }
     } else {
         // disable automatic move input by players
         if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
@@ -344,9 +347,9 @@
         
         // disconnect from board layer
         _boardLayer.inputDelegate = nil;
-        
-        // fade-out and remove indicator
-        [self stopThinkingIndicatorAnimationWithCompletion:completion];
+    }
+    if (completion != nil) {
+        completion();
     }
 }
 
