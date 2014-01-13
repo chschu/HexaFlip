@@ -26,10 +26,13 @@
     matchRequest.playersToInvite = _playersToInvite;
     
     _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
-    _mmvc.turnBasedMatchmakerDelegate = self;
     // don't show existing matches when inviting
     _mmvc.showExistingMatches = (_playersToInvite == nil);
     [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:nil];
+}
+
+- (void)didActivateScreen {
+    _mmvc.turnBasedMatchmakerDelegate = self;
 }
 
 - (void)willDeactivateScreen {

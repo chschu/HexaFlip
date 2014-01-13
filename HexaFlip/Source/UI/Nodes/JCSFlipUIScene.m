@@ -129,6 +129,7 @@
     id<JCSFlipUIScreenWithPoint> oldActiveScreen = _activeScreen;
     
     void(^willSwitchBlock)() = ^{
+        [CCDirector sharedDirector].touchDispatcher.dispatchEvents = NO;
         if ([oldActiveScreen respondsToSelector:@selector(willDeactivateScreen)]) {
             [oldActiveScreen willDeactivateScreen];
         }
@@ -137,7 +138,7 @@
         }
         _activeScreen = nil;
     };
-
+    
     void(^didSwitchBlock)() = ^{
         _activeScreen = screen;
         if ([oldActiveScreen respondsToSelector:@selector(didDeactivateScreen)]) {
@@ -146,11 +147,12 @@
         if ([screen respondsToSelector:@selector(didActivateScreen)]) {
             [screen didActivateScreen];
         }
+        [CCDirector sharedDirector].touchDispatcher.dispatchEvents = YES;
     };
-
+    
     if (animated) {
         NSMutableArray *actions = [[NSMutableArray alloc] init];
-
+        
         // collect action to notify screens that switch is about to happen
         [actions addObject:[CCCallBlock actionWithBlock:willSwitchBlock]];
         
@@ -176,74 +178,56 @@
 #pragma mark JCSFlipUIMainMenuScreenDelegate methods
 
 - (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
-    if (screen == _activeScreen) {
-        [self switchToScreen:_playerMenuScreen animated:YES];
-    }
+    [self switchToScreen:_playerMenuScreen animated:YES];
 }
 
 - (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
-    if (screen == _activeScreen) {
-        _multiplayerScreen.playersToInvite = nil;
-        [self switchToScreen:_multiplayerScreen animated:YES];
-    }
+    _multiplayerScreen.playersToInvite = nil;
+    [self switchToScreen:_multiplayerScreen animated:YES];
 }
 
 #pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
 
 - (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    if (screen == _activeScreen) {
-        [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
-        [self switchToScreen:_gameScreen animated:YES];
-    }
+    [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
+    [self switchToScreen:_gameScreen animated:YES];
 }
 
 - (void)backFromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    if (screen == _activeScreen) {
-        [self switchToScreen:_mainMenuScreen animated:YES];
-    }
+    [self switchToScreen:_mainMenuScreen animated:YES];
 }
 
 #pragma mark JCSFlipUIGameScreenDelegate methods
 
 - (void)exitGameMultiplayer:(BOOL)multiplayer fromGameScreen:(JCSFlipUIGameScreen *)screen {
-    if (screen == _activeScreen) {
-        if (multiplayer) {
-            _multiplayerScreen.playersToInvite = nil;
-            [self switchToScreen:_multiplayerScreen animated:YES];
-        } else {
-            [self switchToScreen:_mainMenuScreen animated:YES];
-        }
+    if (multiplayer) {
+        _multiplayerScreen.playersToInvite = nil;
+        [self switchToScreen:_multiplayerScreen animated:YES];
+    } else {
+        [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
 
 #pragma mark JCSFlipUIMultiplayerScreenDelegate methods
 
 - (void)matchMakingCancelledFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    if (screen == _activeScreen) {
-        [self switchToScreen:_mainMenuScreen animated:YES];
-    }
+    [self switchToScreen:_mainMenuScreen animated:YES];
 }
 
 - (void)matchMakingFailedWithError:(NSError *)error fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    if (screen == _activeScreen) {
-        [self switchToScreen:_mainMenuScreen animated:YES];
-        
-        // display the error
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    }
+    [self switchToScreen:_mainMenuScreen animated:YES];
+    
+    // display the error
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
 
 - (void)prepareGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    if (screen == _activeScreen) {
-        [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove moveInputDisabled:moveInputDisabled];
-    }
+    [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove moveInputDisabled:moveInputDisabled];
 }
 
 - (void)startPreparedGameFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    if (screen == _activeScreen) {
-        [self switchToScreen:_gameScreen animated:YES];
-    }
+    [self switchToScreen:_gameScreen animated:YES];
 }
 
 #pragma mark JCSFlipGameCenterInviteDelegate methods

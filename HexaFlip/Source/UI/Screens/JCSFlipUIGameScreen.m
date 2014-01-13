@@ -18,8 +18,6 @@
 #import "JCSFlipUIConstants.h"
 
 @implementation JCSFlipUIGameScreen {
-    BOOL _screenEnabled;
-    
     JCSFlipGameState *_state;
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
@@ -50,7 +48,7 @@
             // notify players (cancels AI)
             [_playerA cancel];
             [_playerB cancel];
-
+            
             // cancel potential move input
             [_boardLayer cancelMoveInput];
             
@@ -64,7 +62,7 @@
         _undoItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"undo" block:^(id sender) {
             // remove outcome sprite
             [self removeOutcomeSprite];
-
+            
             // cancel potential move input
             [_boardLayer cancelMoveInput];
             
@@ -80,13 +78,11 @@
         
         // create the skip button
         _skipItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"skip" block:^(id sender) {
-            if (_screenEnabled) {
-                // cancel potential move input
-                [_boardLayer cancelMoveInput];
-
-                // perform move input
-                [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
-            }
+            // cancel potential move input
+            [_boardLayer cancelMoveInput];
+            
+            // perform move input
+            [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
         }];
         _skipItem.anchorPoint = ccp(0.5,0.5);
         _skipItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, -winSize.height/2+10+JCSButtonSizeSmall/2.0);
@@ -132,7 +128,7 @@
     
     // remove thinking indicator (might still be present from previous game)
     [self removeThinkingIndicator];
-
+    
     _state = state;
     if (animateLastMove) {
         // pop last move if present (will be animated it in -startGame)
@@ -215,50 +211,47 @@
 #define TAG_THINKING_INDICATOR 5
 
 - (void)startThinkingIndicatorAnimation {
-    // don't show indicator if screen is already disabled
-    if (_screenEnabled) {
-        // collect animation frames
-        CCSpriteFrameCache *cache = [CCSpriteFrameCache sharedSpriteFrameCache];
-        id<JCSFlipPlayer> player = [self playerToMove];
-        NSUInteger frameCount = player.activityIndicatorSpriteFrameCount;
-        
-        // start animation if there are any frames
-        if (frameCount > 0) {
-            NSMutableArray *animFrames = [NSMutableArray array];
-            NSString *format = player.activityIndicatorSpriteFrameNameFormat;
-            for (int i = 1; i <= frameCount; i++) {
-                [animFrames addObject:[cache spriteFrameByName:[NSString stringWithFormat:format, i]]];
-            }
-
-            // create animation without delay after showing the last frame
-            CCSprite *sprite = [CCSprite spriteWithSpriteFrame:animFrames.lastObject];
-            sprite.color = (_state.playerToMove == JCSFlipPlayerSideA ? ccRED : ccBLUE);
-            CCAnimation *animation = [CCAnimation animationWithSpriteFrames:[animFrames subarrayWithRange:NSMakeRange(0, frameCount-1)] delay:0.25];
-            animation.restoreOriginalFrame = YES;
-
-            // set sprite position and anchor point defined by the player implementation
-            sprite.anchorPoint = player.activityIndicatorAnchorPoint;
-            sprite.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:player.activityIndicatorPosition]];
-            
-            // start animation
-            CCAnimate *animate = [CCAnimate actionWithAnimation:animation];
-            [sprite runAction:animate];
-            
-            // slightly scale up and down to create a "wobble" effect
-            CCScaleTo *scaleDown = [CCScaleTo actionWithDuration:0.75 scale:0.95];
-            CCScaleTo *scaleUp = [CCScaleTo actionWithDuration:0.75 scale:1.0];
-            CCEaseSineInOut *easedScaleDown = [CCEaseSineInOut actionWithAction:scaleDown];
-            CCEaseSineInOut *easedScaleUp = [CCEaseSineInOut actionWithAction:scaleUp];
-            CCSequence *wobble = [CCSequence actionOne:easedScaleDown two:easedScaleUp];
-            CCRepeatForever *wobbleForever = [CCRepeatForever actionWithAction:wobble];
-            [sprite runAction:wobbleForever];
-
-            // fade in
-            sprite.opacity = 0;
-            [sprite runAction:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:255]];
-            
-            [self addChild:sprite z:5 tag:TAG_THINKING_INDICATOR];
+    // collect animation frames
+    CCSpriteFrameCache *cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+    id<JCSFlipPlayer> player = [self playerToMove];
+    NSUInteger frameCount = player.activityIndicatorSpriteFrameCount;
+    
+    // start animation if there are any frames
+    if (frameCount > 0) {
+        NSMutableArray *animFrames = [NSMutableArray array];
+        NSString *format = player.activityIndicatorSpriteFrameNameFormat;
+        for (int i = 1; i <= frameCount; i++) {
+            [animFrames addObject:[cache spriteFrameByName:[NSString stringWithFormat:format, i]]];
         }
+        
+        // create animation without delay after showing the last frame
+        CCSprite *sprite = [CCSprite spriteWithSpriteFrame:animFrames.lastObject];
+        sprite.color = (_state.playerToMove == JCSFlipPlayerSideA ? ccRED : ccBLUE);
+        CCAnimation *animation = [CCAnimation animationWithSpriteFrames:[animFrames subarrayWithRange:NSMakeRange(0, frameCount-1)] delay:0.25];
+        animation.restoreOriginalFrame = YES;
+        
+        // set sprite position and anchor point defined by the player implementation
+        sprite.anchorPoint = player.activityIndicatorAnchorPoint;
+        sprite.position = [self convertToNodeSpace:[_boardLayer convertToWorldSpace:player.activityIndicatorPosition]];
+        
+        // start animation
+        CCAnimate *animate = [CCAnimate actionWithAnimation:animation];
+        [sprite runAction:animate];
+        
+        // slightly scale up and down to create a "wobble" effect
+        CCScaleTo *scaleDown = [CCScaleTo actionWithDuration:0.75 scale:0.95];
+        CCScaleTo *scaleUp = [CCScaleTo actionWithDuration:0.75 scale:1.0];
+        CCEaseSineInOut *easedScaleDown = [CCEaseSineInOut actionWithAction:scaleDown];
+        CCEaseSineInOut *easedScaleUp = [CCEaseSineInOut actionWithAction:scaleUp];
+        CCSequence *wobble = [CCSequence actionOne:easedScaleDown two:easedScaleUp];
+        CCRepeatForever *wobbleForever = [CCRepeatForever actionWithAction:wobble];
+        [sprite runAction:wobbleForever];
+        
+        // fade in
+        sprite.opacity = 0;
+        [sprite runAction:[CCFadeTo actionWithDuration:JCS_FLIP_UI_THINKING_INDICATOR_FADE_DURATION opacity:255]];
+        
+        [self addChild:sprite z:5 tag:TAG_THINKING_INDICATOR];
     }
 }
 
@@ -300,7 +293,6 @@
 }
 
 - (void)startGame {
-    NSAssert(_screenEnabled, @"screen must be enabled");
     if (_lastMove != nil) {
         // apply the move, but don't tell the opponent that the move has been made ("replay")
         BOOL success = [self applyMove:_lastMove replay:YES];
@@ -333,14 +325,8 @@
     // connect to board layer for move input
     _boardLayer.inputDelegate = self;
     
-    _screenEnabled = YES;
-
     // start the game (must have been prepared before)
     [self startGame];
-}
-
-- (void)willDeactivateScreen {
-    _screenEnabled = NO;
 }
 
 - (void)didDeactivateScreen {
