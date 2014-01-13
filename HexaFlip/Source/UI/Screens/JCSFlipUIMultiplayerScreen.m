@@ -19,23 +19,22 @@
     GKTurnBasedMatchmakerViewController *_mmvc;
 }
 
-- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
-    _screenEnabled = screenEnabled;
-    if (screenEnabled) {
-        GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
-        matchRequest.minPlayers = 2;
-        matchRequest.maxPlayers = 2;
-        matchRequest.playersToInvite = _playersToInvite;
-        
-        _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
-        _mmvc.turnBasedMatchmakerDelegate = self;
-        // don't show existing matches when inviting
-        _mmvc.showExistingMatches = (_playersToInvite == nil);
-        [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:completion];
-    } else {
-        [_mmvc dismissViewControllerAnimated:YES completion:completion];
-        _mmvc = nil;
-    }
+- (void)willActivateScreen {
+    GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
+    matchRequest.minPlayers = 2;
+    matchRequest.maxPlayers = 2;
+    matchRequest.playersToInvite = _playersToInvite;
+    
+    _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
+    _mmvc.turnBasedMatchmakerDelegate = self;
+    // don't show existing matches when inviting
+    _mmvc.showExistingMatches = (_playersToInvite == nil);
+    [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:nil];
+}
+
+- (void)willDeactivateScreen {
+    [_mmvc dismissViewControllerAnimated:YES completion:nil];
+    _mmvc = nil;
 }
 
 #pragma mark GKTurnBasedMatchmakerViewControllerDelegate methods

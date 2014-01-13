@@ -75,32 +75,20 @@
     [delegateMock verify];
 }
 
-- (void)testObserverAddedAndCompletionBlockInvokedWhenScreenEnabled {
+- (void)testObserverAddedWhenScreenEnabled {
     [[_gameCenterManagerMock expect] addPlayerAuthenticationObserver:_underTest selector:@selector(playerAuthenticationDidChange:)];
-    __block BOOL invoked = NO;
-    __weak id localMock = _gameCenterManagerMock;
     
-    [_underTest setScreenEnabled:YES completion:^{
-        // observer must have been added before
-        [localMock verify];
-        invoked = YES;
-    }];
-
-    STAssertTrue(invoked, @"block must have been invoked");
+    [_underTest willActivateScreen];
+    
+    [_gameCenterManagerMock verify];
 }
 
-- (void)testObserverRemovedAndCompletionBlockInvokedWhenScreenDisabled {
+- (void)testObserverRemovedWhenScreenDisabled {
     [[_gameCenterManagerMock expect] removePlayerAuthenticationObserver:_underTest];
-    __block BOOL invoked = NO;
-    __weak id localMock = _gameCenterManagerMock;
     
-    [_underTest setScreenEnabled:NO completion:^{
-        // observer must have been added before
-        [localMock verify];
-        invoked = YES;
-    }];
+    [_underTest didDeactivateScreen];
     
-    STAssertTrue(invoked, @"block must have been invoked");
+    [_gameCenterManagerMock verify];
 }
 
 @end

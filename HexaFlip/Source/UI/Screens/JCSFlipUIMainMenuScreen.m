@@ -43,22 +43,17 @@
     [self syncUIState];
 }
 
-- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
-    _screenEnabled = screenEnabled;
-    if (screenEnabled ) {
-        // register for game center authentication notification
-        [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
-    } else {
-        // unregister from game center authentication notification
-        [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
-    }
-    
+- (void)willActivateScreen {
+    // register for game center authentication notification
+    [[JCSFlipGameCenterManager sharedInstance] addPlayerAuthenticationObserver:self selector:@selector(playerAuthenticationDidChange:)];
+
     // synchronize the UI state
     [self syncUIState];
+}
 
-    if (completion != nil) {
-        completion();
-    }
+- (void)didDeactivateScreen {
+    // unregister from game center authentication notification
+    [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
 }
 
 - (BOOL)leaveScreenWhenPlayerLoggedOut {

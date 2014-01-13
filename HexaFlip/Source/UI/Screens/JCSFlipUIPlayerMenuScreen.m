@@ -171,13 +171,6 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
     return player;
 }
 
-- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
-    _screenEnabled = screenEnabled;
-    if (completion != nil) {
-        completion();
-    }
-}
-
 - (BOOL)leaveScreenWhenPlayerLoggedOut {
     return NO;
 }

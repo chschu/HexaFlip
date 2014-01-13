@@ -18,6 +18,8 @@
 #import "JCSFlipUIConstants.h"
 
 @implementation JCSFlipUIGameScreen {
+    BOOL _screenEnabled;
+    
     JCSFlipGameState *_state;
     id<JCSFlipPlayer> _playerA;
     id<JCSFlipPlayer> _playerB;
@@ -314,43 +316,49 @@
     return _match != nil;
 }
 
-- (void)setScreenEnabled:(BOOL)screenEnabled completion:(void(^)())completion {
-    _screenEnabled = screenEnabled;
+- (void)didActivateScreen {
+    // enable automatic move input by players (e.g. for AI players)
+    if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
+        _playerA.moveInputDelegate = self;
+    }
+    if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
+        _playerB.moveInputDelegate = self;
+    }
+    
+    // connect to game center event handler
     JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
-    if (screenEnabled) {
-        // enable automatic move input by players (e.g. for AI players)
-        if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
-            _playerA.moveInputDelegate = self;
-        }
-        if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
-            _playerB.moveInputDelegate = self;
-        }
-        
-        // connect to game center event handler
-        gameCenterManager.moveInputDelegate = self;
-        gameCenterManager.currentMatch = _match;
-        
-        // connect to board layer for move input
-        _boardLayer.inputDelegate = self;
-    } else {
-        // disable automatic move input by players
-        if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
-            _playerA.moveInputDelegate = nil;
-        }
-        if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
-            _playerB.moveInputDelegate = nil;
-        }
-        
-        // disconnect from game center event handler
-        gameCenterManager.currentMatch = nil;
-        gameCenterManager.moveInputDelegate = nil;
-        
-        // disconnect from board layer
-        _boardLayer.inputDelegate = nil;
+    gameCenterManager.moveInputDelegate = self;
+    gameCenterManager.currentMatch = _match;
+    
+    // connect to board layer for move input
+    _boardLayer.inputDelegate = self;
+    
+    _screenEnabled = YES;
+
+    // start the game (must have been prepared before)
+    [self startGame];
+}
+
+- (void)willDeactivateScreen {
+    _screenEnabled = NO;
+}
+
+- (void)didDeactivateScreen {
+    // disable automatic move input by players
+    if ([_playerA respondsToSelector:@selector(setMoveInputDelegate:)]) {
+        _playerA.moveInputDelegate = nil;
     }
-    if (completion != nil) {
-        completion();
+    if ([_playerB respondsToSelector:@selector(setMoveInputDelegate:)]) {
+        _playerB.moveInputDelegate = nil;
     }
+    
+    // disconnect from game center event handler
+    JCSFlipGameCenterManager *gameCenterManager = [JCSFlipGameCenterManager sharedInstance];
+    gameCenterManager.currentMatch = nil;
+    gameCenterManager.moveInputDelegate = nil;
+    
+    // disconnect from board layer
+    _boardLayer.inputDelegate = nil;
 }
 
 - (BOOL)leaveScreenWhenPlayerLoggedOut {
