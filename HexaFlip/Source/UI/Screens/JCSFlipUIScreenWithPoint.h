@@ -18,16 +18,16 @@
 
 @optional
 
-// optinal method; perform actions before the screen will be activated, while it is completely invisible
+// optional method; perform actions before the screen will be activated, while it is completely invisible
 - (void)willActivateScreen;
 
-// optinal method; activate the screen, while it is fully visible
+// optional method; activate the screen, while it is fully visible
 - (void)didActivateScreen;
 
-// optinal method; deactivate the screen, while it is fully visible
+// optional method; deactivate the screen, while it is fully visible
 - (void)willDeactivateScreen;
 
-// optinal method; perform actions after the screen has been deactivated, while it is completely invisible
+// optional method; perform actions after the screen has been deactivated, while it is completely invisible
 - (void)didDeactivateScreen;
 
 @end
