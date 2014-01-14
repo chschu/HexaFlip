@@ -94,6 +94,7 @@
 		F3452D59166747B6000AA83D /* JCSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3452D58166747B6000AA83D /* JCSButton.m */; };
 		F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */; };
 		F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */; };
+		F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */; };
 		F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */; };
 		F36CF3BD181A3DB400B6275F /* JCSTranspositionTable.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */; };
 		F36CF3C6181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3C5181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m */; };
@@ -533,6 +534,7 @@
 		F353534916A626A50027192D /* JCSFlipUIMultiplayerScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMultiplayerScreenDelegate.h; sourceTree = "<group>"; };
 		F353534B16A742510027192D /* JCSFlipPlayerGameCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerGameCenter.h; sourceTree = "<group>"; };
 		F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerGameCenter.m; sourceTree = "<group>"; };
+		F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBaseScreenTest.m; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
 		F3574A9716696EF0005B9BD4 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 		F33E9EFF1828D7DC00CB13CC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */,
 				F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */,
 			);
 			path = Screens;
@@ -2193,6 +2196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */,
 				F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */,
 				F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */,
 				F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */,
