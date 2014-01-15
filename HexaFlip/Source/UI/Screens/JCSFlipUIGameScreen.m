@@ -11,11 +11,11 @@
 #import "JCSButton.h"
 #import "JCSFlipScoreIndicator.h"
 #import "JCSFlipPlayer.h"
-#import "JCSFlipUIGameScreenDelegate.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipGameCenterManager.h"
 #import "JCSFlipUIConstants.h"
+#import "JCSFlipUIEvents.h"
 
 @implementation JCSFlipUIGameScreen {
     JCSFlipGameState *_state;
@@ -42,7 +42,9 @@
 - (id)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
-        
+
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+
         // create the exit button
         CCMenuItem *exitItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
             // notify players (cancels AI)
@@ -51,9 +53,14 @@
             
             // cancel potential move input
             [_boardLayer cancelMoveInput];
-            
+
+            // prepare notification data
+            JCSFlipUIExitGameEventData *data = [[JCSFlipUIExitGameEventData alloc] init];
+            data->multiplayer = [self isMultiplayerGame];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+
             // leave
-            [_delegate exitGameMultiplayer:[self isMultiplayerGame] fromGameScreen:self];
+            [nc postNotificationName:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:self userInfo:userInfo];
         }];
         exitItem.anchorPoint = ccp(0.5,0.5);
         exitItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);

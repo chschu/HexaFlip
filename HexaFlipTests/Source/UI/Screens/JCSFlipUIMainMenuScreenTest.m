@@ -7,9 +7,9 @@
 //
 
 #import "JCSFlipUIMainMenuScreen.h"
-#import "JCSFlipUIMainMenuScreenDelegate.h"
 #import "JCSFlipGameCenterManager.h"
 #import "JCSButton.h"
+#import "JCSFlipUIEvents.h"
 
 #import "OCMock.h"
 
@@ -19,6 +19,7 @@
 @implementation JCSFlipUIMainMenuScreenTest {
     JCSFlipUIMainMenuScreen *_underTest;
     id _gameCenterManagerMock;
+    id _observerMock;
 }
 
 - (void)setUp {
@@ -26,6 +27,15 @@
     _underTest = [[JCSFlipUIMainMenuScreen alloc] init];
     _gameCenterManagerMock = [OCMockObject niceMockForClass:[JCSFlipGameCenterManager class]];
     [[[_gameCenterManagerMock stub] andReturn:_gameCenterManagerMock] sharedInstance];
+    _observerMock = [OCMockObject observerMock];
+    [[NSNotificationCenter defaultCenter] addMockObserver:_observerMock name:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:nil];
+    [[NSNotificationCenter defaultCenter] addMockObserver:_observerMock name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:nil];
+}
+
+- (void)tearDown {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:_observerMock];
+    [super tearDown];
 }
 
 - (JCSButton *)playSingleButtonForScreen:(JCSFlipUIMainMenuScreen *)screen {
@@ -39,18 +49,15 @@
     return [menu.children objectAtIndex:1];
 }
 
-- (void)testDelegateNotifiedWhenPlaySingleButtonActivated {
-    OCMockObject<JCSFlipUIMainMenuScreenDelegate> *delegateMock = [OCMockObject mockForProtocol:@protocol(JCSFlipUIMainMenuScreenDelegate)];
-    _underTest.delegate = delegateMock;
-    [[delegateMock expect] playSingleFromMainMenuScreen:_underTest];
-    
+- (void)testEventTriggeredWhenPlaySingleButtonActivated {
+    [[_observerMock expect] notificationWithName:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:_underTest];
+
     [[self playSingleButtonForScreen:_underTest] activate];
     
-    [delegateMock verify];
+    [_observerMock verify];
 }
 
 - (void)testPlayMultiButtonDisabledWhenGameCenterNotAuthenticated {
-
     [_underTest performSelector:@selector(playerAuthenticationDidChange:) withObject:nil];
     
     STAssertFalse([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be disabled");
@@ -64,15 +71,13 @@
     STAssertTrue([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be enabled");
 }
 
-- (void)testDelegateNotifiedWhenPlayMultiButtonActivated {
+- (void)testEventTriggeredWhenPlayMultiButtonActivated {
     [[[_gameCenterManagerMock stub] andReturnValue:@YES] isLocalPlayerAuthenticated];
-    OCMockObject<JCSFlipUIMainMenuScreenDelegate> *delegateMock = [OCMockObject mockForProtocol:@protocol(JCSFlipUIMainMenuScreenDelegate)];
-    _underTest.delegate = delegateMock;
-    [[delegateMock expect] playMultiFromMainMenuScreen:_underTest];
+    [[_observerMock expect] notificationWithName:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:_underTest];
 
     [[self playMultiButtonForScreen:_underTest] activate];
-    
-    [delegateMock verify];
+
+    [_observerMock verify];
 }
 
 - (void)testObserverAddedWhenScreenEnabled {

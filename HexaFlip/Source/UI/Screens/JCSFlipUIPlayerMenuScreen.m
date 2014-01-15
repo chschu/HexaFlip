@@ -14,9 +14,10 @@
 #import "JCSNegaScoutTTGameAlgorithm.h"
 #import "JCSRadioMenu.h"
 #import "JCSButton.h"
-#import "JCSFlipUIPlayerMenuScreenDelegate.h"
 #import "JCSFlipUICellNode.h"
 #import "JCSFlipUIConstants.h"
+#import "JCSFlipUIEvents.h"
+#import "JCSFlipGameState.h"
 
 typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
     JCSFlipPlayerSelectionNone,
@@ -44,10 +45,11 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
 - (id)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         
         // create back button
         CCMenuItem *backItem = [JCSButton buttonWithSize:JCSButtonSizeSmall name:@"back" block:^(id sender) {
-            [_delegate backFromPlayerMenuScreen:self];
+            [nc postNotificationName:JCS_FLIP_UI_BACK_EVENT_NAME object:self];
         }];
         backItem.anchorPoint = ccp(0.5,0.5);
         backItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);
@@ -57,9 +59,18 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
 
         // create play button
         CCMenuItem *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
-            id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerASelection];
-            id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBSelection];
-            [_delegate startGameWithPlayerA:playerA playerB:playerB fromPlayerMenuScreen:self];
+            // prepare the notification data
+            JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] init];
+            data->gameState = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA];
+            data->playerA = [self createPlayerOfType:_playerASelection];
+            data->playerB = [self createPlayerOfType:_playerBSelection];
+            data->match = nil;
+            data->animateLastMove = NO;
+            data->moveInputDisabled = NO;
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+            
+            // start the game
+            [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self userInfo:userInfo]];
         }];
         playItem.position = ccp(0,0);
 

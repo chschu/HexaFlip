@@ -16,6 +16,7 @@
 #import "JCSFlipPlayerLocal.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipGameCenterManager.h"
+#import "JCSFlipUIEvents.h"
 
 @implementation JCSFlipUIScene {
     // global parallax node
@@ -54,22 +55,18 @@
     
     // main menu screen
     _mainMenuScreen = [JCSFlipUIMainMenuScreen node];
-    _mainMenuScreen.delegate = self;
     [self addScreen:_mainMenuScreen atScreenPoint:ccp(0,2) z:1];
     
     // player selection menu screen
     _playerMenuScreen = [JCSFlipUIPlayerMenuScreen node];
-    _playerMenuScreen.delegate = self;
     [self addScreen:_playerMenuScreen atScreenPoint:ccp(1,3) z:1];
     
     // game screen
     _gameScreen = [JCSFlipUIGameScreen node];
-    _gameScreen.delegate = self;
     [self addScreen:_gameScreen atScreenPoint:ccp(1,1) z:1];
     
     // multiplayer pseudo-screen
     _multiplayerScreen = [JCSFlipUIMultiplayerScreen node];
-    _multiplayerScreen.delegate = self;
     [self addScreen:_multiplayerScreen atScreenPoint:_gameScreen.screenPoint z:1];
     
     [self addChild:_parallax];
@@ -80,12 +77,32 @@
     // set this instance as delegate for game center invites
     [JCSFlipGameCenterManager sharedInstance].gameCenterInviteDelegate = self;
     
+    // register notification event handlers
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(showPlayerMenuScreen:) name:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:_mainMenuScreen];
+    [nc addObserver:self selector:@selector(showMultiPlayerScreen:) name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:_mainMenuScreen];
+    [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_BACK_EVENT_NAME object:_playerMenuScreen];
+    [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_CANCEL_EVENT_NAME object:_multiplayerScreen];
+    [nc addObserver:self selector:@selector(startGame:) name:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:nil];
+    [nc addObserver:self selector:@selector(exitGame:) name:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:_gameScreen];
+    [nc addObserver:self selector:@selector(showError:) name:JCS_FLIP_UI_ERROR_EVENT_NAME object:nil];
+    
     // enable the main menu screen
     [self switchToScreen:_mainMenuScreen animated:NO];
 }
 
 - (void)onExit {
     [super onExit];
+    
+    // unregister notification event handlers
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_BACK_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_CANCEL_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_ERROR_EVENT_NAME object:nil];
     
     [[JCSFlipGameCenterManager sharedInstance] removePlayerAuthenticationObserver:self];
     
@@ -175,59 +192,49 @@
     }
 }
 
-#pragma mark JCSFlipUIMainMenuScreenDelegate methods
+#pragma mark notification event handlers
 
-- (void)playSingleFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
+- (void)showMainMenuScreen:(NSNotification *)notification {
+    [self switchToScreen:_mainMenuScreen animated:YES];
+}
+
+- (void)showPlayerMenuScreen:(NSNotification *)notification {
     [self switchToScreen:_playerMenuScreen animated:YES];
 }
 
-- (void)playMultiFromMainMenuScreen:(JCSFlipUIMainMenuScreen *)screen {
+- (void)showMultiPlayerScreen:(NSNotification *)notification {
     _multiplayerScreen.playersToInvite = nil;
     [self switchToScreen:_multiplayerScreen animated:YES];
 }
 
-#pragma mark JCSFlipUIPlayerMenuScreenDelegate methods
-
-- (void)startGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB fromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    [_gameScreen prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
+- (void)startGame:(NSNotification *)notification {
+    // prepare game screen using the event data
+    JCSFlipUIPlayGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    [_gameScreen prepareGameWithState:data->gameState playerA:data->playerA playerB:data->playerB match:data->match animateLastMove:data->animateLastMove moveInputDisabled:data->moveInputDisabled];
+    
     [self switchToScreen:_gameScreen animated:YES];
 }
 
-- (void)backFromPlayerMenuScreen:(JCSFlipUIPlayerMenuScreen *)screen {
-    [self switchToScreen:_mainMenuScreen animated:YES];
-}
-
-#pragma mark JCSFlipUIGameScreenDelegate methods
-
-- (void)exitGameMultiplayer:(BOOL)multiplayer fromGameScreen:(JCSFlipUIGameScreen *)screen {
-    if (multiplayer) {
-        _multiplayerScreen.playersToInvite = nil;
+- (void)exitGame:(NSNotification *)notification {
+    // switch to screen depending on notification data
+    JCSFlipUIExitGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    
+    if (data->multiplayer) {
         [self switchToScreen:_multiplayerScreen animated:YES];
     } else {
         [self switchToScreen:_mainMenuScreen animated:YES];
     }
 }
 
-#pragma mark JCSFlipUIMultiplayerScreenDelegate methods
-
-- (void)matchMakingCancelledFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    [self switchToScreen:_mainMenuScreen animated:YES];
-}
-
-- (void)matchMakingFailedWithError:(NSError *)error fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
+- (void)showError:(NSNotification *)notification {
+    // switch to main menu screen
     [self switchToScreen:_mainMenuScreen animated:YES];
     
-    // display the error
+    // extract and display the error
+    JCSFlipUIErrorEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    NSError *error = data->error;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
-}
-
-- (void)prepareGameWithPlayerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB gameState:(JCSFlipGameState *)gameState match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled fromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    [_gameScreen prepareGameWithState:gameState playerA:playerA playerB:playerB match:match animateLastMove:animateLastMove moveInputDisabled:moveInputDisabled];
-}
-
-- (void)startPreparedGameFromMultiplayerScreen:(JCSFlipUIMultiplayerScreen *)screen {
-    [self switchToScreen:_gameScreen animated:YES];
 }
 
 #pragma mark JCSFlipGameCenterInviteDelegate methods

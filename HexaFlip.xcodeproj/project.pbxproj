@@ -95,6 +95,7 @@
 		F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */; };
 		F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */; };
 		F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */; };
+		F356055A18873BE6002CD81B /* JCSFlipUIEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = F356055918873BE6002CD81B /* JCSFlipUIEvents.m */; };
 		F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */; };
 		F36CF3BD181A3DB400B6275F /* JCSTranspositionTable.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */; };
 		F36CF3C6181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3C5181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m */; };
@@ -422,13 +423,10 @@
 		F3098D7E16B90ACF00476109 /* JCSFlipGameCenterInviteDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterInviteDelegate.h; sourceTree = "<group>"; };
 		F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScreen.h; sourceTree = "<group>"; };
 		F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIGameScreen.m; sourceTree = "<group>"; };
-		F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIGameScreenDelegate.h; sourceTree = "<group>"; };
 		F31078511646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMainMenuScreen.h; sourceTree = "<group>"; };
 		F31078521646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMainMenuScreen.m; sourceTree = "<group>"; };
-		F31078531646D42E00FE7FC2 /* JCSFlipUIMainMenuScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMainMenuScreenDelegate.h; sourceTree = "<group>"; };
 		F31078541646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIPlayerMenuScreen.h; sourceTree = "<group>"; };
 		F31078551646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIPlayerMenuScreen.m; sourceTree = "<group>"; };
-		F31078561646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIPlayerMenuScreenDelegate.h; sourceTree = "<group>"; };
 		F310785B1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIBoardLayer.h; sourceTree = "<group>"; };
 		F310785C1646D45D00FE7FC2 /* JCSFlipUIBoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBoardLayer.m; sourceTree = "<group>"; };
 		F310785D1646D45D00FE7FC2 /* JCSFlipUICellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUICellNode.h; sourceTree = "<group>"; };
@@ -531,10 +529,11 @@
 		F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIScreenWithPoint.h; sourceTree = "<group>"; };
 		F353534716A626A50027192D /* JCSFlipUIMultiplayerScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMultiplayerScreen.h; sourceTree = "<group>"; };
 		F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMultiplayerScreen.m; sourceTree = "<group>"; };
-		F353534916A626A50027192D /* JCSFlipUIMultiplayerScreenDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIMultiplayerScreenDelegate.h; sourceTree = "<group>"; };
 		F353534B16A742510027192D /* JCSFlipPlayerGameCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerGameCenter.h; sourceTree = "<group>"; };
 		F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerGameCenter.m; sourceTree = "<group>"; };
 		F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBaseScreenTest.m; sourceTree = "<group>"; };
+		F356055818871541002CD81B /* JCSFlipUIEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIEvents.h; sourceTree = "<group>"; };
+		F356055918873BE6002CD81B /* JCSFlipUIEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIEvents.m; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
 		F3574A9716696EF0005B9BD4 /* button-back-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-pushed.png"; sourceTree = "<group>"; };
 		F3574AA61669725C005B9BD4 /* button-ai-easy-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-ai-easy-normal.png"; sourceTree = "<group>"; };
@@ -996,16 +995,12 @@
 				F353534616A61FCE0027192D /* JCSFlipUIScreenWithPoint.h */,
 				F3A475E716DA81A500A2FDD4 /* JCSFlipUIBaseScreen.h */,
 				F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */,
-				F31078501646D42E00FE7FC2 /* JCSFlipUIGameScreenDelegate.h */,
 				F310784E1646D42E00FE7FC2 /* JCSFlipUIGameScreen.h */,
 				F310784F1646D42E00FE7FC2 /* JCSFlipUIGameScreen.m */,
-				F31078531646D42E00FE7FC2 /* JCSFlipUIMainMenuScreenDelegate.h */,
 				F31078511646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.h */,
 				F31078521646D42E00FE7FC2 /* JCSFlipUIMainMenuScreen.m */,
-				F31078561646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreenDelegate.h */,
 				F31078541646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.h */,
 				F31078551646D42E00FE7FC2 /* JCSFlipUIPlayerMenuScreen.m */,
-				F353534916A626A50027192D /* JCSFlipUIMultiplayerScreenDelegate.h */,
 				F353534716A626A50027192D /* JCSFlipUIMultiplayerScreen.h */,
 				F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */,
 			);
@@ -1092,6 +1087,8 @@
 				F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */,
 				F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */,
 				F3A8B3B215EE9CC800FAD822 /* JCSFlipUIConstants.h */,
+				F356055818871541002CD81B /* JCSFlipUIEvents.h */,
+				F356055918873BE6002CD81B /* JCSFlipUIEvents.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -2043,6 +2040,7 @@
 				F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */,
 				F36CF3BD181A3DB400B6275F /* JCSTranspositionTable.m in Sources */,
 				F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */,
+				F356055A18873BE6002CD81B /* JCSFlipUIEvents.m in Sources */,
 				F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */,
 				F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */,
 				F3A475E916DA81A700A2FDD4 /* JCSFlipUIBaseScreen.m in Sources */,

@@ -10,8 +10,8 @@
 
 #import "JCSFlipUIMainMenuScreen.h"
 #import "JCSButton.h"
-#import "JCSFlipUIMainMenuScreenDelegate.h"
 #import "JCSFlipGameCenterManager.h"
+#import "JCSFlipUIEvents.h"
 
 @implementation JCSFlipUIMainMenuScreen {
     JCSButton *_playMultiItem;
@@ -19,13 +19,15 @@
 
 - (id)init {
     if (self = [super init]) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        
         JCSButton *playSingleItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-single" block:^(id sender) {
-            [_delegate playSingleFromMainMenuScreen:self];
+            [nc postNotificationName:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:self];
         }];
         playSingleItem.position = ccp(-60,0);
         
         _playMultiItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play-multi" block:^(id sender) {
-            [_delegate playMultiFromMainMenuScreen:self];
+            [nc postNotificationName:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:self];
         }];
         _playMultiItem.position = ccp(60,0);
         

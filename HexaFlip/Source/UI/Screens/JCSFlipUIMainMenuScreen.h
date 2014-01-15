@@ -15,7 +15,4 @@
 
 @interface JCSFlipUIMainMenuScreen : JCSFlipUIBaseScreen <JCSFlipUIScreenWithPoint>
 
-// the screen delegate
-@property (weak, nonatomic) id<JCSFlipUIMainMenuScreenDelegate> delegate;
-
 @end

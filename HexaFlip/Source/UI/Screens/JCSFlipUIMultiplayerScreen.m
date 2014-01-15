@@ -9,11 +9,11 @@
 #import <GameKit/GameKit.h>
 
 #import "JCSFlipUIMultiplayerScreen.h"
-#import "JCSFlipUIMultiplayerScreenDelegate.h"
 #import "JCSFlipGameState.h"
 #import "JCSFlipPlayerLocal.h"
 #import "JCSFlipPlayerGameCenter.h"
 #import "JCSFlipGameCenterManager.h"
+#import "JCSFlipUIEvents.h"
 
 @implementation JCSFlipUIMultiplayerScreen {
     GKTurnBasedMatchmakerViewController *_mmvc;
@@ -44,12 +44,20 @@
 
 // The user has cancelled
 - (void)turnBasedMatchmakerViewControllerWasCancelled:(GKTurnBasedMatchmakerViewController *)viewController {
-    [_delegate matchMakingCancelledFromMultiplayerScreen:self];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self];
 }
 
 // Matchmaking has failed with an error
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFailWithError:(NSError *)error {
-    [_delegate matchMakingFailedWithError:error fromMultiplayerScreen:self];
+    // prepare the notification data
+    JCSFlipUIErrorEventData *data = [[JCSFlipUIErrorEventData alloc] init];
+    data->error = error;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    
+    // post notification
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self userInfo:userInfo];
 }
 
 // A turned-based match has been found, the game should start
@@ -80,13 +88,21 @@
     // check if match is open (i.e. has not ended yet)
     BOOL matchOpen = (match.status == GKTurnBasedMatchStatusOpen);
     
-    // prepare the game, but don't start it yet (to avoid animation overlap)
+    // prepare the notification data
     // animate the last move only if it has been taken by the remote player
     // disable move input if match is not open
-    [_delegate prepareGameWithPlayerA:playerA playerB:playerB gameState:gameState match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen fromMultiplayerScreen:self];
+    JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] init];
+    data->gameState = gameState;
+    data->playerA = playerA;
+    data->playerB = playerB;
+    data->match = match;
+    data->animateLastMove = lastMoveByRemotePlayer;
+    data->moveInputDisabled = !matchOpen;
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
     // start the game
-    [_delegate startPreparedGameFromMultiplayerScreen:self];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self userInfo:userInfo]];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.
