@@ -39,6 +39,9 @@
     
     // the local player's playerId, used to detect when the local player has logged out or changed
     NSString *_playerId;
+    
+    // flag indicating if a screen switch is in progress
+    BOOL _switching;
 }
 
 // this could be done in -init, but then the scene is rendered in portrait mode, which breaks the layout
@@ -134,6 +137,14 @@
 // for screens with point (conforming to protocol JCSFlipUIScreenWithPoint), the screen is made visible
 // for screens without point, the "animated" parameter is ignored, because no animation is required
 - (void)switchToScreen:(id<JCSFlipUIScreenWithPoint>)screen animated:(BOOL)animated {
+    @synchronized (self) {
+        // ignore switching requests if a switch is in progress
+        if (_switching) {
+            return;
+        }
+        _switching = YES;
+    }
+    
     // create local references to avoid retaining self in the blocks below
     CCParallaxNode *parallax = _parallax;
     
@@ -165,6 +176,9 @@
             [screen didActivateScreen];
         }
         [CCDirector sharedDirector].touchDispatcher.dispatchEvents = YES;
+        @synchronized (self) {
+            _switching = NO;
+        }
     };
     
     if (animated) {
