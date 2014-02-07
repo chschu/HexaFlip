@@ -11,15 +11,41 @@
 
 #import "OCMock.h"
 
+#import <objc/runtime.h>
+
+// category with methods to track blocks that are scheduled during move input
+@implementation JCSFlipMove (BlockCollectingTest)
+
+// dictionary for collecting and sorting blocks
+// key: block (dispatch_block_t), value: delay (NSNumber *)
+static NSMutableDictionary *_delayForBlock;
+
+- (void)clearCollectedBlocks {
+    _delayForBlock = [[NSMutableDictionary alloc] init];
+}
+
+// will be swizzled with invokeOnMainQueueAfterDelay:block:
+- (void)collectWithDelay:(double)seconds block:(dispatch_block_t)block {
+    [_delayForBlock setObject:@(seconds) forKey:block];
+}
+
+- (void)invokeCollectedBlocks {
+    NSArray *blocksSortedByDelay = [_delayForBlock keysSortedByValueUsingComparator:^NSComparisonResult(NSNumber *delay1, NSNumber *delay2) {
+        return [delay1 compare:delay2];
+    }];
+    for (dispatch_block_t block in blocksSortedByDelay) {
+        block();
+    }
+}
+
+@end
+
 @interface JCSFlipMoveTest : SenTestCase
 @end
 
 @implementation JCSFlipMoveTest {
-    volatile BOOL _moveInputDone;
-}
-
-- (void)setUp {
-    _moveInputDone = NO;
+    // each entry is an NSArray containing a NSNumber (delay, index 0) and a dispatch_block_t (block, index 1)
+    NSMutableArray *_blockInfo;
 }
 
 - (void)testInitMove {
@@ -84,56 +110,44 @@
     STAssertEquals(move.direction, copy.direction, nil);
 }
 
-- (void)runMainLoopUntilMoveInputDone {
-    NSRunLoop *mainRunLoop = [NSRunLoop mainRunLoop];
-    for (int i = 0; i < 50 && !_moveInputDone; i++) {
-        NSDate *timeout = [NSDate dateWithTimeIntervalSinceNow:0.1];
-        [mainRunLoop runUntilDate:timeout];
+- (void)doTestPerformInputWithMove:(JCSFlipMove *)move {
+    OCMockObject<JCSFlipMoveInputDelegate> *delegateMock = [OCMockObject mockForProtocol:@protocol(JCSFlipMoveInputDelegate)];
+    [delegateMock setExpectationOrderMatters:YES];
+    if (!move.skip) {
+        [[[delegateMock expect] andReturnValue:@(YES)] inputSelectedStartRow:move.startRow startColumn:move.startColumn];
+        [[delegateMock expect] inputSelectedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
+        [[delegateMock expect] inputClearedDirection:move.direction startRow:move.startRow startColumn:move.startColumn];
+        [[delegateMock expect] inputClearedStartRow:move.startRow startColumn:move.startColumn];
+    }
+    [[delegateMock expect] inputConfirmedWithMove:move];
+    
+    // swizzle delayed invocation to cut down test time and avoid i
+    Method original = class_getInstanceMethod(move.class, @selector(dispatchToMainQueueAfterDelay:block:));
+    Method swizzled = class_getInstanceMethod(move.class, @selector(collectWithDelay:block:));
+    method_exchangeImplementations(original, swizzled);
+    @try {
+        // clear collected blocks
+        [move clearCollectedBlocks];
+        
+        // invoke the method to be tested, collecting any blocks that are scheduled
+        [move performInputWithMoveInputDelegate:delegateMock];
+        
+        // invoke collected blocks in correct order
+        [move invokeCollectedBlocks];
+        
+        [delegateMock verify];
+    } @finally {
+        // swizzle back
+        method_exchangeImplementations(original, swizzled);
     }
 }
 
-- (void)triggerMoveInputDone {
-    _moveInputDone = YES;
-}
-
-- (void)doTestPerformInputWhenNormalMoveValid:(BOOL)valid {
-    NSInteger startRow = 17;
-    NSInteger startColumn = 23;
-    JCSHexDirection direction = JCSHexDirectionNW;
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
-    // use nice mock to avoid errors caused by unexpected invocations of this mock when running the main run loop in another test method
-    OCMockObject<JCSFlipMoveInputDelegate> *delegateMock = [OCMockObject niceMockForProtocol:@protocol(JCSFlipMoveInputDelegate)];
-    [delegateMock setExpectationOrderMatters:YES];
-    [[[delegateMock expect] andReturnValue:@(valid)] inputSelectedStartRow:startRow startColumn:startColumn];
-    [[delegateMock expect] inputSelectedDirection:direction startRow:startRow startColumn:startColumn];
-    [[delegateMock expect] inputClearedDirection:direction startRow:startRow startColumn:startColumn];
-    [[delegateMock expect] inputClearedStartRow:startRow startColumn:startColumn];
-    [[[delegateMock expect] andCall:@selector(triggerMoveInputDone) onObject:self] inputConfirmedWithMove:move];
-    
-    [move performInputWithMoveInputDelegate:delegateMock];
-    
-    [self runMainLoopUntilMoveInputDone];
-    [delegateMock verify];
-}
-
 - (void)testPerformInputWhenValidNormalMove {
-    [self doTestPerformInputWhenNormalMoveValid:YES];
+    [self doTestPerformInputWithMove:[JCSFlipMove moveWithStartRow:17 startColumn:23 direction:JCSHexDirectionNW]];
 }
 
-- (void)testPerformInputWhenInvalidStartPoint {
-    [self doTestPerformInputWhenNormalMoveValid:NO];
-}
-
-- (void)testPerformInputWhenSkipMove {
-    JCSFlipMove *move = [JCSFlipMove moveSkip];
-    // use nice mock to avoid errors caused by unexpected invocations of this mock when running the main run loop in another test method
-    OCMockObject<JCSFlipMoveInputDelegate> *delegateMock = [OCMockObject niceMockForProtocol:@protocol(JCSFlipMoveInputDelegate)];
-    [[[delegateMock expect] andCall:@selector(triggerMoveInputDone) onObject:self] inputConfirmedWithMove:move];
-    
-    [move performInputWithMoveInputDelegate:delegateMock];
-    
-    [self runMainLoopUntilMoveInputDone];
-    [delegateMock verify];
+- (void)testPerformInputWhenValidSkipMove {
+    [self doTestPerformInputWithMove:[JCSFlipMove moveSkip]];
 }
 
 @end

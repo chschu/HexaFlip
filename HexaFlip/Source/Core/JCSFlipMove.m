@@ -61,25 +61,31 @@
     return _direction;
 }
 
+- (void)dispatchToMainQueueAfterDelay:(double)seconds block:(dispatch_block_t)block {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC), dispatch_get_main_queue(), block);
+}
+
 - (void)performInputWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate {
     double delay = 0;
     if (!_skip) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+        [self dispatchToMainQueueAfterDelay:delay block:^{
             [moveInputDelegate inputSelectedStartRow:_startRow startColumn:_startColumn];
-        });
+        }];
         delay += 0.25;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+        [self dispatchToMainQueueAfterDelay:delay block:^{
             [moveInputDelegate inputSelectedDirection:_direction startRow:_startRow startColumn:_startColumn];
-        });
+        }];
         delay += 0.25;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+        [self dispatchToMainQueueAfterDelay:delay block:^{
             [moveInputDelegate inputClearedDirection:_direction startRow:_startRow startColumn:_startColumn];
             [moveInputDelegate inputClearedStartRow:_startRow startColumn:_startColumn];
-        });
+            [moveInputDelegate inputConfirmedWithMove:self];
+        }];
+    } else {
+        [self dispatchToMainQueueAfterDelay:delay block:^{
+            [moveInputDelegate inputConfirmedWithMove:self];
+        }];
     }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
-        [moveInputDelegate inputConfirmedWithMove:self];
-    });
 }
 
 - (id)copyWithZone:(NSZone *)zone {
