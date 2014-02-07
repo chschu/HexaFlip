@@ -679,10 +679,10 @@
         [expectedMoveStrings removeObject:moveString];
         STAssertEquals(underTest.moveStackSize, 1u, nil);
     }];
-
+    
     // check that move stack is empty again
     STAssertEquals(underTest.moveStackSize, 0u, nil);
-
+    
     // check that all moves have been considered
     STAssertTrue(expectedMoveStrings.count == 0, nil);
     
@@ -1080,7 +1080,7 @@
     for (NSInteger i = 0; i < 3; i++) {
         [reloaded popMove];
         [underTest popMove];
-
+        
         // check cell states (must match)
         [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
             STAssertEquals(cellState, [underTest cellStateAtRow:row column:column], nil);
@@ -1225,6 +1225,38 @@
     STAssertNil(lastMove, nil);
 }
 
+- (void)testLastMoveSkip {
+	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
+        //    A
+        // O B
+        if ((row == 1 && column == 0)) {
+            return JCSFlipCellStateOwnedByPlayerA;
+        } else if (row == 0 && column == 0) {
+            return JCSFlipCellStateOwnedByPlayerB;
+        } else if (row == 0 && column == -1) {
+            return JCSFlipCellStateEmpty;
+        } else {
+            return JCSFlipCellStateHole;
+        }
+	};
+    
+	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
+    
+    // push/pop skip move and check the last move
+    JCSFlipMove *lastMove;
+    
+    lastMove = underTest.lastMove;
+    STAssertNil(lastMove, nil);
+    
+    [underTest pushMove:[JCSFlipMove moveSkip]];
+    lastMove = underTest.lastMove;
+    STAssertTrue(lastMove.skip, nil);
+    
+    [underTest popMove];
+    lastMove = underTest.lastMove;
+    STAssertNil(lastMove, nil);
+}
+
 - (void)testZobristHashChangedByPushMoveNormal {
 	JCSFlipCellState(^cellStateAtBlock)(NSInteger, NSInteger) = ^JCSFlipCellState(NSInteger row, NSInteger column) {
         // A-B-A chain starting at (1,-2) and pointing SE
@@ -1238,7 +1270,7 @@
 	};
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
-
+    
     NSUInteger zobristBefore = underTest.zobristHash;
     [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     STAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
@@ -1257,7 +1289,7 @@
 	};
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
-
+    
     NSUInteger zobristBefore = underTest.zobristHash;
     [underTest pushMove:[JCSFlipMove moveSkip]];
     STAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
