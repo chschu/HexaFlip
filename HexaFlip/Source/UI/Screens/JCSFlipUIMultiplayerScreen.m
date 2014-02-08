@@ -51,8 +51,7 @@
 // Matchmaking has failed with an error
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFailWithError:(NSError *)error {
     // prepare the notification data
-    JCSFlipUIErrorEventData *data = [[JCSFlipUIErrorEventData alloc] init];
-    data->error = error;
+    JCSFlipUIErrorEventData *data = [[JCSFlipUIErrorEventData alloc] initWithError:error];
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
     // post notification
@@ -91,13 +90,7 @@
     // prepare the notification data
     // animate the last move only if it has been taken by the remote player
     // disable move input if match is not open
-    JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] init];
-    data->gameState = gameState;
-    data->playerA = playerA;
-    data->playerB = playerB;
-    data->match = match;
-    data->animateLastMove = lastMoveByRemotePlayer;
-    data->moveInputDisabled = !matchOpen;
+    JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen];
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
     // start the game

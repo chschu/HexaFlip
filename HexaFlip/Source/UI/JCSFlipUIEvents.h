@@ -24,28 +24,37 @@ static NSString *JCS_FLIP_UI_EXIT_GAME_EVENT_NAME = @"JCS_FLIP_UI_EXIT_GAME_EVEN
 static NSString *JCS_FLIP_UI_ERROR_EVENT_NAME = @"JCS_FLIP_UI_ERROR_EVENT_NAME";
 
 // event data for the "play game" event
-@interface JCSFlipUIPlayGameEventData : NSObject {
-@public
-    JCSFlipGameState *gameState;
-    id<JCSFlipPlayer> playerA;
-    id<JCSFlipPlayer> playerB;
-    GKTurnBasedMatch *match;
-    BOOL animateLastMove;
-    BOOL moveInputDisabled;
-}
+@interface JCSFlipUIPlayGameEventData : NSObject
+
+@property (nonatomic, readonly) JCSFlipGameState *gameState;
+@property (nonatomic, readonly) id<JCSFlipPlayer> playerA;
+@property (nonatomic, readonly) id<JCSFlipPlayer> playerB;
+@property (nonatomic, readonly) GKTurnBasedMatch *match;
+@property (nonatomic, readonly) BOOL animateLastMove;
+@property (nonatomic, readonly) BOOL moveInputDisabled;
+
+- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled;
+
+// shortcut for events with match=nil, animateLastMove=NO, moveInputDisabled=NO
+- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
+
 @end
 
 // event data for the "exit game" event
-@interface JCSFlipUIExitGameEventData : NSObject {
-@public
-    BOOL multiplayer;
-}
+@interface JCSFlipUIExitGameEventData : NSObject
+
+@property (nonatomic, readonly) BOOL multiplayer;
+
+- (id)initWithMultiplayer:(BOOL)multiplayer;
+
 @end
 
 // event data for the "error" event
-@interface JCSFlipUIErrorEventData : NSObject {
-@public
-    NSError *error;
-}
+@interface JCSFlipUIErrorEventData : NSObject
+
+@property (nonatomic, readonly) NSError *error;
+
+- (id)initWithError:(NSError *)error;
+
 @end
 

@@ -121,7 +121,7 @@ static NSMutableDictionary *_delayForBlock;
     }
     [[delegateMock expect] inputConfirmedWithMove:move];
     
-    // swizzle delayed invocation to cut down test time and avoid i
+    // swizzle delayed invocation to cut down test time and avoid using the main queue
     Method original = class_getInstanceMethod(move.class, @selector(dispatchToMainQueueAfterDelay:block:));
     Method swizzled = class_getInstanceMethod(move.class, @selector(collectWithDelay:block:));
     method_exchangeImplementations(original, swizzled);

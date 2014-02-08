@@ -55,8 +55,7 @@
             [_boardLayer cancelMoveInput];
 
             // prepare notification data
-            JCSFlipUIExitGameEventData *data = [[JCSFlipUIExitGameEventData alloc] init];
-            data->multiplayer = [self isMultiplayerGame];
+            JCSFlipUIExitGameEventData *data = [[JCSFlipUIExitGameEventData alloc] initWithMultiplayer:[self isMultiplayerGame]];
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
 
             // leave
