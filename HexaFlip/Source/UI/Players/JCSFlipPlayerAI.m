@@ -69,4 +69,8 @@
     [_algorithm cancel];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(AI player; %@)", [_algorithm description]];
+}
+
 @end

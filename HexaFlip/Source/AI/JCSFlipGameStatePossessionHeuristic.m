@@ -28,4 +28,8 @@
     return node.playerToMove == JCSFlipPlayerSideA ? score : -score;
 }
 
+- (NSString *)description {
+    return @"(Possession Heuristic)";
+}
+
 @end

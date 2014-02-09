@@ -137,4 +137,8 @@
     _canceled = YES;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(NegaScout Algorithm; %@; Depth %u)", _heuristic, _depth];
+}
+
 @end

@@ -91,4 +91,8 @@
     return node.playerToMove == JCSFlipPlayerSideA ? score : -score;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(Extended Possession Heuristic; Possession %.4f; Safety %.4f; Randomness %.4f)", _possession, _safety, _randomness];
+}
+
 @end

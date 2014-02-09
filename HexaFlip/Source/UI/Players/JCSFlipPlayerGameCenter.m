@@ -100,4 +100,8 @@
     // do nothing, there is nothing asynchronous
 }
 
+- (NSString *)description {
+    return @"(GameCenter Player)";
+}
+
 @end

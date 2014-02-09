@@ -8,7 +8,7 @@
 
 @protocol JCSGameNode;
 
-@protocol JCSGameAlgorithm
+@protocol JCSGameAlgorithm <NSObject>
 
 // determine the move to be chosen at the given node
 // returns nil if there is no possible move

@@ -115,4 +115,8 @@
     _canceled = YES;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(NegaMax Algorithm; %@; Depth %u)", _heuristic, _depth];
+}
+
 @end

@@ -48,4 +48,8 @@
     // do nothing, there is nothing asynchronous
 }
 
+- (NSString *)description {
+    return @"(Local Player)";
+}
+
 @end

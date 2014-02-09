@@ -41,4 +41,8 @@
     // nothing to cancel
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(Random Algorithm; Seed %u)", _seed];
+}
+
 @end

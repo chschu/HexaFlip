@@ -88,4 +88,8 @@ typedef struct {
     entry->value = value;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"(Transposition Table; Size %u)", _size];
+}
+
 @end
