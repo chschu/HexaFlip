@@ -58,12 +58,11 @@
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFailWithError:(NSError *)error {
     // prepare the notification data
     JCSFlipUIErrorEventData *data = [[JCSFlipUIErrorEventData alloc] initWithError:error];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
     // post notification
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [self dismissWithCompletion:^{
-        [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self userInfo:userInfo];
+        [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self eventData:data];
     }];
 }
 
@@ -99,13 +98,12 @@
     // animate the last move only if it has been taken by the remote player
     // disable move input if match is not open
     JCSFlipUIPrepareGameEventData *data = [[JCSFlipUIPrepareGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen];
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
     // prepare the game, and start it after dismissing the controller
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:self userInfo:userInfo]];
+    [nc postNotificationName:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:self eventData:data];
     [self dismissWithCompletion:^{
-        [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self]];
+        [nc postNotificationName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self];
     }];
 }
 

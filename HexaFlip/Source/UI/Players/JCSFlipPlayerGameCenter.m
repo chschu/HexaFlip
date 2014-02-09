@@ -58,9 +58,8 @@
     void(^completionHandler)(NSError *) = ^(NSError *error) {
         if (error != nil) {
             NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-            JCSFlipUIErrorEventData *eventData = [[JCSFlipUIErrorEventData alloc] initWithError:error];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:eventData forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
-            [nc postNotificationName:JCS_FLIP_UI_ERROR_EVENT_NAME object:self userInfo:userInfo];
+            JCSFlipUIErrorEventData *data = [[JCSFlipUIErrorEventData alloc] initWithError:error];
+            [nc postNotificationName:JCS_FLIP_UI_ERROR_EVENT_NAME object:self eventData:data];
         }
     };
     

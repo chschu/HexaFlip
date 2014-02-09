@@ -116,7 +116,8 @@
     
     [_observerMock verify];
     
-    JCSFlipUIPrepareGameEventData *capturedEventData = [capturedUserInfo valueForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    STAssertEquals(capturedUserInfo.count, 1u, nil);
+    JCSFlipUIPrepareGameEventData *capturedEventData = [capturedUserInfo valueForKey:capturedUserInfo.keyEnumerator.nextObject];
     STAssertNotNil(capturedEventData, nil);
     STAssertEquals(capturedEventData.gameState, _gameStateMock, nil);
     STAssertNil(capturedEventData.match, nil);

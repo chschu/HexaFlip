@@ -56,10 +56,9 @@
 
             // prepare notification data
             JCSFlipUIExitGameEventData *data = [[JCSFlipUIExitGameEventData alloc] initWithMultiplayer:[self isMultiplayerGame]];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
 
             // leave
-            [nc postNotificationName:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:self userInfo:userInfo];
+            [nc postNotificationName:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:self eventData:data];
         }];
         exitItem.anchorPoint = ccp(0.5,0.5);
         exitItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, winSize.height/2-10-JCSButtonSizeSmall/2.0);

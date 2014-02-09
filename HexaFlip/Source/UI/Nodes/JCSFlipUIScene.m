@@ -225,7 +225,7 @@
 
 - (void)prepareGame:(NSNotification *)notification {
     // prepare game screen using the event data
-    JCSFlipUIPrepareGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    JCSFlipUIPrepareGameEventData *data = notification.eventData;
     [_gameScreen prepareGameWithState:data.gameState playerA:data.playerA playerB:data.playerB match:data.match animateLastMove:data.animateLastMove moveInputDisabled:data.moveInputDisabled];
 }
 
@@ -236,7 +236,7 @@
 
 - (void)exitGame:(NSNotification *)notification {
     // switch to screen depending on notification data
-    JCSFlipUIExitGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    JCSFlipUIExitGameEventData *data = notification.eventData;
     
     if (data.multiplayer) {
         [self switchToScreen:_multiplayerScreen animated:YES];
@@ -250,7 +250,7 @@
     [self switchToScreen:_mainMenuScreen animated:YES];
     
     // extract and display the error
-    JCSFlipUIErrorEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    JCSFlipUIErrorEventData *data = notification.eventData;
     NSError *error = data.error;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error.localizedDescription message:error.localizedFailureReason delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];

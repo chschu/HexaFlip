@@ -8,6 +8,33 @@
 
 #import "JCSFlipUIEvents.h"
 
+// key where event data is stored in the userInfo of NSNotification
+static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
+
+@implementation NSNotification (JCSFlipUIEvents)
+
+- (instancetype)initWithName:(NSString *)name object:(id)object eventData:(id)eventData {
+    return [self initWithName:name object:object userInfo:[NSDictionary dictionaryWithObject:eventData forKey:JCS_FLIP_UI_EVENT_DATA_KEY]];
+}
+
++ (instancetype)notificationWithName:(NSString *)name object:(id)object eventData:(id)eventData {
+    return [[self alloc] initWithName:name object:object eventData:eventData];
+}
+
+- (id)eventData {
+    return [self.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+}
+
+@end
+
+@implementation NSNotificationCenter (JCSFlipUIEvents)
+
+- (void)postNotificationName:(NSString *)name object:(id)object eventData:(id)eventData {
+    [self postNotification:[NSNotification notificationWithName:name object:object eventData:eventData]];
+}
+
+@end
+
 @implementation JCSFlipUIPrepareGameEventData
 
 - (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {

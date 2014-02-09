@@ -11,9 +11,6 @@
 @class JCSFlipGameState;
 @protocol JCSFlipPlayer;
 
-// key where event data is stored in the userInfo of NSNotification
-static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
-
 // event names
 static NSString *JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME = @"JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME";
 static NSString *JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME = @"JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME";
@@ -23,6 +20,22 @@ static NSString *JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME = @"JCS_FLIP_UI_PREPARE_GAM
 static NSString *JCS_FLIP_UI_PLAY_GAME_EVENT_NAME = @"JCS_FLIP_UI_PLAY_GAME_EVENT_NAME";
 static NSString *JCS_FLIP_UI_EXIT_GAME_EVENT_NAME = @"JCS_FLIP_UI_EXIT_GAME_EVENT_NAME";
 static NSString *JCS_FLIP_UI_ERROR_EVENT_NAME = @"JCS_FLIP_UI_ERROR_EVENT_NAME";
+
+@interface NSNotification (JCSFlipUIEvents)
+
+@property (nonatomic, readonly) id eventData;
+
+- (instancetype)initWithName:(NSString *)name object:(id)object eventData:(id)eventData;
+
++ (instancetype)notificationWithName:(NSString *)name object:(id)object eventData:(id)eventData;
+
+@end
+
+@interface NSNotificationCenter (JCSFlipUIEvents)
+
+- (void)postNotificationName:(NSString *)name object:(id)object eventData:(id)eventData;
+
+@end
 
 // event data for the "prepare game" event
 @interface JCSFlipUIPrepareGameEventData : NSObject
