@@ -10,6 +10,7 @@
 #import "JCSFlipGameState.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipGameCenterManager.h"
+#import "JCSFlipUIEvents.h"
 
 #import "cocos2d.h"
 
@@ -54,6 +55,15 @@
     GKTurnBasedParticipant *participant = currentMatch.participants[participantIndex];
     GKTurnBasedParticipant *opponent = currentMatch.participants[1-participantIndex];
     
+    void(^completionHandler)(NSError *) = ^(NSError *error) {
+        if (error != nil) {
+            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            JCSFlipUIErrorEventData *eventData = [[JCSFlipUIErrorEventData alloc] initWithError:error];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:eventData forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+            [nc postNotificationName:JCS_FLIP_UI_ERROR_EVENT_NAME object:self userInfo:userInfo];
+        }
+    };
+    
     if (JCSFlipGameStatusIsOver(state.status)) {
         // set outcomes before ending the match
         if (state.status == JCSFlipGameStatusDraw) {
@@ -74,21 +84,10 @@
         }
         
         // end the match, updating the match data
-        [currentMatch endMatchInTurnWithMatchData:data completionHandler:^(NSError *error) {
-            if (error != nil) {
-                // TODO we need to retry or leave the game screen in this case
-                NSLog(@"%@", error);
-            }
-        }];
-        
+        [currentMatch endMatchInTurnWithMatchData:data completionHandler:completionHandler];
     } else {
         // end the turn, updating the match data
-        [currentMatch endTurnWithNextParticipant:participant matchData:data completionHandler:^(NSError *error) {
-            if (error != nil) {
-                // TODO we need to retry or leave the game screen in this case
-                NSLog(@"%@", error);
-            }
-        }];
+        [currentMatch endTurnWithNextParticipant:participant matchData:data completionHandler:completionHandler];
     }
 }
 
