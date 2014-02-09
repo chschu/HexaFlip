@@ -91,6 +91,7 @@
 		F33E9EFD18287CF200CB13CC /* libcocos2d-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F300552515B0AF2400BAD89C /* libcocos2d-library.a */; };
 		F33E9EFE18287CF800CB13CC /* libocmock-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DA3046182865EF006A3B96 /* libocmock-library.a */; };
 		F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */; };
+		F34502CF18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */; };
 		F3452D59166747B6000AA83D /* JCSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3452D58166747B6000AA83D /* JCSButton.m */; };
 		F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */; };
 		F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */; };
@@ -519,6 +520,7 @@
 		F33E9ECF18286CB700CB13CC /* OCProtocolMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCProtocolMockObject.h; sourceTree = "<group>"; };
 		F33E9ED018286CB700CB13CC /* OCProtocolMockObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCProtocolMockObject.m; sourceTree = "<group>"; };
 		F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMainMenuScreenTest.m; sourceTree = "<group>"; };
+		F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIPlayerMenuScreenTest.m; sourceTree = "<group>"; };
 		F3452D12166181D4000AA83D /* button-play-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-disabled.png"; sourceTree = "<group>"; };
 		F3452D57166747B6000AA83D /* JCSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSButton.h; sourceTree = "<group>"; };
 		F3452D58166747B6000AA83D /* JCSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSButton.m; sourceTree = "<group>"; };
@@ -1032,6 +1034,7 @@
 			children = (
 				F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */,
 				F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */,
+				F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -2197,6 +2200,7 @@
 				F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */,
 				F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */,
 				F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */,
+				F34502CF18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m in Sources */,
 				F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */,
 				F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */,
 				F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */,
