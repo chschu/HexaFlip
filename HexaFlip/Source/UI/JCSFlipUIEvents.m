@@ -8,7 +8,7 @@
 
 #import "JCSFlipUIEvents.h"
 
-@implementation JCSFlipUIPlayGameEventData
+@implementation JCSFlipUIPrepareGameEventData
 
 - (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
     return [self initWithGameState:gameState playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];

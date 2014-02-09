@@ -63,11 +63,12 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
             JCSFlipGameState *gameState = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA];
             id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerASelection];
             id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBSelection];
-            JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB];
+            JCSFlipUIPrepareGameEventData *data = [[JCSFlipUIPrepareGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB];
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
             
-            // start the game
-            [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self userInfo:userInfo]];
+            // prepare and start the game
+            [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:self userInfo:userInfo]];
+            [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self]];
         }];
         playItem.position = ccp(0,0);
 

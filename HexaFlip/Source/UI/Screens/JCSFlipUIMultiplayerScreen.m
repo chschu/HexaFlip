@@ -19,25 +19,27 @@
     GKTurnBasedMatchmakerViewController *_mmvc;
 }
 
-- (void)willActivateScreen {
+- (void)didActivateScreen {
     GKMatchRequest *matchRequest = [[GKMatchRequest alloc] init];
     matchRequest.minPlayers = 2;
     matchRequest.maxPlayers = 2;
     matchRequest.playersToInvite = _playersToInvite;
     
     _mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:matchRequest];
+    _mmvc.turnBasedMatchmakerDelegate = self;
     // don't show existing matches when inviting
     _mmvc.showExistingMatches = (_playersToInvite == nil);
     [[CCDirector sharedDirector] presentViewController:_mmvc animated:YES completion:nil];
 }
 
-- (void)didActivateScreen {
-    _mmvc.turnBasedMatchmakerDelegate = self;
+- (void)willDeactivateScreen {
+    [self dismissWithCompletion:nil];
 }
 
-- (void)willDeactivateScreen {
-    [_mmvc dismissViewControllerAnimated:YES completion:nil];
+- (void)dismissWithCompletion:(void(^)())completion {
+    GKTurnBasedMatchmakerViewController *mmvc = _mmvc;
     _mmvc = nil;
+    [mmvc dismissViewControllerAnimated:YES completion:completion];
 }
 
 #pragma mark GKTurnBasedMatchmakerViewControllerDelegate methods
@@ -45,7 +47,11 @@
 // The user has cancelled
 - (void)turnBasedMatchmakerViewControllerWasCancelled:(GKTurnBasedMatchmakerViewController *)viewController {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self];
+    
+    // dismiss and post notification
+    [self dismissWithCompletion:^{
+        [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self];
+    }];
 }
 
 // Matchmaking has failed with an error
@@ -56,7 +62,9 @@
     
     // post notification
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self userInfo:userInfo];
+    [self dismissWithCompletion:^{
+        [nc postNotificationName:JCS_FLIP_UI_CANCEL_EVENT_NAME object:self userInfo:userInfo];
+    }];
 }
 
 // A turned-based match has been found, the game should start
@@ -67,7 +75,7 @@
     
     // determine playerId of local participant
     NSString *localPlayerId = [gameCenterManager localPlayerID];
-   
+    
     // determine if player A is local
     GKTurnBasedParticipant *participantA = match.participants[0];
     BOOL playerAIsLocal = [localPlayerId isEqualToString:participantA.playerID];
@@ -83,19 +91,22 @@
     id<JCSFlipPlayer> remotePlayer = [JCSFlipPlayerGameCenter player];
     id<JCSFlipPlayer> playerA = playerAIsLocal ? localPlayer : remotePlayer;
     id<JCSFlipPlayer> playerB = playerAIsLocal ? remotePlayer : localPlayer;
-
+    
     // check if match is open (i.e. has not ended yet)
     BOOL matchOpen = (match.status == GKTurnBasedMatchStatusOpen);
     
     // prepare the notification data
     // animate the last move only if it has been taken by the remote player
     // disable move input if match is not open
-    JCSFlipUIPlayGameEventData *data = [[JCSFlipUIPlayGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen];
+    JCSFlipUIPrepareGameEventData *data = [[JCSFlipUIPrepareGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB match:match animateLastMove:lastMoveByRemotePlayer moveInputDisabled:!matchOpen];
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:data forKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     
-    // start the game
+    // prepare the game, and start it after dismissing the controller
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self userInfo:userInfo]];
+    [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:self userInfo:userInfo]];
+    [self dismissWithCompletion:^{
+        [nc postNotification:[NSNotification notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:self]];
+    }];
 }
 
 // Called when a users chooses to quit a match and that player has the current turn.  The developer should call playerQuitInTurnWithOutcome:nextPlayer:matchData:completionHandler: on the match passing in appropriate values.  They can also update matchOutcome for other players as appropriate.

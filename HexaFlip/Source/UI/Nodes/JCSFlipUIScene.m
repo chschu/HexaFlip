@@ -86,6 +86,7 @@
     [nc addObserver:self selector:@selector(showMultiPlayerScreen:) name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:_mainMenuScreen];
     [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_BACK_EVENT_NAME object:_playerMenuScreen];
     [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_CANCEL_EVENT_NAME object:_multiplayerScreen];
+    [nc addObserver:self selector:@selector(prepareGame:) name:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:nil];
     [nc addObserver:self selector:@selector(startGame:) name:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:nil];
     [nc addObserver:self selector:@selector(exitGame:) name:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:_gameScreen];
     [nc addObserver:self selector:@selector(showError:) name:JCS_FLIP_UI_ERROR_EVENT_NAME object:nil];
@@ -103,6 +104,7 @@
     [nc removeObserver:self name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:nil];
     [nc removeObserver:self name:JCS_FLIP_UI_BACK_EVENT_NAME object:nil];
     [nc removeObserver:self name:JCS_FLIP_UI_CANCEL_EVENT_NAME object:nil];
+    [nc removeObserver:self name:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:nil];
     [nc removeObserver:self name:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:nil];
     [nc removeObserver:self name:JCS_FLIP_UI_EXIT_GAME_EVENT_NAME object:nil];
     [nc removeObserver:self name:JCS_FLIP_UI_ERROR_EVENT_NAME object:nil];
@@ -221,11 +223,14 @@
     [self switchToScreen:_multiplayerScreen animated:YES];
 }
 
-- (void)startGame:(NSNotification *)notification {
+- (void)prepareGame:(NSNotification *)notification {
     // prepare game screen using the event data
-    JCSFlipUIPlayGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    JCSFlipUIPrepareGameEventData *data = [notification.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
     [_gameScreen prepareGameWithState:data.gameState playerA:data.playerA playerB:data.playerB match:data.match animateLastMove:data.animateLastMove moveInputDisabled:data.moveInputDisabled];
-    
+}
+
+- (void)startGame:(NSNotification *)notification {
+    // activate the game screen, starting the prepared game
     [self switchToScreen:_gameScreen animated:YES];
 }
 
