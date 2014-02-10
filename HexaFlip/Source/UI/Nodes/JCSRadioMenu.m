@@ -35,8 +35,8 @@
 @implementation JCSRadioMenu {
     CCMenuItem *_highlightedItem;
     
-    // the ivar selectedItem_ of CCMenu is used to hold the currently selected menu item
-    // the ivar state_ of CCMenu is used to hold the menu's state ("waiting" or "tracking touch")
+    // the ivar _selectedItem of CCMenu is used to hold the currently selected menu item
+    // the ivar _state of CCMenu is used to hold the menu's state ("waiting" or "tracking touch")
 }
 
 - (void)setSelectedItem:(CCMenuItem *)item {
