@@ -40,11 +40,11 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     JCSHexDirection _moveDirection;
 }
 
-+ (id)nodeWithState:(JCSFlipGameState *)state {
++ (instancetype)nodeWithState:(JCSFlipGameState *)state {
     return [[self alloc] initWithState:state];
 }
 
-- (id)initWithState:(JCSFlipGameState *)state {
+- (instancetype)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
         _uiCellNodes = [NSMutableDictionary dictionary];
         

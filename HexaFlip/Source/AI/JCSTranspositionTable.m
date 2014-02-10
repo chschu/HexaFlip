@@ -30,7 +30,7 @@ typedef struct {
     JCSTranspositionTableEntry *_transpositionTable;
 }
 
-- (id)initWithSize:(NSUInteger)size {
+- (instancetype)initWithSize:(NSUInteger)size {
     if (self = [super init]) {
         _size = size;
         _transpositionTable = (JCSTranspositionTableEntry *) calloc(_size, sizeof(JCSTranspositionTableEntry));

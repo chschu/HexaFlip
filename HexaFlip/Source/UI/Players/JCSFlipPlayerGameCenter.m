@@ -16,7 +16,7 @@
 
 @implementation JCSFlipPlayerGameCenter
 
-+ (id)player {
++ (instancetype)player {
     return [[self alloc] init];
 }
 

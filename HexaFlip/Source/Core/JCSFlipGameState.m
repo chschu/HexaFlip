@@ -101,7 +101,7 @@ __typeof__(size) _s = (size); \
 })
 
 // designated initializer
-- (id)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
+- (instancetype)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove cellStateAtBlock:(JCSFlipCellState(^)(NSInteger row, NSInteger column))cellStateAtBlock {
 	NSAssert(size >= 0, @"size must be non-negative");
 	NSAssert(cellStateAtBlock != nil, @"cellStateAt block must not be nil");
     
@@ -177,7 +177,7 @@ __typeof__(c2) _c2 = (c2); \
 MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 })
 
-- (id)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
+- (instancetype)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
     return [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
         if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
@@ -662,7 +662,7 @@ NSString *coderKey_moveStackArray = @"d";
     [self encodeWithCoder:aCoder maxMoves:NSUIntegerMax];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSInteger size = [aDecoder decodeIntegerForKey:coderKey_size];
     JCSFlipPlayerSide playerToMove = [aDecoder decodeIntForKey:coderKey_playerToMove];
     

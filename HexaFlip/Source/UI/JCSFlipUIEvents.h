@@ -47,10 +47,10 @@ static NSString *JCS_FLIP_UI_ERROR_EVENT_NAME = @"JCS_FLIP_UI_ERROR_EVENT_NAME";
 @property (nonatomic, readonly) BOOL animateLastMove;
 @property (nonatomic, readonly) BOOL moveInputDisabled;
 
-- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled;
+- (instancetype)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled;
 
 // shortcut for events with match=nil, animateLastMove=NO, moveInputDisabled=NO
-- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
+- (instancetype)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB;
 
 @end
 
@@ -59,7 +59,7 @@ static NSString *JCS_FLIP_UI_ERROR_EVENT_NAME = @"JCS_FLIP_UI_ERROR_EVENT_NAME";
 
 @property (nonatomic, readonly) BOOL multiplayer;
 
-- (id)initWithMultiplayer:(BOOL)multiplayer;
+- (instancetype)initWithMultiplayer:(BOOL)multiplayer;
 
 @end
 
@@ -68,7 +68,7 @@ static NSString *JCS_FLIP_UI_ERROR_EVENT_NAME = @"JCS_FLIP_UI_ERROR_EVENT_NAME";
 
 @property (nonatomic, readonly) NSError *error;
 
-- (id)initWithError:(NSError *)error;
+- (instancetype)initWithError:(NSError *)error;
 
 @end
 

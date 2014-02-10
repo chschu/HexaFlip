@@ -16,7 +16,7 @@
     float _randomness;
 }
 
-- (id)initWithPossession:(float)possession safety:(float)safety randomness:(float)randomness {
+- (instancetype)initWithPossession:(float)possession safety:(float)safety randomness:(float)randomness {
     if (self = [super init]) {
         _possession = possession;
         _safety = safety;

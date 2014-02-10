@@ -35,6 +35,6 @@
 @interface JCSFlipGameStatePSRHeuristic : NSObject <JCSGameHeuristic>
 
 // initialize with given "possession", "safety", and "randomness" values
-- (id)initWithPossession:(float)possession safety:(float)safety randomness:(float)randomness;
+- (instancetype)initWithPossession:(float)possession safety:(float)safety randomness:(float)randomness;
 
 @end

@@ -11,6 +11,6 @@
 @interface JCSFlipPlayerLocal : NSObject <JCSFlipPlayer>
 
 // create a local player
-+ (id)player;
++ (instancetype)player;
 
 @end

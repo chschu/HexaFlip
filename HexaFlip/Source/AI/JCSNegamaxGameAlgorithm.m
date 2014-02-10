@@ -28,7 +28,7 @@
     volatile BOOL _canceled;
 }
 
-- (id)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
+- (instancetype)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
 	NSAssert(depth > 0, @"depth must be positive");
 	NSAssert(heuristic != nil, @"heuristic must not be nil");
     

@@ -18,11 +18,11 @@
 
 @synthesize moveInputDelegate = _moveInputDelegate;
 
-+ (id)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
++ (instancetype)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
     return [[self alloc] initWithAlgorithm:algorithm];
 }
 
-- (id)initWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
+- (instancetype)initWithAlgorithm:(id<JCSGameAlgorithm>)algorithm {
     if (self = [super init]) {
         _algorithm = algorithm;
         _moveInputDelegate = nil;

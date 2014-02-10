@@ -12,7 +12,7 @@
 
 @implementation JCSFlipPlayerLocal
 
-+ (id)player {
++ (instancetype)player {
     return [[self alloc] init];
 }
 

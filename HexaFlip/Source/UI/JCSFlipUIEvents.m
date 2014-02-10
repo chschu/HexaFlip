@@ -37,11 +37,11 @@ static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
 
 @implementation JCSFlipUIPrepareGameEventData
 
-- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
+- (instancetype)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB {
     return [self initWithGameState:gameState playerA:playerA playerB:playerB match:nil animateLastMove:NO moveInputDisabled:NO];
 }
 
-- (id)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled {
+- (instancetype)initWithGameState:(JCSFlipGameState *)gameState playerA:(id<JCSFlipPlayer>)playerA playerB:(id<JCSFlipPlayer>)playerB match:(GKTurnBasedMatch *)match animateLastMove:(BOOL)animateLastMove moveInputDisabled:(BOOL)moveInputDisabled {
     if (self = [super init]) {
         _gameState = gameState;
         _playerA = playerA;
@@ -57,7 +57,7 @@ static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
 
 @implementation JCSFlipUIExitGameEventData
 
-- (id)initWithMultiplayer:(BOOL)multiplayer {
+- (instancetype)initWithMultiplayer:(BOOL)multiplayer {
     if (self = [super init]) {
         _multiplayer = multiplayer;
     }
@@ -68,7 +68,7 @@ static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
 
 @implementation JCSFlipUIErrorEventData
 
-- (id)initWithError:(NSError *)error {
+- (instancetype)initWithError:(NSError *)error {
     if (self = [super init]) {
         _error = error;
     }

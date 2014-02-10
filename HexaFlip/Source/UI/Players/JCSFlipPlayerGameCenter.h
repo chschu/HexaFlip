@@ -11,6 +11,6 @@
 @interface JCSFlipPlayerGameCenter : NSObject <JCSFlipPlayer>
 
 // create a player interacting with game center
-+ (id)player;
++ (instancetype)player;
 
 @end

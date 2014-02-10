@@ -25,7 +25,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     }
 }
 
-+ (id)allocWithZone:(NSZone *)zone {
++ (instancetype)allocWithZone:(NSZone *)zone {
     @synchronized (self) {
         NSAssert(_sharedInstance == nil, @"second allocation of singleton not allowed");
         _sharedInstance = [super allocWithZone:zone];

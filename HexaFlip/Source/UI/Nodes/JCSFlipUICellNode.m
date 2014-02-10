@@ -20,7 +20,7 @@
     return [[self alloc] initWithRow:row column:column cellState:cellState];
 }
 
-- (id)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
+- (instancetype)initWithRow:(NSInteger)row column:(NSInteger)column cellState:(JCSFlipCellState)cellState {
     NSAssert(cellState != JCSFlipCellStateHole, @"cell cannot be initialized to display a hole");
 
     if (self = [super initWithSpriteFrameName:@"empty.png"]) {

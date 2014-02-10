@@ -22,7 +22,7 @@
     CCRenderTexture *_pipeTexture;
 }
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         _scoreA = 0;
         _scoreB = 0;

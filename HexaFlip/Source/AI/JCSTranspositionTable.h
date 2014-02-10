@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, JCSTranspositionTableEntryType) {
 @interface JCSTranspositionTable : NSObject
 
 // initialize a transposition table with the given number of slots
-- (id)initWithSize:(NSUInteger)size;
+- (instancetype)initWithSize:(NSUInteger)size;
 
 // check if the transposition table contains a reliable entry for the given node, minimum required search depth, and the current alpha and beta
 // returns NO if no reliable entry could be found

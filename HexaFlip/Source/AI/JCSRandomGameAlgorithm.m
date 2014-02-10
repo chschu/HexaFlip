@@ -14,7 +14,7 @@
     NSUInteger _seed;
 }
 
-- (id)initWithSeed:(NSUInteger)seed {
+- (instancetype)initWithSeed:(NSUInteger)seed {
     if (self = [super init]) {
         _seed = seed;
     }

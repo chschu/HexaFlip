@@ -39,7 +39,7 @@
     CCSprite *_outcomeSpriteOverlayDraw;
 }
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
 

@@ -17,7 +17,7 @@
     JCSButton *_playMultiItem;
 }
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         

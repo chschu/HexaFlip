@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
     CCMenuItem *_playerBAIHardItem;
 }
 
-- (id)init {
+- (instancetype)init {
     if (self = [super init]) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

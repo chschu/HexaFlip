@@ -24,7 +24,7 @@
 @property (nonatomic) BOOL moveInputEnabled;
 
 // initializes the view with the given game state
-+ (id)nodeWithState:(JCSFlipGameState *)state;
++ (instancetype)nodeWithState:(JCSFlipGameState *)state;
 
 // asynchronously start an animation for the last move applied to the given game state
 // if "undo" is set to NO, the move is applied to the board

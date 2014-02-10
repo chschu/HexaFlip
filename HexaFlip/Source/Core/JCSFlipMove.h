@@ -31,8 +31,8 @@
 + (instancetype)moveSkip;
 
 // initialize new instances
-- (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
-- (id)initSkip;
+- (instancetype)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
+- (instancetype)initSkip;
 
 - (void)performInputWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;
 

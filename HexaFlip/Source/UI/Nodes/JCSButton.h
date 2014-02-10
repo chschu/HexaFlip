@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, JCSButtonSize) {
 
 @interface JCSButton : CCMenuItemSprite
 
-- (id)initWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
+- (instancetype)initWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
 
 + (instancetype)buttonWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block;
 

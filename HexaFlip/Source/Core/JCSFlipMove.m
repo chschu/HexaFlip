@@ -28,7 +28,7 @@
 #pragma mark instance methods
 
 // private designated initializer
-- (id)initWithSkip:(BOOL)skip startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
+- (instancetype)initWithSkip:(BOOL)skip startRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
     if (self = [super init]) {
         _skip = skip;
         _startRow = startRow;
@@ -38,11 +38,11 @@
     return self;
 }
 
-- (id)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
+- (instancetype)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
     return [self initWithSkip:NO startRow:startRow startColumn:startColumn direction:direction];
 }
 
-- (id)initSkip {
+- (instancetype)initSkip {
     return [self initWithSkip:YES startRow:0 startColumn:0 direction:JCSHexDirectionMin];
 }
 

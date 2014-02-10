@@ -15,6 +15,6 @@
 @property (readonly, nonatomic) id<JCSGameAlgorithm> algorithm;
 
 // create an AI player with an algorithm
-+ (id)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm;
++ (instancetype)playerWithAlgorithm:(id<JCSGameAlgorithm>)algorithm;
 
 @end

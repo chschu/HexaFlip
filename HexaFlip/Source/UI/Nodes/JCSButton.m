@@ -10,7 +10,7 @@
 
 @implementation JCSButton
 
-- (id)initWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block {
+- (instancetype)initWithSize:(JCSButtonSize)size name:(NSString *)name block:(void(^)(id sender))block {
     NSString *backgroundSpriteFrameName = [NSString stringWithFormat:@"button-background.png"];
     NSString *normalSpriteFrameName = [NSString stringWithFormat:@"button-%@-normal.png", name];
     NSString *selectedSpriteFrameName = [NSString stringWithFormat:@"button-%@-pushed.png", name];
