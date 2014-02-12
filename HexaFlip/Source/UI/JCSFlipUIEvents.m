@@ -14,7 +14,7 @@ static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
 @implementation NSNotification (JCSFlipUIEvents)
 
 - (instancetype)initWithName:(NSString *)name object:(id)object eventData:(id)eventData {
-    return [self initWithName:name object:object userInfo:[NSDictionary dictionaryWithObject:eventData forKey:JCS_FLIP_UI_EVENT_DATA_KEY]];
+    return [self initWithName:name object:object userInfo:@{JCS_FLIP_UI_EVENT_DATA_KEY: eventData}];
 }
 
 + (instancetype)notificationWithName:(NSString *)name object:(id)object eventData:(id)eventData {
@@ -22,7 +22,7 @@ static NSString *JCS_FLIP_UI_EVENT_DATA_KEY = @"JCS_FLIP_UI_EVENT_DATA_KEY";
 }
 
 - (id)eventData {
-    return [self.userInfo objectForKey:JCS_FLIP_UI_EVENT_DATA_KEY];
+    return self.userInfo[JCS_FLIP_UI_EVENT_DATA_KEY];
 }
 
 @end

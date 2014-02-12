@@ -21,7 +21,7 @@
 static NSMutableDictionary *_delayForBlock;
 
 - (void)clearCollectedBlocks {
-    _delayForBlock = [[NSMutableDictionary alloc] init];
+    _delayForBlock = [NSMutableDictionary dictionary];
 }
 
 // will be swizzled with invokeOnMainQueueAfterDelay:block:

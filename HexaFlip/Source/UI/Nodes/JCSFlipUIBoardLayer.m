@@ -24,6 +24,10 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     JCSFlipUIMoveInputStateSecondTapOutside = 5,  // second tap, drag position outside target cell
 };
 
+
+#define JCS_FLIP_CELL_KEY(row, column) ([NSString stringWithFormat:@"%d:%d", (row), (column)])
+
+
 @implementation JCSFlipUIBoardLayer {
     // the child nodes representing the cells
     // key: "row:column"
@@ -46,7 +50,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
 
 - (instancetype)initWithState:(JCSFlipGameState *)state {
     if (self = [super init]) {
-        _uiCellNodes = [NSMutableDictionary dictionary];
+        NSMutableDictionary *uiCellNodes = [NSMutableDictionary dictionary];
         
         CCSpriteFrame *spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"cell-empty.png"];
         
@@ -67,7 +71,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 JCSFlipUICellNode *uiCell = [JCSFlipUICellNode nodeWithRow:row column:column cellState:cellState];
                 
                 // remember in dictionary
-                [self setCellNode:uiCell atRow:row column:column];
+                uiCellNodes[JCS_FLIP_CELL_KEY(row, column)] = uiCell;
                 
                 // register as touch delegate of every cell
                 uiCell.touchDelegate = self;
@@ -93,7 +97,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                                       maxAbsY + JCS_FLIP_UI_CELL_SPACING_POINTS/sqrt(3.0) + JCS_FLIP_UI_BOARD_BORDER);
         
         // create immutable dictionary
-        _uiCellNodes = [_uiCellNodes copy];
+        _uiCellNodes = [uiCellNodes copy];
         
         // disallow move input
         _moveInputEnabled = NO;
@@ -137,12 +141,8 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     [self runAction:[CCSequence actionWithArray:sequenceActions]];
 }
 
-- (void)setCellNode:(JCSFlipUICellNode *)cellNode atRow:(NSInteger)row column:(NSInteger)column {
-    [_uiCellNodes setValue:cellNode forKey:[NSString stringWithFormat:@"%d:%d", row, column]];
-}
-
 - (JCSFlipUICellNode *)cellNodeAtRow:(NSInteger)row column:(NSInteger)column {
-    return [_uiCellNodes valueForKey:[NSString stringWithFormat:@"%d:%d", row, column]];
+    return _uiCellNodes[JCS_FLIP_CELL_KEY(row, column)];
 }
 
 - (BOOL)touchBeganWithCell:(JCSFlipUICellNode *)cell {
