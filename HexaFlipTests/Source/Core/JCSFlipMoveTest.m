@@ -40,6 +40,13 @@ static NSMutableDictionary *_delayForBlock;
 
 @end
 
+@interface  JCSFlipMove ()
+
+// make selector visible to test
+- (void)dispatchToMainQueueAfterDelay:(double)seconds block:(dispatch_block_t)block;
+
+@end
+
 @interface JCSFlipMoveTest : SenTestCase
 @end
 

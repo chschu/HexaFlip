@@ -13,6 +13,13 @@
 
 #import "OCMock.h"
 
+@interface JCSFlipUIMainMenuScreen ()
+
+// make selector visible to test
+- (void)playerAuthenticationDidChange:(NSNotification *)notification;
+
+@end
+
 @interface JCSFlipUIMainMenuScreenTest : SenTestCase
 @end
 
