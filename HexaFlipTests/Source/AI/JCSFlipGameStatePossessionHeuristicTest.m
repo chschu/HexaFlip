@@ -11,7 +11,7 @@
 
 #import "OCMock.h"
 
-@interface JCSFlipGameStatePossessionHeuristicTest : SenTestCase
+@interface JCSFlipGameStatePossessionHeuristicTest : XCTestCase
 @end
 
 @implementation JCSFlipGameStatePossessionHeuristicTest {
@@ -29,7 +29,7 @@
     [[[gameStateMock stub] andReturnValue:@13] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@17] cellCountPlayerB];
     
-    STAssertEquals(-4.0f, [_underTest valueOfNode:gameStateMock], @"heuristic value must be difference of cell counts");
+    XCTAssertEqual(-4.0f, [_underTest valueOfNode:gameStateMock], @"heuristic value must be difference of cell counts");
 }
 
 - (void)testValueIsNegativeDifferenceWhenPlayerBToMove {
@@ -39,7 +39,7 @@
     [[[gameStateMock stub] andReturnValue:@4] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@12] cellCountPlayerB];
     
-    STAssertEquals(8.0f, [_underTest valueOfNode:gameStateMock], @"heuristic value must be negative difference of cell counts");
+    XCTAssertEqual(8.0f, [_underTest valueOfNode:gameStateMock], @"heuristic value must be negative difference of cell counts");
 }
 
 - (void)testValueIsNegativeHugeWhenCurrentPlayerLost {
@@ -49,7 +49,7 @@
     [[[gameStateMock stub] andReturnValue:@4] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@10] cellCountPlayerB];
     
-    STAssertTrue([_underTest valueOfNode:gameStateMock] < -1e6, @"heuristic value must be negative huge");
+    XCTAssertTrue([_underTest valueOfNode:gameStateMock] < -1e6, @"heuristic value must be negative huge");
 }
 
 - (void)testValueIsNegativeInfinityWhenCurrentPlayerWithoutCells {
@@ -59,7 +59,7 @@
     [[[gameStateMock stub] andReturnValue:@4] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@0] cellCountPlayerB];
     
-    STAssertEquals(-INFINITY, [_underTest valueOfNode:gameStateMock], @"heuristic value must be negative infinity");
+    XCTAssertEqual(-INFINITY, [_underTest valueOfNode:gameStateMock], @"heuristic value must be negative infinity");
 }
 
 - (void)testValueIsPositiveHugeWhenOtherPlayerLost {
@@ -69,7 +69,7 @@
     [[[gameStateMock stub] andReturnValue:@13] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@1] cellCountPlayerB];
     
-    STAssertTrue([_underTest valueOfNode:gameStateMock] > 1e6, @"heuristic value must be positive huge");
+    XCTAssertTrue([_underTest valueOfNode:gameStateMock] > 1e6, @"heuristic value must be positive huge");
 }
 
 - (void)testValueIsPositiveInfinityWhenOtherPlayerWithoutCells {
@@ -79,7 +79,7 @@
     [[[gameStateMock stub] andReturnValue:@0] cellCountPlayerA];
     [[[gameStateMock stub] andReturnValue:@10] cellCountPlayerB];
     
-    STAssertEquals(INFINITY, [_underTest valueOfNode:gameStateMock], @"heuristic value must be positive infinity");
+    XCTAssertEqual(INFINITY, [_underTest valueOfNode:gameStateMock], @"heuristic value must be positive infinity");
 }
 
 - (void)testHugeValueOnGameOverConsidersCellDifference {
@@ -94,7 +94,7 @@
     [[[gameStateMock2 stub] andReturnValue:@10] cellCountPlayerA];
     [[[gameStateMock2 stub] andReturnValue:@8] cellCountPlayerB];
 
-    STAssertTrue([_underTest valueOfNode:gameStateMock1] > [_underTest valueOfNode:gameStateMock2], @"heuristic value must be larger for larger cell difference");
+    XCTAssertTrue([_underTest valueOfNode:gameStateMock1] > [_underTest valueOfNode:gameStateMock2], @"heuristic value must be larger for larger cell difference");
 }
 
 @end

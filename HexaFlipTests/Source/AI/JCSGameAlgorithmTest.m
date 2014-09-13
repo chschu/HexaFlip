@@ -16,7 +16,7 @@
 #import "JCSFlipGameStatePSRHeuristic.h"
 #import "JCSFlipGameStatePossessionHeuristic.h"
 
-@interface JCSFlipAlgoTest : SenTestCase
+@interface JCSFlipAlgoTest : XCTestCase
 @end
 
 @implementation JCSFlipAlgoTest
@@ -61,13 +61,13 @@
     while (!state.leaf) {
         id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerSideA ? algoA : algoB);
         JCSFlipMove *move = [algo moveAtNode:state];
-        STAssertNotNil(move, @"move returned by algorithm must not be nil for non-leaf node");
+        XCTAssertNotNil(move, @"move returned by algorithm must not be nil for non-leaf node");
         [state pushMove:move];
         NSLog(@"\n%@", state);
     }
     NSLog(@"done, final scores %d:%d", state.cellCountPlayerA, state.cellCountPlayerB);
     
-    STAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw, nil);
+    XCTAssertTrue(state.status == JCSFlipGameStatusPlayerAWon || state.status == JCSFlipGameStatusPlayerBWon || state.status == JCSFlipGameStatusDraw);
 }
 
 @end

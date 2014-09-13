@@ -29,7 +29,7 @@ static BOOL swizzledVisitInvoked;
 
 @end
 
-@interface JCSFlipUIBaseScreenTest : SenTestCase
+@interface JCSFlipUIBaseScreenTest : XCTestCase
 @end
 
 @implementation JCSFlipUIBaseScreenTest {
@@ -69,17 +69,17 @@ static BOOL swizzledVisitInvoked;
 }
 
 - (void)testSuperVisitInvokedWhenVisible {
-    STAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:9 right:30 top:30], nil);
-    STAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:-30 right:30 top:1], nil);
-    STAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:1 top:1], nil);
-    STAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:9 right:1 top:30], nil);
+    XCTAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:9 right:30 top:30]);
+    XCTAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:-30 right:30 top:1]);
+    XCTAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:1 top:1]);
+    XCTAssertTrue([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:9 right:1 top:30]);
 }
 
 - (void)testSuperVisitNotInvokedWhenNotVisible {
-    STAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:10 right:30 top:30], nil);
-    STAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:20 bottom:9 right:30 top:30], nil);
-    STAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:1 top:0], nil);
-    STAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:0 top:1], nil);
+    XCTAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:19 bottom:10 right:30 top:30]);
+    XCTAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:20 bottom:9 right:30 top:30]);
+    XCTAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:1 top:0]);
+    XCTAssertFalse([self superVisitInvokedWithScreenWidth:20 screenHeight:10 left:-30 bottom:-30 right:0 top:1]);
 }
 
 @end

@@ -16,7 +16,7 @@
 
 #import "OCMock.h"
 
-@interface JCSFlipUIPlayerMenuScreenTest : SenTestCase
+@interface JCSFlipUIPlayerMenuScreenTest : XCTestCase
 @end
 
 @implementation JCSFlipUIPlayerMenuScreenTest {
@@ -116,13 +116,13 @@
     
     [_observerMock verify];
     
-    STAssertEquals(capturedUserInfo.count, 1u, nil);
+    XCTAssertEqual(capturedUserInfo.count, 1u);
     JCSFlipUIPrepareGameEventData *capturedEventData = capturedUserInfo[capturedUserInfo.keyEnumerator.nextObject];
-    STAssertNotNil(capturedEventData, nil);
-    STAssertEquals(capturedEventData.gameState, _gameStateMock, nil);
-    STAssertNil(capturedEventData.match, nil);
-    STAssertFalse(capturedEventData.animateLastMove, nil);
-    STAssertFalse(capturedEventData.moveInputDisabled, nil);
+    XCTAssertNotNil(capturedEventData);
+    XCTAssertEqual(capturedEventData.gameState, _gameStateMock);
+    XCTAssertNil(capturedEventData.match);
+    XCTAssertFalse(capturedEventData.animateLastMove);
+    XCTAssertFalse(capturedEventData.moveInputDisabled);
     block(capturedEventData.playerA.description, capturedEventData.playerB.description);
 }
 
@@ -133,40 +133,40 @@ static NSString *descriptionForAIHardPlayer = @"(AI player; (NegaScout Algorithm
 
 - (void)testEventsWhenPlayerTypesChangedAndPlayButtonActivated {
     [self checkEventsWhenActivatingButton:nil checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForLocalPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForLocalPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerAAIEasyButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIEasyPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIEasyPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerBLocalButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIEasyPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForLocalPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIEasyPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForLocalPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerAAIHardButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIHardPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForLocalPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIHardPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForLocalPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerBAIMediumButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIHardPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIHardPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerAAIMediumButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIMediumPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerBAIEasyButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIEasyPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIEasyPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerBAIHardButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIHardPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForAIMediumPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIHardPlayer);
     }];
     [self checkEventsWhenActivatingButton:[self playerALocalButtonForScreen:_underTest] checkPlayerDescriptionsUsingBlock:^(NSString *playerADescription, NSString *playerBDescription) {
-        STAssertEqualObjects(playerADescription, descriptionForLocalPlayer, nil);
-        STAssertEqualObjects(playerBDescription, descriptionForAIHardPlayer, nil);
+        XCTAssertEqualObjects(playerADescription, descriptionForLocalPlayer);
+        XCTAssertEqualObjects(playerBDescription, descriptionForAIHardPlayer);
     }];
     
 }

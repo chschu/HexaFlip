@@ -20,7 +20,7 @@
 
 @end
 
-@interface JCSFlipUIMainMenuScreenTest : SenTestCase
+@interface JCSFlipUIMainMenuScreenTest : XCTestCase
 @end
 
 @implementation JCSFlipUIMainMenuScreenTest {
@@ -67,7 +67,7 @@
 - (void)testPlayMultiButtonDisabledWhenGameCenterNotAuthenticated {
     [_underTest performSelector:@selector(playerAuthenticationDidChange:) withObject:nil];
     
-    STAssertFalse([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be disabled");
+    XCTAssertFalse([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be disabled");
 }
 
 - (void)testPlayMultiButtonEnabledWhenGameCenterAuthenticated {
@@ -75,7 +75,7 @@
     
     [_underTest performSelector:@selector(playerAuthenticationDidChange:) withObject:nil];
     
-    STAssertTrue([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be enabled");
+    XCTAssertTrue([self playMultiButtonForScreen:_underTest].isEnabled, @"button must be enabled");
 }
 
 - (void)testEventTriggeredWhenPlayMultiButtonActivated {
