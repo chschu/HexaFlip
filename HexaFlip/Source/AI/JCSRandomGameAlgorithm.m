@@ -24,8 +24,9 @@
 - (id)moveAtNode:(id<JCSGameNode>)node {
     NSMutableArray *moves = [NSMutableArray array];
     
-    [node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move, BOOL *stop) {
+    [node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move) {
         [moves addObject:move];
+        return YES;
     }];
     
     NSUInteger count = [moves count];

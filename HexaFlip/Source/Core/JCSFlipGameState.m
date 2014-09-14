@@ -225,12 +225,12 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     return status;
 }
 
-- (void)forAllCellsInvokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop))block {
-    BOOL stop = NO;
+- (void)forAllCellsInvokeBlock:(BOOL(^)(NSInteger row, NSInteger column, JCSFlipCellState cellState))block {
+    BOOL keepGoing = YES;
     NSInteger index = 0;
-    for (NSInteger row = -_size+1; row < _size && !stop; row++) {
-        for (NSInteger column = -_size+1; column < _size && !stop; column++) {
-            block(row, column, _cellStates[index], &stop);
+    for (NSInteger row = -_size+1; row < _size && keepGoing; row++) {
+        for (NSInteger column = -_size+1; column < _size && keepGoing; column++) {
+            keepGoing &= block(row, column, _cellStates[index]);
             index++;
         }
     }
@@ -293,15 +293,15 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 - (BOOL)skipAllowed {
     if (_skipAllowed == JCSFlipGameStateSkipAllowedUnknown) {
         // this initializes the "skip allowed" flag properly
-        [self applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+        [self applyAllPossibleMovesAndInvokeBlock:^BOOL(JCSFlipMove *move) {
             // stop at the first move
-            *stop = YES;
+            return NO;
         }];
     }
     return _skipAllowed == JCSFlipGameStateSkipAllowedYes;
 }
 
-- (void)forAllCellsInvolvedInLastMoveReverse:(BOOL)reverse invokeBlock:(void(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop))block {
+- (void)forAllCellsInvolvedInLastMoveReverse:(BOOL)reverse invokeBlock:(BOOL(^)(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState))block {
     // peek at the move info from the stack
     NSAssert(_moveStackSize != 0, @"move stack is empty");
     JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize-1;
@@ -313,12 +313,12 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         NSInteger rowDelta = JCSHexDirectionRowDelta(direction);
         NSInteger columnDelta = JCSHexDirectionColumnDelta(direction);
         
-        BOOL stop = NO;
+        BOOL keepGoing = YES;
         
         // invoke block for start cell, flipped cells, and target cell (total: flipCount+2 cells)
         NSInteger startRow = moveInfo->startRow;
         NSInteger startColumn = moveInfo->startColumn;
-        for (NSInteger j = 0; j <= flipCount+1 && !stop; j++) {
+        for (NSInteger j = 0; j <= flipCount+1 && keepGoing; j++) {
             NSInteger i = (reverse ? (flipCount+1-j) : j);
             NSInteger curRow = startRow + i * rowDelta;
             NSInteger curColumn = startColumn + i * columnDelta;
@@ -334,7 +334,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
                 // flipped cell
                 oldCellState = JCSFlipCellStateOther(newCellState);
             }
-            block(curRow, curColumn, oldCellState, newCellState, &stop);
+            keepGoing &= block(curRow, curColumn, oldCellState, newCellState);
         }
     }
 }
@@ -345,7 +345,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     return JCSFlipGameStatusIsOver(self.status);
 }
 
-- (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(id<JCSMove> move, BOOL *stop))block {
+- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id<JCSMove> move))block {
     NSAssert(block != nil, @"block must not be nil");
     
     if (JCSFlipGameStatusIsOver(self.status)) {
@@ -366,7 +366,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     // indexes of target cells that already were the target of a no-flip move
     BOOL *isNoFlipTargetCellIndex = calloc(JCS_CELL_COUNT(_size), sizeof(BOOL));
     
-    [self forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    __block BOOL keepGoing = YES;
+
+    [self forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         // try cells with the correct owner as starting cells
         if (cellState == playerCellState) {
             // update move data
@@ -374,7 +376,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
             move.startColumn = column;
             
             // try all directions, but stop if the block says to do so
-            for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && !*stop; direction++) {
+            for (JCSHexDirection direction = JCSHexDirectionMin; direction <= JCSHexDirectionMax && keepGoing; direction++) {
                 move.direction = direction;
                 
                 // determine neighbor cell to check for no-flip move
@@ -395,7 +397,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
                 // try the move
                 if ([self pushMove:move]) {
                     // move is valid - invoke block with move copy
-                    block([move copy], stop);
+                    keepGoing &= block([move copy]);
                     
                     // undo the move
                     [self popMove];
@@ -405,6 +407,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
                 }
             }
         }
+        return keepGoing;
     }];
     
     // release the no-flip move detection array
@@ -414,14 +417,13 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
         // skipping is allowed
         _skipAllowed = JCSFlipGameStateSkipAllowedYes;
         
-        // update move date
+        // update move data
         move.skip = YES;
         
         // apply skip move
         if ([self pushMove:move]) {
             // move is valid - invoke block with dummy stop flag (no need to copy the move here)
-            BOOL stop = NO;
-            block(move, &stop);
+            block(move);
             
             // undo the move
             [self popMove];

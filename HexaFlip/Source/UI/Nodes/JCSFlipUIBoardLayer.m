@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
         [batchNode addChild:boardSprite];
         
         // add the cells
-        [state forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        [state forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
             if (cellState != JCSFlipCellStateHole) {
                 // create cell node
                 JCSFlipUICellNode *uiCell = [JCSFlipUICellNode nodeWithRow:row column:column cellState:cellState];
@@ -87,6 +87,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 maxAbsX = max(abs(x), maxAbsX);
                 maxAbsY = max(abs(y), maxAbsY);
             }
+            return YES;
         }];
         
         // add the batch node to the layer
@@ -114,23 +115,25 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     
     if (!gameState.lastMove.skip) {
         // create animations for regular move: all involved cells, including the unmodified start cell
-        [gameState forAllCellsInvolvedInLastMoveReverse:undo invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+        [gameState forAllCellsInvolvedInLastMoveReverse:undo invokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
             JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
             JCSFlipCellState targetCellState = undo ? oldCellState : newCellState;
             CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:targetCellState];
             CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
             [actions addObject:cellAnimationWithDelay];
             delay += 0.05;
+            return YES;
         }];
     } else {
         // create animations for skip move: all cells of player that has made the move
-        [gameState forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        [gameState forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
             if (cellState == JCSFlipCellStateForPlayerSide(JCSFlipPlayerSideOther(gameState.playerToMove))) {
                 JCSFlipUICellNode *uiCell = [self cellNodeAtRow:row column:column];
                 CCFiniteTimeAction *cellAnimation = [uiCell createAnimationForChangeToCellState:cellState];
                 CCAction *cellAnimationWithDelay = [CCSequence actionOne:[CCDelayTime actionWithDuration:delay] two:cellAnimation];
                 [actions addObject:cellAnimationWithDelay];
             }
+            return YES;
         }];
     }
     

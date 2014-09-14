@@ -184,7 +184,7 @@
     
     NSMutableSet *visitorBlockCalledFor = [NSMutableSet set];
     
-    void(^visitorBlock)(NSInteger, NSInteger, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    BOOL(^visitorBlock)(NSInteger, NSInteger, JCSFlipCellState) = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         NSNumber *coordinate = @(1000*row+column);
         XCTAssertFalse([visitorBlockCalledFor containsObject:coordinate]);
         [visitorBlockCalledFor addObject:coordinate];
@@ -203,6 +203,8 @@
             JCSFlipCellState expectedState = JCSFlipCellStateEmpty;
             XCTAssertEqual(cellState, expectedState);
         }
+        
+        return YES;
     };
     
     [underTest forAllCellsInvokeBlock:visitorBlock];
@@ -217,30 +219,26 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:10 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
-    void(^visitorBlock)(NSInteger row, NSInteger column, JCSFlipCellState, BOOL *);
+    BOOL(^visitorBlock)(NSInteger row, NSInteger column, JCSFlipCellState);
     __block NSInteger visitorBlockCalledCount;
     
     visitorBlockCalledCount = 0;
-    visitorBlock = ^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    visitorBlock = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         visitorBlockCalledCount++;
         // fail if called more than 14 times
         XCTAssertTrue(visitorBlockCalledCount <= 14);
-        // set *stop if called exactly 14 times
-        if (visitorBlockCalledCount == 14) {
-            *stop = YES;
-        }
+        // return NO if called for the 14th time
+        return visitorBlockCalledCount < 14;
     };
     [underTest forAllCellsInvokeBlock:visitorBlock];
     
     visitorBlockCalledCount = 0;
-    visitorBlock = ^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    visitorBlock = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         visitorBlockCalledCount++;
         // fail if called more than 9 times
         XCTAssertTrue(visitorBlockCalledCount <= 9);
-        // set *stop if called exactly 9 times
-        if (visitorBlockCalledCount == 9) {
-            *stop = YES;
-        }
+        // return NO if called for the 9th time
+        return visitorBlockCalledCount < 9;
     };
     [underTest forAllCellsInvokeBlock:visitorBlock];
 }
@@ -333,8 +331,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -346,8 +345,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -359,8 +359,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -372,8 +373,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -385,8 +387,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -398,8 +401,9 @@
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     // check that move stack is still empty
     XCTAssertEqual(underTest.moveStackSize, 0u);
@@ -448,8 +452,9 @@
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
 }
 
@@ -467,8 +472,9 @@
     XCTAssertEqual(underTest.status, JCSFlipGameStatusPlayerAWon);
     
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
 }
 
@@ -493,8 +499,9 @@
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
 }
 
@@ -519,8 +526,9 @@
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     
     // check that cell states are unmodified
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
 }
 
@@ -672,12 +680,13 @@
     [expectedMoveStrings addObject:[self stringForMoveWithStartRow:1 column:-3 direction:JCSHexDirectionSE]];
     
     // check the expected moves
-    [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+    [underTest applyAllPossibleMovesAndInvokeBlock:^BOOL(JCSFlipMove *move) {
         XCTAssertFalse(move.skip);
         NSString *moveString = [self stringForMoveWithStartRow:move.startRow column:move.startColumn direction:move.direction];
         XCTAssertTrue([expectedMoveStrings containsObject:moveString], @"unexpected move string %@", moveString);
         [expectedMoveStrings removeObject:moveString];
         XCTAssertEqual(underTest.moveStackSize, 1u);
+        return YES;
     }];
     
     // check that move stack is empty again
@@ -687,9 +696,9 @@
     XCTAssertTrue(expectedMoveStrings.count == 0);
     
     // check the next state for the moves from (1,3) southwest
-    [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+    [underTest applyAllPossibleMovesAndInvokeBlock:^BOOL(JCSFlipMove *move) {
         if (move.startRow == 1 && move.startColumn == 3 && move.direction == JCSHexDirectionSW) {
-            [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+            [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
                 if ((row == -1 && column == 0) || (row == -1 && column == 1) || (row == 0 && column == 2) || (row == 1 && column == 3)) {
                     XCTAssertEqual(cellState, JCSFlipCellStateOwnedByPlayerA);
                 } else if (row == 0 && column == 1) {
@@ -697,13 +706,16 @@
                 } else {
                     XCTAssertEqual(cellState, JCSFlipCellStateEmpty);
                 }
+                return YES;
             }];
         }
+        return YES;
     }];
     
     // check that the state is changed back properly
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     XCTAssertEqual(underTest.cellCountPlayerA, 2);
@@ -743,11 +755,12 @@
     [expectedMoveStrings addObject:[self stringForMoveWithStartRow:0 column:-1 direction:JCSHexDirectionSE]];
     
     // check the expected moves
-    [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+    [underTest applyAllPossibleMovesAndInvokeBlock:^BOOL(JCSFlipMove *move) {
         XCTAssertFalse(move.skip);
         NSString *moveString = [self stringForMoveWithStartRow:move.startRow column:move.startColumn direction:move.direction];
         XCTAssertTrue([expectedMoveStrings containsObject:moveString], @"unexpected move string %@", moveString);
         [expectedMoveStrings removeObject:moveString];
+        return YES;
     }];
     
     // the possible no-flip moves for A are:
@@ -769,8 +782,9 @@
     XCTAssertTrue(expectedMoveStrings.count == 2);
     
     // check that the state is changed back properly
-    [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     XCTAssertEqual(underTest.cellCountPlayerA, 2);
@@ -794,7 +808,7 @@
     
     // check that only skipping is possible for A
     __block NSInteger moveCount = 0;
-    [underTest applyAllPossibleMovesAndInvokeBlock:^(JCSFlipMove *move, BOOL *stop) {
+    [underTest applyAllPossibleMovesAndInvokeBlock:^BOOL(JCSFlipMove *move) {
         XCTAssertTrue(move.skip);
         
         // expect exactly one next state
@@ -802,12 +816,15 @@
         XCTAssertTrue(moveCount == 1);
         
         // check that cell states of the next state match the original state
-        [underTest forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        [underTest forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
             XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+            return YES;
         }];
         
         // check that the player has been switched
         XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
+        
+        return YES;
     }];
 }
 
@@ -842,7 +859,7 @@
     
     // create invocation checker
     __block NSInteger invocation = 0;
-    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
         JCSFlipCellState expectedState;
         switch (++invocation) {
             case 1:
@@ -872,6 +889,7 @@
             default:
                 XCTFail(@"unexpected invocation");
         }
+        return YES;
     };
     
     [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
@@ -898,7 +916,7 @@
     
     // create invocation checker
     __block NSInteger invocation = 0;
-    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
         JCSFlipCellState expectedState;
         switch (++invocation) {
             case 1:
@@ -928,6 +946,7 @@
             default:
                 XCTFail(@"unexpected invocation");
         }
+        return YES;
     };
     
     [underTest forAllCellsInvolvedInLastMoveReverse:YES invokeBlock:block];
@@ -952,8 +971,9 @@
     XCTAssertTrue([underTest pushMove:[JCSFlipMove moveSkip]]);
     
     // create invocation checker
-    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
         XCTFail(@"unexpected invocation");
+        return YES;
     };
     
     [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
@@ -980,7 +1000,7 @@
     
     // create invocation checker
     __block NSInteger invocation = 0;
-    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
         JCSFlipCellState expectedState = JCSFlipCellStateOwnedByPlayerA;
         switch (++invocation) {
             case 1:
@@ -993,11 +1013,11 @@
                 XCTAssertEqual(column, -1);
                 XCTAssertEqual(newCellState, expectedState);
                 // now stop!
-                *stop = YES;
-                break;
+                return NO;
             default:
                 XCTFail(@"unexpected invocation");
         }
+        return YES;
     };
     
     [underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block];
@@ -1034,8 +1054,9 @@
     
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
-    void(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState, BOOL *) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+    BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
         XCTFail(@"unexpected invocation");
+        return YES;
     };
     
     XCTAssertThrows([underTest forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:block]);
@@ -1072,8 +1093,9 @@
     XCTAssertEqual(reloaded.zobristHash, underTest.zobristHash);
     
     // check cell states (must be match original board)
-    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [reloaded forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, [underTest cellStateAtRow:row column:column]);
+        return YES;
     }];
     
     // undo moves
@@ -1082,14 +1104,16 @@
         [underTest popMove];
         
         // check cell states (must match)
-        [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        [reloaded forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
             XCTAssertEqual(cellState, [underTest cellStateAtRow:row column:column]);
+            return YES;
         }];
     }
     
     // check cell states (must be back to original)
-    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [reloaded forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, cellStateAtBlock(row, column));
+        return YES;
     }];
     
     // check that move stack is empty
@@ -1133,8 +1157,9 @@
     XCTAssertEqual(reloaded.moveStackSize, 2u);
     
     // check cell states (must be match original board)
-    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [reloaded forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, [underTest cellStateAtRow:row column:column]);
+        return YES;
     }];
     
     // undo the two moves that have been coded
@@ -1171,8 +1196,9 @@
     XCTAssertEqual(reloaded.zobristHash, underTest.zobristHash);
     
     // check cell states (must be match original board)
-    [reloaded forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+    [reloaded forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         XCTAssertEqual(cellState, [underTest cellStateAtRow:row column:column]);
+        return YES;
     }];
     
     // check that move stack is empty

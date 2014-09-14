@@ -123,9 +123,10 @@
     NSMutableArray *result = [NSMutableArray array];
     
     // determine possible moves and set their value for sorting
-    [_node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move, BOOL *stop) {
+    [_node applyAllPossibleMovesAndInvokeBlock:^BOOL(id<JCSMove> move) {
         move.value = [_heuristic valueOfNode:_node];
         [result addObject:move];
+        return YES;
     }];
     
     // sort by move value

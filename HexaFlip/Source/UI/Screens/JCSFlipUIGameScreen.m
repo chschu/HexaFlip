@@ -488,8 +488,9 @@
     if ([_state pushMove:move]) {
         // flash all cells involved in the move
         // this also re-triggers the flash of the start cell to get it in sync
-        [_state forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+        [_state forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
             [_boardLayer startFlashForCellAtRow:row column:column];
+            return YES;
         }];
         // un-apply the move
         [_state popMove];
@@ -503,10 +504,11 @@
     JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
     if ([_state pushMove:move]) {
         // un-flash all cells changed by the move, except the start cell
-        [_state forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState, BOOL *stop) {
+        [_state forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
             if (row != startRow || column != startColumn) {
                 [_boardLayer stopFlashForCellAtRow:row column:column];
             }
+            return YES;
         }];
         // un-apply the move
         [_state popMove];

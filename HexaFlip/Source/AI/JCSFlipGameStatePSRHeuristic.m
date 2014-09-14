@@ -38,7 +38,7 @@
     } else {
         // start out with the random part
         score = _randomness * (2.0 * [node hash] / NSUIntegerMax - 1.0);
-        [node forAllCellsInvokeBlock:^(NSInteger row, NSInteger column, JCSFlipCellState cellState, BOOL *stop) {
+        [node forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
             if (cellState == JCSFlipCellStateOwnedByPlayerA || cellState == JCSFlipCellStateOwnedByPlayerB) {
                 // start with a base possession score, add safety/6 for every safe direction
                 float cellScore = _possession;
@@ -85,6 +85,7 @@
                     score -= cellScore;
                 }
             }
+            return YES;
         }];
     }
     // change sign if it is player B's turn

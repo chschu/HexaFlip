@@ -20,10 +20,10 @@
 
 // iterate over all valid moves for the receiving game state
 // each move is applied to the receiver, the block is invoked, and the move is unapplied from the receiver
-// iteration stops prematurely when the block sets *stop to YES
+// iteration stops prematurely when the block returns NO
 // a new move instance is passed to each invocation of the block
 // special case: if two or more moves lead to the same game state, only one of them is considered
-- (void)applyAllPossibleMovesAndInvokeBlock:(void(^)(id<JCSMove> move, BOOL *stop))block;
+- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id<JCSMove> move))block;
 
 // applies the move, switches players, and returns YES if the move is legal
 // returns NO if the move is illegal
