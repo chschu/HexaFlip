@@ -81,7 +81,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
         // determine which player should make the first move (should be player A/index 0, but don't rely on that)
         JCSFlipPlayerSide playerToMove = [match.participants indexOfObject:match.currentParticipant] == 0 ? JCSFlipPlayerSideA : JCSFlipPlayerSideB;
         // create new game state
-        result = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:playerToMove];
+        result = [[JCSFlipGameState alloc] initWithSize:5 playerToMove:playerToMove];
     } else {
         // deserialize existing game state
         NSKeyedUnarchiver *coder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];

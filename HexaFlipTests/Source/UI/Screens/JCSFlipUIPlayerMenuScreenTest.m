@@ -109,7 +109,7 @@
     [[_observerMock expect] notificationWithName:JCS_FLIP_UI_PLAY_GAME_EVENT_NAME object:_underTest];
     
     [[[_gameStateMock expect] andReturn:_gameStateMock] alloc];
-    (void) [[[_gameStateMock expect] andReturn:_gameStateMock] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA];
+    (void) [[[_gameStateMock expect] andReturn:_gameStateMock] initWithSize:5 playerToMove:JCSFlipPlayerSideA];
     
     [button activate];
     [[self playButtonForScreen:_underTest] activate];

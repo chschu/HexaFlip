@@ -177,7 +177,7 @@ __typeof__(c2) _c2 = (c2); \
 MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 })
 
-- (instancetype)initDefaultWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
+- (instancetype)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
     return [self initWithSize:size playerToMove:playerToMove cellStateAtBlock:^JCSFlipCellState(NSInteger row, NSInteger column) {
         NSInteger distanceFromOrigin = JCS_HEX_DISTANCE(row, column, 0, 0);
         if (distanceFromOrigin == 0 || distanceFromOrigin > size-1) {
@@ -361,7 +361,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     __block BOOL hasValidMove = NO;
     
     // initialize dummy move
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
+    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
     
     // indexes of target cells that already were the target of a no-flip move
     BOOL *isNoFlipTargetCellIndex = calloc(JCS_CELL_COUNT(_size), sizeof(BOOL));
@@ -595,9 +595,9 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
     }
     JCSFlipGameStateMoveInfo *moveInfo = _moveStack + _moveStackSize-1;
     if (moveInfo->skip == YES) {
-        return [JCSFlipMove moveSkip];
+        return [[JCSFlipMove alloc] init];
     }
-    return [JCSFlipMove moveWithStartRow:moveInfo->startRow startColumn:moveInfo->startColumn direction:moveInfo->direction];
+    return [[JCSFlipMove alloc] initWithStartRow:moveInfo->startRow startColumn:moveInfo->startColumn direction:moveInfo->direction];
 }
 
 #pragma mark NSCoding (serialization/deserialization)

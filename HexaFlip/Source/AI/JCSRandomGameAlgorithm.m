@@ -21,7 +21,7 @@
     return self;
 }
 
-- (id)moveAtNode:(id<JCSGameNode>)node {
+- (id<JCSMove>)moveAtNode:(id<JCSGameNode>)node {
     NSMutableArray *moves = [NSMutableArray array];
     
     [node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move) {

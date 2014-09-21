@@ -87,7 +87,7 @@
             [_boardLayer cancelMoveInput];
             
             // perform move input
-            [self inputConfirmedWithMove:[JCSFlipMove moveSkip]];
+            [self inputConfirmedWithMove:[[JCSFlipMove alloc] init]];
         }];
         _skipItem.anchorPoint = ccp(0.5,0.5);
         _skipItem.position = ccp(-winSize.width/2+10+JCSButtonSizeSmall/2.0, -winSize.height/2+10+JCSButtonSizeSmall/2.0);
@@ -101,7 +101,7 @@
         [self addChild:_scoreIndicator z:1];
         
         // prepare a "dummy" game to initialize the board and UI state
-        [self prepareGameWithState:[[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
+        [self prepareGameWithState:[[JCSFlipGameState alloc] initWithSize:5 playerToMove:JCSFlipPlayerSideA] playerA:nil playerB:nil match:nil animateLastMove:NO moveInputDisabled:YES];
         
         // create hidden outcome sprites, centered over board
         _outcomeSpriteBackground = [CCSprite spriteWithSpriteFrameName:@"outcome-background.png"];
@@ -484,7 +484,7 @@
     NSLog(@"input: selected direction %d", direction);
     
     // check if the move is valid
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
+    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
     if ([_state pushMove:move]) {
         // flash all cells involved in the move
         // this also re-triggers the flash of the start cell to get it in sync
@@ -501,7 +501,7 @@
     NSLog(@"input: cleared direction");
     
     // check if the move is valid
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:startRow startColumn:startColumn direction:direction];
+    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
     if ([_state pushMove:move]) {
         // un-flash all cells changed by the move, except the start cell
         [_state forAllCellsInvolvedInLastMoveReverse:NO invokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {

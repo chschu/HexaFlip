@@ -40,7 +40,7 @@
     return self;
 }
 
-- (id)moveAtNode:(id<JCSGameNode>)node {
+- (id<JCSMove>)moveAtNode:(id<JCSGameNode>)node {
     _node = node;
     _count = 0;
     NSMutableArray *pv = [[NSMutableArray alloc] initWithCapacity:_depth];

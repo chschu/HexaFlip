@@ -310,7 +310,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 // released outside start cell: complete drag move input
                 [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
                 [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
-                move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
+                move = [[JCSFlipMove alloc] initWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
                 [_inputDelegate inputConfirmedWithMove:move];
                 _moveInputState = JCSFlipUIMoveInputStateReady;
                 break;
@@ -319,7 +319,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 // released inside target cell: complete tap-tap move input
                 [_inputDelegate inputClearedDirection:_moveDirection startRow:_moveStartCell.row startColumn:_moveStartCell.column];
                 [_inputDelegate inputClearedStartRow:_moveStartCell.row startColumn:_moveStartCell.column];
-                move = [JCSFlipMove moveWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
+                move = [[JCSFlipMove alloc] initWithStartRow:_moveStartCell.row startColumn:_moveStartCell.column direction:_moveDirection];
                 [_inputDelegate inputConfirmedWithMove:move];
                 _moveInputState = JCSFlipUIMoveInputStateReady;
                 break;

@@ -15,16 +15,6 @@
 
 @synthesize value = _value;
 
-#pragma mark class methods
-
-+ (instancetype)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction {
-    return [[self alloc] initWithStartRow:startRow startColumn:startColumn direction:direction];
-}
-
-+ (instancetype)moveSkip {
-    return [[self alloc] initSkip];
-}
-
 #pragma mark instance methods
 
 // private designated initializer
@@ -42,23 +32,8 @@
     return [self initWithSkip:NO startRow:startRow startColumn:startColumn direction:direction];
 }
 
-- (instancetype)initSkip {
+- (instancetype)init {
     return [self initWithSkip:YES startRow:0 startColumn:0 direction:JCSHexDirectionMin];
-}
-
-- (NSInteger)startRow {
-    NSAssert(!_skip, @"may not be invoked for skip move");
-    return _startRow;
-}
-
-- (NSInteger)startColumn {
-    NSAssert(!_skip, @"may not be invoked for skip move");
-    return _startColumn;
-}
-
-- (JCSHexDirection)direction {
-    NSAssert(!_skip, @"may not be invoked for skip move");
-    return _direction;
 }
 
 - (void)dispatchToMainQueueAfterDelay:(double)seconds block:(dispatch_block_t)block {

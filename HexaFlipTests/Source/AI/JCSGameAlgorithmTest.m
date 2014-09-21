@@ -56,11 +56,11 @@
 }
 
 - (void)testAlgorithm:(id<JCSGameAlgorithm>)algoA againstAlgorithm:(id<JCSGameAlgorithm>)algoB withBoardSize:(NSInteger)size {
-    JCSFlipGameState *state = [[JCSFlipGameState alloc] initDefaultWithSize:size playerToMove:JCSFlipPlayerSideA];
+    JCSFlipGameState *state = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA];
     
     while (!state.leaf) {
         id<JCSGameAlgorithm> algo = (state.playerToMove == JCSFlipPlayerSideA ? algoA : algoB);
-        JCSFlipMove *move = [algo moveAtNode:state];
+        id<JCSMove> move = [algo moveAtNode:state];
         XCTAssertNotNil(move, @"move returned by algorithm must not be nil for non-leaf node");
         [state pushMove:move];
         NSLog(@"\n%@", state);

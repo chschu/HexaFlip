@@ -60,7 +60,7 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
         // create play button
         CCMenuItem *playItem = [JCSButton buttonWithSize:JCSButtonSizeLarge name:@"play" block:^(id sender) {
             // prepare the notification data
-            JCSFlipGameState *gameState = [[JCSFlipGameState alloc] initDefaultWithSize:5 playerToMove:JCSFlipPlayerSideA];
+            JCSFlipGameState *gameState = [[JCSFlipGameState alloc] initWithSize:5 playerToMove:JCSFlipPlayerSideA];
             id<JCSFlipPlayer> playerA = [self createPlayerOfType:_playerASelection];
             id<JCSFlipPlayer> playerB = [self createPlayerOfType:_playerBSelection];
             JCSFlipUIPrepareGameEventData *data = [[JCSFlipUIPrepareGameEventData alloc] initWithGameState:gameState playerA:playerA playerB:playerB];

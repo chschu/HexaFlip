@@ -26,13 +26,11 @@
 // the hexagonal direction of the move
 @property (nonatomic) JCSHexDirection direction; 
 
-// convenience methods
-+ (instancetype)moveWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
-+ (instancetype)moveSkip;
-
-// initialize new instances
+// initialize new instance (normal move)
 - (instancetype)initWithStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn direction:(JCSHexDirection)direction;
-- (instancetype)initSkip;
+
+// initialize new instance (skip move)
+- (instancetype)init;
 
 - (void)performInputWithMoveInputDelegate:(id<JCSFlipMoveInputDelegate>)moveInputDelegate;
 

@@ -260,7 +260,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is valid
-    XCTAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]]);
+    XCTAssertTrue([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]]);
     XCTAssertEqual(underTest.moveStackSize, 1u);
     
     // check that the player has been switched
@@ -284,7 +284,7 @@
     }
     
     // verify that move is valid
-    XCTAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]]);
+    XCTAssertTrue([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]]);
     XCTAssertEqual(underTest.moveStackSize, 2u);
     
     // check that the player has been switched
@@ -327,7 +327,7 @@
     // case 1: cell owned by B, player A to move
 	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:1 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:0 startColumn:1 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
@@ -341,7 +341,7 @@
     // case 2: cell empty, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:0 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
@@ -355,7 +355,7 @@
     // case 3: cell hole, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
     // check that cell states are unmodified
@@ -369,7 +369,7 @@
     // case 4: cell owned by A, player B to move
 	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
@@ -383,7 +383,7 @@
     // case 5: cell empty, player B to move
 	underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
@@ -397,7 +397,7 @@
     // case 6: cell hole, player A to move
     underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-2 startColumn:0 direction:JCSHexDirectionNE]]);
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
     // check that cell states are unmodified
@@ -423,7 +423,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
-    XCTAssertTrue([underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:1 direction:JCSHexDirectionW]]);
+    XCTAssertTrue([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:0 startColumn:1 direction:JCSHexDirectionW]]);
     
     // check that the game is over, and B won
     XCTAssertEqual(underTest.status, JCSFlipGameStatusPlayerBWon);
@@ -446,7 +446,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideB cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
     
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
@@ -466,7 +466,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that move is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNE]]);
     
     // check that the game is still over
     XCTAssertEqual(underTest.status, JCSFlipGameStatusPlayerAWon);
@@ -493,7 +493,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is valid
-    XCTAssertTrue([underTest pushMove:[JCSFlipMove moveSkip]]);
+    XCTAssertTrue([underTest pushMove:[[JCSFlipMove alloc] init]]);
     
     // check that the player has been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideB);
@@ -520,7 +520,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // verify that skip is invalid
-    XCTAssertFalse([underTest pushMove:[JCSFlipMove moveSkip]]);
+    XCTAssertFalse([underTest pushMove:[[JCSFlipMove alloc] init]]);
     
     // check that the player has not been switched
     XCTAssertEqual(underTest.playerToMove, JCSFlipPlayerSideA);
@@ -549,8 +549,8 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push two moves, pop the last one
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionNW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionW]];
     XCTAssertEqual(underTest.moveStackSize, 2u);
     [underTest popMove];
     XCTAssertEqual(underTest.moveStackSize, 1u);
@@ -855,7 +855,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     
     // create invocation checker
     __block NSInteger invocation = 0;
@@ -912,7 +912,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     
     // create invocation checker
     __block NSInteger invocation = 0;
@@ -968,7 +968,7 @@
     
     
     // push skip
-    XCTAssertTrue([underTest pushMove:[JCSFlipMove moveSkip]]);
+    XCTAssertTrue([underTest pushMove:[[JCSFlipMove alloc] init]]);
     
     // create invocation checker
     BOOL(^block)(NSInteger, NSInteger, JCSFlipCellState, JCSFlipCellState) = ^(NSInteger row, NSInteger column, JCSFlipCellState oldCellState, JCSFlipCellState newCellState) {
@@ -996,7 +996,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:size playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push move
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     
     // create invocation checker
     __block NSInteger invocation = 0;
@@ -1077,9 +1077,9 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push some moves
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNW]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-1 direction:JCSHexDirectionW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-1 direction:JCSHexDirectionW]];
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:underTest];
     
@@ -1135,9 +1135,9 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     // push some moves
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:0 startColumn:-1 direction:JCSHexDirectionNE]];
     XCTAssertEqual(underTest.moveStackSize, 3u);
     
     NSMutableData *data = [NSMutableData data];
@@ -1225,14 +1225,14 @@
     lastMove = underTest.lastMove;
     XCTAssertNil(lastMove);
     
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     lastMove = underTest.lastMove;
     XCTAssertFalse(lastMove.skip);
     XCTAssertEqual(lastMove.startRow, 1);
     XCTAssertEqual(lastMove.startColumn, -2);
     XCTAssertEqual(lastMove.direction, JCSHexDirectionSE);
     
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:-1 startColumn:0 direction:JCSHexDirectionW]];
     lastMove = underTest.lastMove;
     XCTAssertFalse(lastMove.skip);
     XCTAssertEqual(lastMove.startRow, -1);
@@ -1274,7 +1274,7 @@
     lastMove = underTest.lastMove;
     XCTAssertNil(lastMove);
     
-    [underTest pushMove:[JCSFlipMove moveSkip]];
+    [underTest pushMove:[[JCSFlipMove alloc] init]];
     lastMove = underTest.lastMove;
     XCTAssertTrue(lastMove.skip);
     
@@ -1298,7 +1298,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     NSUInteger zobristBefore = underTest.zobristHash;
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     XCTAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
 }
 
@@ -1317,7 +1317,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:2 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     NSUInteger zobristBefore = underTest.zobristHash;
-    [underTest pushMove:[JCSFlipMove moveSkip]];
+    [underTest pushMove:[[JCSFlipMove alloc] init]];
     XCTAssertFalse(underTest.zobristHash == zobristBefore, @"hash value did not change as expected");
 }
 
@@ -1336,7 +1336,7 @@
 	JCSFlipGameState *underTest = [[JCSFlipGameState alloc] initWithSize:4 playerToMove:JCSFlipPlayerSideA cellStateAtBlock:cellStateAtBlock];
     
     NSUInteger zobristBefore = underTest.zobristHash;
-    [underTest pushMove:[JCSFlipMove moveWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
+    [underTest pushMove:[[JCSFlipMove alloc] initWithStartRow:1 startColumn:-2 direction:JCSHexDirectionSE]];
     [underTest popMove];
     XCTAssertEqual(underTest.zobristHash, zobristBefore);
 }

@@ -65,25 +65,7 @@ static NSMutableDictionary *_delayForBlock;
 }
 
 - (void)testInitSkip {
-    JCSFlipMove *move = [[JCSFlipMove alloc] initSkip];
-    
-    XCTAssertTrue(move.skip);
-    XCTAssertThrows([move startRow]);
-    XCTAssertThrows([move startColumn]);
-    XCTAssertThrows([move direction]);
-}
-
-- (void)testMove {
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:3 startColumn:4 direction:JCSHexDirectionSE];
-    
-    XCTAssertFalse(move.skip);
-    XCTAssertEqual(move.startRow, 3);
-    XCTAssertEqual(move.startColumn, 4);
-    XCTAssertEqual(move.direction, JCSHexDirectionSE);
-}
-
-- (void)testSkip {
-    JCSFlipMove *move = [JCSFlipMove moveSkip];
+    JCSFlipMove *move = [[JCSFlipMove alloc] init];
     
     XCTAssertTrue(move.skip);
     XCTAssertThrows([move startRow]);
@@ -92,7 +74,7 @@ static NSMutableDictionary *_delayForBlock;
 }
 
 - (void)testMutable {
-    JCSFlipMove *move = [JCSFlipMove moveSkip];
+    JCSFlipMove *move = [[JCSFlipMove alloc] init];
     
     move.skip = NO;
     move.startRow = 1;
@@ -106,7 +88,7 @@ static NSMutableDictionary *_delayForBlock;
 }
 
 - (void)testCopy {
-    JCSFlipMove *move = [JCSFlipMove moveWithStartRow:32 startColumn:12 direction:JCSHexDirectionE];
+    JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:32 startColumn:12 direction:JCSHexDirectionE];
     JCSFlipMove *copy = [move copy];
     
     XCTAssertFalse(move == copy);
@@ -150,11 +132,11 @@ static NSMutableDictionary *_delayForBlock;
 }
 
 - (void)testPerformInputWhenValidNormalMove {
-    [self doTestPerformInputWithMove:[JCSFlipMove moveWithStartRow:17 startColumn:23 direction:JCSHexDirectionNW]];
+    [self doTestPerformInputWithMove:[[JCSFlipMove alloc] initWithStartRow:17 startColumn:23 direction:JCSHexDirectionNW]];
 }
 
 - (void)testPerformInputWhenValidSkipMove {
-    [self doTestPerformInputWithMove:[JCSFlipMove moveSkip]];
+    [self doTestPerformInputWithMove:[[JCSFlipMove alloc] init]];
 }
 
 @end
