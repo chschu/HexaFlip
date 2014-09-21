@@ -44,7 +44,7 @@
 		F310787D1648686200FE7FC2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F310787C1648686200FE7FC2 /* background.png */; };
 		F310787F164874F300FE7FC2 /* background-hd.tmx in Resources */ = {isa = PBXBuildFile; fileRef = F310787E164874F300FE7FC2 /* background-hd.tmx */; };
 		F31FA18516A9FC2B0022BCCB /* JCSFlipGameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */; };
-		F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */; };
+		F32B858F19CF288F00A3F815 /* JCSFlipMoveTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32B858E19CF288F00A3F815 /* JCSFlipMoveTest.swift */; };
 		F33E9ED118286CB700CB13CC /* NSInvocation+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F33E9EA518286CB700CB13CC /* NSInvocation+OCMAdditions.h */; };
 		F33E9ED218286CB700CB13CC /* NSInvocation+OCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33E9EA618286CB700CB13CC /* NSInvocation+OCMAdditions.m */; };
 		F33E9ED318286CB700CB13CC /* NSMethodSignature+OCMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F33E9EA718286CB700CB13CC /* NSMethodSignature+OCMAdditions.h */; };
@@ -90,14 +90,15 @@
 		F33E9EFC18286CB700CB13CC /* OCProtocolMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F33E9ED018286CB700CB13CC /* OCProtocolMockObject.m */; };
 		F33E9EFD18287CF200CB13CC /* libcocos2d-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F300552515B0AF2400BAD89C /* libcocos2d-library.a */; };
 		F33E9EFE18287CF800CB13CC /* libocmock-library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DA3046182865EF006A3B96 /* libocmock-library.a */; };
-		F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */; };
-		F34502CF18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */; };
 		F3452D59166747B6000AA83D /* JCSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F3452D58166747B6000AA83D /* JCSButton.m */; };
+		F34CDA6819D623C400109104 /* JCSGameAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34CDA6719D623C400109104 /* JCSGameAlgorithmTest.swift */; };
+		F34CDA6A19D6E3E400109104 /* JCSFlipGameStateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34CDA6919D6E3E400109104 /* JCSFlipGameStateTest.swift */; };
 		F353534A16A626A50027192D /* JCSFlipUIMultiplayerScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */; };
 		F353534D16A742510027192D /* JCSFlipPlayerGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */; };
-		F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */; };
 		F356055A18873BE6002CD81B /* JCSFlipUIEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = F356055918873BE6002CD81B /* JCSFlipUIEvents.m */; };
 		F3574AE1166C0655005B9BD4 /* JCSFlipScoreIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */; };
+		F3662C901A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3662C8F1A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift */; };
+		F3662C921A0561350038178D /* JCSFlipUIBaseScreenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3662C911A0561350038178D /* JCSFlipUIBaseScreenTest.swift */; };
 		F36CF3BD181A3DB400B6275F /* JCSTranspositionTable.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */; };
 		F36CF3C6181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F36CF3C5181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.m */; };
 		F36D57171855143800B3FB09 /* indicator-game-center-frame-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F36D57161855143800B3FB09 /* indicator-game-center-frame-1.png */; };
@@ -120,6 +121,7 @@
 		F37182A617A789D3005C9AFD /* CDXPropertyModifierAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F37182A117A789D3005C9AFD /* CDXPropertyModifierAction.h */; };
 		F37182A717A789D3005C9AFD /* CDXPropertyModifierAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F37182A217A789D3005C9AFD /* CDXPropertyModifierAction.m */; };
 		F37182AA17A79134005C9AFD /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F37182A817A7911B005C9AFD /* CoreText.framework */; };
+		F37800011A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37800001A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift */; };
 		F3800F6218172503009287F6 /* JCSNegaScoutGameAlgorithm.m in Sources */ = {isa = PBXBuildFile; fileRef = F3800F6118172503009287F6 /* JCSNegaScoutGameAlgorithm.m */; };
 		F3A475E916DA81A700A2FDD4 /* JCSFlipUIBaseScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A475E816DA81A600A2FDD4 /* JCSFlipUIBaseScreen.m */; };
 		F3A8B38315EE9C9800FAD822 /* texture-atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3CB110715EE9A030057309C /* texture-atlas-hd.plist */; };
@@ -360,12 +362,11 @@
 		F3A8B59D15EE9E6C00FAD822 /* vec2.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B815EE9E6B00FAD822 /* vec2.c */; };
 		F3A8B59E15EE9E6C00FAD822 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B915EE9E6B00FAD822 /* vec3.c */; };
 		F3A8B59F15EE9E6C00FAD822 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4BA15EE9E6B00FAD822 /* vec4.c */; };
-		F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */; };
 		F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */; };
-		F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */; };
 		F3C512A6178F690500DA64DB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C512A5178F690500DA64DB /* GameKit.framework */; };
 		F3CDDDA5185E0BCE0063F57D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3CDDDA3185E0A570063F57D /* Images.xcassets */; };
 		F3DA2FB9182865EF006A3B96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
+		F3E78DEA1A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E78DE91A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
 		F3F58B4C165EF2F30057BD36 /* JCSRadioMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */; };
@@ -454,7 +455,6 @@
 		F31A895416B0A83200847894 /* JCSFlipPlayerSide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerSide.h; sourceTree = "<group>"; };
 		F31FA18316A9FC2B0022BCCB /* JCSFlipGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipGameCenterManager.h; sourceTree = "<group>"; };
 		F31FA18416A9FC2B0022BCCB /* JCSFlipGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameCenterManager.m; sourceTree = "<group>"; };
-		F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStatePossessionHeuristicTest.m; sourceTree = "<group>"; };
 		F323DA4E171B50CA008E58A1 /* outcome-overlay-draw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-draw.png"; sourceTree = "<group>"; };
 		F323DA4F171B50CB008E58A1 /* outcome-overlay-won.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-overlay-won.png"; sourceTree = "<group>"; };
 		F323DA50171B50CB008E58A1 /* outcome-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "outcome-background.png"; sourceTree = "<group>"; };
@@ -464,6 +464,8 @@
 		F32758E71681212300869A23 /* button-play-single-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-single-pushed.png"; sourceTree = "<group>"; };
 		F32758E81681220A00869A23 /* button-human-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-normal.png"; sourceTree = "<group>"; };
 		F32758E91681220A00869A23 /* button-human-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-human-pushed.png"; sourceTree = "<group>"; };
+		F32B858B19CF287400A3F815 /* HexaFlipTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HexaFlipTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		F32B858E19CF288F00A3F815 /* JCSFlipMoveTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipMoveTest.swift; sourceTree = "<group>"; };
 		F32BBFB716F670C600B0E0B7 /* button-rewind-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-rewind-disabled.png"; sourceTree = "<group>"; };
 		F32BBFB816F9199800B0E0B7 /* button-undo-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-disabled.png"; sourceTree = "<group>"; };
 		F32BBFB916F9199800B0E0B7 /* button-undo-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-undo-normal.png"; sourceTree = "<group>"; };
@@ -518,12 +520,12 @@
 		F33E9ECE18286CB700CB13CC /* OCPartialMockRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCPartialMockRecorder.m; sourceTree = "<group>"; };
 		F33E9ECF18286CB700CB13CC /* OCProtocolMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCProtocolMockObject.h; sourceTree = "<group>"; };
 		F33E9ED018286CB700CB13CC /* OCProtocolMockObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCProtocolMockObject.m; sourceTree = "<group>"; };
-		F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMainMenuScreenTest.m; sourceTree = "<group>"; };
-		F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIPlayerMenuScreenTest.m; sourceTree = "<group>"; };
 		F3452D12166181D4000AA83D /* button-play-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-disabled.png"; sourceTree = "<group>"; };
 		F3452D57166747B6000AA83D /* JCSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSButton.h; sourceTree = "<group>"; };
 		F3452D58166747B6000AA83D /* JCSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSButton.m; sourceTree = "<group>"; };
 		F3474C9E16695BEA0054493C /* button-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-background.png"; sourceTree = "<group>"; };
+		F34CDA6719D623C400109104 /* JCSGameAlgorithmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSGameAlgorithmTest.swift; sourceTree = "<group>"; };
+		F34CDA6919D6E3E400109104 /* JCSFlipGameStateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipGameStateTest.swift; sourceTree = "<group>"; };
 		F3535335169F73CB0027192D /* button-play-multi-disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-disabled.png"; sourceTree = "<group>"; };
 		F3535336169F73CB0027192D /* button-play-multi-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-normal.png"; sourceTree = "<group>"; };
 		F3535337169F73CB0027192D /* button-play-multi-pushed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-play-multi-pushed.png"; sourceTree = "<group>"; };
@@ -532,7 +534,6 @@
 		F353534816A626A50027192D /* JCSFlipUIMultiplayerScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIMultiplayerScreen.m; sourceTree = "<group>"; };
 		F353534B16A742510027192D /* JCSFlipPlayerGameCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipPlayerGameCenter.h; sourceTree = "<group>"; };
 		F353534C16A742510027192D /* JCSFlipPlayerGameCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipPlayerGameCenter.m; sourceTree = "<group>"; };
-		F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIBaseScreenTest.m; sourceTree = "<group>"; };
 		F356055818871541002CD81B /* JCSFlipUIEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCSFlipUIEvents.h; sourceTree = "<group>"; };
 		F356055918873BE6002CD81B /* JCSFlipUIEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipUIEvents.m; sourceTree = "<group>"; };
 		F3574A9616696EF0005B9BD4 /* button-back-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-back-normal.png"; sourceTree = "<group>"; };
@@ -555,6 +556,8 @@
 		F3574ADA166BDDFE005B9BD4 /* score.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = score.xcf; sourceTree = "<group>"; };
 		F3574ADF166C0654005B9BD4 /* JCSFlipScoreIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSFlipScoreIndicator.h; sourceTree = "<group>"; };
 		F3574AE0166C0654005B9BD4 /* JCSFlipScoreIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipScoreIndicator.m; sourceTree = "<group>"; };
+		F3662C8F1A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipGameStatePossessionHeuristicTest.swift; sourceTree = "<group>"; };
+		F3662C911A0561350038178D /* JCSFlipUIBaseScreenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipUIBaseScreenTest.swift; sourceTree = "<group>"; };
 		F36CF3BB181A3DB400B6275F /* JCSTranspositionTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSTranspositionTable.h; sourceTree = "<group>"; };
 		F36CF3BC181A3DB400B6275F /* JCSTranspositionTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSTranspositionTable.m; sourceTree = "<group>"; };
 		F36CF3C4181B26F800B6275F /* JCSNegaScoutTTGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSNegaScoutTTGameAlgorithm.h; sourceTree = "<group>"; };
@@ -582,6 +585,7 @@
 		F37182A217A789D3005C9AFD /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
 		F37182A317A789D3005C9AFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F37182A817A7911B005C9AFD /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		F37800001A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipUIMainMenuScreenTest.swift; sourceTree = "<group>"; };
 		F3800F6018172503009287F6 /* JCSNegaScoutGameAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSNegaScoutGameAlgorithm.h; sourceTree = "<group>"; };
 		F3800F6118172503009287F6 /* JCSNegaScoutGameAlgorithm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSNegaScoutGameAlgorithm.m; sourceTree = "<group>"; };
 		F390880017BCFCC800D804AB /* indicator-ai-frame-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indicator-ai-frame-1.png"; sourceTree = "<group>"; };
@@ -852,9 +856,7 @@
 		F3A8B4BB15EE9E6B00FAD822 /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_cocos2d.txt; sourceTree = "<group>"; };
 		F3A8B4BC15EE9E6B00FAD822 /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
 		F3A8B4BD15EE9E6B00FAD822 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
-		F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSGameAlgorithmTest.m; sourceTree = "<group>"; };
 		F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
-		F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipMoveTest.m; sourceTree = "<group>"; };
 		F3C512A5178F690500DA64DB /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F3C7946416F4F1AC00342FAE /* JCSMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMove.h; sourceTree = "<group>"; };
 		F3CB110715EE9A030057309C /* texture-atlas-hd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "texture-atlas-hd.plist"; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 		F3CDDDA3185E0A570063F57D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F3DA2EB7182864B1006A3B96 /* LICENSE_OCMock.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_OCMock.txt; sourceTree = "<group>"; };
 		F3DA3046182865EF006A3B96 /* libocmock-library.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libocmock-library.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3E78DE91A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipUIPlayerMenuScreenTest.swift; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* HexaFlipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HexaFlipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRadioMenu.h; sourceTree = "<group>"; };
 		F3F58B4B165EF2F30057BD36 /* JCSRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSRadioMenu.m; sourceTree = "<group>"; };
@@ -1028,9 +1031,9 @@
 		F33E9EFF1828D7DC00CB13CC /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				F35605561885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m */,
-				F33E9F001828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m */,
-				F34502CE18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m */,
+				F3662C911A0561350038178D /* JCSFlipUIBaseScreenTest.swift */,
+				F37800001A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift */,
+				F3E78DE91A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -1445,8 +1448,8 @@
 		F3A8B5B115EEA39400FAD822 /* AI */ = {
 			isa = PBXGroup;
 			children = (
-				F3A8B5B215EEA39400FAD822 /* JCSGameAlgorithmTest.m */,
-				F322A07C182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m */,
+				F34CDA6719D623C400109104 /* JCSGameAlgorithmTest.swift */,
+				F3662C8F1A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift */,
 			);
 			path = AI;
 			sourceTree = "<group>";
@@ -1455,7 +1458,8 @@
 			isa = PBXGroup;
 			children = (
 				F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */,
-				F3A8B5B615EEA39400FAD822 /* JCSFlipMoveTest.m */,
+				F34CDA6919D6E3E400109104 /* JCSFlipGameStateTest.swift */,
+				F32B858E19CF288F00A3F815 /* JCSFlipMoveTest.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1465,6 +1469,7 @@
 			children = (
 				F31A895116B0A75B00847894 /* Tests-Info.plist */,
 				F31A895216B0A75B00847894 /* Tests-Prefix.pch */,
+				F32B858B19CF287400A3F815 /* HexaFlipTests-Bridging-Header.h */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -2193,13 +2198,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F35605571885EF7F002CD81B /* JCSFlipUIBaseScreenTest.m in Sources */,
-				F33E9F011828D85800CB13CC /* JCSFlipUIMainMenuScreenTest.m in Sources */,
-				F3A8B5BA15EEA39400FAD822 /* JCSGameAlgorithmTest.m in Sources */,
-				F34502CF18A7D80A00C5FC08 /* JCSFlipUIPlayerMenuScreenTest.m in Sources */,
-				F322A07D182AEFA400F4363B /* JCSFlipGameStatePossessionHeuristicTest.m in Sources */,
+				F32B858F19CF288F00A3F815 /* JCSFlipMoveTest.swift in Sources */,
+				F37800011A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift in Sources */,
+				F3E78DEA1A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift in Sources */,
+				F34CDA6A19D6E3E400109104 /* JCSFlipGameStateTest.swift in Sources */,
+				F3662C901A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift in Sources */,
+				F34CDA6819D623C400109104 /* JCSGameAlgorithmTest.swift in Sources */,
 				F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */,
-				F3A8B5BD15EEA39400FAD822 /* JCSFlipMoveTest.m in Sources */,
+				F3662C921A0561350038178D /* JCSFlipUIBaseScreenTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2259,7 +2265,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2287,7 +2293,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2438,6 +2444,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HexaFlip.app/HexaFlip";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2453,6 +2460,7 @@
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "HexaFlipTests/Support/Tests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libocmock-library.a",
@@ -2460,6 +2468,8 @@
 					XCTest,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HexaFlipTests/Support/HexaFlipTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -2469,6 +2479,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HexaFlip.app/HexaFlip";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2479,6 +2490,7 @@
 				GCC_PREFIX_HEADER = "HexaFlipTests/Support/Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "HexaFlipTests/Support/Tests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libocmock-library.a",
@@ -2486,6 +2498,7 @@
 					XCTest,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HexaFlipTests/Support/HexaFlipTests-Bridging-Header.h";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
 			};

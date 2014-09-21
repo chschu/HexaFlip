@@ -11,7 +11,7 @@
 @implementation JCSFlipUIBaseScreen
 
 - (void)visit {
-    CGSize winSize = [CCDirector sharedDirector].winSize;
+    CGSize winSize = [self winSize];
     
     // determine screen's bounds in world coordinates
     CGPoint p1 = [self convertToWorldSpace:ccp(0,0)];
@@ -22,8 +22,16 @@
     CGRect visibleRectInWorldSpace = CGRectMake(0, 0, winSize.width, winSize.height);
     CGRect intersection = CGRectIntersection(visibleRectInWorldSpace, screenRectInWorldSpace);
     if (!CGRectIsEmpty(intersection)) {
-        [super visit];
+        [self invokeSuperVisit];
     }
+}
+
+- (CGSize)winSize {
+    return [CCDirector sharedDirector].winSize;
+}
+
+- (void)invokeSuperVisit {
+    [super visit];
 }
 
 @end

@@ -38,7 +38,11 @@
 }
 
 - (void)syncUIState {
-    _playMultiItem.isEnabled = [JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated;
+    _playMultiItem.isEnabled = [self isLocalPlayerAuthenticated];
+}
+
+- (BOOL)isLocalPlayerAuthenticated {
+    return [JCSFlipGameCenterManager sharedInstance].isLocalPlayerAuthenticated;
 }
 
 - (void)playerAuthenticationDidChange:(NSNotification *)notification {
