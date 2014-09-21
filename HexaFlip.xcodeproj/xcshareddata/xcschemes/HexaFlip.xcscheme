@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F3EAE70615B5EBC9004827DB"
-               BuildableName = "HexaFlipTests.octest"
+               BuildableName = "HexaFlipTests.xctest"
                BlueprintName = "HexaFlipTests"
                ReferencedContainer = "container:HexaFlip.xcodeproj">
             </BuildableReference>
