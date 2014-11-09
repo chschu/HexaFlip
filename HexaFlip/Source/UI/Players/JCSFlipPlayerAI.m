@@ -11,6 +11,7 @@
 #import "JCSGameAlgorithm.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipMoveInputDelegate.h"
+#import "JCSMove.h"
 
 #import "cocos2d.h"
 
@@ -59,9 +60,8 @@
 - (void)tellMakeMove:(JCSFlipGameState *)state {
     // determine move asynchronously
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        JCSFlipMove *move = [_algorithm moveAtNode:state];
+        JCSFlipMove *move = (JCSFlipMove *)[_algorithm moveAtNode:state];
         [move performInputWithMoveInputDelegate:_moveInputDelegate];
-
     });
 }
 
