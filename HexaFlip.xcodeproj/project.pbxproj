@@ -297,7 +297,6 @@
 		F3A8B58815EE9E6C00FAD822 /* kazmath.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B49F15EE9E6B00FAD822 /* kazmath.h */; settings = {ATTRIBUTES = (); }; };
 		F3A8B58915EE9E6C00FAD822 /* mat3.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A015EE9E6B00FAD822 /* mat3.h */; };
 		F3A8B58A15EE9E6C00FAD822 /* mat4.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A115EE9E6B00FAD822 /* mat4.h */; };
-		F3A8B58B15EE9E6C00FAD822 /* neon_matrix_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A215EE9E6B00FAD822 /* neon_matrix_impl.h */; };
 		F3A8B58C15EE9E6C00FAD822 /* plane.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A315EE9E6B00FAD822 /* plane.h */; };
 		F3A8B58D15EE9E6C00FAD822 /* quaternion.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A415EE9E6B00FAD822 /* quaternion.h */; };
 		F3A8B58E15EE9E6C00FAD822 /* ray2.h in Headers */ = {isa = PBXBuildFile; fileRef = F3A8B4A515EE9E6B00FAD822 /* ray2.h */; };
@@ -310,7 +309,6 @@
 		F3A8B59515EE9E6C00FAD822 /* matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B015EE9E6B00FAD822 /* matrix.c */; };
 		F3A8B59615EE9E6C00FAD822 /* mat3.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B115EE9E6B00FAD822 /* mat3.c */; };
 		F3A8B59715EE9E6C00FAD822 /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B215EE9E6B00FAD822 /* mat4.c */; };
-		F3A8B59815EE9E6C00FAD822 /* neon_matrix_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B315EE9E6B00FAD822 /* neon_matrix_impl.c */; };
 		F3A8B59915EE9E6C00FAD822 /* plane.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B415EE9E6B00FAD822 /* plane.c */; };
 		F3A8B59A15EE9E6C00FAD822 /* quaternion.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B515EE9E6B00FAD822 /* quaternion.c */; };
 		F3A8B59B15EE9E6C00FAD822 /* ray2.c in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B4B615EE9E6B00FAD822 /* ray2.c */; };
@@ -734,7 +732,6 @@
 		F3A8B49F15EE9E6B00FAD822 /* kazmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kazmath.h; sourceTree = "<group>"; };
 		F3A8B4A015EE9E6B00FAD822 /* mat3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat3.h; sourceTree = "<group>"; };
 		F3A8B4A115EE9E6B00FAD822 /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
-		F3A8B4A215EE9E6B00FAD822 /* neon_matrix_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = neon_matrix_impl.h; sourceTree = "<group>"; };
 		F3A8B4A315EE9E6B00FAD822 /* plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = plane.h; sourceTree = "<group>"; };
 		F3A8B4A415EE9E6B00FAD822 /* quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quaternion.h; sourceTree = "<group>"; };
 		F3A8B4A515EE9E6B00FAD822 /* ray2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ray2.h; sourceTree = "<group>"; };
@@ -749,7 +746,6 @@
 		F3A8B4B015EE9E6B00FAD822 /* matrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrix.c; sourceTree = "<group>"; };
 		F3A8B4B115EE9E6B00FAD822 /* mat3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat3.c; sourceTree = "<group>"; };
 		F3A8B4B215EE9E6B00FAD822 /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat4.c; sourceTree = "<group>"; };
-		F3A8B4B315EE9E6B00FAD822 /* neon_matrix_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = neon_matrix_impl.c; sourceTree = "<group>"; };
 		F3A8B4B415EE9E6B00FAD822 /* plane.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = plane.c; sourceTree = "<group>"; };
 		F3A8B4B515EE9E6B00FAD822 /* quaternion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quaternion.c; sourceTree = "<group>"; };
 		F3A8B4B615EE9E6B00FAD822 /* ray2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ray2.c; sourceTree = "<group>"; };
@@ -1276,7 +1272,6 @@
 				F3A8B49F15EE9E6B00FAD822 /* kazmath.h */,
 				F3A8B4A015EE9E6B00FAD822 /* mat3.h */,
 				F3A8B4A115EE9E6B00FAD822 /* mat4.h */,
-				F3A8B4A215EE9E6B00FAD822 /* neon_matrix_impl.h */,
 				F3A8B4A315EE9E6B00FAD822 /* plane.h */,
 				F3A8B4A415EE9E6B00FAD822 /* quaternion.h */,
 				F3A8B4A515EE9E6B00FAD822 /* ray2.h */,
@@ -1306,7 +1301,6 @@
 				F3A8B4AE15EE9E6B00FAD822 /* GL */,
 				F3A8B4B115EE9E6B00FAD822 /* mat3.c */,
 				F3A8B4B215EE9E6B00FAD822 /* mat4.c */,
-				F3A8B4B315EE9E6B00FAD822 /* neon_matrix_impl.c */,
 				F3A8B4B415EE9E6B00FAD822 /* plane.c */,
 				F3A8B4B515EE9E6B00FAD822 /* quaternion.c */,
 				F3A8B4B615EE9E6B00FAD822 /* ray2.c */,
@@ -1642,7 +1636,6 @@
 				F3A8B58815EE9E6C00FAD822 /* kazmath.h in Headers */,
 				F3A8B58915EE9E6C00FAD822 /* mat3.h in Headers */,
 				F3A8B58A15EE9E6C00FAD822 /* mat4.h in Headers */,
-				F3A8B58B15EE9E6C00FAD822 /* neon_matrix_impl.h in Headers */,
 				F3A8B58C15EE9E6C00FAD822 /* plane.h in Headers */,
 				F3A8B58D15EE9E6C00FAD822 /* quaternion.h in Headers */,
 				F3A8B58E15EE9E6C00FAD822 /* ray2.h in Headers */,
@@ -1946,7 +1939,6 @@
 				F3A8B59515EE9E6C00FAD822 /* matrix.c in Sources */,
 				F3A8B59615EE9E6C00FAD822 /* mat3.c in Sources */,
 				F3A8B59715EE9E6C00FAD822 /* mat4.c in Sources */,
-				F3A8B59815EE9E6C00FAD822 /* neon_matrix_impl.c in Sources */,
 				F3A8B59915EE9E6C00FAD822 /* plane.c in Sources */,
 				F3A8B59A15EE9E6C00FAD822 /* quaternion.c in Sources */,
 				F3A8B59B15EE9E6C00FAD822 /* ray2.c in Sources */,
