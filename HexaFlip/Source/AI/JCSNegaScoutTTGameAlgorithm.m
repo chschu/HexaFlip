@@ -54,8 +54,8 @@
     
     float score = [self negaScoutWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
     
-    NSLog(@"analyzed %u nodes in %.3f seconds, got best move %@ with score %.3f%@",
-          _count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score, _canceled ? @" (canceled)" : @"");
+    NSLog(@"analyzed %lu nodes in %.3f seconds, got best move %@ with score %.3f%@",
+          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score, _canceled ? @" (canceled)" : @"");
     
     return bestMove;
 }
@@ -167,7 +167,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"(NegaScout Algorithm; %@; %@; Depth %u)", _transpositionTable, _heuristic, _depth];
+    return [NSString stringWithFormat:@"(NegaScout Algorithm; %@; %@; Depth %lu)", _transpositionTable, _heuristic, (unsigned long)_depth];
 }
 
 @end

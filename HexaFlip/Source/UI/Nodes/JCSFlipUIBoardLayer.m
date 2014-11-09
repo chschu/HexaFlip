@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
 };
 
 
-#define JCS_FLIP_CELL_KEY(row, column) ([NSString stringWithFormat:@"%d:%d", (row), (column)])
+#define JCS_FLIP_CELL_KEY(row, column) ([NSString stringWithFormat:@"%ld:%ld", (long)(row), (long)(column)])
 
 
 @implementation JCSFlipUIBoardLayer {
@@ -239,7 +239,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 return YES;
                 
             default:
-                NSAssert(NO, @"illegal move input state %d", _moveInputState);
+                NSAssert(NO, @"illegal move input state %ld", (long)_moveInputState);
                 return NO;
         }
     } else {
@@ -293,7 +293,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
             break;
             
         default:
-            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            NSAssert(NO, @"illegal move input state %ld", (long)_moveInputState);
             break;
     }
     
@@ -330,7 +330,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
                 break;
                 
             default:
-                NSAssert(NO, @"illegal move input state %d", _moveInputState);
+                NSAssert(NO, @"illegal move input state %ld", (long)_moveInputState);
                 break;
         }
     }
@@ -364,7 +364,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
             break;
             
         default:
-            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            NSAssert(NO, @"illegal move input state %ld", (long)_moveInputState);
             break;
     }
 }
@@ -392,7 +392,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
         case JCSFlipUIMoveInputStateReady:
             break;
         default:
-            NSAssert(NO, @"illegal move input state %d", _moveInputState);
+            NSAssert(NO, @"illegal move input state %ld", (long)_moveInputState);
             break;
     }
     _moveInputState = JCSFlipUIMoveInputStateReady;

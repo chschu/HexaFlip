@@ -83,7 +83,7 @@
     if (_skip) {
         return @"skip";
     }
-    return [NSString stringWithFormat:@"(%d,%d)-%@", _startRow, _startColumn, JCSHexDirectionName(_direction)];
+    return [NSString stringWithFormat:@"(%ld,%ld)-%@", (long)_startRow, (long)_startColumn, JCSHexDirectionName(_direction)];
 }
 
 @end

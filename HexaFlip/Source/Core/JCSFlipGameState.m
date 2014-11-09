@@ -122,7 +122,7 @@ __typeof__(size) _s = (size); \
 
         // compute pseudo-random Zobrist hash parts (using 31-bit pseudo-random numbers is sufficient)
         // this sequence must be deterministic, in order to reliably map equivalent states to the same Zobrist hash
-        NSUInteger seed = 1;
+        unsigned int seed = 1;
         
         // initialize cell states, XOR into Zobrist hash
         NSInteger index = 0;
@@ -563,7 +563,7 @@ MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
 // return the string representation of the board
 - (NSString *)description {
     NSMutableString *temp = [NSMutableString string];
-    for (int row = _size-1; row > -_size; row--) {
+    for (NSInteger row = _size-1; row > -_size; row--) {
         for (NSInteger i = 0; i < _size-1+row; i++) {
             [temp appendString:@" "];
         }

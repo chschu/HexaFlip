@@ -10,6 +10,6 @@
 
 @interface JCSRandomGameAlgorithm : NSObject <JCSGameAlgorithm>
 
-- (instancetype)initWithSeed:(NSUInteger)seed;
+- (instancetype)initWithSeed:(unsigned int)seed;
 
 @end

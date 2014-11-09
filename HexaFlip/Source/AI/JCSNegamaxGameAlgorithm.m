@@ -48,8 +48,8 @@
     
     float score = [self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY principalVariation:pv];
     
-    NSLog(@"analyzed %u nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
-          _count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
+    NSLog(@"analyzed %lu nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
+          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
     
     return [pv count] > 0 ? pv[0] : nil;
 }
@@ -117,7 +117,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"(NegaMax Algorithm; %@; Depth %u)", _heuristic, _depth];
+    return [NSString stringWithFormat:@"(NegaMax Algorithm; %@; Depth %lu)", _heuristic, (unsigned long)_depth];
 }
 
 @end

@@ -89,7 +89,7 @@ typedef struct {
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"(Transposition Table; Size %u)", _size];
+    return [NSString stringWithFormat:@"(Transposition Table; Size %lu)", (unsigned long)_size];
 }
 
 @end

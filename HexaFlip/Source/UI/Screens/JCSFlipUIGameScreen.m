@@ -457,7 +457,7 @@
 }
 
 - (BOOL)inputSelectedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn {
-    NSLog(@"input: selected start cell (%d,%d)", startRow, startColumn);
+    NSLog(@"input: selected start cell (%ld,%ld)", (long)startRow, (long)startColumn);
     if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];
         return YES;
@@ -471,7 +471,7 @@
 }
 
 - (BOOL)inputModifiedStartRow:(NSInteger)startRow startColumn:(NSInteger)startColumn previousStartRow:(NSInteger)previousStartRow previousStartColumn:(NSInteger)previousStartColumn {
-    NSLog(@"input: modified start cell (%d,%d)", startRow, startColumn);
+    NSLog(@"input: modified start cell (%ld,%ld)", (long)startRow, (long)startColumn);
     if ([_state cellStateAtRow:startRow column:startColumn] == JCSFlipCellStateForPlayerSide(_state.playerToMove)) {
         [_boardLayer stopFlashForCellAtRow:previousStartRow column:previousStartColumn];
         [_boardLayer startFlashForCellAtRow:startRow column:startColumn];

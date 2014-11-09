@@ -11,10 +11,10 @@
 #import "JCSMove.h"
 
 @implementation JCSRandomGameAlgorithm {
-    NSUInteger _seed;
+    unsigned int _seed;
 }
 
-- (instancetype)initWithSeed:(NSUInteger)seed {
+- (instancetype)initWithSeed:(unsigned int)seed {
     if (self = [super init]) {
         _seed = seed;
     }

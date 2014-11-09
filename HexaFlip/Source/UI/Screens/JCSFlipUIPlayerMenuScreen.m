@@ -174,7 +174,7 @@ typedef NS_ENUM(NSInteger, JCSFlipPlayerSelection) {
             player = [JCSFlipPlayerAI playerWithAlgorithm:algorithm];
             break;
         default:
-            NSAssert(NO, @"invalid playerSelection %d", playerSelection);
+            NSAssert(NO, @"invalid playerSelection %ld", (long)playerSelection);
     }
     return player;
 }
