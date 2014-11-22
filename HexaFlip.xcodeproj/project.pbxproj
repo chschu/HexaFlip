@@ -319,6 +319,7 @@
 		F3A8B5BB15EEA39400FAD822 /* JCSFlipGameStateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */; };
 		F3C512A6178F690500DA64DB /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C512A5178F690500DA64DB /* GameKit.framework */; };
 		F3CDDDA5185E0BCE0063F57D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3CDDDA3185E0A570063F57D /* Images.xcassets */; };
+		F3DEE3031A1EAA7400A38F14 /* JCSNegamaxGameAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DEE3021A1EAA7400A38F14 /* JCSNegamaxGameAlgorithmTest.swift */; };
 		F3E78DEA1A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E78DE91A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift */; };
 		F3EAE70915B5EBC9004827DB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539315B0AC2700BAD89C /* UIKit.framework */; };
 		F3EAE70A15B5EBC9004827DB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F300539515B0AC2700BAD89C /* Foundation.framework */; };
@@ -769,6 +770,7 @@
 		F3CB114115EE9A030057309C /* vectors.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = vectors.svg; sourceTree = "<group>"; };
 		F3CB114315EE9A030057309C /* texture-atlas.zwd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "texture-atlas.zwd"; sourceTree = "<group>"; };
 		F3CDDDA3185E0A570063F57D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F3DEE3021A1EAA7400A38F14 /* JCSNegamaxGameAlgorithmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSNegamaxGameAlgorithmTest.swift; sourceTree = "<group>"; };
 		F3E78DE91A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JCSFlipUIPlayerMenuScreenTest.swift; sourceTree = "<group>"; };
 		F3EAE70715B5EBC9004827DB /* HexaFlipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HexaFlipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3F58B4A165EF2F30057BD36 /* JCSRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSRadioMenu.h; sourceTree = "<group>"; };
@@ -1335,6 +1337,7 @@
 			isa = PBXGroup;
 			children = (
 				F34CDA6719D623C400109104 /* JCSGameAlgorithmTest.swift */,
+				F3DEE3021A1EAA7400A38F14 /* JCSNegamaxGameAlgorithmTest.swift */,
 				F3662C8F1A0541A80038178D /* JCSFlipGameStatePossessionHeuristicTest.swift */,
 			);
 			path = AI;
@@ -1953,6 +1956,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3DEE3031A1EAA7400A38F14 /* JCSNegamaxGameAlgorithmTest.swift in Sources */,
 				F32B858F19CF288F00A3F815 /* JCSFlipMoveTest.swift in Sources */,
 				F37800011A08409F00634EF3 /* JCSFlipUIMainMenuScreenTest.swift in Sources */,
 				F3E78DEA1A0AA89400B6D73C /* JCSFlipUIPlayerMenuScreenTest.swift in Sources */,
