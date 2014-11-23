@@ -17,9 +17,9 @@ extension JCSFlipMove : Hashable {
     public override var hashValue: Int {
         var hash = 0
         hash = 31 &* hash + skip.hashValue
-        hash = 31 &* hash + startRow.hashValue
-        hash = 31 &* hash + startColumn.hashValue
-        hash = 31 &* hash + direction.hashValue
+        hash = 31 &* hash + (skip ? 0 : startRow.hashValue)
+        hash = 31 &* hash + (skip ? 0 : startColumn.hashValue)
+        hash = 31 &* hash + (skip ? 0 : direction.hashValue)
         return hash
     }
 }
