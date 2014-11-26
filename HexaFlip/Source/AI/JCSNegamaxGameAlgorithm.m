@@ -23,19 +23,15 @@
     
     // search depth
     NSUInteger _depth;
-    
-    // the indicator for cancellation
-    volatile BOOL _canceled;
 }
 
 - (instancetype)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
-	NSAssert(depth > 0, @"depth must be positive");
-	NSAssert(heuristic != nil, @"heuristic must not be nil");
+    NSAssert(depth > 0, @"depth must be positive");
+    NSAssert(heuristic != nil, @"heuristic must not be nil");
     
     if (self = [super init]) {
         _depth = depth;
         _heuristic = heuristic;
-        _canceled = NO;
     }
     return self;
 }
@@ -49,7 +45,7 @@
     float score = [self negamaxWithDepth:_depth alpha:-INFINITY beta:INFINITY principalVariation:pv];
     
     NSLog(@"analyzed %lu nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
-          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
+          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, self.canceled ? @" (canceled)" : @"");
     
     return [pv count] > 0 ? pv[0] : nil;
 }
@@ -57,63 +53,39 @@
 - (float)negamaxWithDepth:(NSUInteger)depth alpha:(float)alpha beta:(float)beta principalVariation:(NSMutableArray *)principalVariation {
     _count++;
     
-    if (depth > 0 && !_node.leaf) {
-        @autoreleasepool {
-            NSArray *moves = [self possibleMoves];
-            NSMutableArray *pv = [[NSMutableArray alloc] initWithCapacity:depth-1];
-            BOOL first = YES;
-            for (id<JCSMove> move in moves) {
-                
-                [_node pushMove:move];
-                float score = -[self negamaxWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
-                [_node popMove];
-                
-                if (score > alpha) {
-                    first = NO;
-                    [principalVariation setArray:pv];
-                    [principalVariation insertObject:move atIndex:0];
-                    alpha = score;
-                    if (alpha >= beta) {
-                        break;
-                    }
-                } else if (first) {
-                    // keep first move, just in case there are only really bad moves
-                    first = NO;
-                    [principalVariation setArray:pv];
-                    [principalVariation insertObject:move atIndex:0];
-                }
-                
-                // check for cancellation
-                if (_canceled) {
-                    break;
-                }
-            }
-        }
-    } else {
+    if (depth == 0 || _node.leaf) {
         // maximum depth reached, or leaf node - take the node's heuristic value
-        alpha = [_heuristic valueOfNode:_node];
+        return [_heuristic valueOfNode:_node];
     }
     
-    return alpha;
-}
-
-- (NSArray *)possibleMoves {
-    NSMutableArray *result = [NSMutableArray array];
+    float __block localAlpha = alpha;
+    NSMutableArray *pv = [[NSMutableArray alloc] initWithCapacity:depth-1];
+    BOOL __block first = YES;
     
-    // determine possible moves and set their value for sorting
-    [_node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move) {
-        move.value = [_heuristic valueOfNode:_node];
-        [result addObject:move];
-        return YES;
-    }];
+    @autoreleasepool {
+        [self applyPossibleMovesToNode:_node sortByValue:^float(id<JCSMove> move) {
+            return [_heuristic valueOfNode:_node];
+        } invokeBlock:^BOOL(id<JCSMove> move) {
+            float score = -[self negamaxWithDepth:depth-1 alpha:-beta beta:-localAlpha principalVariation:pv];
+            if (score > localAlpha) {
+                first = NO;
+                [principalVariation setArray:pv];
+                [principalVariation insertObject:move atIndex:0];
+                localAlpha = score;
+                if (localAlpha >= beta) {
+                    return NO;
+                }
+            } else if (first) {
+                // keep first move, just in case there are only really bad moves
+                first = NO;
+                [principalVariation setArray:pv];
+                [principalVariation insertObject:move atIndex:0];
+            }
+            return YES;
+        }];
+    }
     
-    // sort by move value
-    // the "best" move is the one with the lowest value, because it indicates the other player's advantage on the modified board
-    return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
-}
-
-- (void)cancel {
-    _canceled = YES;
+    return localAlpha;
 }
 
 - (NSString *)description {

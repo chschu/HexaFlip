@@ -23,19 +23,15 @@
     
     // search depth
     NSUInteger _depth;
-    
-    // the indicator for cancellation
-    volatile BOOL _canceled;
 }
 
 - (instancetype)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic {
-	NSAssert(depth > 0, @"depth must be positive");
-	NSAssert(heuristic != nil, @"heuristic must not be nil");
+    NSAssert(depth > 0, @"depth must be positive");
+    NSAssert(heuristic != nil, @"heuristic must not be nil");
     
     if (self = [super init]) {
         _depth = depth;
         _heuristic = heuristic;
-        _canceled = NO;
     }
     return self;
 }
@@ -49,7 +45,7 @@
     float score = [self negaScoutWithDepth:_depth alpha:-INFINITY beta:INFINITY principalVariation:pv];
     
     NSLog(@"analyzed %lu nodes in %.3f seconds, got principal variation [%@] with score %.3f%@",
-          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, _canceled ? @" (canceled)" : @"");
+          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], [pv componentsJoinedByString:@", "], score, self.canceled ? @" (canceled)" : @"");
     
     return [pv count] > 0 ? pv[0] : nil;
 }
@@ -62,80 +58,54 @@
         return [_heuristic valueOfNode:_node];
     }
     
+    float __block localAlpha = alpha;
+    NSMutableArray *pv = [NSMutableArray arrayWithCapacity:depth-1];
+    float __block bestScore;
+    BOOL __block first = YES;
+    
     @autoreleasepool {
-        NSArray *moves = [self possibleMoves];
-        NSMutableArray *pv = [NSMutableArray arrayWithCapacity:depth-1];
-        float bestScore;
-        BOOL first = YES;
-        for (id<JCSMove> move in moves) {
-            @try {
-                float score;
-                [_node pushMove:move];
-                // skip minimal-window search for first move
-                if (!first) {
-                    // search with minimal window
-                    score = -[self negaScoutWithDepth:depth-1 alpha:-alpha-1 beta:-alpha principalVariation:pv];
-                    if (score > bestScore) {
-                        // improved
-                        [principalVariation setArray:pv];
-                        [principalVariation insertObject:move atIndex:0];
-                        bestScore = score;
-                    }
-                    if (score >= beta) {
-                        // no further improvement necessary
-                        break;
-                    }
+        [self applyPossibleMovesToNode:_node sortByValue:^float(id<JCSMove> move) {
+            return [_heuristic valueOfNode:_node];
+        } invokeBlock:^BOOL(id<JCSMove> move) {
+            float score;
+            // skip minimal-window search for first move
+            if (!first) {
+                // search with minimal window
+                score = -[self negaScoutWithDepth:depth-1 alpha:-localAlpha-1 beta:-localAlpha principalVariation:pv];
+                if (score > bestScore) {
+                    // improved
+                    [principalVariation setArray:pv];
+                    [principalVariation insertObject:move atIndex:0];
+                    bestScore = score;
                 }
-                if (first || score > alpha) {
-                    // perform full-window search (the only search for first move)
-                    score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-alpha principalVariation:pv];
-                    if (first || score > bestScore) {
-                        // improved (or first move)
-                        [principalVariation setArray:pv];
-                        [principalVariation insertObject:move atIndex:0];
-                        bestScore = score;
-                        first = NO;
-                    }
-                    if (score >= beta) {
-                        // no further improvement necessary
-                        break;
-                    }
-                    if (score > alpha) {
-                        // new lower bound
-                        alpha = score;
-                    }
+                if (score >= beta) {
+                    // no further improvement necessary
+                    return NO;
                 }
-            } @finally {
-                [_node popMove];
             }
-
-            // check for cancellation
-            if (_canceled) {
-                break;
+            if (first || score > localAlpha) {
+                // perform full-window search (the only search for first move)
+                score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-localAlpha principalVariation:pv];
+                if (first || score > bestScore) {
+                    // improved (or first move)
+                    [principalVariation setArray:pv];
+                    [principalVariation insertObject:move atIndex:0];
+                    bestScore = score;
+                    first = NO;
+                }
+                if (score >= beta) {
+                    // no further improvement necessary
+                    return NO;
+                }
+                if (score > localAlpha) {
+                    // new lower bound
+                    localAlpha = score;
+                }
             }
-        }
-        
+            return YES;
+        }];
         return bestScore;
     }
-}
-
-- (NSArray *)possibleMoves {
-    NSMutableArray *result = [NSMutableArray array];
-    
-    // determine possible moves and set their value for sorting
-    [_node applyAllPossibleMovesAndInvokeBlock:^BOOL(id<JCSMove> move) {
-        move.value = [_heuristic valueOfNode:_node];
-        [result addObject:move];
-        return YES;
-    }];
-    
-    // sort by move value
-    // the "best" move is the one with the lowest value, because it indicates the other player's advantage on the modified board
-    return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
-}
-
-- (void)cancel {
-    _canceled = YES;
 }
 
 - (NSString *)description {

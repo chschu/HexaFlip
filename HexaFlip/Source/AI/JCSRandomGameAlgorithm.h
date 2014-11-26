@@ -7,8 +7,9 @@
 //
 
 #import "JCSGameAlgorithm.h"
+#import "JCSGameAlgorithmBase.h"
 
-@interface JCSRandomGameAlgorithm : NSObject <JCSGameAlgorithm>
+@interface JCSRandomGameAlgorithm : JCSGameAlgorithmBase <JCSGameAlgorithm>
 
 - (instancetype)initWithSeed:(unsigned int)seed;
 

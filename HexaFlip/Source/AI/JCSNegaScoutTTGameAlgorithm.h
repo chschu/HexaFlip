@@ -7,11 +7,12 @@
 //
 
 #import "JCSGameAlgorithm.h"
+#import "JCSGameAlgorithmBase.h"
 #import "JCSTranspositionTable.h"
 
 @protocol JCSGameHeuristic;
 
-@interface JCSNegaScoutTTGameAlgorithm : NSObject <JCSGameAlgorithm>
+@interface JCSNegaScoutTTGameAlgorithm : JCSGameAlgorithmBase <JCSGameAlgorithm>
 
 // initialize with the given search depth, heuristic evaluation function, and (possibly pre-populated) transposition table
 // the heuristic is assumed to return larger values if there is an advantage for the player about to move

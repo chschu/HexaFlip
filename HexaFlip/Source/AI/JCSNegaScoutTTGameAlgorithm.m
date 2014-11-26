@@ -27,21 +27,17 @@
     
     // transposition table
     JCSTranspositionTable *_transpositionTable;
-    
-    // the indicator for cancellation
-    volatile BOOL _canceled;
 }
 
 - (instancetype)initWithDepth:(NSUInteger)depth heuristic:(id<JCSGameHeuristic>)heuristic transpositionTable:(JCSTranspositionTable *)transpositionTable {
-	NSAssert(depth > 0, @"depth must be positive");
-	NSAssert(heuristic != nil, @"heuristic must not be nil");
-	NSAssert(transpositionTable != nil, @"transposition table not be nil");
+    NSAssert(depth > 0, @"depth must be positive");
+    NSAssert(heuristic != nil, @"heuristic must not be nil");
+    NSAssert(transpositionTable != nil, @"transposition table not be nil");
     
     if (self = [super init]) {
         _depth = depth;
         _heuristic = heuristic;
         _transpositionTable = transpositionTable;
-        _canceled = NO;
     }
     return self;
 }
@@ -55,7 +51,7 @@
     float score = [self negaScoutWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
     
     NSLog(@"analyzed %lu nodes in %.3f seconds, got best move %@ with score %.3f%@",
-          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score, _canceled ? @" (canceled)" : @"");
+          (unsigned long)_count, [[NSDate date] timeIntervalSinceDate:start], bestMove, score, self.canceled ? @" (canceled)" : @"");
     
     return bestMove;
 }
@@ -74,96 +70,69 @@
         return value;
     }
     
+    float __block localAlpha = alpha;
+    id<JCSMove> __block bestMove;
+    float __block bestScore;
+    BOOL __block first = YES;
+    
+    // store new alpha bound if nothing else is found
+    JCSTranspositionTableEntryType __block transpositionTableEntryType = JCSTranspositionTableEntryTypeAlpha;
+    
     @autoreleasepool {
-        NSArray *moves = [self possibleMoves];
-        
-        // store new alpha bound if nothing else is found
-        JCSTranspositionTableEntryType transpositionTableEntryType = JCSTranspositionTableEntryTypeAlpha;
-        
-        id<JCSMove> bestMove;
-        float bestScore;
-        BOOL first = YES;
-        
-        for (id<JCSMove> move in moves) {
-            @try {
-                float score;
-                [_node pushMove:move];
-                // skip minimal-window search for first move
-                if (!first) {
-                    // search with minimal window
-                    score = -[self negaScoutWithDepth:depth-1 alpha:-alpha-1 beta:-alpha bestMoveHolder:nil];
-                    if (score > bestScore) {
-                        // improved
-                        bestMove = move;
-                        bestScore = score;
-                        transpositionTableEntryType = JCSTranspositionTableEntryTypeExact;
-                    }
-                    if (score >= beta) {
-                        // no further improvement necessary
-                        transpositionTableEntryType = JCSTranspositionTableEntryTypeBeta;
-                        break;
-                    }
+        [self applyPossibleMovesToNode:_node sortByValue:^float(id<JCSMove> move) {
+            return [_heuristic valueOfNode:_node];
+        } invokeBlock:^BOOL(id<JCSMove> move) {
+            float score;
+            // skip minimal-window search for first move
+            if (!first) {
+                // search with minimal window
+                score = -[self negaScoutWithDepth:depth-1 alpha:-localAlpha-1 beta:-localAlpha bestMoveHolder:nil];
+                if (score > bestScore) {
+                    // improved
+                    bestMove = move;
+                    bestScore = score;
+                    transpositionTableEntryType = JCSTranspositionTableEntryTypeExact;
                 }
-                if (first || score > alpha) {
-                    // perform full-window search (the only search for first move)
-                    score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-alpha bestMoveHolder:nil];
-                    if (first || score > bestScore) {
-                        // improved (or first move)
-                        bestMove = move;
-                        bestScore = score;
-                        transpositionTableEntryType = JCSTranspositionTableEntryTypeExact;
-                        first = NO;
-                    }
-                    if (score >= beta) {
-                        // no further improvement necessary
-                        transpositionTableEntryType = JCSTranspositionTableEntryTypeBeta;
-                        break;
-                    }
-                    if (score > alpha) {
-                        // new lower bound
-                        alpha = score;
-                    }
+                if (score >= beta) {
+                    // no further improvement necessary
+                    transpositionTableEntryType = JCSTranspositionTableEntryTypeBeta;
+                    return NO;
                 }
-            } @finally {
-                [_node popMove];
             }
-            
-            // check for cancellation
-            if (_canceled) {
-                break;
+            if (first || score > localAlpha) {
+                // perform full-window search (the only search for first move)
+                score = -[self negaScoutWithDepth:depth-1 alpha:-beta beta:-localAlpha bestMoveHolder:nil];
+                if (first || score > bestScore) {
+                    // improved (or first move)
+                    bestMove = move;
+                    bestScore = score;
+                    transpositionTableEntryType = JCSTranspositionTableEntryTypeExact;
+                    first = NO;
+                }
+                if (score >= beta) {
+                    // no further improvement necessary
+                    transpositionTableEntryType = JCSTranspositionTableEntryTypeBeta;
+                    return NO;
+                }
+                if (score > localAlpha) {
+                    // new lower bound
+                    localAlpha = score;
+                }
             }
-        }
+            return YES;
+        }];
         
         if (bestMoveHolder != nil) {
             *bestMoveHolder = bestMove;
         }
         
         // update transposition table only if computation is complete
-        if (!_canceled) {
+        if (!self.canceled) {
             [_transpositionTable storeWithNode:_node depth:depth type:transpositionTableEntryType value:bestScore];
         }
         
         return bestScore;
     }
-}
-
-- (NSArray *)possibleMoves {
-    NSMutableArray *result = [NSMutableArray array];
-    
-    // determine possible moves and set their value for sorting
-    [_node applyAllPossibleMovesAndInvokeBlock:^BOOL(id<JCSMove> move) {
-        move.value = [_heuristic valueOfNode:_node];
-        [result addObject:move];
-        return YES;
-    }];
-    
-    // sort by move value
-    // the "best" move is the one with the lowest value, because it indicates the other player's advantage on the modified board
-    return [result sortedArrayUsingSelector:@selector(compareByValueTo:)];
-}
-
-- (void)cancel {
-    _canceled = YES;
 }
 
 - (NSString *)description {
