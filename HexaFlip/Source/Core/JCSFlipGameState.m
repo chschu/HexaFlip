@@ -174,7 +174,7 @@ __typeof__(r1) _r1 = (r1); \
 __typeof__(c1) _c1 = (c1); \
 __typeof__(r2) _r2 = (r2); \
 __typeof__(c2) _c2 = (c2); \
-MAX(MAX(abs(_r1-_r2), abs(_c1-_c2)), abs((_r1+_c1)-(_r2+_c2))); \
+MAX(MAX(ABS(_r1-_r2), ABS(_c1-_c2)), ABS((_r1+_c1)-(_r2+_c2))); \
 })
 
 - (instancetype)initWithSize:(NSInteger)size playerToMove:(JCSFlipPlayerSide)playerToMove {
