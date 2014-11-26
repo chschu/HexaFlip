@@ -36,7 +36,7 @@ class JCSGameAlgorithmTest : XCTestCase {
     
     func testNegaScoutVsNegaScout() {
         let possessive = JCSFlipGameStatePossessionHeuristic()
-        let algoAB = JCSNegamaxGameAlgorithm(depth: 5, heuristic: possessive)
+        let algoAB = JCSNegaScoutGameAlgorithm(depth: 5, heuristic: possessive)
         testAlgorithm(algoAB, algoAB, boardSize: 4)
     }
     

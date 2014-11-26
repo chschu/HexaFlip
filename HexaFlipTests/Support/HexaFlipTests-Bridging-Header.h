@@ -13,6 +13,7 @@
 #import "JCSFlipGameStatePossessionHeuristic.h"
 #import "JCSGameAlgorithm.h"
 #import "JCSNegamaxGameAlgorithm.h"
+#import "JCSNegaScoutGameAlgorithm.h"
 #import "JCSRandomGameAlgorithm.h"
 #import "JCSFlipCellState.h"
 #import "JCSFlipUIBaseScreen.h"
