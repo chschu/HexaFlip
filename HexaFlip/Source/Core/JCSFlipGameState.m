@@ -358,7 +358,7 @@ MAX(MAX(ABS(_r1-_r2), ABS(_c1-_c2)), ABS((_r1+_c1)-(_r2+_c2))); \
     
     JCSFlipCellState playerCellState = JCSFlipCellStateForPlayerSide(_playerToMove);
     
-    __block BOOL hasValidMove = NO;
+    BOOL __block hasValidMove = NO;
     
     // initialize dummy move
     JCSFlipMove *move = [[JCSFlipMove alloc] initWithStartRow:0 startColumn:0 direction:JCSHexDirectionE];
@@ -366,7 +366,7 @@ MAX(MAX(ABS(_r1-_r2), ABS(_c1-_c2)), ABS((_r1+_c1)-(_r2+_c2))); \
     // indexes of target cells that already were the target of a no-flip move
     BOOL *isNoFlipTargetCellIndex = calloc(JCS_CELL_COUNT(_size), sizeof(BOOL));
     
-    __block BOOL keepGoing = YES;
+    BOOL __block keepGoing = YES;
 
     [self forAllCellsInvokeBlock:^BOOL(NSInteger row, NSInteger column, JCSFlipCellState cellState) {
         // try cells with the correct owner as starting cells

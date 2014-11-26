@@ -56,8 +56,8 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
         
         CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
         
-        __block float maxAbsX = 0.0;
-        __block float maxAbsY = 0.0;
+        float __block maxAbsX = 0.0;
+        float __block maxAbsY = 0.0;
         
         // add the board background (rotated by 60 degrees)
         CCSprite *boardSprite = [CCSprite spriteWithSpriteFrameName:@"board.png"];
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSInteger, JCSFlipUIMoveInputState) {
     
     NSMutableArray *actions = [NSMutableArray array];
     
-    __block ccTime delay = 0;
+    ccTime __block delay = 0;
     
     if (!gameState.lastMove.skip) {
         // create animations for regular move: all involved cells, including the unmodified start cell

@@ -26,7 +26,7 @@
 }
 
 - (float)valueOfNode:(JCSFlipGameState *)node {
-    __block float score;
+    float __block score;
     if (JCSFlipGameStatusIsOver(node.status)) {
         if (node.cellCountPlayerA == 0) {
             score = -INFINITY;
