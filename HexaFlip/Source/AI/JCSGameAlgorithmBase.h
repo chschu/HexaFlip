@@ -7,7 +7,6 @@
 //
 
 @protocol JCSGameNode;
-@protocol JCSMove;
 
 // partial implementation of the JCSGameAlgorithm protocol
 @interface JCSGameAlgorithmBase : NSObject

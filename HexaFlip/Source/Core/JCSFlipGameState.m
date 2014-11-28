@@ -345,7 +345,7 @@ MAX(MAX(ABS(_r1-_r2), ABS(_c1-_c2)), ABS((_r1+_c1)-(_r2+_c2))); \
     return JCSFlipGameStatusIsOver(self.status);
 }
 
-- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id<JCSMove> move))block {
+- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id move))block {
     NSAssert(block != nil, @"block must not be nil");
     
     if (JCSFlipGameStatusIsOver(self.status)) {

@@ -8,7 +8,6 @@
 
 #import "JCSTranspositionTable.h"
 #import "JCSGameNode.h"
-#import "JCSMove.h"
 
 typedef struct {
     // YES if the entry is valid

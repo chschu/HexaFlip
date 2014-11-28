@@ -11,7 +11,6 @@
 #import "JCSGameAlgorithm.h"
 #import "JCSFlipMove.h"
 #import "JCSFlipMoveInputDelegate.h"
-#import "JCSMove.h"
 
 #import "cocos2d.h"
 

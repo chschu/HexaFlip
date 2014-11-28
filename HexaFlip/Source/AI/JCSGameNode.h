@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Christian Schuster. All rights reserved.
 //
 
-@protocol JCSMove;
-
 // a node in a two-player zero-sum game tree
 @protocol JCSGameNode
 
@@ -23,12 +21,12 @@
 // iteration stops prematurely when the block returns NO
 // a new move instance is passed to each invocation of the block
 // special case: if two or more moves lead to the same game state, only one of them is considered
-- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id<JCSMove> move))block;
+- (void)applyAllPossibleMovesAndInvokeBlock:(BOOL(^)(id move))block;
 
 // applies the move, switches players, and returns YES if the move is legal
 // returns NO if the move is illegal
 // for legal moves, the move is pushed onto an internal stack and can be undone with -popMove
-- (BOOL)pushMove:(id<JCSMove>)move;
+- (BOOL)pushMove:(id)move;
 
 // un-applies the last successfully applied move
 // the move is removed from the internal stack

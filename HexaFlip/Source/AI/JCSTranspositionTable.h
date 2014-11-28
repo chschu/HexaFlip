@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Christian Schuster. All rights reserved.
 //
 
-@protocol JCSMove;
 @protocol JCSGameNode;
 
 typedef NS_ENUM(NSInteger, JCSTranspositionTableEntryType) {

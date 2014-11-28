@@ -9,7 +9,6 @@
 #import "JCSNegaScoutTTGameAlgorithm.h"
 #import "JCSGameHeuristic.h"
 #import "JCSGameNode.h"
-#import "JCSMove.h"
 #import "JCSTranspositionTable.h"
 
 @implementation JCSNegaScoutTTGameAlgorithm {
@@ -42,10 +41,10 @@
     return self;
 }
 
-- (id<JCSMove>)moveAtNode:(id<JCSGameNode>)node {
+- (id)moveAtNode:(id<JCSGameNode>)node {
     _node = node;
     _count = 0;
-    id<JCSMove> bestMove = nil;
+    id bestMove = nil;
     NSDate *start = [NSDate date];
     
     float score = [self negaScoutWithDepth:_depth alpha:-INFINITY beta:INFINITY bestMoveHolder:&bestMove];
@@ -56,7 +55,7 @@
     return bestMove;
 }
 
-- (float)negaScoutWithDepth:(NSUInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id<JCSMove> __strong *)bestMoveHolder{
+- (float)negaScoutWithDepth:(NSUInteger)depth alpha:(float)alpha beta:(float)beta bestMoveHolder:(id __strong *)bestMoveHolder{
     _count++;
     
     if (depth == 0 || _node.leaf) {
@@ -71,7 +70,7 @@
     }
     
     float __block localAlpha = alpha;
-    id<JCSMove> __block bestMove;
+    id __block bestMove;
     float __block bestScore;
     BOOL __block first = YES;
     
@@ -79,9 +78,9 @@
     JCSTranspositionTableEntryType __block transpositionTableEntryType = JCSTranspositionTableEntryTypeAlpha;
     
     @autoreleasepool {
-        [self applyPossibleMovesToNode:_node sortByValue:^float(id<JCSMove> move) {
+        [self applyPossibleMovesToNode:_node sortByValue:^float(id move) {
             return [_heuristic valueOfNode:_node];
-        } invokeBlock:^BOOL(id<JCSMove> move) {
+        } invokeBlock:^BOOL(id move) {
             float score;
             // skip minimal-window search for first move
             if (!first) {

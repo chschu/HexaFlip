@@ -17,7 +17,7 @@ class JCSNegamaxGameAlgorithmTest : XCTestCase {
         continueAfterFailure = false
         let node = TicTacToeNode()
         while !node.leaf {
-            let move = underTest.moveAtNode(node)
+            let move: AnyObject! = underTest.moveAtNode(node)
             XCTAssertNotNil(move, "move returned by algorithm must not be nil for non-leaf node")
             node.pushMove(move)
             NSLog("\n%@", node.description)
@@ -27,9 +27,8 @@ class JCSNegamaxGameAlgorithmTest : XCTestCase {
 }
 
 // @objc is required to make the algorithm print move descriptions correctly
-@objc class TicTacToeMove : JCSMove, Printable {
+@objc class TicTacToeMove : Printable {
     
-    var value: Float = 0.0
     var row: Int
     var column: Int
     
@@ -40,10 +39,6 @@ class JCSNegamaxGameAlgorithmTest : XCTestCase {
     init(row: Int, column: Int) {
         self.row = row
         self.column = column
-    }
-    
-    func compareByValueTo(other: JCSMove) -> NSComparisonResult {
-        return value < other.value ? .OrderedAscending : value > other.value ? .OrderedDescending : .OrderedSame
     }
 }
 
@@ -109,7 +104,7 @@ class TicTacToeNode : JCSGameNode, Printable {
         return result
     }
     
-    func applyAllPossibleMovesAndInvokeBlock(block: (JCSMove!) -> Bool) {
+    func applyAllPossibleMovesAndInvokeBlock(block: (AnyObject!) -> Bool) {
         if !gameState.open {
             return
         }
@@ -126,7 +121,7 @@ class TicTacToeNode : JCSGameNode, Printable {
         }
     }
     
-    func pushMove(move: JCSMove) -> Bool {
+    func pushMove(move: AnyObject) -> Bool {
         if !gameState.open {
             return false
         }

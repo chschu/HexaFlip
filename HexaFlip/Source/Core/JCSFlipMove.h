@@ -7,11 +7,10 @@
 //
 
 #import "JCSHexDirection.h"
-#import "JCSMove.h"
 
 @protocol JCSFlipMoveInputDelegate;
 
-@interface JCSFlipMove : NSObject <NSCopying, JCSMove>
+@interface JCSFlipMove : NSObject <NSCopying>
 
 // property indicating that this is a "skip" move
 // if this is YES, the other move properties cannot be read

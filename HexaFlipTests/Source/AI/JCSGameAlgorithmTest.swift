@@ -44,7 +44,7 @@ class JCSGameAlgorithmTest : XCTestCase {
         let state = JCSFlipGameState(size: boardSize, playerToMove: JCSFlipPlayerSide.A)
         while !state.leaf {
             let algo = (state.playerToMove == JCSFlipPlayerSide.A ? algoA : algoB)
-            let move: JCSMove = algo.moveAtNode(state)
+            let move: AnyObject! = algo.moveAtNode(state)
             XCTAssertNotNil(move, "move returned by algorithm must not be nil for non-leaf node")
             state.pushMove(move)
             NSLog("\n%@", state)

@@ -7,7 +7,6 @@
 //
 
 #import "JCSGameAlgorithmBase.h"
-#import "JCSMove.h"
 #import "JCSGameNode.h"
 
 typedef struct JCSGameAlgorithmBaseMoveValueEntry {
@@ -26,14 +25,14 @@ typedef struct JCSGameAlgorithmBaseMoveValueEntry {
     return self;
 }
 
-- (void)applyPossibleMovesToNode:(id<JCSGameNode>)node sortByValue:(float(^)(id<JCSMove> move))valueProvider invokeBlock:(BOOL(^)(id<JCSMove> move))block {
+- (void)applyPossibleMovesToNode:(id<JCSGameNode>)node sortByValue:(float(^)(id move))valueProvider invokeBlock:(BOOL(^)(id move))block {
     // pre-allocate moves
     NSInteger __block capacity = 16;
     JCSGameAlgorithmBaseMoveValueEntry __block *moves = (JCSGameAlgorithmBaseMoveValueEntry *)calloc(capacity, sizeof(JCSGameAlgorithmBaseMoveValueEntry));
     
     // determine possible moves and determine their value for sorting
     NSInteger __block count = 0;
-    [node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move) {
+    [node applyAllPossibleMovesAndInvokeBlock:^(id move) {
         // double capacity if required
         if (count >= capacity) {
             do {
@@ -56,7 +55,7 @@ typedef struct JCSGameAlgorithmBaseMoveValueEntry {
     // push-invoke-pop for the sorted moves and release moves
     BOOL keepGoing = YES;
     for (NSInteger i = 0; i < count; i++) {
-        id<JCSMove> move = (__bridge_transfer id<JCSMove>)moves[i].move;
+        id move = (__bridge_transfer id)moves[i].move;
         if (keepGoing) {
             [node pushMove:move];
             keepGoing &= !_canceled && block(move);

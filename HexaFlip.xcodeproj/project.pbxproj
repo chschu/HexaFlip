@@ -760,7 +760,6 @@
 		F3A8B4BD15EE9E6B00FAD822 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Kazmath.txt; sourceTree = "<group>"; };
 		F3A8B5B415EEA39400FAD822 /* JCSFlipGameStateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSFlipGameStateTest.m; sourceTree = "<group>"; };
 		F3C512A5178F690500DA64DB /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		F3C7946416F4F1AC00342FAE /* JCSMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSMove.h; sourceTree = "<group>"; };
 		F3CB110715EE9A030057309C /* texture-atlas-hd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "texture-atlas-hd.plist"; sourceTree = "<group>"; };
 		F3CB110815EE9A030057309C /* texture-atlas-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "texture-atlas-hd.png"; sourceTree = "<group>"; };
 		F3CB110915EE9A030057309C /* texture-atlas.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "texture-atlas.plist"; sourceTree = "<group>"; };
@@ -940,7 +939,6 @@
 				F3A8B38F15EE9CC800FAD822 /* JCSFlipGameStatePSRHeuristic.m */,
 				F3A8B39015EE9CC800FAD822 /* JCSGameAlgorithm.h */,
 				F3A8B39115EE9CC800FAD822 /* JCSGameHeuristic.h */,
-				F3C7946416F4F1AC00342FAE /* JCSMove.h */,
 				F3A8B39215EE9CC800FAD822 /* JCSGameNode.h */,
 				F3D413C51A27CCA900C429C5 /* JCSGameAlgorithmBase.h */,
 				F3D413C61A27CCA900C429C5 /* JCSGameAlgorithmBase.m */,

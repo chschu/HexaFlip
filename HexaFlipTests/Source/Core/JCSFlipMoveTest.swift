@@ -71,33 +71,6 @@ class JCSFlipMoveTest : XCTestCase {
         waitForExpectationsWithTimeout(0.05, nil)
     }
     
-    func testCompareToMoveByValueAscending() {
-        let moveA = JCSFlipMove()
-        moveA.value = 0.0
-        let moveB = JCSFlipMove()
-        moveB.value = 1.0
-        
-        XCTAssertEqual(moveA.compareByValueTo(moveB), NSComparisonResult.OrderedAscending, "expected move A < move B")
-    }
-    
-    func testCompareToMoveByValueSame() {
-        let moveA = JCSFlipMove()
-        moveA.value = 1.23
-        let moveB = JCSFlipMove()
-        moveB.value = 1.23
-        
-        XCTAssertEqual(moveA.compareByValueTo(moveB), NSComparisonResult.OrderedSame, "expected move A = move B")
-    }
-    
-    func testCompareToMoveByValueDescending() {
-        let moveA = JCSFlipMove()
-        moveA.value = 0.3
-        let moveB = JCSFlipMove()
-        moveB.value = -0.1
-        
-        XCTAssertEqual(moveA.compareByValueTo(moveB), NSComparisonResult.OrderedDescending, "expected move A > move B")
-    }
-    
     private class MockDelegate : NSObject, JCSFlipMoveInputDelegate {
         
         private enum Invocation : String {

@@ -9,7 +9,6 @@
 #import "JCSNegamaxGameAlgorithm.h"
 #import "JCSGameHeuristic.h"
 #import "JCSGameNode.h"
-#import "JCSMove.h"
 
 @implementation JCSNegamaxGameAlgorithm {
     // the heuristic evaluation to be used
@@ -36,7 +35,7 @@
     return self;
 }
 
-- (id<JCSMove>)moveAtNode:(id<JCSGameNode>)node {
+- (id)moveAtNode:(id<JCSGameNode>)node {
     _node = node;
     _count = 0;
     NSMutableArray *pv = [[NSMutableArray alloc] initWithCapacity:_depth];
@@ -63,9 +62,9 @@
     BOOL __block first = YES;
     
     @autoreleasepool {
-        [self applyPossibleMovesToNode:_node sortByValue:^float(id<JCSMove> move) {
+        [self applyPossibleMovesToNode:_node sortByValue:^float(id move) {
             return [_heuristic valueOfNode:_node];
-        } invokeBlock:^BOOL(id<JCSMove> move) {
+        } invokeBlock:^BOOL(id move) {
             float score = -[self negamaxWithDepth:depth-1 alpha:-beta beta:-localAlpha principalVariation:pv];
             if (score > localAlpha) {
                 first = NO;

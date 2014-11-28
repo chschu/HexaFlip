@@ -8,7 +8,6 @@
 
 #import "JCSRandomGameAlgorithm.h"
 #import "JCSGameNode.h"
-#import "JCSMove.h"
 
 @implementation JCSRandomGameAlgorithm {
     unsigned int _seed;
@@ -21,10 +20,10 @@
     return self;
 }
 
-- (id<JCSMove>)moveAtNode:(id<JCSGameNode>)node {
+- (id)moveAtNode:(id<JCSGameNode>)node {
     NSMutableArray *moves = [NSMutableArray array];
     
-    [node applyAllPossibleMovesAndInvokeBlock:^(id<JCSMove> move) {
+    [node applyAllPossibleMovesAndInvokeBlock:^(id move) {
         [moves addObject:move];
         return YES;
     }];
