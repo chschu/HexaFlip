@@ -10,22 +10,6 @@
 #import "JCSFlipUIScene.h"
 #import "JCSFlipGameCenterManager.h"
 
-// extend CCDirector to support Auto-Rotation with iOS 6
-@interface CCDirectorIOS (iOS6)
-@end
-
-@implementation CCDirectorIOS (iOS6)
-
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
-}
-
-@end
-
 @implementation AppDelegate {
     BOOL _wasAnimating;
 }
@@ -120,8 +104,8 @@
 	return YES;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 // enter inactive state (incoming call, application about to enter background)
