@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Christian Schuster. All rights reserved.
 //
 
-@protocol JCSFlipGameCenterInviteDelegate <NSObject>
+@protocol JCSFlipGameCenterInviteDelegate
 
 - (void)presentInviteWithPlayers:(NSArray *)playersToInvite;
 

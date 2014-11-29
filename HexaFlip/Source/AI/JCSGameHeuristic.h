@@ -9,7 +9,7 @@
 @protocol JCSGameNode;
 
 // protocol for heuristic evaluation of game nodes
-@protocol JCSGameHeuristic <NSObject>
+@protocol JCSGameHeuristic
 
 // compute a heuristic value of the node
 // larger values mean an advantage for the player about to move

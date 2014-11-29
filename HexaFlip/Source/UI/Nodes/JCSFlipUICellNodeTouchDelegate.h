@@ -9,7 +9,7 @@
 @class JCSFlipUICellNode;
 
 // delegate passing touch information from a cell to the board
-@protocol JCSFlipUICellNodeTouchDelegate <NSObject>
+@protocol JCSFlipUICellNodeTouchDelegate
 
 // user started tapping the cell
 // returns YES if the touch was accepted by the delegate, NO if not
