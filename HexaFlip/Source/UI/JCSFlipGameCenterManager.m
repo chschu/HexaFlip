@@ -12,6 +12,8 @@
 #import "JCSFlipMoveInputDelegate.h"
 #import "JCSFlipGameCenterInviteDelegate.h"
 
+#import "cocos2d.h"
+
 @implementation JCSFlipGameCenterManager
 
 static JCSFlipGameCenterManager *_sharedInstance = nil;
@@ -50,11 +52,17 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
 }
 
 - (void)authenticateLocalPlayer {
-    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
+    [GKLocalPlayer localPlayer].authenticateHandler = ^(UIViewController *viewController, NSError *error) {
         if (error == nil) {
-            [GKTurnBasedEventHandler sharedTurnBasedEventHandler].delegate = self;
+            if (viewController != nil) {
+                // no authenticated player
+                [[CCDirector sharedDirector] presentViewController:viewController animated:YES completion:nil];
+            } else {
+                // player authentication completed
+                [[GKLocalPlayer localPlayer] registerListener:self];
+            }
         }
-    }];
+    };
 }
 
 - (BOOL)isLocalPlayerAuthenticated {
@@ -90,15 +98,13 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     return result;
 }
 
-#pragma mark GKTurnBasedEventHandlerDelegate methods
+#pragma mark GKTurnBasedEventListener methods
 
-// If Game Center initiates a match the developer should create a GKTurnBasedMatch from playersToInvite and present a GKTurnbasedMatchmakerViewController.
-- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-    [_gameCenterInviteDelegate presentInviteWithPlayers:playersToInvite];
+- (void)player:(GKPlayer *)player didRequestMatchWithPlayers:(NSArray *)playerIDsToInvite {
+    [_gameCenterInviteDelegate presentInviteWithPlayers:playerIDsToInvite];
 }
 
-// handleTurnEventForMatch is called when becomes this player's turn. It may also get called if the player's turn has a timeout and it is about to expire. Note this may also arise from the player accepting an invite from another player. Because of this the app needs to be prepared to handle this even while the player is taking a turn in an existing match.
-- (void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
+- (void)player:(GKPlayer *)player receivedTurnEventForMatch:(GKTurnBasedMatch *)match didBecomeActive:(BOOL)didBecomeActive {
     // only react if the event is for the current match
     if ([match.matchID isEqualToString:_currentMatch.matchID]) {
         // update the current match ("match" is a new instance holding the updated data)
@@ -110,8 +116,7 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
     }
 }
 
-// handleMatchEnded is called when the match has ended.
-- (void)handleMatchEnded:(GKTurnBasedMatch *)match {
+- (void)player:(GKPlayer *)player matchEnded:(GKTurnBasedMatch *)match {
     // only react if the event is for the current match
     if ([match.matchID isEqualToString:_currentMatch.matchID]) {
         // update the current match ("match" is a new instance holding the updated data)

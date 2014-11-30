@@ -19,8 +19,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	CCDirector *director = [CCDirector sharedDirector];
     
-	director.wantsFullScreenLayout = YES;
-    
 	// 2D projection
 	director.projection = kCCDirectorProjection2D;
     

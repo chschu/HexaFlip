@@ -13,7 +13,7 @@
 @protocol JCSFlipMoveInputDelegate;
 @protocol JCSFlipGameCenterInviteDelegate;
 
-@interface JCSFlipGameCenterManager : NSObject <GKTurnBasedEventHandlerDelegate>
+@interface JCSFlipGameCenterManager : NSObject <GKLocalPlayerListener>
 
 @property (readonly, nonatomic) BOOL isLocalPlayerAuthenticated;
 

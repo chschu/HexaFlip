@@ -86,7 +86,7 @@
         [currentMatch endMatchInTurnWithMatchData:data completionHandler:completionHandler];
     } else {
         // end the turn, updating the match data
-        [currentMatch endTurnWithNextParticipant:participant matchData:data completionHandler:completionHandler];
+        [currentMatch endTurnWithNextParticipants:@[participant] turnTimeout:0 matchData:data completionHandler:completionHandler];
     }
 }
 
