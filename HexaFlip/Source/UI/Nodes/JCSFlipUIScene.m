@@ -239,6 +239,7 @@
     JCSFlipUIExitGameEventData *data = notification.eventData;
     
     if (data.multiplayer) {
+        _multiplayerScreen.playersToInvite = nil;
         [self switchToScreen:_multiplayerScreen animated:YES];
     } else {
         [self switchToScreen:_mainMenuScreen animated:YES];
