@@ -83,7 +83,7 @@
     // register notification event handlers
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(showPlayerMenuScreen:) name:JCS_FLIP_UI_PLAY_SINGLE_EVENT_NAME object:_mainMenuScreen];
-    [nc addObserver:self selector:@selector(showMultiPlayerScreen:) name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:_mainMenuScreen];
+    [nc addObserver:self selector:@selector(showMultiPlayerScreen:) name:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:nil];
     [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_BACK_EVENT_NAME object:_playerMenuScreen];
     [nc addObserver:self selector:@selector(showMainMenuScreen:) name:JCS_FLIP_UI_CANCEL_EVENT_NAME object:_multiplayerScreen];
     [nc addObserver:self selector:@selector(prepareGame:) name:JCS_FLIP_UI_PREPARE_GAME_EVENT_NAME object:nil];

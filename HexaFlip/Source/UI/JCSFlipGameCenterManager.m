@@ -11,6 +11,7 @@
 #import "JCSFlipMove.h"
 #import "JCSFlipMoveInputDelegate.h"
 #import "JCSFlipGameCenterInviteDelegate.h"
+#import "JCSFlipUIEvents.h"
 
 #import "cocos2d.h"
 
@@ -113,6 +114,10 @@ static JCSFlipGameCenterManager *_sharedInstance = nil;
         // perform move input for last move of game state
         JCSFlipGameState *gameState = [self buildGameStateFromMatch:_currentMatch];
         [gameState.lastMove performInputWithMoveInputDelegate:_moveInputDelegate];
+    } else if (didBecomeActive) {
+        // app was activated for the event, go to the multiplayer screen immediately
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:JCS_FLIP_UI_PLAY_MULTI_EVENT_NAME object:self];
     }
 }
 
